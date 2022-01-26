@@ -30,6 +30,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application.Tariff", "Appli
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure.WebApi", "Infrastructure\Infrastructure.WebApi\Infrastructure.WebApi.csproj", "{FB6CCE98-CC94-4637-B14E-431B755B6108}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TL.UnitTests", "Tests\TL.UnitTests\TL.UnitTests.csproj", "{4A9E4166-2D16-4605-88ED-710B26B6E690}"
+EndProject
 Global
 	GlobalSection(NestedProjects) = preSolution
 		{F8980F67-7FA4-4F83-9269-4D5D7BE189D8} = {5523942E-C19D-48AA-9F15-79F36E5DB3B8}
@@ -40,6 +42,7 @@ Global
 		{8867875B-A17A-484B-869B-524AD7717100} = {1A245051-A334-4EE4-B47A-0EDAB445686A}
 		{79D20E63-3B25-459A-BBBF-B05D7D55C47F} = {F691DBC1-9737-45F9-8B17-CF22B235F02B}
 		{FB6CCE98-CC94-4637-B14E-431B755B6108} = {9902F6F0-814C-4914-9BBD-569FAB1AA33D}
+		{4A9E4166-2D16-4605-88ED-710B26B6E690} = {3A9413E0-740E-41B1-A6D7-00420D8413CF}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{F8980F67-7FA4-4F83-9269-4D5D7BE189D8}.net6|Any CPU.ActiveCfg = net6|Any CPU
@@ -54,6 +57,8 @@ Global
 		{79D20E63-3B25-459A-BBBF-B05D7D55C47F}.net6|Any CPU.Build.0 = Debug|Any CPU
 		{FB6CCE98-CC94-4637-B14E-431B755B6108}.net6|Any CPU.ActiveCfg = Debug|Any CPU
 		{FB6CCE98-CC94-4637-B14E-431B755B6108}.net6|Any CPU.Build.0 = Debug|Any CPU
+		{4A9E4166-2D16-4605-88ED-710B26B6E690}.net6|Any CPU.ActiveCfg = Debug|Any CPU
+		{4A9E4166-2D16-4605-88ED-710B26B6E690}.net6|Any CPU.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		net6|Any CPU = net6|Any CPU
