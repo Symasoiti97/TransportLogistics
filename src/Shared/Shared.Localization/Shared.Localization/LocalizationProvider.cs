@@ -7,33 +7,15 @@ public class LocalizationProvider : ILocalizationProvider
 {
     private CultureInfo _originalCulture;
 
-    public void SetCurrentCulture(CultureInfo culture)
-    {
-        _originalCulture = CultureInfo.CurrentCulture;
-        var cultureInfo = culture ?? CultureInfo.CurrentCulture;
-        CultureInfo.CurrentCulture = cultureInfo;
-        CultureInfo.CurrentUICulture = cultureInfo;
-    }
-
     public void ResetCurrentCulture()
     {
         CultureInfo.CurrentCulture = _originalCulture;
         CultureInfo.CurrentUICulture = _originalCulture;
     }
 
-    public CultureInfo GetCurrentCulture()
-    {
-        return CultureInfo.CurrentCulture;
-    }
-
-    public CultureInfo GetCurrentUICulture()
+    public CultureInfo GetCurrentUiCulture()
     {
         return CultureInfo.CurrentUICulture;
-    }
-        
-    public void SetCulture(CultureInfo cultureInfo)
-    {
-        CultureInfo.CurrentCulture = cultureInfo ?? throw new ArgumentNullException(nameof(cultureInfo));
     }
 
     public void SetUICulture(CultureInfo cultureInfo)

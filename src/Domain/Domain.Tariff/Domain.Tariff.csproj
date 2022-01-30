@@ -6,7 +6,6 @@
         <Nullable>enable</Nullable>
         <Configurations>Debug;Release;net6</Configurations>
         <Platforms>AnyCPU</Platforms>
-        <RootNamespace>TL.Tariff</RootNamespace>
     </PropertyGroup>
 
 </Project>

@@ -30,7 +30,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application.Tariff", "Appli
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure.WebApi", "Infrastructure\Infrastructure.WebApi\Infrastructure.WebApi.csproj", "{FB6CCE98-CC94-4637-B14E-431B755B6108}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TL.UnitTests", "Tests\TL.UnitTests\TL.UnitTests.csproj", "{4A9E4166-2D16-4605-88ED-710B26B6E690}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests", "Tests\UnitTests\UnitTests.csproj", "{4A9E4166-2D16-4605-88ED-710B26B6E690}"
 EndProject
 Global
 	GlobalSection(NestedProjects) = preSolution
