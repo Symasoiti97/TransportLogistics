@@ -1,4 +1,4 @@
-﻿namespace TL.Tariff.Route
+﻿namespace Domain.Tariff.Route
 {
     public class Route
     {

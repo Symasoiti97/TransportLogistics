@@ -1,4 +1,4 @@
-﻿namespace TL.Tariff.Tariff
+﻿namespace Domain.Tariff.Tariff
 {
     public enum ContainerOwn
     {

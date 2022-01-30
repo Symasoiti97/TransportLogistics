@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace TL.Tariff.Tariff
+﻿namespace Domain.Tariff.Tariff
 {
     public class Tariff
     {
