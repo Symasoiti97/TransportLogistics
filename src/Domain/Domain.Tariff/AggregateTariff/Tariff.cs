@@ -51,16 +51,25 @@ public class Tariff : Entity<Guid>, IAggregateRoot
 
     public void SetContainerSize(ContainerSize containerSize)
     {
+        if (containerSize == ContainerSize.Undefined)
+            throw new ArgumentException("Value can't be undefined", nameof(containerSize));
+
         ContainerSize = containerSize;
     }
 
     public void SetCargoType(CargoType cargoType)
     {
+        if (cargoType == CargoType.Undefined)
+            throw new ArgumentException("Value can't be undefined", nameof(cargoType));
+
         CargoType = cargoType;
     }
 
     public void SetContainerOwn(ContainerOwn containerOwn)
     {
+        if (containerOwn == ContainerOwn.Undefined)
+            throw new ArgumentException("Value can't be undefined", nameof(containerOwn));
+
         ContainerOwn = containerOwn;
     }
 
@@ -72,7 +81,7 @@ public class Tariff : Entity<Guid>, IAggregateRoot
     public void SetManager(Guid profileId)
     {
         if (Guid.Empty == profileId)
-            throw new ArgumentException("Can be not empty", nameof(profileId));
+            throw new ArgumentException("Value can't be empty", nameof(profileId));
 
         ManagerProfileId = profileId;
     }

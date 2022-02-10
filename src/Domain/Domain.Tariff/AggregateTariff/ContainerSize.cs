@@ -18,7 +18,7 @@ public enum ContainerSize
     S40,
 
     /// <summary>
-    /// 45тоннн
+    /// 45 тонн
     /// </summary>
     S45
 }

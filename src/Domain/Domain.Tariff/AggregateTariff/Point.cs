@@ -45,6 +45,6 @@ public class Point : ValueObject
 
     protected override IEnumerable<object> GetEqualityComponents()
     {
-        return new[] {Location as object, Order, Type};
+        return new object[] {Location, Order, Type};
     }
 }

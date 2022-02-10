@@ -28,16 +28,13 @@ public abstract class Entity<T> where T : IComparable
         if (ReferenceEquals(this, item))
             return true;
 
-        if (GetType() != item.GetType())
-            return false;
-
         return item.Id.Equals(Id);
     }
 
     public override int GetHashCode()
     {
         // ReSharper disable once NonReadonlyMemberInGetHashCode
-        return HashCode.Combine(Id);
+        return Id.GetHashCode();
     }
 
     public static bool operator ==(Entity<T>? left, Entity<T>? right)

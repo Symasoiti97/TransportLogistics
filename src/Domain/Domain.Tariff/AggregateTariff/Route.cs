@@ -23,7 +23,7 @@ public class Route : ValueObject
     private void SetPoints(Point[] points)
     {
         if (!points.Any())
-            throw new ArgumentException("Points can be not empty", nameof(points));
+            throw new ArgumentException("Points can't be empty", nameof(points));
 
         Points = points;
     }

@@ -41,6 +41,6 @@ public class Price : ValueObject
 
     protected override IEnumerable<object> GetEqualityComponents()
     {
-        return new[] {Value as object, CurrencyCode};
+        return new object[] {Value, CurrencyCode};
     }
 }
