@@ -5,15 +5,15 @@
 /// </summary>
 public enum ContainerOwn
 {
-    Undefined,
+    Undefined = 0,
 
     /// <summary>
     /// Контейнер перевозчика
     /// </summary>
-    Coc,
+    Coc = 1,
 
     /// <summary>
     /// Контейнер грузоотправителя
     /// </summary>
-    Soc
+    Soc = 2
 }

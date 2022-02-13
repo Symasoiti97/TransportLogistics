@@ -2,18 +2,65 @@ using Domain.Tariff.Abstracts;
 
 namespace Domain.Tariff.AggregateTariff;
 
+/// <summary>
+/// Локация
+/// </summary>
 public class Location : Entity<Guid>
 {
+    /// <summary>
+    /// Тип локации
+    /// </summary>
     public LocationType Type { get; private set; }
-    public LocalizedText Name { get; private set; }
+
+    /// <summary>
+    /// Локация к которой отоносится текущая локация
+    /// </summary>
     public Location? ParentLocation { get; private set; }
 
-    public Location(Guid id, Location? parentLocation, LocationType type, LocalizedText name) : base(id)
+    public Location(Guid id, Location? parentLocation, LocationType type) : base(id)
     {
         SetParentLocation(parentLocation);
         SetType(type);
-        //todo определится нужно ли наименование локации, или же это другой контекст
-        SetName(name);
+    }
+
+    public static Location World(Guid id)
+    {
+        return new Location(id, null, LocationType.World);
+    }
+
+    public static Location Country(Guid id, Location parentLocation)
+    {
+        return new Location(id, parentLocation, LocationType.Country);
+    }
+
+    public static Location Region(Guid id, Location parentLocation)
+    {
+        return new Location(id, parentLocation, LocationType.Region);
+    }
+
+    public static Location City(Guid id, Location parentLocation)
+    {
+        return new Location(id, parentLocation, LocationType.City);
+    }
+
+    public static Location Port(Guid id, Location parentLocation)
+    {
+        return new Location(id, parentLocation, LocationType.Port);
+    }
+
+    public static Location Railway(Guid id, Location parentLocation)
+    {
+        return new Location(id, parentLocation, LocationType.Railway);
+    }
+
+    public static Location Terminal(Guid id, Location parentLocation)
+    {
+        return new Location(id, parentLocation, LocationType.Terminal);
+    }
+
+    public static Location Warehouse(Guid id, Location parentLocation)
+    {
+        return new Location(id, parentLocation, LocationType.Warehouse);
     }
 
     private void SetType(LocationType locationType)
@@ -40,13 +87,7 @@ public class Location : Entity<Guid>
             }
         }
 
-
         Type = locationType;
-    }
-
-    private void SetName(LocalizedText name)
-    {
-        Name = name;
     }
 
     private void SetParentLocation(Location? parentLocation)

@@ -5,40 +5,40 @@ namespace Domain.Tariff.AggregateTariff;
 /// </summary>
 public enum CargoType
 {
-    Undefined,
+    Undefined = 0,
 
     /// <summary>
     /// Опасный
     /// </summary>
-    Dangerous,
+    Dangerous = 1,
 
     /// <summary>
     /// Хрупкий
     /// </summary>
-    Fragile,
+    Fragile = 2,
 
     /// <summary>
     /// Тяжелый
     /// </summary>
-    Heavy,
+    Heavy = 3,
 
     /// <summary>
     /// Негабаритный
     /// </summary>
-    Oversize,
+    Oversize = 4,
 
     /// <summary>
     /// Температурный режим
     /// </summary>
-    TemperatureCondition,
+    TemperatureCondition = 5,
 
     /// <summary>
     /// Объемный
     /// </summary>
-    Bulk,
+    Bulk = 6,
 
     /// <summary>
     /// Стандартный груз
     /// </summary>
-    Standard
+    Standard = 7
 }

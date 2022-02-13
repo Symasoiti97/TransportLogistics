@@ -5,30 +5,30 @@
 /// </summary>
 public enum RouteType
 {
-    Unknown,
+    Undefined = 0,
 
     /// <summary>
-    /// Неопределен
+    /// Неизвестный
     /// </summary>
-    Undefined,
+    Unknown = 1,
 
     /// <summary>
     /// Авто
     /// </summary>
-    Auto,
+    Auto = 2,
 
     /// <summary>
     /// Железнодорожный
     /// </summary>
-    Railway,
+    Railway = 3,
 
     /// <summary>
     /// Морской
     /// </summary>
-    Sea,
+    Sea = 4,
 
     /// <summary>
     /// Мультимодальный
     /// </summary>
-    MultiModal
+    MultiModal = 5
 }

@@ -15,7 +15,7 @@ public class Price : ValueObject
     /// <summary>
     /// Код валюты
     /// </summary>
-    public string CurrencyCode { get; private set; }
+    public string CurrencyCode { get; private set; } = null!;
 
     public Price(decimal value, string currencyCode)
     {
@@ -25,9 +25,6 @@ public class Price : ValueObject
 
     private void SetValue(decimal value)
     {
-        if (value < 0)
-            throw new ArgumentException("Value can be > 0", nameof(value));
-
         Value = value;
     }
 

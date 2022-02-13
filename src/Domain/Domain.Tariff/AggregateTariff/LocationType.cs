@@ -5,45 +5,45 @@ namespace Domain.Tariff.AggregateTariff;
 /// </summary>
 public enum LocationType
 {
-    Undefined,
+    Undefined = 0,
 
     /// <summary>
     /// Мир
     /// </summary>
-    World,
+    World = 1,
 
     /// <summary>
     /// Страна
     /// </summary>
-    Country,
+    Country = 2,
 
     /// <summary>
     /// Регион
     /// </summary>
-    Region,
+    Region = 3,
 
     /// <summary>
     /// Город
     /// </summary>
-    City,
+    City = 4,
 
     /// <summary>
     /// Порт
     /// </summary>
-    Port,
+    Port = 5,
 
     /// <summary>
     /// Железнодоржная станция
     /// </summary>
-    Railway,
+    Railway = 6,
 
     /// <summary>
     /// Терминал, может пренадлежать, как порту, так и ж/д станции
     /// </summary>
-    Terminal,
+    Terminal = 7,
 
     /// <summary>
     /// Склад
     /// </summary>
-    Warehouse
+    Warehouse = 8
 }

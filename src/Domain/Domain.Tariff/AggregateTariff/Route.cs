@@ -2,6 +2,9 @@
 
 namespace Domain.Tariff.AggregateTariff;
 
+/// <summary>
+/// Маршрут
+/// </summary>
 public class Route : ValueObject
 {
     /// <summary>
@@ -12,7 +15,7 @@ public class Route : ValueObject
     /// <summary>
     /// Точки маршрута
     /// </summary>
-    public Point[] Points { get; private set; }
+    public Point[] Points { get; private set; } = null!;
 
     public Route(Point[] points)
     {
@@ -30,7 +33,7 @@ public class Route : ValueObject
 
     private void SetRouteType()
     {
-        Type = RouteType.Undefined;
+        Type = RouteType.Unknown;
     }
 
     protected override IEnumerable<object> GetEqualityComponents()

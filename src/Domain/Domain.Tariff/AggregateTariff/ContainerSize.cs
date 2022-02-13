@@ -5,20 +5,20 @@ namespace Domain.Tariff.AggregateTariff;
 /// </summary>
 public enum ContainerSize
 {
-    Undefined,
+    Undefined = 0,
 
     /// <summary>
     /// 20 тонн
     /// </summary>
-    S20,
+    S20 = 1,
 
     /// <summary>
     /// 40 тонн
     /// </summary>
-    S40,
+    S40 = 2,
 
     /// <summary>
     /// 45 тонн
     /// </summary>
-    S45
+    S45 = 3
 }

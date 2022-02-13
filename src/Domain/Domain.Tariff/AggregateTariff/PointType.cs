@@ -5,20 +5,20 @@ namespace Domain.Tariff.AggregateTariff;
 /// </summary>
 public enum PointType
 {
-    Undefined,
+    Undefined = 0,
 
     /// <summary>
     /// Морской транспорт
     /// </summary>
-    Fob,
+    Fob = 1,
 
     /// <summary>
     /// Автомобильный транспорт
     /// </summary>
-    Fot,
+    Fot = 2,
 
     /// <summary>
     /// Железодорожный транспорт
     /// </summary>
-    For
+    For = 3
 }

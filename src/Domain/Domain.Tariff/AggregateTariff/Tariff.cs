@@ -2,12 +2,15 @@
 
 namespace Domain.Tariff.AggregateTariff;
 
+/// <summary>
+/// Тариф
+/// </summary>
 public class Tariff : Entity<Guid>, IAggregateRoot
 {
     /// <summary>
     /// Маршрут
     /// </summary>
-    public Route Route { get; private set; }
+    public Route Route { get; private set; } = null!;
 
     /// <summary>
     /// Груз
@@ -27,7 +30,7 @@ public class Tariff : Entity<Guid>, IAggregateRoot
     /// <summary>
     /// Цена
     /// </summary>
-    public Price Price { get; private set; }
+    public Price Price { get; private set; } = null!;
 
     /// <summary>
     /// Идентификатор профиля, менеджер текущего тарифа
