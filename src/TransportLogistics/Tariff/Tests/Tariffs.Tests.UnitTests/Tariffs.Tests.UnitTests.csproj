@@ -29,4 +29,10 @@
         <ProjectReference Include="..\..\Domain\Tariffs.Domain\Tariffs.Domain.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Compile Update="TariffTestsData.cs">
+        <DependentUpon>CreateTariffTests.cs</DependentUpon>
+      </Compile>
+    </ItemGroup>
+
 </Project>

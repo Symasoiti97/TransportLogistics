@@ -12,10 +12,10 @@ public abstract class Entity<T> where T : IComparable
         SetId(id);
     }
 
-    private void SetId(T id)
+    protected void SetId(T id)
     {
         if (id.Equals(default(T)))
-            throw new ArgumentException("Value can't be empty", nameof(id));
+            throw new ArgumentException($"Value can't be empty({id})", nameof(id));
 
         Id = id;
     }
