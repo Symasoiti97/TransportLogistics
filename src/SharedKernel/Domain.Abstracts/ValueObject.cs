@@ -1,5 +1,8 @@
 ﻿namespace Domain.Abstracts;
 
+/// <summary>
+/// Value object
+/// </summary>
 public abstract class ValueObject
 {
     protected static bool EqualOperator(ValueObject? left, ValueObject? right)
@@ -36,10 +39,5 @@ public abstract class ValueObject
         return GetEqualityComponents()
             .Select(x => x.GetHashCode())
             .Aggregate((x, y) => x ^ y);
-    }
-
-    public ValueObject? Copy()
-    {
-        return MemberwiseClone() as ValueObject;
     }
 }
