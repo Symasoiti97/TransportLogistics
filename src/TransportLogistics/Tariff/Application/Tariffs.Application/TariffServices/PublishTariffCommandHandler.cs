@@ -1,5 +1,5 @@
-﻿using System.Transactions;
-using Application.Abstracts;
+﻿using Application.Abstracts;
+using Application.Abstracts.Repositories;
 
 namespace Tariffs.Application.TariffServices;
 
@@ -7,29 +7,28 @@ namespace Tariffs.Application.TariffServices;
 /// Команда публикации тарифа
 /// Переводит тариф из черновика в действующий (Создает копию)
 /// </summary>
-internal class PublishTariffCommandHandler : ICommandHandler<PublishTariffCommand>
+internal sealed class PublishTariffCommandHandler : ICommandHandler<PublishTariffCommand>
 {
-    private readonly ITariffRepository _tariffRepository;
+    private readonly IUnitOfWork _unitOfWork;
 
-    public PublishTariffCommandHandler(ITariffRepository tariffRepository)
+    public PublishTariffCommandHandler(IUnitOfWork unitOfWork)
     {
-        _tariffRepository = tariffRepository;
+        _unitOfWork = unitOfWork;
     }
 
     public async Task HandleAsync(PublishTariffCommand command, CancellationToken cancellationToken = default)
     {
-        var tariff = await _tariffRepository.FindAsync(command.TariffId, cancellationToken);
-        if (tariff == null)
+        var tariffRepository = _unitOfWork.GetRepository<ITariffRepository>();
+
+        var draftTariff = await tariffRepository.FindAsync(command.TariffId, cancellationToken).ConfigureAwait(false);
+        if (draftTariff == null)
             throw new Exception("Tariff not found");
 
-        var realTariff = tariff.CopyAsReal();
+        var realTariff = draftTariff.CopyAsReal();
 
-        using var transaction = new TransactionScope(TransactionScopeOption.Required, new TransactionOptions {IsolationLevel = IsolationLevel.RepeatableRead},
-            TransactionScopeAsyncFlowOption.Enabled);
+        tariffRepository.Add(realTariff);
+        tariffRepository.Delete(draftTariff);
 
-        await _tariffRepository.CreateAsync(realTariff, cancellationToken);
-        await _tariffRepository.DeleteDraftAsync(tariff.Id, cancellationToken);
-
-        transaction.Complete();
+        await _unitOfWork.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
     }
 }

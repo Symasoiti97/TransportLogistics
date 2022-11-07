@@ -1,4 +1,5 @@
-﻿using Tariffs.Domain.AggregateTariff;
+﻿using Application.Abstracts.Repositories;
+using Tariffs.Domain.AggregateTariff;
 
 namespace Tariffs.Application.TariffServices;
 
@@ -6,22 +7,8 @@ namespace Tariffs.Application.TariffServices;
 /// Хранилище тарифа
 /// Использовать для управления тарифом - получать и изменять тариф
 /// </summary>
-public interface ITariffRepository
+public interface ITariffRepository : IRepository
 {
-    /// <summary>
-    /// Сохранить тарифа
-    /// </summary>
-    /// <param name="tariff">Тариф</param>
-    /// <param name="cancellationToken">Токен отмены</param>
-    Task CreateAsync(Tariff tariff, CancellationToken cancellationToken);
-
-    /// <summary>
-    /// Сохранить тарифа
-    /// </summary>
-    /// <param name="tariff">Тариф</param>
-    /// <param name="cancellationToken">Токен отмены</param>
-    Task UpdateAsync(Tariff tariff, CancellationToken cancellationToken);
-
     /// <summary>
     /// Получить тариф
     /// </summary>
@@ -31,9 +18,20 @@ public interface ITariffRepository
     Task<Tariff?> FindAsync(Guid tariffId, CancellationToken cancellationToken);
 
     /// <summary>
+    /// Сохранить тарифа
+    /// </summary>
+    /// <param name="tariff">Тариф</param>
+    void Add(Tariff tariff);
+
+    /// <summary>
+    /// Сохранить тарифа
+    /// </summary>
+    /// <param name="tariff">Тариф</param>
+    void Update(Tariff tariff);
+
+    /// <summary>
     /// Удалить черновик тарифа
     /// </summary>
-    /// <param name="tariffId">Идентификатор тарифа</param>
-    /// <param name="cancellationToken">Токен отмены</param>
-    Task DeleteDraftAsync(Guid tariffId, CancellationToken cancellationToken);
+    /// <param name="tariff"></param>
+    void Delete(Tariff tariff);
 }

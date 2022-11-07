@@ -5,7 +5,7 @@ namespace Tariffs.Domain.AggregateTariff;
 /// <summary>
 /// Локация
 /// </summary>
-public class Location : Entity<Guid>
+public sealed class Location : Entity<Guid>
 {
     /// <summary>
     /// Тип локации

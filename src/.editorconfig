@@ -411,7 +411,6 @@ dotnet_style_qualification_for_field = false:suggestion
 dotnet_style_qualification_for_method = false:suggestion
 dotnet_style_qualification_for_property = false:suggestion
 dotnet_style_require_accessibility_modifiers = for_non_interface_members:suggestion
-file_header_template = 
 
 # ReSharper properties
 resharper_accessor_owner_body = expression_body
@@ -558,6 +557,8 @@ resharper_csharp_naming_rule.static_readonly = AaBb
 resharper_csharp_new_line_before_while = false
 resharper_csharp_prefer_qualified_reference = false
 resharper_csharp_space_after_unary_operator = false
+resharper_csharp_wrap_after_invocation_lpar = true
+resharper_csharp_wrap_arguments_style = chop_if_long
 resharper_cxxcli_property_declaration_braces = next_line
 resharper_declaration_body_on_the_same_line = if_owner_is_single_line
 resharper_default_exception_variable_name = e

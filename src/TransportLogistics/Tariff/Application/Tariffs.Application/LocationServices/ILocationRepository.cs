@@ -1,4 +1,5 @@
-﻿using Tariffs.Domain.AggregateTariff;
+﻿using Application.Abstracts.Repositories;
+using Tariffs.Domain.AggregateTariff;
 
 namespace Tariffs.Application.LocationServices;
 
@@ -6,7 +7,7 @@ namespace Tariffs.Application.LocationServices;
 /// Хранилище локаций
 /// Использовать для получения локации
 /// </summary>
-public interface ILocationRepository
+public interface ILocationRepository : IRepository
 {
     /// <summary>
     /// Получить список локаций по идентификаторам
@@ -14,5 +15,5 @@ public interface ILocationRepository
     /// <param name="locationIds">Список идентификаторов локаций</param>
     /// <param name="cancellationToken">Токен отмены</param>
     /// <returns>Список локаций</returns>
-    Task<Dictionary<Guid, Location>> GetAsync(IEnumerable<Guid> locationIds, CancellationToken cancellationToken = default);
+    Task<Location[]> FindAsync(IEnumerable<Guid> locationIds, CancellationToken cancellationToken);
 }

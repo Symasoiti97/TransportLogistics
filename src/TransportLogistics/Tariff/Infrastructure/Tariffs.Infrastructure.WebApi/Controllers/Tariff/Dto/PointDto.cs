@@ -7,7 +7,7 @@ namespace Tariffs.Infrastructure.WebApi.Controllers.Tariff.Dto;
 /// Точка маршрута
 /// </summary>
 [PublicAPI]
-public class PointDto
+public sealed class PointDto
 {
     /// <summary>
     /// Идентификатор локации

@@ -5,7 +5,7 @@ namespace Tariffs.Application.TariffServices;
 /// <summary>
 /// Команда сохранения тарифа с параметрами цены
 /// </summary>
-public class SaveTariffPriceCommand : ICommand
+public sealed class SaveTariffPriceCommand : ICommand
 {
     /// <summary>
     /// Идентификатор тарифа

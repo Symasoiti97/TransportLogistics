@@ -5,7 +5,7 @@ namespace Tariffs.Infrastructure.WebApi.Controllers.Tariff.Dto;
 /// <summary>
 /// Запрос на сохранение тарифа с параметрами груза
 /// </summary>
-public class SaveTariffCargoRequest
+public sealed class SaveTariffCargoRequest
 {
     /// <summary>
     /// Принадлежность контейнера

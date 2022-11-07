@@ -5,7 +5,7 @@ namespace Tariffs.Application.TariffServices;
 /// <summary>
 /// Точка маршрута
 /// </summary>
-public class PointDto
+public sealed class PointDto
 {
     /// <summary>
     /// Идентификатор локациии
@@ -15,7 +15,7 @@ public class PointDto
     /// <summary>
     /// Тип точки
     /// </summary>
-    public PointType PointType { get; set; }
+    public PointType Type { get; set; }
 
     /// <summary>
     /// Порядковый номер

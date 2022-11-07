@@ -6,7 +6,7 @@ namespace Tariffs.Infrastructure.WebApi.Controllers.Tariff.Dto;
 /// Маршрут тарифа
 /// </summary>
 [PublicAPI]
-public class RouteDto
+public sealed class RouteDto
 {
     /// <summary>
     /// Точки маршрута

@@ -5,7 +5,7 @@ namespace Tariffs.Domain.AggregateTariff;
 /// <summary>
 /// Тариф
 /// </summary>
-public class Tariff : Entity<Guid>, IAggregateRoot
+public sealed class Tariff : Entity<Guid>, IAggregateRoot
 {
     /// <summary>
     /// Маршрут
@@ -44,19 +44,55 @@ public class Tariff : Entity<Guid>, IAggregateRoot
     /// </summary>
     public bool IsDraft { get; private set; }
 
-    public Tariff(Guid id, Guid managerProfileId, Route route, ContainerOwn containerOwn, ContainerSize containerSize, CargoType cargoType,
-        Price price) : this(id, managerProfileId)
-    {
-        SetRoute(route);
-        SetContainerOwn(containerOwn);
-        SetContainerSize(containerSize);
-        SetCargoType(cargoType);
-        SetPrice(price);
-    }
-
-    public Tariff(Guid id, Guid managerProfileId) : base(id)
+    /// <summary>
+    /// Создать тариф-черновик
+    /// </summary>
+    /// <param name="id">Идентификатор тарифы</param>
+    /// <param name="managerProfileId">Идентификатор профиля. Менеджер тарифа</param>
+    /// <param name="route">Маршрут</param>
+    /// <param name="containerOwn">Принадлежность контейнера</param>
+    /// <param name="containerSize">Размер контейнера</param>
+    /// <param name="cargoType">Тип груза</param>
+    /// <param name="price">Цена</param>
+    /// <param name="isDraft">True - тариф-черновик<br/>False - действущий тариф</param>
+    public Tariff(
+        Guid id,
+        Guid managerProfileId,
+        Route? route = null,
+        ContainerOwn? containerOwn = null,
+        ContainerSize? containerSize = null,
+        CargoType? cargoType = null,
+        Price? price = null,
+        bool isDraft = true) : base(id)
     {
         SetManager(managerProfileId);
+
+        if (route is not null)
+        {
+            SetRoute(route);
+        }
+
+        if (containerOwn != null)
+        {
+            SetContainerOwn(containerOwn.Value);
+        }
+
+        if (containerSize != null)
+        {
+            SetContainerSize(containerSize.Value);
+        }
+
+        if (cargoType != null)
+        {
+            SetCargoType(cargoType.Value);
+        }
+
+        if (price != null)
+        {
+            SetPrice(price);
+        }
+
+        SetDraft(isDraft);
     }
 
     public void SetPrice(Price price)
@@ -123,6 +159,18 @@ public class Tariff : Entity<Guid>, IAggregateRoot
         clone.SetAsDraft();
 
         return clone;
+    }
+
+    private void SetDraft(bool isDraft)
+    {
+        if (isDraft)
+        {
+            SetAsDraft();
+        }
+        else
+        {
+            SetAsReal();
+        }
     }
 
     private void SetAsDraft()

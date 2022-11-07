@@ -3,7 +3,7 @@ namespace Tariffs.Infrastructure.WebApi.Controllers.Tariff.Dto;
 /// <summary>
 /// Запрос на сохранение тарифа с параметрами цены
 /// </summary>
-public class SaveTariffPriceRequest
+public sealed class SaveTariffPriceRequest
 {
     /// <summary>
     /// Цена

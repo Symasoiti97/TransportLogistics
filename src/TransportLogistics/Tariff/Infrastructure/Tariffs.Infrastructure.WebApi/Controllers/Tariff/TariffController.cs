@@ -10,7 +10,8 @@ namespace Tariffs.Infrastructure.WebApi.Controllers.Tariff;
 /// АПИ для управления тарифами
 /// </summary>
 [Route("api/tariff")]
-public class TariffController : ControllerBase
+[ApiController]
+public sealed class TariffController : ControllerBase
 {
     private readonly IUserContext _userContext;
     private readonly IMapper _mapper;
@@ -37,7 +38,7 @@ public class TariffController : ControllerBase
             ManagerProfileId = _userContext.GetProfileId()
         };
 
-        await handler.HandleAsync(command, cancellationToken);
+        await handler.HandleAsync(command, cancellationToken).ConfigureAwait(false);
 
         return StatusCode(StatusCodes.Status201Created);
     }
@@ -62,7 +63,7 @@ public class TariffController : ControllerBase
             });
         });
 
-        await handler.HandleAsync(command, cancellationToken);
+        await handler.HandleAsync(command, cancellationToken).ConfigureAwait(false);
 
         return NoContent();
     }
@@ -80,9 +81,9 @@ public class TariffController : ControllerBase
     {
         var command = _mapper.Map<SaveTariffCargoCommand>(request, options => { options.AfterMap((_, dest) => { dest.TariffId = tariffId; }); });
 
-        await handler.HandleAsync(command, cancellationToken);
+        await handler.HandleAsync(command, cancellationToken).ConfigureAwait(false);
 
-        return Ok();
+        return NoContent();
     }
 
     /// <summary>
@@ -98,9 +99,9 @@ public class TariffController : ControllerBase
     {
         var command = _mapper.Map<SaveTariffPriceCommand>(request, options => { options.AfterMap((_, dest) => { dest.TariffId = tariffId; }); });
 
-        await handler.HandleAsync(command, cancellationToken);
+        await handler.HandleAsync(command, cancellationToken).ConfigureAwait(false);
 
-        return Ok();
+        return NoContent();
     }
 
     /// <summary>
@@ -121,8 +122,8 @@ public class TariffController : ControllerBase
             TariffId = tariffId
         };
 
-        await handler.HandleAsync(command, cancellationToken);
+        await handler.HandleAsync(command, cancellationToken).ConfigureAwait(false);
 
-        return Ok();
+        return NoContent();
     }
 }
