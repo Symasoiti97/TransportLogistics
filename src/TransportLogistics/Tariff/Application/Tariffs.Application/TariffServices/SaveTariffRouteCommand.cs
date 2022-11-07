@@ -5,7 +5,7 @@ namespace Tariffs.Application.TariffServices;
 /// <summary>
 /// Сохранить тариф с параметрами маршрута
 /// </summary>
-public class SaveTariffRouteCommand : ICommand
+public sealed class SaveTariffRouteCommand : ICommand
 {
     /// <summary>
     /// Идентификатор тарифа

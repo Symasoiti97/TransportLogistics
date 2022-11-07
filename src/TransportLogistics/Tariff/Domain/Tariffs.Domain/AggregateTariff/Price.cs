@@ -5,7 +5,7 @@ namespace Tariffs.Domain.AggregateTariff;
 /// <summary>
 /// Цена
 /// </summary>
-public class Price : ValueObject
+public sealed class Price : ValueObject
 {
     /// <summary>
     /// Значение

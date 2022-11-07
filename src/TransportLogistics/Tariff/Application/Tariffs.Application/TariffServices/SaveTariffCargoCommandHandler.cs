@@ -1,22 +1,24 @@
 ﻿using Application.Abstracts;
+using Application.Abstracts.Repositories;
 
 namespace Tariffs.Application.TariffServices;
 
 /// <summary>
 /// Обработчик команды сохранения тарифа с параметрами груза
 /// </summary>
-internal class SaveTariffCargoCommandHandler : ICommandHandler<SaveTariffCargoCommand>
+internal sealed class SaveTariffCargoCommandHandler : ICommandHandler<SaveTariffCargoCommand>
 {
-    private readonly ITariffRepository _tariffRepository;
+    private readonly IUnitOfWork _unitOfWork;
 
-    public SaveTariffCargoCommandHandler(ITariffRepository tariffRepository)
+    public SaveTariffCargoCommandHandler(IUnitOfWork unitOfWork)
     {
-        _tariffRepository = tariffRepository;
+        _unitOfWork = unitOfWork;
     }
 
     public async Task HandleAsync(SaveTariffCargoCommand command, CancellationToken cancellationToken = default)
     {
-        var tariff = await _tariffRepository.FindAsync(command.TariffId, cancellationToken);
+        var tariffRepository = _unitOfWork.GetRepository<ITariffRepository>();
+        var tariff = await tariffRepository.FindAsync(command.TariffId, cancellationToken).ConfigureAwait(false);
         if (tariff == null)
             throw new Exception("Tariff not found");
 
@@ -24,6 +26,8 @@ internal class SaveTariffCargoCommandHandler : ICommandHandler<SaveTariffCargoCo
         tariff.SetContainerOwn(command.ContainerOwn);
         tariff.SetContainerSize(command.ContainerSize);
 
-        await _tariffRepository.UpdateAsync(tariff, cancellationToken);
+        tariffRepository.Update(tariff);
+
+        await _unitOfWork.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
     }
 }

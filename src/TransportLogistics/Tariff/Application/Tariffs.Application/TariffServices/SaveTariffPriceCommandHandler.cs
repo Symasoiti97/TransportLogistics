@@ -1,4 +1,5 @@
 ﻿using Application.Abstracts;
+using Application.Abstracts.Repositories;
 using Tariffs.Domain.AggregateTariff;
 
 namespace Tariffs.Application.TariffServices;
@@ -6,24 +7,27 @@ namespace Tariffs.Application.TariffServices;
 /// <summary>
 /// Обработчик команды сохранения тарифа с параметрами цены
 /// </summary>
-internal class SaveTariffPriceCommandHandler : ICommandHandler<SaveTariffPriceCommand>
+internal sealed class SaveTariffPriceCommandHandler : ICommandHandler<SaveTariffPriceCommand>
 {
-    private readonly ITariffRepository _tariffRepository;
+    private readonly IUnitOfWork _unitOfWork;
 
-    public SaveTariffPriceCommandHandler(ITariffRepository tariffRepository)
+    public SaveTariffPriceCommandHandler(IUnitOfWork unitOfWork)
     {
-        _tariffRepository = tariffRepository;
+        _unitOfWork = unitOfWork;
     }
 
     public async Task HandleAsync(SaveTariffPriceCommand command, CancellationToken cancellationToken = default)
     {
-        var tariff = await _tariffRepository.FindAsync(command.TariffId, cancellationToken);
+        var tariffRepository = _unitOfWork.GetRepository<ITariffRepository>();
+        var tariff = await tariffRepository.FindAsync(command.TariffId, cancellationToken).ConfigureAwait(false);
         if (tariff == null)
             throw new Exception("Tariff not found");
 
         var price = new Price(command.Price, command.CurrencyCode);
         tariff.SetPrice(price);
 
-        await _tariffRepository.UpdateAsync(tariff, cancellationToken);
+        tariffRepository.Update(tariff);
+
+        await _unitOfWork.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
     }
 }

@@ -24,7 +24,7 @@ public static class ServiceExtensions
     /// </summary>
     /// <param name="services">Коллекция сервисов</param>
     /// <returns>Коллекция сервисов</returns>
-    public static IServiceCollection AddTariffServices(this IServiceCollection services)
+    public static IServiceCollection AddTariffApplicationServices(this IServiceCollection services)
     {
         services.AddTransient<ICommandHandler<CreateTariffCommand>, CreateTariffCommandHandler>();
         services.AddTransient<ICommandHandler<SaveTariffRouteCommand>, SaveTariffRouteCommandHandler>();

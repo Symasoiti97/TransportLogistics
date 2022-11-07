@@ -6,7 +6,7 @@ namespace Tariffs.Application.TariffServices;
 /// <summary>
 /// Сохранить тариф с параметрами груза
 /// </summary>
-public class SaveTariffCargoCommand : ICommand
+public sealed class SaveTariffCargoCommand : ICommand
 {
     /// <summary>
     /// Идентификатор тарифа

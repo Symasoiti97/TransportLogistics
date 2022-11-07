@@ -10,12 +10,16 @@ internal static class TariffTestsData
 
     public static IEnumerable<Tariff[]> TariffCopyAsReal_Negative_Test_Data()
     {
-        var tariff1 = new Tariff(id: Guid.NewGuid(), managerProfileId: Guid.NewGuid());
-        tariff1.SetRoute(new Route(new[]
+        var route = new Route(new[]
         {
             Point.Fob(Location.Country(id: Guid.NewGuid(), parentLocation: LocationWorld), order: 1),
             Point.Fob(Location.Country(id: Guid.NewGuid(), parentLocation: LocationWorld), order: 2)
-        }));
+        });
+
+        var tariff1 = new Tariff(
+            id: Guid.NewGuid(),
+            managerProfileId: Guid.NewGuid(),
+            route: route);
 
         yield return new[]
         {
@@ -25,16 +29,20 @@ internal static class TariffTestsData
 
     public static IEnumerable<Tariff[]> TariffCopyAsReal_Positive_Test_Data()
     {
-        var tariff1 = new Tariff(id: Guid.NewGuid(), managerProfileId: Guid.NewGuid());
-        tariff1.SetRoute(new Route(new[]
+        var route = new Route(new[]
         {
             Point.Fob(Location.Country(id: Guid.NewGuid(), parentLocation: LocationWorld), order: 1),
             Point.Fob(Location.Country(id: Guid.NewGuid(), parentLocation: LocationWorld), order: 2)
-        }));
-        tariff1.SetCargoType(CargoType.Heavy);
-        tariff1.SetContainerOwn(ContainerOwn.Coc);
-        tariff1.SetContainerSize(ContainerSize.S20);
-        tariff1.SetPrice(new Price(129, "USD"));
+        });
+
+        var tariff1 = new Tariff(
+            id: Guid.NewGuid(),
+            managerProfileId: Guid.NewGuid(),
+            route: route,
+            containerOwn: ContainerOwn.Coc,
+            containerSize: ContainerSize.S20,
+            cargoType: CargoType.Heavy,
+            price: new Price(129, "USD"));
 
         yield return new[]
         {

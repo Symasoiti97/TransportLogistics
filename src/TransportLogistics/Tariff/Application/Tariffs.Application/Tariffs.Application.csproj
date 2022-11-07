@@ -20,7 +20,7 @@
         <DependentUpon>SaveTariffRouteCommandHandler.cs</DependentUpon>
       </Compile>
       <Compile Update="TariffServices\PointDto.cs">
-        <DependentUpon>SaveTariffRouteCommandHandler.cs</DependentUpon>
+        <DependentUpon>SaveTariffRouteCommand.cs</DependentUpon>
       </Compile>
       <Compile Update="TariffServices\SaveTariffCargoCommand.cs">
         <DependentUpon>SaveTariffCargoCommandHandler.cs</DependentUpon>

@@ -1,4 +1,5 @@
 ﻿using Application.Abstracts;
+using Application.Abstracts.Repositories;
 using Tariffs.Domain.AggregateTariff;
 
 namespace Tariffs.Application.TariffServices;
@@ -6,19 +7,23 @@ namespace Tariffs.Application.TariffServices;
 /// <summary>
 /// Обработчик для создания тарифа
 /// </summary>
-internal class CreateTariffCommandHandler : ICommandHandler<CreateTariffCommand>
+internal sealed class CreateTariffCommandHandler : ICommandHandler<CreateTariffCommand>
 {
-    private readonly ITariffRepository _tariffRepository;
+    private readonly IUnitOfWork _unitOfWork;
 
-    public CreateTariffCommandHandler(ITariffRepository tariffRepository)
+    public CreateTariffCommandHandler(IUnitOfWork unitOfWork)
     {
-        _tariffRepository = tariffRepository;
+        _unitOfWork = unitOfWork;
     }
 
     public async Task HandleAsync(CreateTariffCommand command, CancellationToken cancellationToken)
     {
+        var tariffRepository = _unitOfWork.GetRepository<ITariffRepository>();
+
         var tariff = new Tariff(command.TariffId, command.ManagerProfileId);
 
-        await _tariffRepository.CreateAsync(tariff, cancellationToken);
+        tariffRepository.Add(tariff);
+
+        await _unitOfWork.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
     }
 }

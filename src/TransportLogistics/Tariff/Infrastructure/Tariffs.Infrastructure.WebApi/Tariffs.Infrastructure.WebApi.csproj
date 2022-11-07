@@ -17,6 +17,7 @@
       <ProjectReference Include="..\..\Application\Tariffs.Application.DependencyInjection\Tariffs.Application.DependencyInjection.csproj" />
       <ProjectReference Include="..\..\Application\Tariffs.Application\Tariffs.Application.csproj" />
       <ProjectReference Include="..\..\Domain\Tariffs.Domain\Tariffs.Domain.csproj" />
+      <ProjectReference Include="..\Tariffs.Infrastructure.DependencyInjection\Tariffs.Infrastructure.DependencyInjection.csproj" />
     </ItemGroup>
 
 </Project>

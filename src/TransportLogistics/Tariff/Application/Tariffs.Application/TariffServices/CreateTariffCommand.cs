@@ -5,7 +5,7 @@ namespace Tariffs.Application.TariffServices;
 /// <summary>
 /// Команда для создания тарифа
 /// </summary>
-public class CreateTariffCommand : ICommand
+public sealed class CreateTariffCommand : ICommand
 {
     /// <summary>
     /// Идентификатор сущности

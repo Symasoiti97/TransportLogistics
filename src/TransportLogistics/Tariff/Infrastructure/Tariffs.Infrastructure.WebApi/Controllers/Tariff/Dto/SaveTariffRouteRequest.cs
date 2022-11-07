@@ -6,7 +6,7 @@ namespace Tariffs.Infrastructure.WebApi.Controllers.Tariff.Dto;
 /// Запрос на сохранение маршрута тарифа
 /// </summary>
 [PublicAPI]
-public class SaveTariffRouteRequest
+public sealed class SaveTariffRouteRequest
 {
     /// <summary>
     /// Маршрут тарифа

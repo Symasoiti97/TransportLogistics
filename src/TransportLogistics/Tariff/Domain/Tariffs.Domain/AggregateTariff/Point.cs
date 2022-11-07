@@ -1,3 +1,4 @@
+using Compress.Extensions;
 using Domain.Abstracts;
 
 namespace Tariffs.Domain.AggregateTariff;
@@ -5,7 +6,7 @@ namespace Tariffs.Domain.AggregateTariff;
 /// <summary>
 /// Точка маргрута
 /// </summary>
-public class Point : ValueObject
+public sealed class Point : ValueObject
 {
     /// <summary>
     /// Локация
@@ -21,6 +22,11 @@ public class Point : ValueObject
     /// Порядковый номер
     /// </summary>
     public int Order { get; private set; }
+
+    /// <summary>
+    /// Уникальный hash точки
+    /// </summary>
+    public string Hash => $"{Location.Id}|{Type}|{Order}".Compress();
 
     public Point(Location location, PointType pointType, int order)
     {
