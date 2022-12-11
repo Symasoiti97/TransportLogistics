@@ -1,0 +1,62 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <RootNamespace>TL.TransportLogistics.Tariffs.Application.UseCases</RootNamespace>
+        <AssemblyName>TL.TransportLogistics.Tariffs.Application.UseCases</AssemblyName>
+        <TargetFramework>net6.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
+            <_Parameter1>TL.TransportLogistics.Tariffs.Infrastructure.DependencyInjection</_Parameter1>
+        </AssemblyAttribute>
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="AutoMapper" Version="11.0.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\..\..\..\SharedKernel\Application\SharedKernel.Handlers\SharedKernel.Handlers.csproj" />
+        <ProjectReference Include="..\..\..\..\SharedKernel\Application\SharedKernel.Repositories\SharedKernel.Repositories.csproj" />
+        <ProjectReference Include="..\..\..\..\SharedKernel\SharedKernel.System.ComponentModel.DataAnnotations\SharedKernel.System.ComponentModel.DataAnnotations.csproj" />
+        <ProjectReference Include="..\..\Domain\Tariff.Aggregates\Tariff.Aggregates.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <Compile Update="TariffServices\SaveTariffRouteCommand.cs">
+            <DependentUpon>SaveTariffRouteCommandHandler.cs</DependentUpon>
+        </Compile>
+        <Compile Update="TariffServices\PointDto.cs">
+            <DependentUpon>SaveTariffRouteCommand.cs</DependentUpon>
+        </Compile>
+        <Compile Update="TariffServices\SaveTariffCargoEquipmentCommand.cs">
+            <DependentUpon>SaveTariffCargoEquipmentCommandHandler.cs</DependentUpon>
+        </Compile>
+        <Compile Update="TariffServices\SaveTariffPriceCommand.cs">
+            <DependentUpon>SaveTariffPriceCommandHandler.cs</DependentUpon>
+        </Compile>
+        <Compile Update="TariffServices\PublishTariffCommand.cs">
+            <DependentUpon>PublishTariffCommandHandler.cs</DependentUpon>
+        </Compile>
+        <Compile Update="TariffServices\CreateTariffCommand.cs">
+            <DependentUpon>CreateTariffCommandHandler.cs</DependentUpon>
+        </Compile>
+        <Compile Update="TariffServices\TariffView.cs">
+          <DependentUpon>GetTariffQuery.cs</DependentUpon>
+        </Compile>
+        <Compile Update="TariffServices\RouteView.cs">
+          <DependentUpon>TariffView.cs</DependentUpon>
+        </Compile>
+        <Compile Update="TariffServices\PointView.cs">
+          <DependentUpon>RouteView.cs</DependentUpon>
+        </Compile>
+        <Compile Update="TariffServices\PriceView.cs">
+          <DependentUpon>TariffView.cs</DependentUpon>
+        </Compile>
+    </ItemGroup>
+
+</Project>

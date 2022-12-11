@@ -2,7 +2,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29424.173
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Domain", "Domain", "{5523942E-C19D-48AA-9F15-79F36E5DB3B8}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Business", "Business", "{5523942E-C19D-48AA-9F15-79F36E5DB3B8}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{3A9413E0-740E-41B1-A6D7-00420D8413CF}"
 EndProject
@@ -20,39 +20,61 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Locations", "Locations", "{
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Application", "Application", "{353D437D-C1A5-4C7D-8CA1-25B0670AC144}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tariffs.Application", "TransportLogistics\Tariff\Application\Tariffs.Application\Tariffs.Application.csproj", "{CC61AC50-79CD-4DBF-A4C7-0812646D8AD5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tariffs.UseCases", "TransportLogistics\Tariff\Application\Tariffs.UseCases\Tariffs.UseCases.csproj", "{CC61AC50-79CD-4DBF-A4C7-0812646D8AD5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tariffs.Domain", "TransportLogistics\Tariff\Domain\Tariffs.Domain\Tariffs.Domain.csproj", "{BC3D72EC-1660-4EBE-959B-B616BE21893F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tariff.Aggregates", "TransportLogistics\Tariff\Domain\Tariff.Aggregates\Tariff.Aggregates.csproj", "{BC3D72EC-1660-4EBE-959B-B616BE21893F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tariffs.Infrastructure.WebApi", "TransportLogistics\Tariff\Infrastructure\Tariffs.Infrastructure.WebApi\Tariffs.Infrastructure.WebApi.csproj", "{8FBBD7CC-14E0-41BE-B563-972CB8FBC7DE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tariffs.WebApi", "TransportLogistics\Tariff\Infrastructure\Tariffs.WebApi\Tariffs.WebApi.csproj", "{8FBBD7CC-14E0-41BE-B563-972CB8FBC7DE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tariffs.Tests.UnitTests", "TransportLogistics\Tariff\Tests\Tariffs.Tests.UnitTests\Tariffs.Tests.UnitTests.csproj", "{B369CBE7-B558-4E0F-870B-17D28A0EF720}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tariffs.UnitTests", "TransportLogistics\Tariff\Tests\Tariffs.UnitTests\Tariffs.UnitTests.csproj", "{B369CBE7-B558-4E0F-870B-17D28A0EF720}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SharedKernel", "SharedKernel", "{4A280D79-8C5E-4A58-A933-C78CCBE47255}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain.Abstracts", "SharedKernel\Domain.Abstracts\Domain.Abstracts.csproj", "{D7490F30-7E2A-4632-82D2-2F54C0292B66}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application.Abstracts", "SharedKernel\Application.Abstracts\Application.Abstracts.csproj", "{B6A5E411-E25C-4829-8F36-6B76E48AB33C}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tariffs.Application.DependencyInjection", "TransportLogistics\Tariff\Application\Tariffs.Application.DependencyInjection\Tariffs.Application.DependencyInjection.csproj", "{67900098-00E5-4760-AAA5-AF82653F0309}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DataAccess", "DataAccess", "{64B433F2-5113-4C56-B6B4-2E3468EBA84E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tariffs.Infrastructure.DataAccess.Neo4j", "TransportLogistics\Tariff\Infrastructure\DataAccess\Tariffs.Infrastructure.DataAccess.Neo4j\Tariffs.Infrastructure.DataAccess.Neo4j.csproj", "{ACE2674E-BF4C-4761-A627-B2E32B98606F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tariffs.Neo4j", "TransportLogistics\Tariff\Infrastructure\DataAccess\Tariffs.Neo4j\Tariffs.Neo4j.csproj", "{ACE2674E-BF4C-4761-A627-B2E32B98606F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tariffs.Infrastructure.DependencyInjection", "TransportLogistics\Tariff\Infrastructure\Tariffs.Infrastructure.DependencyInjection\Tariffs.Infrastructure.DependencyInjection.csproj", "{36049155-DA44-450B-97BC-1E5628A8317B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tariffs.DependencyInjection", "TransportLogistics\Tariff\Infrastructure\Tariffs.DependencyInjection\Tariffs.DependencyInjection.csproj", "{36049155-DA44-450B-97BC-1E5628A8317B}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{AEF58B74-7460-4CBC-8B29-48424C3ECB3E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Compress.Extensions", "SharedKernel\Infrastructure\Compress.Extensions\Compress.Extensions.csproj", "{F65ECD21-D2AC-480D-9FAA-755660C93E45}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharedKernel.Compress.Extensions", "SharedKernel\Infrastructure\SharedKernel.Compress.Extensions\SharedKernel.Compress.Extensions.csproj", "{F65ECD21-D2AC-480D-9FAA-755660C93E45}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAccess", "SharedKernel\Infrastructure\DataAccess\DataAccess.csproj", "{6BF7E91D-E3E1-4E95-8A1D-8BD7EC801E28}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharedKernel.DataAccess", "SharedKernel\Infrastructure\SharedKernel.DataAccess\SharedKernel.DataAccess.csproj", "{6BF7E91D-E3E1-4E95-8A1D-8BD7EC801E28}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DependencyInjection", "SharedKernel\Infrastructure\DependencyInjection\DependencyInjection.csproj", "{27494C41-BA18-4358-9A56-FA4437F0FB72}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharedKernel.DependencyInjection", "SharedKernel\Infrastructure\SharedKernel.DependencyInjection\SharedKernel.DependencyInjection.csproj", "{27494C41-BA18-4358-9A56-FA4437F0FB72}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests", "SharedKernel\Infrastructure\UnitTests\UnitTests.csproj", "{C7677423-9C93-48EA-9313-185EFB3FBED7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharedKernel.Compress.Extensions.Tests", "SharedKernel\Infrastructure\SharedKernel.Compress.Extensions.Tests\SharedKernel.Compress.Extensions.Tests.csproj", "{C7677423-9C93-48EA-9313-185EFB3FBED7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Benchmarks", "SharedKernel\Infrastructure\Benchmarks\Benchmarks.csproj", "{88BB2D6B-8977-4041-A9F8-7B9387F6590A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharedKernel.Benchmarks", "SharedKernel\Infrastructure\SharedKernel.Benchmarks\SharedKernel.Benchmarks.csproj", "{88BB2D6B-8977-4041-A9F8-7B9387F6590A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Application", "Application", "{ED06F305-C315-4BD7-B5C4-3163C79BB989}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Business", "Business", "{D3B7D508-20A7-4103-83DE-3BE1338EC18E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharedKernel.Repositories", "SharedKernel\Application\SharedKernel.Repositories\SharedKernel.Repositories.csproj", "{7B5E1D9C-7271-4650-A992-BCC03F8C2DBF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharedKernel.Handlers", "SharedKernel\Application\SharedKernel.Handlers\SharedKernel.Handlers.csproj", "{181A5D85-FD8A-4346-A15F-4537F8FA7454}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharedKernel.Aggregates", "SharedKernel\Business\SharedKernel.Aggregates\SharedKernel.Aggregates.csproj", "{6AF9D992-A1E2-4757-8A3D-A4DB0F877EA6}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Startups", "Startups", "{E6E0A242-1BFB-44F9-A824-202267D03ACC}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UnitTests", "UnitTests", "{DCF26D8F-BC46-4A8C-9D20-20190CCFBF1E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Startups", "Startups", "{1DA5BDA1-2CFA-412D-AEC9-457BA4C8D3D9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharedKernel.Swagger", "SharedKernel\Infrastructure\SharedKernel.Swagger\SharedKernel.Swagger.csproj", "{F740B099-F6EA-4C74-89DF-2F5A07B2D9F7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharedKernel.AspNet.Extensions", "SharedKernel\Infrastructure\SharedKernel.AspNet.Extensions\SharedKernel.AspNet.Extensions.csproj", "{8402DE26-4592-4481-9230-126B65522009}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharedKernel.JsonSerializer.Extensions", "SharedKernel\Infrastructure\SharedKernel.JsonSerializer.Extensions\SharedKernel.JsonSerializer.Extensions.csproj", "{F03A8924-928B-4F87-AA61-D969C532B884}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "System", "System", "{E24F2EB5-5D90-4936-AF81-244FADD97D9B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharedKernel.System.ComponentModel.DataAnnotations", "SharedKernel\SharedKernel.System.ComponentModel.DataAnnotations\SharedKernel.System.ComponentModel.DataAnnotations.csproj", "{B2906C9E-0F68-4411-91AE-0A42132D3283}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharedKernel.Errors.Tests", "SharedKernel\UnitTests\SharedKernel.Errors.Tests\SharedKernel.Errors.Tests.csproj", "{A95D4352-7CDC-454F-936E-6BDB337517AB}"
 EndProject
 Global
 	GlobalSection(NestedProjects) = preSolution
@@ -61,14 +83,9 @@ Global
 		{353D437D-C1A5-4C7D-8CA1-25B0670AC144} = {0156F587-0A2B-4EE9-B13E-8E7005D3A080}
 		{CC61AC50-79CD-4DBF-A4C7-0812646D8AD5} = {353D437D-C1A5-4C7D-8CA1-25B0670AC144}
 		{9902F6F0-814C-4914-9BBD-569FAB1AA33D} = {0156F587-0A2B-4EE9-B13E-8E7005D3A080}
-		{3A9413E0-740E-41B1-A6D7-00420D8413CF} = {0156F587-0A2B-4EE9-B13E-8E7005D3A080}
 		{5523942E-C19D-48AA-9F15-79F36E5DB3B8} = {0156F587-0A2B-4EE9-B13E-8E7005D3A080}
 		{BC3D72EC-1660-4EBE-959B-B616BE21893F} = {5523942E-C19D-48AA-9F15-79F36E5DB3B8}
-		{8FBBD7CC-14E0-41BE-B563-972CB8FBC7DE} = {9902F6F0-814C-4914-9BBD-569FAB1AA33D}
 		{B369CBE7-B558-4E0F-870B-17D28A0EF720} = {3A9413E0-740E-41B1-A6D7-00420D8413CF}
-		{D7490F30-7E2A-4632-82D2-2F54C0292B66} = {4A280D79-8C5E-4A58-A933-C78CCBE47255}
-		{B6A5E411-E25C-4829-8F36-6B76E48AB33C} = {4A280D79-8C5E-4A58-A933-C78CCBE47255}
-		{67900098-00E5-4760-AAA5-AF82653F0309} = {353D437D-C1A5-4C7D-8CA1-25B0670AC144}
 		{64B433F2-5113-4C56-B6B4-2E3468EBA84E} = {9902F6F0-814C-4914-9BBD-569FAB1AA33D}
 		{ACE2674E-BF4C-4761-A627-B2E32B98606F} = {64B433F2-5113-4C56-B6B4-2E3468EBA84E}
 		{36049155-DA44-450B-97BC-1E5628A8317B} = {9902F6F0-814C-4914-9BBD-569FAB1AA33D}
@@ -76,8 +93,24 @@ Global
 		{F65ECD21-D2AC-480D-9FAA-755660C93E45} = {AEF58B74-7460-4CBC-8B29-48424C3ECB3E}
 		{6BF7E91D-E3E1-4E95-8A1D-8BD7EC801E28} = {AEF58B74-7460-4CBC-8B29-48424C3ECB3E}
 		{27494C41-BA18-4358-9A56-FA4437F0FB72} = {AEF58B74-7460-4CBC-8B29-48424C3ECB3E}
-		{C7677423-9C93-48EA-9313-185EFB3FBED7} = {AEF58B74-7460-4CBC-8B29-48424C3ECB3E}
 		{88BB2D6B-8977-4041-A9F8-7B9387F6590A} = {AEF58B74-7460-4CBC-8B29-48424C3ECB3E}
+		{ED06F305-C315-4BD7-B5C4-3163C79BB989} = {4A280D79-8C5E-4A58-A933-C78CCBE47255}
+		{D3B7D508-20A7-4103-83DE-3BE1338EC18E} = {4A280D79-8C5E-4A58-A933-C78CCBE47255}
+		{7B5E1D9C-7271-4650-A992-BCC03F8C2DBF} = {ED06F305-C315-4BD7-B5C4-3163C79BB989}
+		{181A5D85-FD8A-4346-A15F-4537F8FA7454} = {ED06F305-C315-4BD7-B5C4-3163C79BB989}
+		{6AF9D992-A1E2-4757-8A3D-A4DB0F877EA6} = {D3B7D508-20A7-4103-83DE-3BE1338EC18E}
+		{E6E0A242-1BFB-44F9-A824-202267D03ACC} = {4A280D79-8C5E-4A58-A933-C78CCBE47255}
+		{DCF26D8F-BC46-4A8C-9D20-20190CCFBF1E} = {E6E0A242-1BFB-44F9-A824-202267D03ACC}
+		{C7677423-9C93-48EA-9313-185EFB3FBED7} = {DCF26D8F-BC46-4A8C-9D20-20190CCFBF1E}
+		{1DA5BDA1-2CFA-412D-AEC9-457BA4C8D3D9} = {0156F587-0A2B-4EE9-B13E-8E7005D3A080}
+		{3A9413E0-740E-41B1-A6D7-00420D8413CF} = {1DA5BDA1-2CFA-412D-AEC9-457BA4C8D3D9}
+		{8FBBD7CC-14E0-41BE-B563-972CB8FBC7DE} = {1DA5BDA1-2CFA-412D-AEC9-457BA4C8D3D9}
+		{F740B099-F6EA-4C74-89DF-2F5A07B2D9F7} = {AEF58B74-7460-4CBC-8B29-48424C3ECB3E}
+		{8402DE26-4592-4481-9230-126B65522009} = {AEF58B74-7460-4CBC-8B29-48424C3ECB3E}
+		{F03A8924-928B-4F87-AA61-D969C532B884} = {AEF58B74-7460-4CBC-8B29-48424C3ECB3E}
+		{E24F2EB5-5D90-4936-AF81-244FADD97D9B} = {4A280D79-8C5E-4A58-A933-C78CCBE47255}
+		{B2906C9E-0F68-4411-91AE-0A42132D3283} = {E24F2EB5-5D90-4936-AF81-244FADD97D9B}
+		{A95D4352-7CDC-454F-936E-6BDB337517AB} = {DCF26D8F-BC46-4A8C-9D20-20190CCFBF1E}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{CC61AC50-79CD-4DBF-A4C7-0812646D8AD5}.net6|Any CPU.ActiveCfg = Debug|Any CPU
@@ -86,12 +119,6 @@ Global
 		{8FBBD7CC-14E0-41BE-B563-972CB8FBC7DE}.net6|Any CPU.Build.0 = Debug|Any CPU
 		{B369CBE7-B558-4E0F-870B-17D28A0EF720}.net6|Any CPU.ActiveCfg = Debug|Any CPU
 		{B369CBE7-B558-4E0F-870B-17D28A0EF720}.net6|Any CPU.Build.0 = Debug|Any CPU
-		{D7490F30-7E2A-4632-82D2-2F54C0292B66}.net6|Any CPU.ActiveCfg = Debug|Any CPU
-		{D7490F30-7E2A-4632-82D2-2F54C0292B66}.net6|Any CPU.Build.0 = Debug|Any CPU
-		{B6A5E411-E25C-4829-8F36-6B76E48AB33C}.net6|Any CPU.ActiveCfg = Debug|Any CPU
-		{B6A5E411-E25C-4829-8F36-6B76E48AB33C}.net6|Any CPU.Build.0 = Debug|Any CPU
-		{67900098-00E5-4760-AAA5-AF82653F0309}.net6|Any CPU.ActiveCfg = Debug|Any CPU
-		{67900098-00E5-4760-AAA5-AF82653F0309}.net6|Any CPU.Build.0 = Debug|Any CPU
 		{ACE2674E-BF4C-4761-A627-B2E32B98606F}.net6|Any CPU.ActiveCfg = Debug|Any CPU
 		{ACE2674E-BF4C-4761-A627-B2E32B98606F}.net6|Any CPU.Build.0 = Debug|Any CPU
 		{36049155-DA44-450B-97BC-1E5628A8317B}.net6|Any CPU.ActiveCfg = Debug|Any CPU
@@ -108,6 +135,22 @@ Global
 		{BC3D72EC-1660-4EBE-959B-B616BE21893F}.net6|Any CPU.Build.0 = Debug|Any CPU
 		{F65ECD21-D2AC-480D-9FAA-755660C93E45}.net6|Any CPU.ActiveCfg = Debug|Any CPU
 		{F65ECD21-D2AC-480D-9FAA-755660C93E45}.net6|Any CPU.Build.0 = Debug|Any CPU
+		{7B5E1D9C-7271-4650-A992-BCC03F8C2DBF}.net6|Any CPU.ActiveCfg = Debug|Any CPU
+		{7B5E1D9C-7271-4650-A992-BCC03F8C2DBF}.net6|Any CPU.Build.0 = Debug|Any CPU
+		{181A5D85-FD8A-4346-A15F-4537F8FA7454}.net6|Any CPU.ActiveCfg = Debug|Any CPU
+		{181A5D85-FD8A-4346-A15F-4537F8FA7454}.net6|Any CPU.Build.0 = Debug|Any CPU
+		{6AF9D992-A1E2-4757-8A3D-A4DB0F877EA6}.net6|Any CPU.ActiveCfg = Debug|Any CPU
+		{6AF9D992-A1E2-4757-8A3D-A4DB0F877EA6}.net6|Any CPU.Build.0 = Debug|Any CPU
+		{F740B099-F6EA-4C74-89DF-2F5A07B2D9F7}.net6|Any CPU.ActiveCfg = Debug|Any CPU
+		{F740B099-F6EA-4C74-89DF-2F5A07B2D9F7}.net6|Any CPU.Build.0 = Debug|Any CPU
+		{8402DE26-4592-4481-9230-126B65522009}.net6|Any CPU.ActiveCfg = Debug|Any CPU
+		{8402DE26-4592-4481-9230-126B65522009}.net6|Any CPU.Build.0 = Debug|Any CPU
+		{F03A8924-928B-4F87-AA61-D969C532B884}.net6|Any CPU.ActiveCfg = Debug|Any CPU
+		{F03A8924-928B-4F87-AA61-D969C532B884}.net6|Any CPU.Build.0 = Debug|Any CPU
+		{B2906C9E-0F68-4411-91AE-0A42132D3283}.net6|Any CPU.ActiveCfg = Debug|Any CPU
+		{B2906C9E-0F68-4411-91AE-0A42132D3283}.net6|Any CPU.Build.0 = Debug|Any CPU
+		{A95D4352-7CDC-454F-936E-6BDB337517AB}.net6|Any CPU.ActiveCfg = Debug|Any CPU
+		{A95D4352-7CDC-454F-936E-6BDB337517AB}.net6|Any CPU.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		net6|Any CPU = net6|Any CPU

@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <RootNamespace>TL.TransportLogistics.Tariffs.Infrastructure.DependencyInjection</RootNamespace>
+        <AssemblyName>TL.TransportLogistics.Tariffs.Infrastructure.DependencyInjection</AssemblyName>
+        <TargetFramework>net6.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="6.0.0"/>
+        <PackageReference Include="Nito.AsyncEx" Version="5.1.2"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\..\..\..\SharedKernel\Infrastructure\SharedKernel.DependencyInjection\SharedKernel.DependencyInjection.csproj"/>
+        <ProjectReference Include="..\DataAccess\Tariffs.Neo4j\Tariffs.Neo4j.csproj"/>
+    </ItemGroup>
+
+</Project>
