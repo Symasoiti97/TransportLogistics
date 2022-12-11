@@ -1,0 +1,35 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+    <PropertyGroup>
+        <RootNamespace>TL.TransportLogistics.Tariffs.Startups.WebApi</RootNamespace>
+        <AssemblyName>TL.TransportLogistics.Tariffs.Startups.WebApi</AssemblyName>
+        <TargetFramework>net6.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
+        <PackageReference Include="Hellang.Middleware.ProblemDetails" Version="6.5.1" />
+        <PackageReference Include="JetBrains.Annotations" Version="2021.3.0" />
+        <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\..\..\..\SharedKernel\Infrastructure\SharedKernel.AspNet.Extensions\SharedKernel.AspNet.Extensions.csproj" />
+        <ProjectReference Include="..\..\..\..\SharedKernel\Infrastructure\SharedKernel.JsonSerializer.Extensions\SharedKernel.JsonSerializer.Extensions.csproj" />
+        <ProjectReference Include="..\..\..\..\SharedKernel\Infrastructure\SharedKernel.Swagger\SharedKernel.Swagger.csproj" />
+        <ProjectReference Include="..\..\..\..\SharedKernel\SharedKernel.System.ComponentModel.DataAnnotations\SharedKernel.System.ComponentModel.DataAnnotations.csproj" />
+        <ProjectReference Include="..\..\Application\Tariffs.UseCases\Tariffs.UseCases.csproj" />
+        <ProjectReference Include="..\..\Domain\Tariff.Aggregates\Tariff.Aggregates.csproj" />
+        <ProjectReference Include="..\Tariffs.DependencyInjection\Tariffs.DependencyInjection.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Compile Update="Controllers\Tariff\Dto\RouteDto.cs">
+        <DependentUpon>SaveTariffRouteRequest.cs</DependentUpon>
+      </Compile>
+    </ItemGroup>
+
+</Project>

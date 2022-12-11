@@ -1,0 +1,24 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <RootNamespace>TL.SharedKernel.Infrastructure.AspNet.Extensions.Middlewares</RootNamespace>
+        <AssemblyName>TL.SharedKernel.Infrastructure.AspNet.Extensions.Middlewares</AssemblyName>
+        <TargetFramework>net6.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="AutoMapper" Version="11.0.0" />
+        <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
+        <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="6.0.0" />
+        <PackageReference Include="Microsoft.Extensions.Localization.Abstractions" Version="6.0.9" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\..\TransportLogistics\Tariff\Domain\Tariff.Aggregates\Tariff.Aggregates.csproj" />
+      <ProjectReference Include="..\..\Business\SharedKernel.Aggregates\SharedKernel.Aggregates.csproj" />
+    </ItemGroup>
+
+</Project>

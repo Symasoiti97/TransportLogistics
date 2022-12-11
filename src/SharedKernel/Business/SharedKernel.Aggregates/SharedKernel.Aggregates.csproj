@@ -1,0 +1,50 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <RootNamespace>TL.SharedKernel.Business.Aggregates</RootNamespace>
+        <AssemblyName>TL.SharedKernel.Business.Aggregates</AssemblyName>
+        <TargetFramework>net6.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="CaseExtensions" Version="1.1.0" />
+      <PackageReference Include="Ensure.That" Version="10.1.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Compile Update="InvalidValue.cs">
+        <DependentUpon>Error.cs</DependentUpon>
+      </Compile>
+      <Compile Update="Entity.cs">
+        <DependentUpon>IAggregateRoot.cs</DependentUpon>
+      </Compile>
+      <Compile Update="ValueObject.cs">
+        <DependentUpon>IAggregateRoot.cs</DependentUpon>
+      </Compile>
+      <Compile Update="ThrowerExtensions.cs">
+        <DependentUpon>Thrower.cs</DependentUpon>
+      </Compile>
+      <Compile Update="InvalidParam.cs">
+        <DependentUpon>Error.cs</DependentUpon>
+      </Compile>
+      <Compile Update="NotFound.cs">
+        <DependentUpon>Error.cs</DependentUpon>
+      </Compile>
+      <Compile Update="InvalidParams.cs">
+        <DependentUpon>Error.cs</DependentUpon>
+      </Compile>
+      <Compile Update="Thrower.cs">
+        <DependentUpon>Error.cs</DependentUpon>
+      </Compile>
+      <Compile Update="Error.cs">
+        <DependentUpon>ErrorException.cs</DependentUpon>
+      </Compile>
+      <Compile Update="Param.cs">
+        <DependentUpon>InvalidParams.cs</DependentUpon>
+      </Compile>
+    </ItemGroup>
+
+</Project>

@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <RootNamespace>TL.SharedKernel.Infrastructure.Swagger</RootNamespace>
+        <AssemblyName>TL.SharedKernel.Infrastructure.Swagger</AssemblyName>
+        <TargetFramework>net6.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Ensure.That" Version="10.1.0" />
+      <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="6.2.3" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\Business\SharedKernel.Aggregates\SharedKernel.Aggregates.csproj" />
+      <ProjectReference Include="..\..\SharedKernel.System.ComponentModel.DataAnnotations\SharedKernel.System.ComponentModel.DataAnnotations.csproj" />
+    </ItemGroup>
+
+</Project>

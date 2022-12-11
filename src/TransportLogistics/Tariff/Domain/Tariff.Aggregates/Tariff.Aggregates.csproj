@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <RootNamespace>TL.TransportLogistics.Tariffs.Business.Aggregates</RootNamespace>
+        <AssemblyName>TL.TransportLogistics.Tariffs.Business.Aggregates</AssemblyName>
+        <TargetFramework>net6.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <Configurations>Debug;Release;net6</Configurations>
+        <Platforms>AnyCPU</Platforms>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\..\..\..\SharedKernel\Business\SharedKernel.Aggregates\SharedKernel.Aggregates.csproj" />
+    </ItemGroup>
+
+</Project>
