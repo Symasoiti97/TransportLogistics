@@ -15,7 +15,8 @@ public sealed class Param
     /// <param name="name">Name</param>
     /// <param name="path">Path</param>
     /// <param name="message">Error message</param>
-    public Param(object? value, string name, string path, string message)
+    /// <param name="error">Error</param>
+    public Param(object? value, string name, string path, string message, object? error)
     {
         EnsureArg.IsNotNullOrWhiteSpace(name, nameof(name));
         EnsureArg.IsNotNullOrWhiteSpace(message, nameof(message));
@@ -24,6 +25,7 @@ public sealed class Param
         Name = name;
         Path = path;
         Message = message;
+        Error = error;
     }
 
     /// <summary>
@@ -50,4 +52,9 @@ public sealed class Param
     /// Сообщение об ошибке
     /// </summary>
     public string Message { get; }
+
+    /// <summary>
+    /// Error
+    /// </summary>
+    public object? Error { get; }
 }

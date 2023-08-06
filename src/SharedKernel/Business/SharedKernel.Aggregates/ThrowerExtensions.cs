@@ -135,7 +135,7 @@ public static class ThrowerExtensions
     /// <typeparam name="T">Тип значения</typeparam>
     /// <returns><paramref name="thrower"/></returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static ref readonly Thrower IfNotMust<T>(
+    public static ref readonly Thrower IfNot<T>(
         this in Thrower thrower,
         T value,
         Func<T, bool> predicate,

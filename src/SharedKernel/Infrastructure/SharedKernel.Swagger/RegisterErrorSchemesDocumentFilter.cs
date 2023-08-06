@@ -42,7 +42,7 @@ public sealed class RegisterErrorSchemesDocumentFilter : IDocumentFilter
             {
                 context.SchemaGenerator.GenerateSchema(type, context.SchemaRepository);
                 context.SchemaRepository
-                    .Schemas[type.Name]
+                    .Schemas[type.BuildSwaggerSchemaName()]
                     .Properties[nameof(Error.Type).ToCamelCase()]
                     .Default = new OpenApiString(type.Name.ToSnakeCase());
             }

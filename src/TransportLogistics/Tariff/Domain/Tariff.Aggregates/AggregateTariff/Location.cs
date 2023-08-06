@@ -15,8 +15,7 @@ public sealed class Location : Entity<Guid>
     /// <param name="type">Тип локации</param>
     public Location(Guid id, Location? parentLocation, LocationType type) : base(id)
     {
-        SetParentLocation(parentLocation);
-        SetType(type);
+        Set(type, parentLocation);
     }
 
     /// <summary>
@@ -116,41 +115,37 @@ public sealed class Location : Entity<Guid>
         return new Location(id, parentLocation, LocationType.Warehouse);
     }
 
-    private void SetType(LocationType locationType)
+    private void Set(LocationType locationType, Location? parentLocation)
     {
         var thrower = Error.Throw().IfUndefined(locationType);
 
         if (locationType == LocationType.World)
         {
-            thrower.IfNotNull(ParentLocation);
+            thrower.IfNotNull(parentLocation);
         }
         else
         {
-            thrower.IfNull(ParentLocation);
+            thrower.IfNull(parentLocation);
 
             if (locationType == LocationType.Terminal)
             {
                 thrower
-                    .IfNotMust(
-                        ParentLocation.Type,
-                        parentLocationType => parentLocationType is not LocationType.Port or LocationType.Warehouse,
-                        "Parent location must be 'Port' or 'Warehouse'");
+                    .IfNot(
+                        parentLocation.Type,
+                        parentLocationType => parentLocationType is LocationType.Port or LocationType.Warehouse,
+                        "Parent location must be port or warehouse");
             }
             else
             {
                 thrower
-                    .IfNotMust(
-                        ParentLocation.Type,
+                    .IfNot(
+                        parentLocation.Type,
                         parentLocationType => (int) parentLocationType < (int) locationType,
                         "Invalid parent location value");
             }
         }
 
         Type = locationType;
-    }
-
-    private void SetParentLocation(Location? parentLocation)
-    {
         ParentLocation = parentLocation;
     }
 }
