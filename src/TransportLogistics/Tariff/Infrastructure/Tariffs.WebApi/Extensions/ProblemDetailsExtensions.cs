@@ -21,7 +21,7 @@ internal static class ProblemDetailsExtensions
                 var serviceSettings = httpContext.RequestServices.GetRequiredService<ServiceSettings>();
                 var problemDetails = new ProblemDetails
                 {
-                    Type = $"/{serviceSettings.Name}/api/errors/{errorException.Error.Type}",
+                    Type = BuildType(serviceSettings.Name, errorException.Error.Type),
                     Title = errorException.Error.Message,
                     Status = GetStatusCode(errorException.Error),
                     Detail = errorException.Error.Details,
@@ -55,6 +55,11 @@ internal static class ProblemDetailsExtensions
                 _ => StatusCodes.Status500InternalServerError
             };
         }
+    }
+
+    public static string BuildType(string serviceName, string errorType)
+    {
+        return $"/{serviceName}/api/errors/{errorType}";
     }
 }
 

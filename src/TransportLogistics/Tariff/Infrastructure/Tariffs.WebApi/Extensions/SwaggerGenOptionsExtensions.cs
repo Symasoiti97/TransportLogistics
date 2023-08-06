@@ -24,6 +24,8 @@ internal static class SwaggerGenOptionsExtensions
         options.UseAllOfToExtendReferenceSchemas();
         options.DocInclusionPredicate((docName, _) => docName == TariffApiDocumentName);
 
+        options.CustomSchemaIds(type => type.BuildSwaggerSchemaName());
+
         foreach (var fileName in Directory.GetFiles(AppContext.BaseDirectory, "*.xml"))
         {
             options.IncludeXmlComments(fileName, includeControllerXmlComments: true);
@@ -39,100 +41,97 @@ internal static class SwaggerGenOptionsExtensions
                 typeof(Business.Aggregates.AggregateTariff.Errors.ErrorBuilderExtensions).Assembly
             });
 
-        options.MapType<ProblemDetails>(
-            () => new OpenApiSchema
+        options.MapType<ProblemDetails>(BuildProblemDetailsSchema);
+    }
+
+    private static OpenApiSchema BuildProblemDetailsSchema()
+    {
+        return new OpenApiSchema
+        {
+            Type = "object",
+            Properties = new Dictionary<string, OpenApiSchema>
             {
-                Type = "object",
-                Properties = new Dictionary<string, OpenApiSchema>
                 {
+                    "type", new OpenApiSchema
                     {
-                        "type",
-                        new OpenApiSchema
-                        {
-                            Type = "string",
-                            ReadOnly = true,
-                            Description = "URI identifier error",
-                            Example = new OpenApiString("/errors/not-found"),
-                            Nullable = false,
-                            Title = "Type"
-                        }
-                    },
+                        Type = "string",
+                        ReadOnly = true,
+                        Description = "URI identifier error",
+                        Example = new OpenApiString("/errors/not-found"),
+                        Nullable = false,
+                        Title = "Type"
+                    }
+                },
+                {
+                    "title", new OpenApiSchema
                     {
-                        "title",
-                        new OpenApiSchema
-                        {
-                            Type = "string",
-                            ReadOnly = true,
-                            Description = "Error message",
-                            Example = new OpenApiString("Not found."),
-                            Nullable = true,
-                            Title = "Title"
-                        }
-                    },
+                        Type = "string",
+                        ReadOnly = true,
+                        Description = "Error message",
+                        Example = new OpenApiString("Not found."),
+                        Nullable = true,
+                        Title = "Title"
+                    }
+                },
+                {
+                    "detail", new OpenApiSchema
                     {
-                        "detail",
-                        new OpenApiSchema
-                        {
-                            Type = "string",
-                            ReadOnly = true,
-                            Description = "Detail error message",
-                            Example = new OpenApiString("Entity '1' not found"),
-                            Nullable = true,
-                            Title = "Title"
-                        }
-                    },
+                        Type = "string",
+                        ReadOnly = true,
+                        Description = "Detail error message",
+                        Example = new OpenApiString("Entity '1' not found"),
+                        Nullable = true,
+                        Title = "Title"
+                    }
+                },
+                {
+                    "status", new OpenApiSchema
                     {
-                        "status",
-                        new OpenApiSchema
-                        {
-                            Type = "number",
-                            ReadOnly = true,
-                            Description = "Status code",
-                            Example = new OpenApiInteger(404),
-                            Nullable = true,
-                            Title = "Status code"
-                        }
-                    },
+                        Type = "number",
+                        ReadOnly = true,
+                        Description = "Status code",
+                        Example = new OpenApiInteger(404),
+                        Nullable = true,
+                        Title = "Status code"
+                    }
+                },
+                {
+                    "instance", new OpenApiSchema
                     {
-                        "instance",
-                        new OpenApiSchema
-                        {
-                            Type = "string",
-                            ReadOnly = true,
-                            Description = "Http route the http request",
-                            Example = new OpenApiString("/user-service/api/user/1"),
-                            Nullable = true,
-                            Title = "Uri"
-                        }
-                    },
+                        Type = "string",
+                        ReadOnly = true,
+                        Description = "Http route the http request",
+                        Example = new OpenApiString("/user-service/api/user/1"),
+                        Nullable = true,
+                        Title = "Uri"
+                    }
+                },
+                {
+                    "error", new OpenApiSchema
                     {
-                        "error",
-                        new OpenApiSchema
+                        Type = "object",
+                        ReadOnly = true,
+                        Description = "Error data",
+                        Nullable = true,
+                        Title = "Error",
+                        AdditionalPropertiesAllowed = true,
+                        Properties = new Dictionary<string, OpenApiSchema>
                         {
-                            Type = "object",
-                            ReadOnly = true,
-                            Description = "Error data",
-                            Nullable = true,
-                            Title = "Error",
-                            AdditionalPropertiesAllowed = true,
-                            Properties = new Dictionary<string, OpenApiSchema>
                             {
+                                "type", new OpenApiSchema
                                 {
-                                    "type",
-                                    new OpenApiSchema
-                                    {
-                                        Type = "string",
-                                        ReadOnly = true,
-                                        Description = "URI identifier error",
-                                        Example = new OpenApiString("not-found"),
-                                        Nullable = false,
-                                        Title = "Type"
-                                    }
+                                    Type = "string",
+                                    ReadOnly = true,
+                                    Description = "URI identifier error",
+                                    Example = new OpenApiString("not-found"),
+                                    Nullable = false,
+                                    Title = "Type"
                                 }
                             }
                         }
                     }
                 }
-            });
+            }
+        };
     }
 }

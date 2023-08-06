@@ -7,7 +7,6 @@ using TL.SharedKernel.Business.Aggregates;
 using TL.SharedKernel.Infrastructure.JsonSerializer.Extensions;
 using TL.TransportLogistics.Tariffs.Infrastructure.DependencyInjection;
 using TL.TransportLogistics.Tariffs.Startups.WebApi.Extensions;
-using TL.TransportLogistics.Tariffs.Startups.WebApi.Filters;
 using TL.TransportLogistics.Tariffs.Startups.WebApi.Settings;
 using ProblemDetailsExtensions = TL.TransportLogistics.Tariffs.Startups.WebApi.Extensions.ProblemDetailsExtensions;
 using SwaggerExtensions = TL.TransportLogistics.Tariffs.Startups.WebApi.Extensions.SwaggerGenOptionsExtensions;
@@ -17,8 +16,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddSingleton(GetServiceSettings(builder.Configuration));
 
 builder.Services
-    .AddControllers(
-        options => { options.Filters.Add<ValidateModelFilterAttribute>(); })
+    .AddControllers()
     .AddJsonOptions(
         options =>
         {
@@ -39,6 +37,8 @@ builder.Services.AddTariffServices(GetNeo4JSettings(builder.Configuration));
 builder.Services.AddLocalization();
 
 builder.Services.AddProblemDetails(ProblemDetailsExtensions.Configure);
+
+builder.Services.Configure<ApiBehaviorOptions>(ApiBehaviorOptionsExtensions.Configure);
 
 var app = builder.Build();
 
