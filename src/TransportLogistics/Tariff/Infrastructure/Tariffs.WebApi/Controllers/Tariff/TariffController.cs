@@ -13,6 +13,7 @@ namespace TL.TransportLogistics.Tariffs.Startups.WebApi.Controllers.Tariff;
 /// <response code="200">Успех</response>
 /// <response code="401">Пользователь не авторизован</response>
 /// <response code="400">Ошибка валидации</response>
+[ApiController]
 [Route("api/tariff")]
 [Produces("application/json")]
 [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
