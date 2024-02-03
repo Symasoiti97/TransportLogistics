@@ -1,7 +1,7 @@
 ﻿using Neo4jClient;
 using Neo4jClient.Transactions;
 
-namespace TL.TransportLogistics.Tariffs.Infrastructure.DataAccess.Neo4j;
+namespace TL.SharedKernel.Infrastructure.Neo4j;
 
 /// <summary>
 /// Фабрика получения клиента для работы с neo4j

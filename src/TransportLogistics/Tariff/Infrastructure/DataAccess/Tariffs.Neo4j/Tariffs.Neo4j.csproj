@@ -22,6 +22,7 @@
 
     <ItemGroup>
         <ProjectReference Include="..\..\..\..\..\SharedKernel\Infrastructure\SharedKernel.Compress.Extensions\SharedKernel.Compress.Extensions.csproj" />
+        <ProjectReference Include="..\..\..\..\..\SharedKernel\Infrastructure\SharedKernel.Neo4j\SharedKernel.Neo4j.csproj" />
         <ProjectReference Include="..\..\..\Application\Tariffs.UseCases\Tariffs.UseCases.csproj" />
     </ItemGroup>
 
