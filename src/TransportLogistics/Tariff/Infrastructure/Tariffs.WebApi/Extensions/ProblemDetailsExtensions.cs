@@ -2,6 +2,7 @@
 using Hellang.Middleware.ProblemDetails;
 using Microsoft.AspNetCore.Mvc;
 using TL.SharedKernel.Business.Aggregates;
+using TL.TransportLogistics.Tariffs.Startups.WebApi.Settings;
 
 namespace TL.TransportLogistics.Tariffs.Startups.WebApi.Extensions;
 
@@ -61,14 +62,4 @@ internal static class ProblemDetailsExtensions
     {
         return $"/{serviceName}/api/errors/{errorType}";
     }
-}
-
-internal sealed class ServiceSettings
-{
-    public ServiceSettings(string name)
-    {
-        Name = name;
-    }
-
-    public string Name { get; }
 }

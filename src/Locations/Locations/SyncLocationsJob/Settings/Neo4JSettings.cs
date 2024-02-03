@@ -1,6 +1,6 @@
 ﻿using TL.SharedKernel.Infrastructure.DependencyInjection.Settings;
 
-namespace TL.TransportLogistics.Tariffs.Startups.WebApi.Settings;
+namespace TL.Locations.Locations.SyncLocationsTool.Settings;
 
 internal sealed class Neo4JSettings : INeo4JSettings
 {

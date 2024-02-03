@@ -2,10 +2,10 @@ using Microsoft.Extensions.Logging;
 using Neo4jClient;
 using Neo4jClient.Transactions;
 using Nito.AsyncEx;
-using TL.TransportLogistics.Tariffs.Infrastructure.DataAccess.Neo4j;
-using TL.TransportLogistics.Tariffs.Infrastructure.DependencyInjection.Settings;
+using TL.SharedKernel.Infrastructure.DependencyInjection.Settings;
+using TL.SharedKernel.Infrastructure.Neo4j;
 
-namespace TL.TransportLogistics.Tariffs.Infrastructure.DependencyInjection.Factories;
+namespace TL.SharedKernel.Infrastructure.DependencyInjection.Factories;
 
 internal class CypherGraphClientFactory : ICypherGraphClientFactory
 {

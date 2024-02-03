@@ -1,6 +1,7 @@
 ﻿using System.Collections.Concurrent;
 using Neo4jClient.Cypher;
 using Neo4jClient.Transactions;
+using TL.SharedKernel.Infrastructure.Neo4j;
 
 namespace TL.TransportLogistics.Tariffs.Infrastructure.DataAccess.Neo4j;
 
