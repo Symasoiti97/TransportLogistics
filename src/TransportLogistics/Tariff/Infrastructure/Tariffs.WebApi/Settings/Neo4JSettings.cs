@@ -1,4 +1,4 @@
-﻿using TL.TransportLogistics.Tariffs.Infrastructure.DependencyInjection.Settings;
+﻿using TL.SharedKernel.Infrastructure.DependencyInjection.Settings;
 
 namespace TL.TransportLogistics.Tariffs.Startups.WebApi.Settings;
 

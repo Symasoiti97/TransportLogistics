@@ -2,13 +2,12 @@
 using TL.SharedKernel.Application.Commands;
 using TL.SharedKernel.Application.Repositories;
 using TL.SharedKernel.Infrastructure.DependencyInjection;
+using TL.SharedKernel.Infrastructure.DependencyInjection.Settings;
 using TL.TransportLogistics.Tariffs.Application.UseCases.LocationServices;
 using TL.TransportLogistics.Tariffs.Application.UseCases.TariffServices;
 using TL.TransportLogistics.Tariffs.Infrastructure.DataAccess.Neo4j;
 using TL.TransportLogistics.Tariffs.Infrastructure.DataAccess.Neo4j.Queries;
-using TL.TransportLogistics.Tariffs.Infrastructure.DependencyInjection.Factories;
 using TL.TransportLogistics.Tariffs.Infrastructure.DependencyInjection.MockServices;
-using TL.TransportLogistics.Tariffs.Infrastructure.DependencyInjection.Settings;
 
 namespace TL.TransportLogistics.Tariffs.Infrastructure.DependencyInjection;
 
@@ -46,8 +45,7 @@ public static class ServiceExtensions
         services.AddTransient<ICommandHandler<PublishTariffCommand>, PublishTariffCommandHandler>();
         services.AddTransient<IQueryHandler<GetTariffQuery, TariffView>, GetTariffQueryHandler>();
 
-        services.AddSingleton(neo4JSettings);
-        services.AddSingleton<ICypherGraphClientFactory, CypherGraphClientFactory>();
+        services.AddNeo4JServices(neo4JSettings);
 
         services.AddScoped<TariffDbContext>();
         services.AddTransient<ITariffRepository, TariffRepository>();

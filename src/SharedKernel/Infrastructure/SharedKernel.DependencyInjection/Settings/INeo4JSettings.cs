@@ -1,4 +1,4 @@
-namespace TL.TransportLogistics.Tariffs.Infrastructure.DependencyInjection.Settings;
+namespace TL.SharedKernel.Infrastructure.DependencyInjection.Settings;
 
 /// <summary>
 /// Конфигурация для подключения neo4j
