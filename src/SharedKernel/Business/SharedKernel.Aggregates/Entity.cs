@@ -24,7 +24,7 @@ public abstract class Entity<TKey> where TKey : struct, IComparable
     /// Set entity id
     /// </summary>
     /// <param name="id">Entity id</param>
-    protected void SetId(TKey id)
+    private void SetId(TKey id)
     {
         Error.Throw().IfDefault(id);
 

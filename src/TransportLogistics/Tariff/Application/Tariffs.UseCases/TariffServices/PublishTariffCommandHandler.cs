@@ -19,15 +19,12 @@ internal sealed class PublishTariffCommandHandler : ICommandHandler<PublishTarif
 
     public async Task HandleAsync(PublishTariffCommand command, CancellationToken cancellationToken = default)
     {
-        var draftTariff = await _tariffRepository.FindAsync(command.TariffId, cancellationToken).ConfigureAwait(false);
+        var tariff = await _tariffRepository.FindAsync(command.TariffId, cancellationToken).ConfigureAwait(false);
 
-        Error.Throw().TariffNotFoundIfNull(draftTariff, command.TariffId);
+        Error.Throw().TariffNotFoundIfNull(tariff, command.TariffId);
 
-        var realTariff = draftTariff.CopyAsReal();
+        tariff.SetAsReal();
 
-        _tariffRepository.Add(realTariff);
-        _tariffRepository.Delete(draftTariff);
-
-        await _tariffRepository.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
+        await _tariffRepository.UpdateAsync(tariff, cancellationToken);
     }
 }

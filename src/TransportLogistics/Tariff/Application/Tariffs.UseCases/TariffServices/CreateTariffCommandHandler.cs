@@ -26,8 +26,6 @@ internal sealed class CreateTariffCommandHandler : ICommandHandler<CreateTariffC
     {
         var tariff = Tariff.Create(command.TariffId, _userContext.GetProfileId());
 
-        _tariffRepository.Add(tariff);
-
-        await _tariffRepository.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
+        await _tariffRepository.AddAsync(tariff, cancellationToken);
     }
 }

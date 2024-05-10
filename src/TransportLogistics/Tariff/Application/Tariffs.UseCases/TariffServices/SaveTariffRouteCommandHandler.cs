@@ -31,7 +31,7 @@ internal sealed class SaveTariffRouteCommandHandler : ICommandHandler<SaveTariff
 
         tariff.SetRoute(route);
 
-        tariffRepository.Update(tariff);
+        await tariffRepository.UpdateAsync(tariff, cancellationToken);
 
         await _unitOfWork.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
     }

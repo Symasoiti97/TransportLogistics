@@ -11,7 +11,7 @@ public sealed class TariffTests
     [MemberData(nameof(TariffTestsData.TariffCopyAsReal_Positive_Test_Data), MemberType = typeof(TariffTestsData))]
     public void TariffCopyAsReal_Positive_Test(Tariff tariff)
     {
-        var publishTariffAction = tariff.CopyAsReal;
+        var publishTariffAction = tariff.SetAsReal;
 
         publishTariffAction.Should().NotThrow();
     }
@@ -20,7 +20,7 @@ public sealed class TariffTests
     [MemberData(nameof(TariffTestsData.TariffCopyAsReal_Negative_Test_Data), MemberType = typeof(TariffTestsData))]
     public void TariffCopyAsReal_Negative_Test(Tariff tariff)
     {
-        var publishTariffAction = tariff.CopyAsReal;
+        var publishTariffAction = tariff.SetAsReal;
 
         publishTariffAction.Should().Throw<Exception>();
     }
