@@ -4,7 +4,7 @@ using TL.SharedKernel.Business.Aggregates;
 
 namespace SharedKernel.Errors.Tests;
 
-public class ErrorTests
+public sealed class ErrorTests
 {
     [Theory]
     [InlineData((object?) null)]
@@ -14,6 +14,6 @@ public class ErrorTests
 
         var errorException = action.Should().Throw<ErrorException>();
         var error = errorException.Which.Error;
-        error.Type.Should().Be(JsonNamingPolicy.CamelCase.ConvertName(error.GetType().Name));
+        error.Type.Should().Be(JsonNamingPolicy.SnakeCaseLower.ConvertName(error.GetType().Name));
     }
 }

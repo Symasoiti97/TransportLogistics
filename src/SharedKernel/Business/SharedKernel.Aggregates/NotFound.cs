@@ -6,7 +6,7 @@
 public class NotFound : Error
 {
     /// <inheritdoc />
-    public override string Message => "Invalid value.";
+    public override string Message => "Not found.";
 
     /// <summary>
     /// Создать <see cref="NotFound"/>

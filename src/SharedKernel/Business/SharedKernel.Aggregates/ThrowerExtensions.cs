@@ -31,7 +31,7 @@ public static class ThrowerExtensions
         if (value is null)
         {
             Thrower.Throw(
-                new InvalidValue<T>(
+                new InvalidValue(
                     value,
                     JsonNamingPolicy.CamelCase.ConvertName(paramName),
                     $"Value can not be null. (Parameter '{paramName}')"));
@@ -59,7 +59,7 @@ public static class ThrowerExtensions
         if (value is not null)
         {
             Thrower.Throw(
-                new InvalidValue<T>(
+                new InvalidValue(
                     value,
                     JsonNamingPolicy.CamelCase.ConvertName(paramName),
                     $"Value can be null. (Parameter '{paramName}')"));
@@ -87,7 +87,7 @@ public static class ThrowerExtensions
         if (default(T).Equals(value))
         {
             Thrower.Throw(
-                new InvalidValue<T>(
+                new InvalidValue(
                     value,
                     JsonNamingPolicy.CamelCase.ConvertName(paramName),
                     $"Value can not be default. (Parameter '{paramName}')"));
@@ -115,7 +115,7 @@ public static class ThrowerExtensions
         if (!Enum.IsDefined(value))
         {
             Thrower.Throw(
-                new InvalidValue<T>(
+                new InvalidValue(
                     value,
                     JsonNamingPolicy.CamelCase.ConvertName(paramName),
                     $"Value can not be undefined. (Parameter '{paramName}')"));
@@ -147,7 +147,7 @@ public static class ThrowerExtensions
         if (!predicate(value))
         {
             Thrower.Throw(
-                new InvalidValue<T>(
+                new InvalidValue(
                     value,
                     JsonNamingPolicy.CamelCase.ConvertName(paramName),
                     message));
@@ -174,7 +174,7 @@ public static class ThrowerExtensions
         if (string.IsNullOrWhiteSpace(value))
         {
             Thrower.Throw(
-                new InvalidValue<string>(
+                new InvalidValue(
                     value,
                     JsonNamingPolicy.CamelCase.ConvertName(paramName),
                     $"Value '{paramName}' can't be empty"));
@@ -202,7 +202,7 @@ public static class ThrowerExtensions
         if (array?.Any() != true)
         {
             Thrower.Throw(
-                new InvalidValue<T[]>(
+                new InvalidValue(
                     array,
                     JsonNamingPolicy.CamelCase.ConvertName(paramName),
                     $"Collection '{paramName}' can't be empty"));

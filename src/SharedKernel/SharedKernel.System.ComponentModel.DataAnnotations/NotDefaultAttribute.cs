@@ -1,6 +1,6 @@
 ﻿namespace System.ComponentModel.DataAnnotations;
 
-public class NotDefaultAttribute : ValidationAttribute
+public sealed class NotDefaultAttribute : ValidationAttribute
 {
     public override bool IsValid(object? value)
     {

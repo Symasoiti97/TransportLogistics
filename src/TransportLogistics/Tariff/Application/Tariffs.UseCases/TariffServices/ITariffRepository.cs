@@ -15,7 +15,7 @@ public interface ITariffRepository : IRepository
     /// <param name="tariffId">Идентификатор тарифа</param>
     /// <param name="cancellationToken">Токен отмены</param>
     /// <returns>Тариф</returns>
-    Task<Tariff?> FindAsync(Guid tariffId, CancellationToken cancellationToken);
+    Task<Tariff> GetAsync(Guid tariffId, CancellationToken cancellationToken);
 
     /// <summary>
     /// Сохранить тарифа
@@ -30,11 +30,4 @@ public interface ITariffRepository : IRepository
     /// <param name="tariff">Тариф</param>
     /// <param name="cancellationToken"></param>
     Task UpdateAsync(Tariff tariff, CancellationToken cancellationToken);
-
-    /// <summary>
-    /// Удалить черновик тарифа
-    /// </summary>
-    /// <param name="tariff"></param>
-    /// <param name="cancellationToken"></param>
-    Task DeleteAsync(Tariff tariff, CancellationToken cancellationToken);
 }

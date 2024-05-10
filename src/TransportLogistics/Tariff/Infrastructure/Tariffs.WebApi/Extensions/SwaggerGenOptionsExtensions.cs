@@ -38,7 +38,7 @@ internal static class SwaggerGenOptionsExtensions
             new[]
             {
                 typeof(ThrowerExtensions).Assembly,
-                typeof(Business.Aggregates.AggregateTariff.Errors.ErrorBuilderExtensions).Assembly
+                typeof(Business.Aggregates.AggregateTariff.Errors.TariffNotFound).Assembly
             });
 
         options.MapType<ProblemDetails>(BuildProblemDetailsSchema);

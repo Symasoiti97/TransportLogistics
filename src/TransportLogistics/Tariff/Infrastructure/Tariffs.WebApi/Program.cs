@@ -80,6 +80,5 @@ static Neo4JSettings GetNeo4JSettings(IConfiguration configuration)
 
 static ServiceSettings GetServiceSettings(IConfiguration configuration)
 {
-    return new ServiceSettings(
-        configuration["ServiceName"]);
+    return new ServiceSettings(configuration["ServiceName"]);
 }

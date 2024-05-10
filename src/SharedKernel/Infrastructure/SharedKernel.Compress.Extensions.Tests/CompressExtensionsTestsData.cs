@@ -1,22 +1,22 @@
 namespace TL.SharedKernel.Infrastructure.Compress.Extensions.Tests;
 
-public class CompressExtensionsTestsData
+public sealed class CompressExtensionsTestsData
 {
     public static IEnumerable<string[]> CompressTestData()
     {
-        yield return new[]
-        {
+        yield return
+        [
             "111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111",
             "H4sIAAAAAAAACjM0pC0AADssp0VgAAAA"
-        };
+        ];
     }
 
     public static IEnumerable<string[]> DecompressTestData()
     {
-        yield return new[]
-        {
+        yield return
+        [
             "H4sIAAAAAAAACjM0pC0AADssp0VgAAAA",
             "111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111"
-        };
+        ];
     }
 }

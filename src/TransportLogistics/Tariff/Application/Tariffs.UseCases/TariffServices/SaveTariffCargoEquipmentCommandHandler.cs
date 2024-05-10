@@ -1,6 +1,4 @@
 ﻿using TL.SharedKernel.Application.Commands;
-using TL.SharedKernel.Business.Aggregates;
-using TL.TransportLogistics.Tariffs.Business.Aggregates.AggregateTariff.Errors;
 
 namespace TL.TransportLogistics.Tariffs.Application.UseCases.TariffServices;
 
@@ -18,9 +16,7 @@ internal sealed class SaveTariffCargoCommandHandler : ICommandHandler<SaveTariff
 
     public async Task HandleAsync(SaveTariffCargoEquipmentCommand equipmentCommand, CancellationToken cancellationToken = default)
     {
-        var tariff = await _tariffRepository.FindAsync(equipmentCommand.TariffId, cancellationToken).ConfigureAwait(false);
-
-        Error.Throw().TariffNotFoundIfNull(tariff, equipmentCommand.TariffId);
+        var tariff = await _tariffRepository.GetAsync(equipmentCommand.TariffId, cancellationToken).ConfigureAwait(false);
 
         tariff.SetCargoEquipment(equipmentCommand.ContainerSize, equipmentCommand.CargoType, equipmentCommand.ContainerOwn);
 
