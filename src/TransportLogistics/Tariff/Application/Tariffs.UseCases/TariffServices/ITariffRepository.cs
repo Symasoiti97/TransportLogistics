@@ -21,23 +21,20 @@ public interface ITariffRepository : IRepository
     /// Сохранить тарифа
     /// </summary>
     /// <param name="tariff">Тариф</param>
-    void Add(Tariff tariff);
+    /// <param name="cancellationToken"></param>
+    Task AddAsync(Tariff tariff, CancellationToken cancellationToken);
 
     /// <summary>
     /// Сохранить тарифа
     /// </summary>
     /// <param name="tariff">Тариф</param>
-    void Update(Tariff tariff);
+    /// <param name="cancellationToken"></param>
+    Task UpdateAsync(Tariff tariff, CancellationToken cancellationToken);
 
     /// <summary>
     /// Удалить черновик тарифа
     /// </summary>
     /// <param name="tariff"></param>
-    void Delete(Tariff tariff);
-
-    /// <summary>
-    /// Сохраняет изменения
-    /// </summary>
     /// <param name="cancellationToken"></param>
-    Task SaveChangesAsync(CancellationToken cancellationToken);
+    Task DeleteAsync(Tariff tariff, CancellationToken cancellationToken);
 }

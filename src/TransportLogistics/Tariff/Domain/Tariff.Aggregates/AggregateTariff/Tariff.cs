@@ -158,32 +158,6 @@ public sealed class Tariff : Entity<Guid>, IAggregateRoot
     }
 
     /// <summary>
-    /// Создать копию тарифа, как действующий тариф
-    /// </summary>
-    /// <returns>Новая копия тарифа</returns>
-    public Tariff CopyAsReal()
-    {
-        var clone = (Tariff) MemberwiseClone();
-        clone.SetId(Guid.NewGuid());
-        clone.SetAsReal();
-
-        return clone;
-    }
-
-    /// <summary>
-    /// Создать копию тарифа, как тариф-черновик
-    /// </summary>
-    /// <returns>Новая копия тарифа</returns>
-    public Tariff CopyAsDraft()
-    {
-        var clone = (Tariff) MemberwiseClone();
-        clone.SetId(Guid.NewGuid());
-        clone.SetAsDraft();
-
-        return clone;
-    }
-
-    /// <summary>
     /// Устанавливает оборудование груза
     /// </summary>
     public void SetCargoEquipment(ContainerSize containerSize, CargoType cargoType, ContainerOwn containerOwn)
@@ -191,6 +165,24 @@ public sealed class Tariff : Entity<Guid>, IAggregateRoot
         SetContainerSize(containerSize);
         SetCargoType(cargoType);
         SetContainerOwn(containerOwn);
+    }
+
+    /// <summary>
+    /// Устанавливает тариф как действующий
+    /// </summary>
+    public void SetAsReal()
+    {
+        if (IsDraft)
+        {
+            Error.Throw()
+                .IfNull(Route)
+                .IfNull(ContainerSize)
+                .IfNull(ContainerOwn)
+                .IfNull(Price)
+                .IfNull(CargoType);
+
+            IsDraft = false;
+        }
     }
 
     /// <summary>
@@ -249,21 +241,6 @@ public sealed class Tariff : Entity<Guid>, IAggregateRoot
         if (IsDraft == false)
         {
             IsDraft = true;
-        }
-    }
-
-    private void SetAsReal()
-    {
-        if (IsDraft)
-        {
-            Error.Throw()
-                .IfNull(Route)
-                .IfNull(ContainerSize)
-                .IfNull(ContainerOwn)
-                .IfNull(Price)
-                .IfNull(CargoType);
-
-            IsDraft = false;
         }
     }
 }

@@ -45,7 +45,7 @@ internal sealed class TariffRepository : IWriteRepository, ITariffRepository
             : null;
     }
 
-    public void Add(Tariff tariff)
+    public async Task AddAsync(Tariff tariff, CancellationToken cancellationToken)
     {
         _tariffDbContext.AddCommand(
             query =>
@@ -80,9 +80,11 @@ internal sealed class TariffRepository : IWriteRepository, ITariffRepository
 
                 return query.ExecuteWithoutResultsAsync();
             });
+
+        await _tariffDbContext.SaveChangesAsync(cancellationToken);
     }
 
-    public void Update(Tariff tariff)
+    public async Task UpdateAsync(Tariff tariff, CancellationToken cancellationToken)
     {
         _tariffDbContext.AddCommand(
             query =>
@@ -130,9 +132,11 @@ internal sealed class TariffRepository : IWriteRepository, ITariffRepository
 
                 return query.ExecuteWithoutResultsAsync();
             });
+
+        await _tariffDbContext.SaveChangesAsync(cancellationToken);
     }
 
-    public void Delete(Tariff tariff)
+    public async Task DeleteAsync(Tariff tariff, CancellationToken cancellationToken)
     {
         _tariffDbContext.AddCommand(
             query => query
@@ -140,6 +144,8 @@ internal sealed class TariffRepository : IWriteRepository, ITariffRepository
                 .Set("t.DeletedUtc = $deletedUtc")
                 .WithParams(new {tariffId = tariff.Id, deletedUtc = DateTime.UtcNow})
                 .ExecuteWithoutResultsAsync());
+
+        await _tariffDbContext.SaveChangesAsync(cancellationToken);
     }
 
     public Task SaveChangesAsync(CancellationToken cancellationToken)

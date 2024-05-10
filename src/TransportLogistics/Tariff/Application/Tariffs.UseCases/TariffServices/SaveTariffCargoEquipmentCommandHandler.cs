@@ -24,8 +24,6 @@ internal sealed class SaveTariffCargoCommandHandler : ICommandHandler<SaveTariff
 
         tariff.SetCargoEquipment(equipmentCommand.ContainerSize, equipmentCommand.CargoType, equipmentCommand.ContainerOwn);
 
-        _tariffRepository.Update(tariff);
-
-        await _tariffRepository.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
+        await _tariffRepository.UpdateAsync(tariff, cancellationToken);
     }
 }

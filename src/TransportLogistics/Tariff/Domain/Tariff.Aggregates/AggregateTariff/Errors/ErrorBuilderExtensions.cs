@@ -22,10 +22,7 @@ public static class ErrorBuilderExtensions
         [NotNull] Tariff? tariff,
         Guid tariffId)
     {
-        if (tariff is null)
-        {
-            Thrower.Throw(new TariffNotFound(tariffId));
-        }
+        if (tariff is null) Thrower.Throw(new TariffNotFound(tariffId));
 
         return ref thrower;
     }
