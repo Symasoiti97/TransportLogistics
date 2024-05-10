@@ -3,9 +3,6 @@
     <PropertyGroup>
         <RootNamespace>TL.TransportLogistics.Tariffs.Application.UseCases</RootNamespace>
         <AssemblyName>TL.TransportLogistics.Tariffs.Application.UseCases</AssemblyName>
-        <TargetFramework>net6.0</TargetFramework>
-        <ImplicitUsings>enable</ImplicitUsings>
-        <Nullable>enable</Nullable>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
     </PropertyGroup>
 

@@ -3,10 +3,6 @@
     <PropertyGroup>
         <RootNamespace>TL.SharedKernel.Business.Aggregates</RootNamespace>
         <AssemblyName>TL.SharedKernel.Business.Aggregates</AssemblyName>
-        <TargetFramework>net6.0</TargetFramework>
-        <ImplicitUsings>enable</ImplicitUsings>
-        <Nullable>enable</Nullable>
-        <GenerateDocumentationFile>true</GenerateDocumentationFile>
     </PropertyGroup>
 
     <ItemGroup>

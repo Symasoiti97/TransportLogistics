@@ -1,8 +1,8 @@
 ﻿using EnsureThat;
-using Hellang.Middleware.ProblemDetails;
 using Microsoft.AspNetCore.Mvc;
 using TL.SharedKernel.Business.Aggregates;
 using TL.TransportLogistics.Tariffs.Startups.WebApi.Settings;
+using ProblemDetailsOptions = Hellang.Middleware.ProblemDetails.ProblemDetailsOptions;
 
 namespace TL.TransportLogistics.Tariffs.Startups.WebApi.Extensions;
 

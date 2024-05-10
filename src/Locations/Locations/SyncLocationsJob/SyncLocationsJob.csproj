@@ -3,9 +3,6 @@
     <PropertyGroup>
         <RootNamespace>TL.Locations.Locations.SyncLocationsTool</RootNamespace>
         <AssemblyName>TL.Locations.Locations.SyncLocationsTool</AssemblyName>
-        <TargetFramework>net7.0</TargetFramework>
-        <Nullable>enable</Nullable>
-        <ImplicitUsings>enable</ImplicitUsings>
     </PropertyGroup>
 
     <ItemGroup>
