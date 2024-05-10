@@ -5,7 +5,7 @@ namespace TL.TransportLogistics.Tariffs.Startups.WebApi.Controllers.Tariff.Dto;
 /// <summary>
 /// Запрос на создание тарифа
 /// </summary>
-public class CreateTariffRequest
+public sealed class CreateTariffRequest
 {
     /// <summary>
     /// Идентификатор тарифа

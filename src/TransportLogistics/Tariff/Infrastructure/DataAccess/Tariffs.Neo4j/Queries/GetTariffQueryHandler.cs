@@ -1,8 +1,7 @@
 ﻿using EnsureThat;
 using TL.SharedKernel.Application.Commands;
-using TL.SharedKernel.Business.Aggregates;
 using TL.TransportLogistics.Tariffs.Application.UseCases.TariffServices;
-using TL.TransportLogistics.Tariffs.Infrastructure.DataAccess.Neo4j.Extensions;
+using TL.TransportLogistics.Tariffs.Business.Aggregates.AggregateTariff.Errors;
 
 namespace TL.TransportLogistics.Tariffs.Infrastructure.DataAccess.Neo4j.Queries;
 
@@ -55,9 +54,12 @@ internal sealed class GetTariffQueryHandler : IQueryHandler<GetTariffQuery, Tari
                 cancellationToken)
             .ConfigureAwait(false);
 
-        var tariffView = tariffViews.FirstOrDefault();
+        var tariffView = tariffViews.SingleOrDefault();
 
-        Error.Throw().TariffNotFoundIfNull(tariffView, command.TariffId);
+        if (tariffView is null)
+        {
+            throw new TariffNotFound(command.TariffId);
+        }
 
         return tariffView;
     }

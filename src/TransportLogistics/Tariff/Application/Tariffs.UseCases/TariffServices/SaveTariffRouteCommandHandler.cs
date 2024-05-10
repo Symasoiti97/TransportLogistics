@@ -1,9 +1,7 @@
 ﻿using TL.SharedKernel.Application.Commands;
 using TL.SharedKernel.Application.Repositories;
-using TL.SharedKernel.Business.Aggregates;
 using TL.TransportLogistics.Tariffs.Application.UseCases.LocationServices;
 using TL.TransportLogistics.Tariffs.Business.Aggregates.AggregateTariff;
-using TL.TransportLogistics.Tariffs.Business.Aggregates.AggregateTariff.Errors;
 
 namespace TL.TransportLogistics.Tariffs.Application.UseCases.TariffServices;
 
@@ -23,8 +21,7 @@ internal sealed class SaveTariffRouteCommandHandler : ICommandHandler<SaveTariff
     {
         var tariffRepository = _unitOfWork.GetRepository<ITariffRepository>();
 
-        var tariff = await tariffRepository.FindAsync(command.TariffId, cancellationToken).ConfigureAwait(false);
-        Error.Throw().TariffNotFoundIfNull(tariff, command.TariffId);
+        var tariff = await tariffRepository.GetAsync(command.TariffId, cancellationToken).ConfigureAwait(false);
 
         var locations = await GetLocationsAsync(command, cancellationToken).ConfigureAwait(false);
         var route = BuildRoute(command, locations);

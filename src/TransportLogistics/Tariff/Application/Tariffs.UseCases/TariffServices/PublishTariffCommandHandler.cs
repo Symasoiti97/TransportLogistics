@@ -1,6 +1,4 @@
 ﻿using TL.SharedKernel.Application.Commands;
-using TL.SharedKernel.Business.Aggregates;
-using TL.TransportLogistics.Tariffs.Business.Aggregates.AggregateTariff.Errors;
 
 namespace TL.TransportLogistics.Tariffs.Application.UseCases.TariffServices;
 
@@ -19,9 +17,7 @@ internal sealed class PublishTariffCommandHandler : ICommandHandler<PublishTarif
 
     public async Task HandleAsync(PublishTariffCommand command, CancellationToken cancellationToken = default)
     {
-        var tariff = await _tariffRepository.FindAsync(command.TariffId, cancellationToken).ConfigureAwait(false);
-
-        Error.Throw().TariffNotFoundIfNull(tariff, command.TariffId);
+        var tariff = await _tariffRepository.GetAsync(command.TariffId, cancellationToken).ConfigureAwait(false);
 
         tariff.SetAsReal();
 

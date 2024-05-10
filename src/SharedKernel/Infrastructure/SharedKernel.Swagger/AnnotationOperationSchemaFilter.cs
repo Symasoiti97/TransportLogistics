@@ -12,7 +12,7 @@ namespace TL.SharedKernel.Infrastructure.Swagger;
 ///     <item><see cref="NotDefaultAttribute"/></item>
 /// </list>
 /// </summary>
-public class AnnotationOperationSchemaFilter : ISchemaFilter
+public sealed class AnnotationOperationSchemaFilter : ISchemaFilter
 {
     public void Apply(OpenApiSchema schema, SchemaFilterContext context)
     {

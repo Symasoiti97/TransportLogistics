@@ -1,13 +1,15 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using EnsureThat;
 
 namespace TL.SharedKernel.Business.Aggregates;
 
 /// <summary>
 /// Ошибка некорректного параметра
 /// </summary>
-public abstract class InvalidValue : Error
+public sealed class InvalidValue : Error
 {
+    /// <inheritdoc />
+    public override string Message => "Invalid value.";
+
     /// <summary>
     /// Наименование значения
     /// </summary>
@@ -15,35 +17,21 @@ public abstract class InvalidValue : Error
     [Required]
     public string Name { get; }
 
-    /// <inheritdoc />
-    protected InvalidValue(string name, string details) : base(details)
-    {
-        EnsureArg.IsNotNullOrWhiteSpace(name, nameof(name));
-
-        Name = name;
-    }
-}
-
-/// <inheritdoc />
-public sealed class InvalidValue<TValue> : InvalidValue
-{
     /// <summary>
     /// Ошибачное значение
     /// </summary>
     /// <example>null</example>
-    public TValue? Value { get; }
-
-    /// <inheritdoc />
-    public override string Message => "Invalid value.";
+    public object? Value { get; }
 
     /// <summary>
-    /// Создать <see cref="InvalidValue{TValue}"/>
+    /// Создать <see cref="InvalidValue"/>
     /// </summary>
     /// <param name="value">Ошибочное значение</param>
     /// <param name="name">Наименование значения</param>
     /// <param name="details">Сообщение об ошибке</param>
-    public InvalidValue(TValue? value, string name, string details) : base(name, details)
+    public InvalidValue(object? value, string name, string details) : base(details)
     {
         Value = value;
+        Name = name;
     }
 }

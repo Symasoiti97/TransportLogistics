@@ -7,7 +7,7 @@ using TL.SharedKernel.Infrastructure.Neo4j;
 
 namespace TL.SharedKernel.Infrastructure.DependencyInjection.Factories;
 
-internal class CypherGraphClientFactory : ICypherGraphClientFactory
+internal sealed class CypherGraphClientFactory : ICypherGraphClientFactory
 {
     private readonly AsyncLazy<BoltGraphClient> _cypherGraphClientLazy;
 

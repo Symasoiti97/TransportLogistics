@@ -1,5 +1,5 @@
-﻿using System.Text.Json.Serialization;
-using CaseExtensions;
+﻿using System.Text.Json;
+using System.Text.Json.Serialization;
 using EnsureThat;
 
 namespace TL.SharedKernel.Business.Aggregates;
@@ -12,7 +12,7 @@ public abstract class Error
     /// <summary>
     /// Тип ошибки
     /// </summary>
-    public string Type => GetType().Name.ToSnakeCase();
+    public string Type => JsonNamingPolicy.SnakeCaseLower.ConvertName(GetType().Name);
 
     /// <summary>
     /// Создает <see cref="Error"/>
@@ -52,4 +52,6 @@ public abstract class Error
     {
         return new Thrower();
     }
+
+    public static implicit operator ErrorException(Error error) => new(error);
 }

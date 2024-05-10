@@ -2,7 +2,7 @@ using FluentAssertions;
 
 namespace TL.SharedKernel.Infrastructure.Compress.Extensions.Tests;
 
-public class CompressExtensionsTests
+public sealed class CompressExtensionsTests
 {
     [Theory]
     [MemberData(nameof(CompressExtensionsTestsData.CompressTestData), MemberType = typeof(CompressExtensionsTestsData))]

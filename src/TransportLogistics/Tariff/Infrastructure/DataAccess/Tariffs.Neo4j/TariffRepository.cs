@@ -1,14 +1,14 @@
 ﻿using Neo4jClient.Cypher;
-using TL.SharedKernel.Application.Repositories;
 using TL.SharedKernel.Infrastructure.Compress.Extensions;
 using TL.TransportLogistics.Tariffs.Application.UseCases.LocationServices;
 using TL.TransportLogistics.Tariffs.Application.UseCases.TariffServices;
 using TL.TransportLogistics.Tariffs.Business.Aggregates.AggregateTariff;
+using TL.TransportLogistics.Tariffs.Business.Aggregates.AggregateTariff.Errors;
 using TL.TransportLogistics.Tariffs.Infrastructure.DataAccess.Neo4j.Entities;
 
 namespace TL.TransportLogistics.Tariffs.Infrastructure.DataAccess.Neo4j;
 
-internal sealed class TariffRepository : IWriteRepository, ITariffRepository
+internal sealed class TariffRepository : ITariffRepository
 {
     private readonly ILocationRepository _locationRepository;
     private readonly TariffDbContext _tariffDbContext;
@@ -19,7 +19,7 @@ internal sealed class TariffRepository : IWriteRepository, ITariffRepository
         _locationRepository = locationRepository;
     }
 
-    public async Task<Tariff?> FindAsync(Guid tariffId, CancellationToken cancellationToken)
+    public async Task<Tariff> GetAsync(Guid tariffId, CancellationToken cancellationToken)
     {
         var tariffResults = await _tariffDbContext.ReadAsync(
             query => query
@@ -38,11 +38,14 @@ internal sealed class TariffRepository : IWriteRepository, ITariffRepository
                 .ResultsAsync,
             cancellationToken).ConfigureAwait(false);
 
-        var tariffResult = tariffResults.SingleOrDefault();
+        var tariffResult = tariffResults.Single();
+        if (tariffResult is null)
+        {
+            throw new TariffNotFound(tariffId);
+        }
 
-        return tariffResult is not null
-            ? await MapToTariffAsync(tariffResult, cancellationToken).ConfigureAwait(false)
-            : null;
+
+        return await MapToTariffAsync(tariffResult, cancellationToken).ConfigureAwait(false);
     }
 
     public async Task AddAsync(Tariff tariff, CancellationToken cancellationToken)
@@ -136,18 +139,6 @@ internal sealed class TariffRepository : IWriteRepository, ITariffRepository
         await _tariffDbContext.SaveChangesAsync(cancellationToken);
     }
 
-    public async Task DeleteAsync(Tariff tariff, CancellationToken cancellationToken)
-    {
-        _tariffDbContext.AddCommand(
-            query => query
-                .Match("(t:Tariff {Id: $tariffId})")
-                .Set("t.DeletedUtc = $deletedUtc")
-                .WithParams(new {tariffId = tariff.Id, deletedUtc = DateTime.UtcNow})
-                .ExecuteWithoutResultsAsync());
-
-        await _tariffDbContext.SaveChangesAsync(cancellationToken);
-    }
-
     public Task SaveChangesAsync(CancellationToken cancellationToken)
     {
         return _tariffDbContext.SaveChangesAsync(cancellationToken);
@@ -235,16 +226,16 @@ internal sealed class TariffRepository : IWriteRepository, ITariffRepository
             result.Tariff.IsDraft);
     }
 
-    private class TariffResult
+    private sealed class TariffResult
     {
-        public TariffNode Tariff { get; set; } = null!;
-        public RouteNode? Route { get; set; }
-        public LocationPoint[] LocationPoints { get; set; } = null!;
+        public required TariffNode Tariff { get; init; }
+        public RouteNode? Route { get; init; }
+        public required LocationPoint[] LocationPoints { get; init; }
 
-        internal class LocationPoint
+        internal sealed class LocationPoint
         {
-            public PointRelationship Point { get; set; } = null!;
-            public LocationNode Location { get; set; } = null!;
+            public required PointRelationship Point { get; init; }
+            public required LocationNode Location { get; init; }
         }
     }
 }

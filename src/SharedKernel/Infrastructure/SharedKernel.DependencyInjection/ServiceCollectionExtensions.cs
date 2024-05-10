@@ -20,7 +20,6 @@ public static class ServiceCollectionExtensions
     public static IServiceCollection AddUnitOfWork(this IServiceCollection services)
     {
         services.AddTransient<IRepositoryFactory, RepositoryFactory>();
-        services.AddScoped<IUnitOfWork, UnitOfWork>();
 
         return services;
     }
