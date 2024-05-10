@@ -3,10 +3,7 @@
     <PropertyGroup>
         <RootNamespace>TL.TransportLogistics.Tariffs.Business.Aggregates</RootNamespace>
         <AssemblyName>TL.TransportLogistics.Tariffs.Business.Aggregates</AssemblyName>
-        <TargetFramework>net6.0</TargetFramework>
-        <ImplicitUsings>enable</ImplicitUsings>
-        <Nullable>enable</Nullable>
-        <Configurations>Debug;Release;net6</Configurations>
+        <Configurations>Debug;Release</Configurations>
         <Platforms>AnyCPU</Platforms>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
     </PropertyGroup>
