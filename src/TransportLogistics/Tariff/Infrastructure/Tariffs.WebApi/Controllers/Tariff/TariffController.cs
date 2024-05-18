@@ -134,7 +134,7 @@ public sealed class TariffController : ControllerBase
     [ProducesResponseType(typeof(TariffView), StatusCodes.Status200OK)]
     public async Task<IActionResult> SaveTariffPrice(
         [FromRoute] Guid tariffId,
-        [FromBody, MustBe(typeof(Price))] SaveTariffPriceRequest request,
+        [FromBody] SaveTariffPriceRequest request,
         [FromServices] ICommandHandler<SaveTariffPriceCommand> commandHandler,
         [FromServices] IQueryHandler<GetTariffQuery, TariffView> queryHandler,
         CancellationToken cancellationToken)

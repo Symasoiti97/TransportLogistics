@@ -16,7 +16,6 @@ public static class ServiceExtensions
     /// <summary>
     /// Регистрация сервисов тарифа
     /// <list type="bullet">
-    ///     <item>Регестрирует <see cref="IUnitOfWork"/>, как <see cref="ServiceLifetime.Scoped"/></item>
     ///     <item>Регестрирует <see cref="IUserContext"/>, как <see cref="ServiceLifetime.Scoped"/> только mock для ASPNETCORE_ENVIRONMENT=Development</item>
     ///     <item>
     ///     Регестрирует <see cref="ICommandHandler{TCommand}"/>, как <see cref="ServiceLifetime.Transient"/>.<br/>
@@ -50,8 +49,6 @@ public static class ServiceExtensions
         services.AddScoped<TariffDbContext>();
         services.AddTransient<ITariffRepository, TariffRepository>();
         services.AddTransient<ILocationRepository, LocationRepository>();
-
-        services.AddUnitOfWork();
 
         if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Development")
         {

@@ -23,13 +23,10 @@
       <Compile Update="ThrowerExtensions.cs">
         <DependentUpon>Thrower.cs</DependentUpon>
       </Compile>
-      <Compile Update="InvalidParam.cs">
-        <DependentUpon>Error.cs</DependentUpon>
-      </Compile>
       <Compile Update="NotFound.cs">
         <DependentUpon>Error.cs</DependentUpon>
       </Compile>
-      <Compile Update="InvalidParams.cs">
+      <Compile Update="InvalidParameters.cs">
         <DependentUpon>Error.cs</DependentUpon>
       </Compile>
       <Compile Update="Thrower.cs">
@@ -37,9 +34,6 @@
       </Compile>
       <Compile Update="Error.cs">
         <DependentUpon>ErrorException.cs</DependentUpon>
-      </Compile>
-      <Compile Update="Param.cs">
-        <DependentUpon>InvalidParams.cs</DependentUpon>
       </Compile>
     </ItemGroup>
 

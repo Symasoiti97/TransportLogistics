@@ -37,7 +37,7 @@ public sealed class EnumSchemaFilter : ISchemaFilter
                 return;
 
             var description = $"<p><ul>{htmlSummaryEnums}</ul>";
-            if (schema.Description == null)
+            if (schema.Description is null)
             {
                 schema.Description = description;
             }

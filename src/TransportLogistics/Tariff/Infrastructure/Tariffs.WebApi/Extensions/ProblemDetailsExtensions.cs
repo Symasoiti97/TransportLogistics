@@ -8,6 +8,7 @@ namespace TL.TransportLogistics.Tariffs.Startups.WebApi.Extensions;
 
 internal static class ProblemDetailsExtensions
 {
+    public const string ErrorKey = "error";
     public static void Configure(ProblemDetailsOptions options)
     {
         EnsureArg.IsNotNull(options, nameof(options));
@@ -26,7 +27,7 @@ internal static class ProblemDetailsExtensions
                     Title = errorException.Error.Message,
                     Status = GetStatusCode(errorException.Error),
                     Detail = errorException.Error.Details,
-                    Extensions = {{"error", errorException.Error}}
+                    Extensions = {{ErrorKey, errorException.Error}}
                 };
 
                 return problemDetails;
@@ -50,7 +51,7 @@ internal static class ProblemDetailsExtensions
         {
             return error switch
             {
-                InvalidParam => StatusCodes.Status400BadRequest,
+                InvalidParameters => StatusCodes.Status400BadRequest,
                 InvalidValue => StatusCodes.Status409Conflict,
                 NotFound => StatusCodes.Status404NotFound,
                 _ => StatusCodes.Status500InternalServerError

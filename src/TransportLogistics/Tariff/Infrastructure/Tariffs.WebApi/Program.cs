@@ -16,6 +16,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddSingleton(GetServiceSettings(builder.Configuration));
 
 builder.Services
+    .AddHttpLogging(_ => { })
     .AddControllers()
     .AddJsonOptions(
         options =>
@@ -44,6 +45,8 @@ var app = builder.Build();
 
 app.UseProblemDetails();
 
+app.UseHttpLogging();
+
 var serviceSettings = app.Services.GetRequiredService<ServiceSettings>();
 app.UsePathBase($"/{serviceSettings.Name}");
 
@@ -61,8 +64,6 @@ if (app.Environment.IsDevelopment())
                 SwaggerExtensions.TariffApiErrorsInfo.Title);
         });
 }
-
-app.UseHttpLogging();
 
 app.UseAuthorization();
 
