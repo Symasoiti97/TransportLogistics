@@ -1,4 +1,5 @@
-﻿using System.Xml.Linq;
+﻿using System.Text;
+using System.Xml.Linq;
 using System.Xml.XPath;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
@@ -17,34 +18,41 @@ public sealed class EnumSchemaFilter : ISchemaFilter
 
     public void Apply(OpenApiSchema schema, SchemaFilterContext context)
     {
-        if (schema.Enum is {Count: > 0} && context.Type is {IsEnum: true})
+        if (schema.Enum is not {Count: > 0} || context.Type is not {IsEnum: true})
         {
-            var xmlCommentFileName = Path.Combine(
-                _documentationDirectoryPath,
-                context.Type.Assembly.GetName().Name + ".xml");
-            if (!File.Exists(xmlCommentFileName))
-                return;
+            return;
+        }
 
-            var xPathNavigator = XDocument.Load(xmlCommentFileName).CreateNavigator();
+        var xmlCommentFileName = Path.Combine(
+            _documentationDirectoryPath,
+            context.Type.Assembly.GetName().Name + ".xml");
 
-            var htmlSummaryEnums = string.Join(
-                string.Empty,
-                Enum.GetNames(context.Type)
-                    .Select(name => GetSummaryEnum(xPathNavigator, context.Type.FullName!, name))
-                    .Where(x => x.Value is not null)
-                    .Select(x => $"<li><i>{x.Key}</i> - {x.Value}</li>"));
-            if (string.IsNullOrWhiteSpace(htmlSummaryEnums))
-                return;
+        if (!File.Exists(xmlCommentFileName))
+        {
+            return;
+        }
 
-            var description = $"<p><ul>{htmlSummaryEnums}</ul>";
-            if (schema.Description is null)
-            {
-                schema.Description = description;
-            }
-            else
-            {
-                schema.Description += description;
-            }
+        var xPathNavigator = XDocument.Load(xmlCommentFileName).CreateNavigator();
+        var htmlSummaryEnums = new StringBuilder();
+        foreach (var (enumValue, enumValueDescription) in Enum.GetNames(context.Type)
+                     .Select(name => GetSummaryEnum(xPathNavigator, context.Type.FullName!, name)))
+        {
+            htmlSummaryEnums.Append($"<li><i>{enumValue}</i> - {enumValueDescription}</li>");
+        }
+
+        if (htmlSummaryEnums.Length == 0)
+        {
+            return;
+        }
+
+        var description = $"<p><ul>{htmlSummaryEnums}</ul>";
+        if (schema.Description is null)
+        {
+            schema.Description = description;
+        }
+        else
+        {
+            schema.Description += description;
         }
     }
 
