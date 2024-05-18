@@ -1,4 +1,5 @@
 using TL.SharedKernel.Application.Commands;
+using TL.TransportLogistics.Tariffs.Business.Aggregates.AggregateTariff;
 
 namespace TL.TransportLogistics.Tariffs.Application.UseCases.TariffServices;
 
@@ -6,5 +7,5 @@ namespace TL.TransportLogistics.Tariffs.Application.UseCases.TariffServices;
 /// Сохранить тариф с параметрами маршрута
 /// </summary>
 /// <param name="TariffId">Идентификатор тарифа</param>
-/// <param name="Points">Точки маршрута</param>
-public sealed record SaveTariffRouteCommand(Guid TariffId, IEnumerable<PointDto> Points) : ICommand;
+/// <param name="Route">Маршрут</param>
+public sealed record SaveTariffRouteCommand(Guid TariffId, Route Route) : ICommand;

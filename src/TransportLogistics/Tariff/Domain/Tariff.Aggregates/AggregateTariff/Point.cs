@@ -10,12 +10,12 @@ public sealed class Point : ValueObject
     /// <summary>
     /// Создать <see cref="Point"/>
     /// </summary>
-    /// <param name="location">Локация</param>
+    /// <param name="locationId">Идентификатор локации</param>
     /// <param name="pointType">Тип точки</param>
     /// <param name="order">Порядковый номер</param>
-    public Point(Location location, PointType pointType, ushort order)
+    public Point(Guid locationId, PointType pointType, ushort order)
     {
-        SetLocation(location);
+        SetLocationId(locationId);
         SetPointType(pointType);
         SetOrder(order);
     }
@@ -23,7 +23,7 @@ public sealed class Point : ValueObject
     /// <summary>
     /// Локация
     /// </summary>
-    public Location Location { get; private set; } = null!;
+    public Guid LocationId { get; private set; }
 
     /// <summary>
     /// Тип точки
@@ -38,39 +38,39 @@ public sealed class Point : ValueObject
     /// <summary>
     /// Уникальный hash точки
     /// </summary>
-    public string Hash => $"{Location.Id}|{Type}|{Order}";
+    public string Hash => $"{LocationId}|{Type}|{Order}";
 
     /// <summary>
     /// Создать точку с типом <see cref="PointType.Fob"/>
     /// </summary>
-    /// <param name="location">Локация</param>
+    /// <param name="locationId">Идентификатор локации</param>
     /// <param name="order">Порядковый номер</param>
     /// <returns>Точка</returns>
-    public static Point Fob(Location location, ushort order)
+    public static Point Fob(Guid locationId, ushort order)
     {
-        return new Point(location, PointType.Fob, order);
+        return new Point(locationId, PointType.Fob, order);
     }
 
     /// <summary>
     /// Создать точку с типом <see cref="PointType.For"/>
     /// </summary>
-    /// <param name="location">Локация</param>
+    /// <param name="locationId">Идентификатор локации</param>
     /// <param name="order">Порядковый номер</param>
     /// <returns>Точка</returns>
-    public static Point For(Location location, ushort order)
+    public static Point For(Guid locationId, ushort order)
     {
-        return new Point(location, PointType.For, order);
+        return new Point(locationId, PointType.For, order);
     }
 
     /// <summary>
     /// Создать точку с типом <see cref="PointType.Fot"/>
     /// </summary>
-    /// <param name="location">Локация</param>
+    /// <param name="locationId">Идентификатор локации</param>
     /// <param name="order">Порядковый номер</param>
     /// <returns>Точка</returns>
-    public static Point Fot(Location location, ushort order)
+    public static Point Fot(Guid locationId, ushort order)
     {
-        return new Point(location, PointType.Fot, order);
+        return new Point(locationId, PointType.Fot, order);
     }
 
     private void SetOrder(ushort order)
@@ -85,14 +85,14 @@ public sealed class Point : ValueObject
         Type = pointType;
     }
 
-    private void SetLocation(Location location)
+    private void SetLocationId(Guid locationId)
     {
-        Location = location;
+        LocationId = locationId;
     }
 
     /// <inheritdoc />
     protected override IEnumerable<object> GetEqualityComponents()
     {
-        return new object[] {Location, Order, Type};
+        return new object[] {LocationId, Order, Type};
     }
 }

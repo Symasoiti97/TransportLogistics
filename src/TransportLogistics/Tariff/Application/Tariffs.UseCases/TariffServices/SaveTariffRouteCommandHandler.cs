@@ -1,6 +1,5 @@
 ﻿using TL.SharedKernel.Application.Commands;
 using TL.TransportLogistics.Tariffs.Application.UseCases.LocationServices;
-using TL.TransportLogistics.Tariffs.Business.Aggregates.AggregateTariff;
 
 namespace TL.TransportLogistics.Tariffs.Application.UseCases.TariffServices;
 
@@ -20,29 +19,20 @@ internal sealed class SaveTariffRouteCommandHandler : ICommandHandler<SaveTariff
 
     public async Task HandleAsync(SaveTariffRouteCommand command, CancellationToken cancellationToken)
     {
+        ArgumentNullException.ThrowIfNull(command);
+
         var tariff = await _tariffRepository.GetAsync(command.TariffId, cancellationToken).ConfigureAwait(false);
 
-        var locations = await GetLocationsAsync(command, cancellationToken).ConfigureAwait(false);
-        var route = BuildRoute(command, locations);
+        await EnsureThatLocationsExistsAsync(command, cancellationToken);
 
-        tariff.SetRoute(route);
+        tariff.SetRoute(command.Route);
 
         await _tariffRepository.UpdateAsync(tariff, cancellationToken);
     }
 
-    private async Task<IReadOnlyDictionary<Guid, Location>> GetLocationsAsync(
-        SaveTariffRouteCommand command,
-        CancellationToken cancellationToken)
+    private async Task EnsureThatLocationsExistsAsync(SaveTariffRouteCommand command, CancellationToken cancellationToken)
     {
-        var locationIds = command.Points.Select(p => p.LocationId);
-        var locations = await _locationRepository.FindAsync(locationIds, cancellationToken).ConfigureAwait(false);
-
-        return locations.ToDictionary(location => location.Id, location => location);
-    }
-
-    private static Route BuildRoute(SaveTariffRouteCommand command, IReadOnlyDictionary<Guid, Location> locations)
-    {
-        var points = command.Points.Select(p => new Point(locations[p.LocationId], p.Type, p.Order)).ToArray();
-        return new Route(points);
+        var locationIds = command.Route.Points.Select(p => p.LocationId).ToHashSet();
+        await _locationRepository.EnsureThatLocationsExists(locationIds, cancellationToken).ConfigureAwait(false);
     }
 }

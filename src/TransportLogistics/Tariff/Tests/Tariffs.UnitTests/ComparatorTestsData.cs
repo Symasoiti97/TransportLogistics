@@ -4,20 +4,18 @@ namespace TL.TransportLogistics.Tariffs.Startups.Tests.UnitTests;
 
 internal static class ComparatorTestsData
 {
-    private static readonly Location LocationWorld = Location.World(Guid.NewGuid());
-
-    public static IEnumerable<object> CompareTwoObjectWithoutEquals_Test_Data()
+    public static IEnumerable<object> CompareTwoObject_Test_Data()
     {
         var tariffId1 = Guid.NewGuid();
         var managerProfileId1 = Guid.NewGuid();
 
-        var firstCountryLocation1 = Location.Country(Guid.NewGuid(), LocationWorld);
-        var secondCountryLocation1 = Location.Country(Guid.NewGuid(), LocationWorld);
+        var firstCountryLocationId1 = Guid.NewGuid();
+        var secondCountryLocationId1 = Guid.NewGuid();
 
-        var points1 = new[]
+        var points1 = new HashSet<Point>
         {
-            Point.Fot(firstCountryLocation1, 1),
-            Point.Fot(secondCountryLocation1, 2)
+            Point.Fot(firstCountryLocationId1, 1),
+            Point.Fot(secondCountryLocationId1, 2)
         };
         var route1 = new Route(points1);
         var price1 = new Price(1200, "USD");
@@ -46,13 +44,13 @@ internal static class ComparatorTestsData
 
         var managerProfileId2 = Guid.NewGuid();
 
-        var firstCountryLocation2 = Location.Country(Guid.NewGuid(), LocationWorld);
-        var secondCountryLocation2 = Location.Country(Guid.NewGuid(), LocationWorld);
+        var firstCountryLocationId2 = Guid.NewGuid();
+        var secondCountryLocationId2 = Guid.NewGuid();
 
-        var points2 = new[]
+        var points2 = new HashSet<Point>
         {
-            Point.Fot(firstCountryLocation2, 1),
-            Point.Fot(secondCountryLocation2, 2)
+            Point.Fot(firstCountryLocationId2, 1),
+            Point.Fot(secondCountryLocationId2, 2)
         };
         var route2 = new Route(points2);
         var price2 = new Price(1200, "USD");

@@ -8,17 +8,12 @@ public sealed class ComparatorTests
 {
     [Theory]
     [MemberData(
-        nameof(ComparatorTestsData.CompareTwoObjectWithoutEquals_Test_Data),
+        nameof(ComparatorTestsData.CompareTwoObject_Test_Data),
         MemberType = typeof(ComparatorTestsData))]
-    public void CompareTwoTariffsWithoutEquals_Test(Tariff srcTariff, Tariff destTariff, bool isEquals)
+    public void CompareTwoTariffs_Test(Tariff srcTariff, Tariff destTariff, bool isEquals)
     {
-        if (isEquals)
-        {
-            srcTariff.Should().BeEquivalentTo(destTariff);
-        }
-        else
-        {
-            srcTariff.Should().NotBeEquivalentTo(destTariff);
-        }
+        var actual = srcTariff.Equals(destTariff);
+
+        actual.Should().Be(isEquals);
     }
 }

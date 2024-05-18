@@ -1,5 +1,4 @@
-﻿using System.Collections.Immutable;
-using TL.SharedKernel.Business.Aggregates;
+﻿using TL.SharedKernel.Business.Aggregates;
 
 namespace TL.TransportLogistics.Tariffs.Business.Aggregates.AggregateTariff;
 
@@ -8,45 +7,62 @@ namespace TL.TransportLogistics.Tariffs.Business.Aggregates.AggregateTariff;
 /// </summary>
 public sealed class Route : ValueObject
 {
-    private Point[] _points = null!;
-
     /// <summary>
     /// Создать <see cref="Route"/>
     /// </summary>
     /// <param name="points">Точки маршрута</param>
-    public Route(Point[] points)
+    public Route(IReadOnlyCollection<Point> points)
     {
-        SetPoints(points);
-        SetRouteType();
+        Points = EnsureThatPointIsValid(points);
+        Type = DefineRouteType();
     }
+
+    private const byte MinPointCount = 2;
 
     /// <summary>
     /// Тип маршрута
     /// </summary>
-    public RouteType Type { get; private set; }
+    public RouteType Type { get; }
 
     /// <summary>
     /// Точки маршрута
     /// </summary>
-    public ImmutableArray<Point> Points => _points.ToImmutableArray();
+    public IReadOnlySet<Point> Points { get; }
 
     /// <summary>
     /// Уникальный hash маршрута
     /// </summary>
-    public string Hash => $"{string.Join("|", _points.Select(x => x.Hash))}|{Type}";
+    public string Hash => $"{string.Join("|", Points.Select(x => x.Hash))}|{Type}";
 
-    // TODO: Добавить валидацию на точки. (Проверять уникальность Order и коллекция должна быть в отсортированном виде)
-    private void SetPoints(Point[] points)
+    private static IReadOnlySet<Point> EnsureThatPointIsValid(IReadOnlyCollection<Point> points)
     {
-        Error.Throw().IfEmpty(points);
+        ArgumentNullException.ThrowIfNull(points);
 
-        _points = points;
+        var sortedPoint = new HashSet<Point>(points.Count);
+        var order = 1;
+        foreach (var point in points.OrderBy(point => point.Order))
+        {
+            if (point.Order != order)
+            {
+                throw new Conflict("Invalid point order");
+            }
+
+            sortedPoint.Add(point);
+            order++;
+        }
+
+        if (order < MinPointCount)
+        {
+            throw new Conflict("Point count must be greater than or equals 2");
+        }
+
+        return sortedPoint;
     }
 
     // TODO: Реалзиовать установку типа маршрута и добавить валидацию
-    private void SetRouteType()
+    private static RouteType DefineRouteType()
     {
-        Type = RouteType.Unknown;
+        return RouteType.Unknown;
     }
 
     /// <inheritdoc />
