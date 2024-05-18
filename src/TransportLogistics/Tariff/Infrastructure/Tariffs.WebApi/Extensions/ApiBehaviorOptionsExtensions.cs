@@ -12,7 +12,7 @@ internal static class ApiBehaviorOptionsExtensions
     {
         options.InvalidModelStateResponseFactory = actionContext =>
         {
-            var error = new InvalidParams(GetParams(actionContext.ModelState));
+            var error = new InvalidParameters(GetParams(actionContext.ModelState));
             var serviceSettings = actionContext.HttpContext.RequestServices.GetRequiredService<ServiceSettings>();
 
             return new BadRequestObjectResult(
@@ -22,12 +22,12 @@ internal static class ApiBehaviorOptionsExtensions
                     Title = error.Message,
                     Status = StatusCodes.Status400BadRequest,
                     Instance = actionContext.HttpContext.Request.Path,
-                    Extensions = {{"error", error}}
+                    Extensions = {{ProblemDetailsExtensions.ErrorKey, error}}
                 });
         };
     }
 
-    private static IEnumerable<Param> GetParams(ModelStateDictionary modelStateDictionary)
+    private static IEnumerable<InvalidParameters.Parameter> GetParams(ModelStateDictionary modelStateDictionary)
     {
         foreach (var (paramPath, modelStateEntry) in modelStateDictionary)
         {
@@ -49,7 +49,7 @@ internal static class ApiBehaviorOptionsExtensions
 
             foreach (var modelError in modelStateEntry.Errors)
             {
-                yield return new Param(
+                yield return new InvalidParameters.Parameter(
                     modelStateEntry.RawValue,
                     paramNameOfCamelCase,
                     paramPathOfCamelCase,
