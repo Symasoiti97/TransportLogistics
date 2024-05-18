@@ -4,15 +4,15 @@ namespace TL.TransportLogistics.Tariffs.Startups.Tests.UnitTests;
 
 internal static class TariffTestsData
 {
-    private static readonly Location LocationWorld = Location.World(Guid.NewGuid());
 
     public static IEnumerable<Tariff[]> TariffCopyAsReal_Negative_Test_Data()
     {
         var route = new Route(
-        [
-            Point.Fob(Location.Country(Guid.NewGuid(), LocationWorld), 1),
-            Point.Fob(Location.Country(Guid.NewGuid(), LocationWorld), 2)
-        ]);
+            new HashSet<Point>
+            {
+                Point.Fob(Guid.NewGuid(), 1),
+                Point.Fob(Guid.NewGuid(), 2)
+            });
 
         var tariff1 = Tariff.Create(
             Guid.NewGuid(),
@@ -28,10 +28,11 @@ internal static class TariffTestsData
     public static IEnumerable<Tariff[]> TariffCopyAsReal_Positive_Test_Data()
     {
         var route = new Route(
-        [
-            Point.Fob(Location.Country(Guid.NewGuid(), LocationWorld), 1),
-            Point.Fob(Location.Country(Guid.NewGuid(), LocationWorld), 2)
-        ]);
+            new HashSet<Point>
+            {
+                Point.Fob(Guid.NewGuid(), 1),
+                Point.Fob(Guid.NewGuid(), 2)
+            });
 
         var tariff1 = Tariff.Create(
             Guid.NewGuid(),

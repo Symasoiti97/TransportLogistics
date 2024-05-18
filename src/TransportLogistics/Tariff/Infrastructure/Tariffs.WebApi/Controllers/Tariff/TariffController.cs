@@ -3,6 +3,7 @@ using TL.SharedKernel.Application.Commands;
 using TL.TransportLogistics.Tariffs.Application.UseCases.TariffServices;
 using TL.TransportLogistics.Tariffs.Business.Aggregates.AggregateTariff;
 using TL.TransportLogistics.Tariffs.Startups.WebApi.Controllers.Tariff.Dto;
+using Route = TL.TransportLogistics.Tariffs.Business.Aggregates.AggregateTariff.Route;
 
 namespace TL.TransportLogistics.Tariffs.Startups.WebApi.Controllers.Tariff;
 
@@ -82,8 +83,12 @@ public sealed class TariffController : ControllerBase
         [FromServices] IQueryHandler<GetTariffQuery, TariffView> queryHandler,
         CancellationToken cancellationToken)
     {
-        var command = new SaveTariffRouteCommand(tariffId, request.Route.Points.Select(point => point));
-        await commandHandler.HandleAsync(command, cancellationToken).ConfigureAwait(false);
+        var points = request.Route.Points
+            .Select(point => new Point(point.LocationId, point.Type, point.Order))
+            .ToHashSet();
+        await commandHandler
+            .HandleAsync(new SaveTariffRouteCommand(tariffId, new Route(points)), cancellationToken)
+            .ConfigureAwait(false);
 
         var getTariffQuery = new GetTariffQuery(tariffId);
         var tariffView = await queryHandler.HandleAsync(getTariffQuery, cancellationToken).ConfigureAwait(false);

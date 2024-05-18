@@ -1,5 +1,4 @@
 ﻿using TL.SharedKernel.Application.Repositories;
-using TL.TransportLogistics.Tariffs.Business.Aggregates.AggregateTariff;
 
 namespace TL.TransportLogistics.Tariffs.Application.UseCases.LocationServices;
 
@@ -15,5 +14,5 @@ public interface ILocationRepository : IRepository
     /// <param name="locationIds">Список идентификаторов локаций</param>
     /// <param name="cancellationToken">Токен отмены</param>
     /// <returns>Список локаций</returns>
-    Task<Location[]> FindAsync(IEnumerable<Guid> locationIds, CancellationToken cancellationToken);
+    Task EnsureThatLocationsExists(IReadOnlySet<Guid> locationIds, CancellationToken cancellationToken);
 }

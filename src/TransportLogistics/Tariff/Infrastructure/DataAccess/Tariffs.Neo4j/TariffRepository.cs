@@ -1,6 +1,5 @@
 ﻿using Neo4jClient.Cypher;
 using TL.SharedKernel.Infrastructure.Compress.Extensions;
-using TL.TransportLogistics.Tariffs.Application.UseCases.LocationServices;
 using TL.TransportLogistics.Tariffs.Application.UseCases.TariffServices;
 using TL.TransportLogistics.Tariffs.Business.Aggregates.AggregateTariff;
 using TL.TransportLogistics.Tariffs.Business.Aggregates.AggregateTariff.Errors;
@@ -10,13 +9,13 @@ namespace TL.TransportLogistics.Tariffs.Infrastructure.DataAccess.Neo4j;
 
 internal sealed class TariffRepository : ITariffRepository
 {
-    private readonly ILocationRepository _locationRepository;
     private readonly TariffDbContext _tariffDbContext;
 
-    public TariffRepository(TariffDbContext tariffDbContext, ILocationRepository locationRepository)
+    public TariffRepository(TariffDbContext tariffDbContext)
     {
+        ArgumentNullException.ThrowIfNull(tariffDbContext);
+
         _tariffDbContext = tariffDbContext;
-        _locationRepository = locationRepository;
     }
 
     public async Task<Tariff> GetAsync(Guid tariffId, CancellationToken cancellationToken)
@@ -44,8 +43,7 @@ internal sealed class TariffRepository : ITariffRepository
             throw new TariffNotFound(tariffId);
         }
 
-
-        return await MapToTariffAsync(tariffResult, cancellationToken).ConfigureAwait(false);
+        return MapToTariff(tariffResult);
     }
 
     public async Task AddAsync(Tariff tariff, CancellationToken cancellationToken)
@@ -150,7 +148,7 @@ internal sealed class TariffRepository : ITariffRepository
         {
             query = query
                 .Match($"(l{point.Order}:Location {{Id: $locationId{point.Order}}})")
-                .WithParam($"locationId{point.Order}", point.Location.Id);
+                .WithParam($"locationId{point.Order}", point.LocationId);
         }
 
         query = query
@@ -187,30 +185,25 @@ internal sealed class TariffRepository : ITariffRepository
         return query;
     }
 
-    private async Task<Tariff> MapToTariffAsync(TariffResult result, CancellationToken cancellationToken)
+    private static Tariff MapToTariff(TariffResult result)
     {
         var route = default(Route);
         if (result.Route is not null)
         {
-            var locations = await _locationRepository
-                .FindAsync(result.LocationPoints.Select(point => point.Location.Id), cancellationToken)
-                .ConfigureAwait(false);
-            var locationDictionary = locations.ToDictionary(location => location.Id, location => location);
-
             var points = result.LocationPoints
                 .Select(
                     locationPoint =>
                         new Point(
-                            locationDictionary[locationPoint.Location.Id],
+                            locationPoint.Location.Id,
                             locationPoint.Point.Type,
                             (ushort) locationPoint.Point.Order))
-                .ToArray();
+                .ToHashSet();
 
             route = new Route(points);
         }
 
         var price = default(Price);
-        if (result.Tariff.Price.HasValue && result.Tariff.CurrencyCode is not null)
+        if (result.Tariff is { Price: not null, CurrencyCode: not null})
         {
             price = new Price(result.Tariff.Price.Value, result.Tariff.CurrencyCode);
         }
