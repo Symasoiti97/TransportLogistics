@@ -7,7 +7,6 @@
 
     <ItemGroup>
       <PackageReference Include="CaseExtensions" Version="1.1.0" />
-      <PackageReference Include="Ensure.That" Version="10.1.0" />
     </ItemGroup>
 
     <ItemGroup>

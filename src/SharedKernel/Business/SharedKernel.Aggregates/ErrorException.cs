@@ -1,6 +1,4 @@
-﻿using EnsureThat;
-
-namespace TL.SharedKernel.Business.Aggregates;
+﻿namespace TL.SharedKernel.Business.Aggregates;
 
 /// <summary>
 /// Исключение об ошибкох
@@ -15,7 +13,7 @@ public class ErrorException : Exception
             error.Message,
             innerException)
     {
-        EnsureArg.IsNotNull(error, nameof(error));
+        ArgumentNullException.ThrowIfNull(error);
 
         Error = error;
     }

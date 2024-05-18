@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using TL.SharedKernel.Application.Commands;
-using TL.SharedKernel.Infrastructure.AspNet.Extensions.Middlewares.ValidationAttributes;
 using TL.TransportLogistics.Tariffs.Application.UseCases.TariffServices;
 using TL.TransportLogistics.Tariffs.Business.Aggregates.AggregateTariff;
 using TL.TransportLogistics.Tariffs.Startups.WebApi.Controllers.Tariff.Dto;

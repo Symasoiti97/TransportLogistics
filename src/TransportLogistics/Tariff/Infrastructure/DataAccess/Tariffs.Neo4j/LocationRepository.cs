@@ -1,5 +1,4 @@
-﻿using EnsureThat;
-using TL.TransportLogistics.Tariffs.Application.UseCases.LocationServices;
+﻿using TL.TransportLogistics.Tariffs.Application.UseCases.LocationServices;
 using TL.TransportLogistics.Tariffs.Business.Aggregates.AggregateTariff;
 using TL.TransportLogistics.Tariffs.Infrastructure.DataAccess.Neo4j.Entities;
 
@@ -46,10 +45,7 @@ internal sealed class LocationRepository : ILocationRepository
 
     private static Location? MapToLocation(LocationNode[] locationNodes, int index = 0)
     {
-        EnsureArg.HasItems(locationNodes, nameof(locationNodes));
-        EnsureArg.IsGte(index, 0, nameof(index));
-
-        var location = default(Location?);
+        Location? location = null;
         if (index < locationNodes.Length)
         {
             var locationNode = locationNodes[index];

@@ -1,6 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using AutoMapper;
-using EnsureThat;
 using Microsoft.Extensions.DependencyInjection;
 using TL.SharedKernel.Business.Aggregates;
 
@@ -21,7 +20,7 @@ public class MustBeAttribute : ValidationAttribute
     /// <param name="mustBeType">Тип, в который должен маппится аргумент/свойство</param>
     public MustBeAttribute(Type mustBeType)
     {
-        EnsureArg.IsNotNull(mustBeType, nameof(mustBeType));
+        ArgumentNullException.ThrowIfNull(mustBeType);
 
         _mustBeType = mustBeType;
     }

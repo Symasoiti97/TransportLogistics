@@ -1,6 +1,5 @@
 ﻿using System.Text.Json;
 using System.Text.Json.Serialization;
-using EnsureThat;
 
 namespace TL.SharedKernel.Business.Aggregates;
 
@@ -20,7 +19,7 @@ public abstract class Error
     /// <param name="details">Детали ошибки</param>
     protected Error(string details)
     {
-        EnsureArg.IsNotNullOrWhiteSpace(details, nameof(details));
+        ArgumentException.ThrowIfNullOrWhiteSpace(details);
 
         Details = details;
     }

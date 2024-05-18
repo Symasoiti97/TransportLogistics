@@ -1,7 +1,6 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 using System.Text.Json;
-using EnsureThat;
 
 #pragma warning disable CS8777
 
@@ -26,7 +25,7 @@ public static class ThrowerExtensions
         [NotNull] T? value,
         [CallerArgumentExpression("value")] string? paramName = null)
     {
-        EnsureArg.IsNotNullOrWhiteSpace(paramName);
+        ArgumentNullException.ThrowIfNull(paramName);
 
         if (value is null)
         {
@@ -54,7 +53,7 @@ public static class ThrowerExtensions
         T? value,
         [CallerArgumentExpression("value")] string? paramName = null)
     {
-        EnsureArg.IsNotNullOrWhiteSpace(paramName);
+        ArgumentException.ThrowIfNullOrWhiteSpace(paramName);
 
         if (value is not null)
         {
@@ -82,7 +81,7 @@ public static class ThrowerExtensions
         T value,
         [CallerArgumentExpression("value")] string? paramName = null) where T : struct
     {
-        EnsureArg.IsNotNullOrWhiteSpace(paramName);
+        ArgumentException.ThrowIfNullOrWhiteSpace(paramName);
 
         if (default(T).Equals(value))
         {
@@ -110,7 +109,7 @@ public static class ThrowerExtensions
         T value,
         [CallerArgumentExpression("value")] string? paramName = null) where T : struct, Enum
     {
-        EnsureArg.IsNotNullOrWhiteSpace(paramName);
+        ArgumentException.ThrowIfNullOrWhiteSpace(paramName);
 
         if (!Enum.IsDefined(value))
         {
@@ -142,7 +141,7 @@ public static class ThrowerExtensions
         string message,
         [CallerArgumentExpression("value")] string? paramName = null)
     {
-        EnsureArg.IsNotNullOrWhiteSpace(paramName);
+        ArgumentException.ThrowIfNullOrWhiteSpace(paramName);
 
         if (!predicate(value))
         {
@@ -169,7 +168,7 @@ public static class ThrowerExtensions
         string value,
         [CallerArgumentExpression("value")] string? paramName = null)
     {
-        EnsureArg.IsNotNullOrWhiteSpace(paramName);
+        ArgumentException.ThrowIfNullOrWhiteSpace(paramName);
 
         if (string.IsNullOrWhiteSpace(value))
         {
@@ -196,7 +195,7 @@ public static class ThrowerExtensions
         IEnumerable<T>? value,
         [CallerArgumentExpression("value")] string? paramName = null)
     {
-        EnsureArg.IsNotNullOrWhiteSpace(paramName);
+        ArgumentException.ThrowIfNullOrWhiteSpace(paramName);
 
         var array = value as T[] ?? value?.ToArray();
         if (array?.Any() != true)

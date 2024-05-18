@@ -1,5 +1,4 @@
-﻿using EnsureThat;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using TL.SharedKernel.Business.Aggregates;
 using TL.TransportLogistics.Tariffs.Startups.WebApi.Settings;
 using ProblemDetailsOptions = Hellang.Middleware.ProblemDetails.ProblemDetailsOptions;
@@ -11,7 +10,7 @@ internal static class ProblemDetailsExtensions
     public const string ErrorKey = "error";
     public static void Configure(ProblemDetailsOptions options)
     {
-        EnsureArg.IsNotNull(options, nameof(options));
+        ArgumentNullException.ThrowIfNull(options);
 
         options.IncludeExceptionDetails = (httpContent, _) =>
             !httpContent.RequestServices.GetRequiredService<IWebHostEnvironment>().IsProduction();
