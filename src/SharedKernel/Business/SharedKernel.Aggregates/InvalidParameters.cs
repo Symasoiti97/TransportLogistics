@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using EnsureThat;
 
 namespace TL.SharedKernel.Business.Aggregates;
 
@@ -40,8 +39,8 @@ public sealed class InvalidParameters : Error
         /// <param name="error">Error</param>
         public Parameter(object? value, string name, string path, string message, object? error)
         {
-            EnsureArg.IsNotNullOrWhiteSpace(name, nameof(name));
-            EnsureArg.IsNotNullOrWhiteSpace(message, nameof(message));
+            ArgumentException.ThrowIfNullOrWhiteSpace(name);
+            ArgumentException.ThrowIfNullOrWhiteSpace(message);
 
             Value = value;
             Name = name;

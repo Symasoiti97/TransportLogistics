@@ -1,6 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Text.Json;
-using EnsureThat;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
@@ -16,8 +15,8 @@ public sealed class AnnotationOperationSchemaFilter : ISchemaFilter
 {
     public void Apply(OpenApiSchema schema, SchemaFilterContext context)
     {
-        EnsureArg.IsNotNull(schema, nameof(schema));
-        EnsureArg.IsNotNull(context, nameof(context));
+        ArgumentNullException.ThrowIfNull(schema);
+        ArgumentNullException.ThrowIfNull(context);
 
         if (schema.Properties?.Any() != true)
         {

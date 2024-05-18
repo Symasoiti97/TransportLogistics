@@ -1,5 +1,4 @@
-﻿using EnsureThat;
-using TL.SharedKernel.Application.Commands;
+﻿using TL.SharedKernel.Application.Commands;
 using TL.TransportLogistics.Tariffs.Application.UseCases.TariffServices;
 using TL.TransportLogistics.Tariffs.Business.Aggregates.AggregateTariff.Errors;
 
@@ -11,14 +10,14 @@ internal sealed class GetTariffQueryHandler : IQueryHandler<GetTariffQuery, Tari
 
     public GetTariffQueryHandler(TariffDbContext tariffDbContext)
     {
-        EnsureArg.IsNotNull(tariffDbContext, nameof(tariffDbContext));
+        ArgumentNullException.ThrowIfNull(tariffDbContext);
 
         _tariffDbContext = tariffDbContext;
     }
 
     public async Task<TariffView> HandleAsync(GetTariffQuery command, CancellationToken cancellationToken)
     {
-        EnsureArg.IsNotNull(command, nameof(command));
+        ArgumentNullException.ThrowIfNull(command);
 
         var tariffViews = await _tariffDbContext
             .ReadAsync(

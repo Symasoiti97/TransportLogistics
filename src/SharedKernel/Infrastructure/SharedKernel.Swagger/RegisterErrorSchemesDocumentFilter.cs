@@ -1,6 +1,5 @@
 ﻿using System.Reflection;
 using CaseExtensions;
-using EnsureThat;
 using Microsoft.OpenApi.Any;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
@@ -18,8 +17,8 @@ public sealed class RegisterErrorSchemesDocumentFilter : IDocumentFilter
 
     public RegisterErrorSchemesDocumentFilter(string documentName, params Assembly[] assemblies)
     {
-        EnsureArg.IsNotNullOrWhiteSpace(documentName, nameof(documentName));
-        EnsureArg.HasItems(assemblies, nameof(assemblies));
+        ArgumentException.ThrowIfNullOrWhiteSpace(documentName);
+        ArgumentNullException.ThrowIfNull(assemblies);
 
         _documentName = documentName;
         _assemblies = assemblies;

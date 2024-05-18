@@ -1,5 +1,4 @@
-﻿using EnsureThat;
-using TL.SharedKernel.Application.Commands;
+﻿using TL.SharedKernel.Application.Commands;
 using TL.SharedKernel.Application.Repositories;
 using TL.TransportLogistics.Tariffs.Business.Aggregates.AggregateTariff;
 
@@ -15,8 +14,8 @@ internal sealed class CreateTariffCommandHandler : ICommandHandler<CreateTariffC
 
     public CreateTariffCommandHandler(ITariffRepository tariffRepository, IUserContext userContext)
     {
-        EnsureArg.IsNotNull(tariffRepository, nameof(tariffRepository));
-        EnsureArg.IsNotNull(userContext, nameof(userContext));
+        ArgumentNullException.ThrowIfNull(tariffRepository);
+        ArgumentNullException.ThrowIfNull(userContext);
 
         _tariffRepository = tariffRepository;
         _userContext = userContext;
