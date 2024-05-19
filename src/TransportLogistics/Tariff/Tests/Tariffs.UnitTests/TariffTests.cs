@@ -1,4 +1,5 @@
 ﻿using FluentAssertions;
+using TL.SharedKernel.Business.Aggregates;
 using TL.TransportLogistics.Tariffs.Business.Aggregates.AggregateTariff;
 using Xunit;
 
@@ -22,5 +23,44 @@ public sealed class TariffTests
         var publishTariffAction = tariff.SetAsReal;
 
         publishTariffAction.Should().Throw<Exception>();
+    }
+
+    [Fact]
+    public void CreateTariff_Negative_Test()
+    {
+        var createTariffAction1 = () =>
+        {
+            var tariffRoute2 = new Route(
+                new HashSet<Point>
+                {
+                    Point.Fob(Guid.NewGuid(), 1),
+                    Point.Fob(Guid.NewGuid(), 3)
+                });
+
+            Tariff.Create(
+                Guid.NewGuid(),
+                Guid.NewGuid(),
+                tariffRoute2);
+        };
+
+        createTariffAction1.Should().Throw<ErrorException>().And.Error.Should().BeOfType<Conflict>();
+
+        var createTariffAction2 = () =>
+        {
+            var tariffRoute2 = new Route(
+                new HashSet<Point>
+                {
+                    Point.Fob(Guid.NewGuid(), 1),
+                    Point.Fob(Guid.NewGuid(), 2),
+                    Point.Fob(Guid.NewGuid(), 2)
+                });
+
+            Tariff.Create(
+                Guid.NewGuid(),
+                Guid.NewGuid(),
+                tariffRoute2);
+        };
+
+        createTariffAction2.Should().Throw<ErrorException>().And.Error.Should().BeOfType<Conflict>();
     }
 }

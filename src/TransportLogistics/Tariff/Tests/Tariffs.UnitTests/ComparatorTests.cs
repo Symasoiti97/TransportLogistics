@@ -8,12 +8,28 @@ public sealed class ComparatorTests
 {
     [Theory]
     [MemberData(
-        nameof(ComparatorTestsData.CompareTwoObject_Test_Data),
+        nameof(ComparatorTestsData.CompareTariffs_Test_Data),
         MemberType = typeof(ComparatorTestsData))]
-    public void CompareTwoTariffs_Test(Tariff srcTariff, Tariff destTariff, bool isEquals)
+    public void CompareTariffs_Test(Tariff srcTariff, Tariff destTariff, bool isEquals)
     {
-        var actual = srcTariff.Equals(destTariff);
+        if (isEquals)
+        {
+            srcTariff.Should().BeEquivalentTo(destTariff);
+        }
+        else
+        {
+            srcTariff.Should().NotBeEquivalentTo(destTariff);
+        }
 
-        actual.Should().Be(isEquals);
+        srcTariff.Equals(destTariff).Should().Be(isEquals);
+    }
+
+    [Theory]
+    [MemberData(
+        nameof(ComparatorTestsData.CompareRoutes_Test_Data),
+        MemberType = typeof(ComparatorTestsData))]
+    public void CompareRoutes_Test(Route srcRoute, Route destRoute, bool isEquals)
+    {
+        srcRoute.Equals(destRoute).Should().Be(isEquals);
     }
 }
