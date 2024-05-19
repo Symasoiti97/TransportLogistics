@@ -65,9 +65,9 @@ internal sealed class TariffRepository : ITariffRepository
                             Id = tariff.Id,
                             Price = tariff.Price?.Value,
                             CurrencyCode = tariff.Price?.CurrencyCode,
-                            CargoType = tariff.CargoType,
-                            ContainerOwn = tariff.ContainerOwn,
-                            ContainerSize = tariff.ContainerSize,
+                            CargoType = tariff.CargoEquipment?.CargoType,
+                            ContainerOwn = tariff.CargoEquipment?.ContainerOwn,
+                            ContainerSize = tariff.CargoEquipment?.ContainerSize,
                             CreatedUtc = DateTime.UtcNow,
                             UpdatedUtc = DateTime.UtcNow,
                             IsDraft = tariff.IsDraft,
@@ -116,9 +116,9 @@ internal sealed class TariffRepository : ITariffRepository
                             Id = tariff.Id,
                             Price = tariff.Price?.Value,
                             CurrencyCode = tariff.Price?.CurrencyCode,
-                            CargoType = tariff.CargoType,
-                            ContainerOwn = tariff.ContainerOwn,
-                            ContainerSize = tariff.ContainerSize,
+                            CargoType = tariff.CargoEquipment?.CargoType,
+                            ContainerOwn = tariff.CargoEquipment?.ContainerOwn,
+                            ContainerSize = tariff.CargoEquipment?.ContainerSize,
                             UpdatedUtc = DateTime.UtcNow,
                             IsDraft = tariff.IsDraft,
                             ManagerProfileId = tariff.ManagerProfileId
@@ -187,7 +187,7 @@ internal sealed class TariffRepository : ITariffRepository
 
     private static Tariff MapToTariff(TariffResult result)
     {
-        var route = default(Route);
+        Route? route = null;
         if (result.Route is not null)
         {
             var points = result.LocationPoints
@@ -202,19 +202,26 @@ internal sealed class TariffRepository : ITariffRepository
             route = new Route(points);
         }
 
-        var price = default(Price);
-        if (result.Tariff is { Price: not null, CurrencyCode: not null})
+        Price? price = null;
+        if (result.Tariff is {Price: not null, CurrencyCode: not null})
         {
             price = new Price(result.Tariff.Price.Value, result.Tariff.CurrencyCode.Value);
+        }
+
+        CargoEquipment? cargoEquipment = null;
+        if (result.Tariff is {CargoType: not null, ContainerOwn: not null, ContainerSize: not null})
+        {
+            cargoEquipment = new CargoEquipment(
+                result.Tariff.CargoType.Value,
+                result.Tariff.ContainerOwn.Value,
+                result.Tariff.ContainerSize.Value);
         }
 
         return new Tariff(
             result.Tariff.Id,
             result.Tariff.ManagerProfileId,
             route,
-            result.Tariff.ContainerOwn,
-            result.Tariff.ContainerSize,
-            result.Tariff.CargoType,
+            cargoEquipment,
             price,
             result.Tariff.IsDraft);
     }

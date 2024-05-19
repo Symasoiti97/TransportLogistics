@@ -115,9 +115,7 @@ public sealed class TariffController : ControllerBase
     {
         var command = new SaveTariffCargoEquipmentCommand(
             tariffId,
-            request.ContainerOwn,
-            request.CargoType,
-            request.ContainerSize);
+            new CargoEquipment(request.CargoType, request.ContainerOwn, request.ContainerSize));
         await commandHandler.HandleAsync(command, cancellationToken).ConfigureAwait(false);
 
         var getTariffQuery = new GetTariffQuery(tariffId);

@@ -7,11 +7,5 @@ namespace TL.TransportLogistics.Tariffs.Application.UseCases.TariffServices;
 /// Сохранить тариф с параметрами груза
 /// </summary>
 /// <param name="TariffId">Идентификатор тарифа</param>
-/// <param name="ContainerOwn">Принадлежность контейнера</param>
-/// <param name="CargoType">Тип груза</param>
-/// <param name="ContainerSize">Размер контейнера</param>
-public sealed record SaveTariffCargoEquipmentCommand(
-    Guid TariffId,
-    ContainerOwn ContainerOwn,
-    CargoType CargoType,
-    ContainerSize ContainerSize) : ICommand;
+/// <param name="CargoEquipment">Оборудование груза</param>
+public sealed record SaveTariffCargoEquipmentCommand(Guid TariffId, CargoEquipment CargoEquipment) : ICommand;
