@@ -14,7 +14,7 @@ internal static class LocationExtensions
     public static IEnumerable<KeyValuePair<string, string>> FilterNamesByCultures(
         this IEnumerable<KeyValuePair<string, string>> source)
     {
-        if (source == null) throw new ArgumentNullException(nameof(source));
+        if (source is null) throw new ArgumentNullException(nameof(source));
 
         return source.Where(i => LocationNames.Contains(i.Key));
     }
@@ -23,8 +23,8 @@ internal static class LocationExtensions
         this IEnumerable<KeyValuePair<string, string>> source,
         IEnumerable<KeyValuePair<string, string>> names)
     {
-        if (source == null) throw new ArgumentNullException(nameof(source));
-        if (names == null) throw new ArgumentNullException(nameof(names));
+        if (source is null) throw new ArgumentNullException(nameof(source));
+        if (names is null) throw new ArgumentNullException(nameof(names));
 
         return source.Join(
             names,
@@ -36,7 +36,7 @@ internal static class LocationExtensions
 
     public static string? BuildFullTxt(this IEnumerable<KeyValuePair<string, string>> source)
     {
-        if (source == null) throw new ArgumentNullException(nameof(source));
+        if (source is null) throw new ArgumentNullException(nameof(source));
 
         return source.Any() ? string.Join(" | ", source.Select(x => x.Value).Distinct()) : null;
     }
@@ -65,7 +65,7 @@ internal static class LocationExtensions
 
     public static bool IsCyrillic(this string value)
     {
-        if (value == null) throw new ArgumentNullException(nameof(value));
+        if (value is null) throw new ArgumentNullException(nameof(value));
 
         return value.Any(
             c => c >= UnicodeRanges.Cyrillic.FirstCodePoint &&

@@ -35,22 +35,22 @@ public sealed class Tariff : Entity<Guid>, IAggregateRoot
             SetRoute(route);
         }
 
-        if (containerOwn != null)
+        if (containerOwn is not null)
         {
             SetContainerOwn(containerOwn.Value);
         }
 
-        if (containerSize != null)
+        if (containerSize is not null)
         {
             SetContainerSize(containerSize.Value);
         }
 
-        if (cargoType != null)
+        if (cargoType is not null)
         {
             SetCargoType(cargoType.Value);
         }
 
-        if (price != null)
+        if (price is not null)
         {
             SetPrice(price);
         }
