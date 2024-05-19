@@ -1,4 +1,5 @@
-﻿using TL.TransportLogistics.Tariffs.Business.Aggregates.AggregateTariff;
+﻿using TL.SharedKernel.Business.Aggregates.Enums;
+using TL.TransportLogistics.Tariffs.Business.Aggregates.AggregateTariff;
 
 namespace TL.TransportLogistics.Tariffs.Startups.Tests.UnitTests;
 
@@ -38,7 +39,7 @@ internal static class TariffTestsData
             ContainerOwn.Coc,
             ContainerSize.S20,
             CargoType.Heavy,
-            new Price(129, "USD"));
+            new Price(129, CurrencyCode.USD));
 
         yield return
         [

@@ -1,4 +1,5 @@
 ﻿using TL.SharedKernel.Business.Aggregates;
+using TL.SharedKernel.Business.Aggregates.Enums;
 
 namespace TL.TransportLogistics.Tariffs.Business.Aggregates.AggregateTariff;
 
@@ -12,7 +13,7 @@ public sealed class Price : ValueObject
     /// </summary>
     /// <param name="value">Цена</param>
     /// <param name="currencyCode">Код валюты</param>
-    public Price(decimal value, string currencyCode)
+    public Price(decimal value, CurrencyCode currencyCode)
     {
         SetValue(value);
         SetCurrencyCode(currencyCode);
@@ -26,16 +27,19 @@ public sealed class Price : ValueObject
     /// <summary>
     /// Код валюты
     /// </summary>
-    public string CurrencyCode { get; private set; } = null!;
+    public CurrencyCode CurrencyCode { get; private set; }
 
     private void SetValue(decimal value)
     {
         Value = value;
     }
 
-    private void SetCurrencyCode(string currencyCode)
+    private void SetCurrencyCode(CurrencyCode currencyCode)
     {
-        Error.Throw().IfNullOrWhiteSpace(currencyCode);
+        if (!Enum.IsDefined(currencyCode))
+        {
+            throw new ArgumentException("Currency code must be defined.", nameof(currencyCode));
+        }
 
         CurrencyCode = currencyCode;
     }
