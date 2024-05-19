@@ -205,7 +205,7 @@ internal sealed class TariffRepository : ITariffRepository
         var price = default(Price);
         if (result.Tariff is { Price: not null, CurrencyCode: not null})
         {
-            price = new Price(result.Tariff.Price.Value, result.Tariff.CurrencyCode);
+            price = new Price(result.Tariff.Price.Value, result.Tariff.CurrencyCode.Value);
         }
 
         return new Tariff(

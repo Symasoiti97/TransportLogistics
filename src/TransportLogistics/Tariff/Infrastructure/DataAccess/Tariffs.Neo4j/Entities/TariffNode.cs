@@ -1,4 +1,5 @@
-﻿using TL.TransportLogistics.Tariffs.Business.Aggregates.AggregateTariff;
+﻿using TL.SharedKernel.Business.Aggregates.Enums;
+using TL.TransportLogistics.Tariffs.Business.Aggregates.AggregateTariff;
 
 namespace TL.TransportLogistics.Tariffs.Infrastructure.DataAccess.Neo4j.Entities;
 
@@ -8,7 +9,7 @@ internal sealed class TariffNode
     public Guid ManagerProfileId { get; init; }
     public bool IsDraft { get; init; }
     public decimal? Price { get; init; }
-    public string? CurrencyCode { get; set; }
+    public CurrencyCode? CurrencyCode { get; set; }
     public CargoType? CargoType { get; init; }
     public ContainerOwn? ContainerOwn { get; init; }
     public ContainerSize? ContainerSize { get; init; }

@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using TL.SharedKernel.Business.Aggregates.Enums;
 
 namespace TL.TransportLogistics.Tariffs.Startups.WebApi.Controllers.Tariff.Dto;
 
@@ -18,6 +19,6 @@ public sealed class SaveTariffPriceRequest
     /// Код валюты
     /// </summary>
     /// <example>USD</example>
-    //[Required]
-    public string CurrencyCode { get; set; } = null!;
+    [NotDefault]
+    public CurrencyCode CurrencyCode { get; set; }
 }

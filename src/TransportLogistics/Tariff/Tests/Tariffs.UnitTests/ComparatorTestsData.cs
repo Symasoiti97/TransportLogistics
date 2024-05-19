@@ -1,4 +1,5 @@
-﻿using TL.TransportLogistics.Tariffs.Business.Aggregates.AggregateTariff;
+﻿using TL.SharedKernel.Business.Aggregates.Enums;
+using TL.TransportLogistics.Tariffs.Business.Aggregates.AggregateTariff;
 
 namespace TL.TransportLogistics.Tariffs.Startups.Tests.UnitTests;
 
@@ -18,7 +19,7 @@ internal static class ComparatorTestsData
             Point.Fot(secondCountryLocationId1, 2)
         };
         var route1 = new Route(points1);
-        var price1 = new Price(1200, "USD");
+        var price1 = new Price(1200, CurrencyCode.USD);
 
         var srcTariff1 = new Tariff(
             tariffId1,
@@ -53,7 +54,7 @@ internal static class ComparatorTestsData
             Point.Fot(secondCountryLocationId2, 2)
         };
         var route2 = new Route(points2);
-        var price2 = new Price(1200, "USD");
+        var price2 = new Price(1200, CurrencyCode.USD);
 
         var srcTariff2 = new Tariff(
             Guid.NewGuid(),

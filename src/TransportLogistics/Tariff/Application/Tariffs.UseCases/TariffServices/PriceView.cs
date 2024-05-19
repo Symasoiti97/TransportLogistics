@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using TL.SharedKernel.Business.Aggregates.Enums;
 
 namespace TL.TransportLogistics.Tariffs.Application.UseCases.TariffServices;
 
@@ -18,6 +19,6 @@ public sealed class PriceView
     /// Кода валюты
     /// </summary>
     /// <example>USD</example>
-    [Required(AllowEmptyStrings = false)]
-    public string CurrencyCode { get; set; } = null!;
+    [NotDefault]
+    public CurrencyCode CurrencyCode { get; set; }
 }
