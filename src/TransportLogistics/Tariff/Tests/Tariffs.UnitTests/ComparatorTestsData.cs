@@ -25,17 +25,13 @@ internal static class ComparatorTestsData
             tariffId1,
             managerProfileId1,
             route1,
-            ContainerOwn.Soc,
-            ContainerSize.S20,
-            CargoType.Bulk,
+            new CargoEquipment(CargoType.Bulk, ContainerOwn.Soc, ContainerSize.S20),
             price1);
         var destTariff1 = new Tariff(
             tariffId1,
             managerProfileId1,
             route1,
-            ContainerOwn.Soc,
-            ContainerSize.S20,
-            CargoType.Bulk,
+            new CargoEquipment(CargoType.Bulk, ContainerOwn.Soc, ContainerSize.S20),
             price1);
 
         yield return new object[]
@@ -60,17 +56,13 @@ internal static class ComparatorTestsData
             Guid.NewGuid(),
             managerProfileId2,
             route2,
-            ContainerOwn.Soc,
-            ContainerSize.S20,
-            CargoType.Bulk,
+            new CargoEquipment(CargoType.Bulk, ContainerOwn.Soc, ContainerSize.S20),
             price2);
         var destTariff2 = new Tariff(
             Guid.NewGuid(),
             managerProfileId2,
             route2,
-            ContainerOwn.Soc,
-            ContainerSize.S20,
-            CargoType.Bulk,
+            new CargoEquipment(CargoType.Bulk, ContainerOwn.Soc, ContainerSize.S20),
             price2);
 
         yield return new object[]

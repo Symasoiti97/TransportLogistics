@@ -13,18 +13,14 @@ public sealed class Tariff : Entity<Guid>, IAggregateRoot
     /// <param name="id">Идентификатор тарифы</param>
     /// <param name="managerProfileId">Идентификатор профиля. Менеджер тарифа</param>
     /// <param name="route">Маршрут</param>
-    /// <param name="containerOwn">Принадлежность контейнера</param>
-    /// <param name="containerSize">Размер контейнера</param>
-    /// <param name="cargoType">Тип груза</param>
+    /// <param name="cargoEquipment">Оборудование груза</param>
     /// <param name="price">Цена</param>
     /// <param name="isDraft">True - тариф-черновик<br/>False - действущий тариф</param>
     public Tariff(
         Guid id,
         Guid managerProfileId,
         Route? route = null,
-        ContainerOwn? containerOwn = null,
-        ContainerSize? containerSize = null,
-        CargoType? cargoType = null,
+        CargoEquipment? cargoEquipment = null,
         Price? price = null,
         bool isDraft = true) : base(id)
     {
@@ -35,19 +31,9 @@ public sealed class Tariff : Entity<Guid>, IAggregateRoot
             SetRoute(route);
         }
 
-        if (containerOwn is not null)
+        if (cargoEquipment is not null)
         {
-            SetContainerOwn(containerOwn.Value);
-        }
-
-        if (containerSize is not null)
-        {
-            SetContainerSize(containerSize.Value);
-        }
-
-        if (cargoType is not null)
-        {
-            SetCargoType(cargoType.Value);
+            SetCargoEquipment(cargoEquipment);
         }
 
         if (price is not null)
@@ -64,19 +50,9 @@ public sealed class Tariff : Entity<Guid>, IAggregateRoot
     public Route? Route { get; private set; }
 
     /// <summary>
-    /// Груз
+    /// Оборудование груза
     /// </summary>
-    public CargoType? CargoType { get; private set; }
-
-    /// <summary>
-    /// Собственность контейнера
-    /// </summary>
-    public ContainerOwn? ContainerOwn { get; private set; }
-
-    /// <summary>
-    /// Размер контейнера
-    /// </summary>
-    public ContainerSize? ContainerSize { get; private set; }
+    public CargoEquipment? CargoEquipment { get; private set; }
 
     /// <summary>
     /// Цена
@@ -101,9 +77,7 @@ public sealed class Tariff : Entity<Guid>, IAggregateRoot
     /// <param name="id">Идентификатор тарифы</param>
     /// <param name="managerProfileId">Идентификатор профиля. Менеджер тарифа</param>
     /// <param name="route">Маршрут</param>
-    /// <param name="containerOwn">Принадлежность контейнера</param>
-    /// <param name="containerSize">Размер контейнера</param>
-    /// <param name="cargoType">Тип груза</param>
+    /// <param name="cargoEquipment">Оборудование груза</param>
     /// <param name="price">Цена</param>
     /// <param name="isDraft">True - тариф-черновик<br/>False - действущий тариф</param>
     /// <returns>Новый тариф</returns>
@@ -111,13 +85,11 @@ public sealed class Tariff : Entity<Guid>, IAggregateRoot
         Guid id,
         Guid managerProfileId,
         Route? route = null,
-        ContainerOwn? containerOwn = null,
-        ContainerSize? containerSize = null,
-        CargoType? cargoType = null,
+        CargoEquipment? cargoEquipment = null,
         Price? price = null,
         bool isDraft = true)
     {
-        return new Tariff(id, managerProfileId, route, containerOwn, containerSize, cargoType, price, isDraft);
+        return new Tariff(id, managerProfileId, route, cargoEquipment, price, isDraft);
     }
 
     /// <summary>
@@ -145,26 +117,13 @@ public sealed class Tariff : Entity<Guid>, IAggregateRoot
     }
 
     /// <summary>
-    /// Устновить менеджера
-    /// </summary>
-    /// <param name="profileId">Идентификатор профиля</param>
-    /// <exception cref="ArgumentException">Значение идентификатор профиля пустое</exception>
-    public void SetManager(Guid profileId)
-    {
-        Error.Throw().IfDefault(profileId);
-
-        ManagerProfileId = profileId;
-        SetAsDraft();
-    }
-
-    /// <summary>
     /// Устанавливает оборудование груза
     /// </summary>
-    public void SetCargoEquipment(ContainerSize containerSize, CargoType cargoType, ContainerOwn containerOwn)
+    public void SetCargoEquipment(CargoEquipment cargoEquipment)
     {
-        SetContainerSize(containerSize);
-        SetCargoType(cargoType);
-        SetContainerOwn(containerOwn);
+        ArgumentNullException.ThrowIfNull(cargoEquipment);
+
+        CargoEquipment = cargoEquipment;
     }
 
     /// <summary>
@@ -176,52 +135,18 @@ public sealed class Tariff : Entity<Guid>, IAggregateRoot
         {
             Error.Throw()
                 .IfNull(Route)
-                .IfNull(ContainerSize)
-                .IfNull(ContainerOwn)
-                .IfNull(Price)
-                .IfNull(CargoType);
+                .IfNull(CargoEquipment)
+                .IfNull(Price);
 
             IsDraft = false;
         }
     }
 
-    /// <summary>
-    /// Установить размер контейнера
-    /// </summary>
-    /// <param name="containerSize">Размер контейнера</param>
-    /// <exception cref="ArgumentException">Неопределенное значение размера контейнера</exception>
-    private void SetContainerSize(ContainerSize containerSize)
+    private void SetManager(Guid profileId)
     {
-        Error.Throw().IfUndefined(containerSize);
+        Error.Throw().IfDefault(profileId);
 
-        ContainerSize = containerSize;
-        SetAsDraft();
-    }
-
-    /// <summary>
-    /// Установить тип груза
-    /// </summary>
-    /// <param name="cargoType">Тип груза</param>
-    /// <exception cref="ArgumentException">Неопределенное значение типа груза</exception>
-    private void SetCargoType(CargoType cargoType)
-    {
-        Error.Throw().IfUndefined(cargoType);
-
-        CargoType = cargoType;
-        SetAsDraft();
-    }
-
-    /// <summary>
-    /// Устноавить принадлежность контейнера
-    /// </summary>
-    /// <param name="containerOwn">Принадложность контейнера</param>
-    /// <exception cref="ArgumentException">Неопределенное значение принадлежности контейнера</exception>
-    private void SetContainerOwn(ContainerOwn containerOwn)
-    {
-        Error.Throw().IfUndefined(containerOwn);
-
-        ContainerOwn = containerOwn;
-        SetAsDraft();
+        ManagerProfileId = profileId;
     }
 
     private void SetDraft(bool isDraft)

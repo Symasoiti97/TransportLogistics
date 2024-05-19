@@ -36,14 +36,9 @@ internal static class TariffTestsData
             Guid.NewGuid(),
             Guid.NewGuid(),
             tariffRoute1,
-            ContainerOwn.Coc,
-            ContainerSize.S20,
-            CargoType.Heavy,
+            new CargoEquipment(CargoType.Heavy, ContainerOwn.Coc, ContainerSize.S20),
             new Price(129, CurrencyCode.USD));
 
-        yield return
-        [
-            tariff1
-        ];
+        yield return [tariff1];
     }
 }
