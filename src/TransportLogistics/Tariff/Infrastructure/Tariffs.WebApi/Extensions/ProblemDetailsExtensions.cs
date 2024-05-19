@@ -16,6 +16,12 @@ internal static class ProblemDetailsExtensions
             !httpContent.RequestServices.GetRequiredService<IWebHostEnvironment>().IsProduction();
         options.OnBeforeWriteDetails = (context, details) => { details.Instance = context.Request.Path; };
 
+        var statusMapper = new ErrorToStatusMapper();
+        statusMapper.AddMap<InvalidParameters>(StatusCodes.Status400BadRequest);
+        statusMapper.AddMap<NotFound>(StatusCodes.Status404NotFound);
+        statusMapper.AddMap<InvalidValue>(StatusCodes.Status409Conflict);
+        statusMapper.AddMap<Conflict>(StatusCodes.Status409Conflict);
+
         options.Map<ErrorException>(
             (httpContext, errorException) =>
             {
@@ -24,7 +30,9 @@ internal static class ProblemDetailsExtensions
                 {
                     Type = BuildType(serviceSettings.Name, errorException.Error.Type),
                     Title = errorException.Error.Message,
-                    Status = GetStatusCode(errorException.Error),
+                    Status = statusMapper.TryMap(errorException.Error, out var status)
+                        ? status
+                        : StatusCodes.Status500InternalServerError,
                     Detail = errorException.Error.Details,
                     Extensions = {{ErrorKey, errorException.Error}}
                 };
@@ -45,17 +53,6 @@ internal static class ProblemDetailsExtensions
 
                 return problemDetails;
             });
-
-        static int GetStatusCode(Error error)
-        {
-            return error switch
-            {
-                InvalidParameters => StatusCodes.Status400BadRequest,
-                InvalidValue => StatusCodes.Status409Conflict,
-                NotFound => StatusCodes.Status404NotFound,
-                _ => StatusCodes.Status500InternalServerError
-            };
-        }
     }
 
     public static string BuildType(string serviceName, string errorType)

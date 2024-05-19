@@ -1,4 +1,4 @@
-﻿using CaseExtensions;
+﻿using System.Text.Json;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using TL.SharedKernel.Business.Aggregates;
@@ -31,28 +31,29 @@ internal static class ApiBehaviorOptionsExtensions
     {
         foreach (var (paramPath, modelStateEntry) in modelStateDictionary)
         {
-            string paramNameOfCamelCase;
-            string paramPathOfCamelCase;
+            string camelCaseParamName;
+            string camelCaseParamPath;
             if (string.IsNullOrEmpty(paramPath))
             {
-                paramNameOfCamelCase = "$";
-                paramPathOfCamelCase = "$";
+                camelCaseParamName = "$";
+                camelCaseParamPath = "$";
             }
             else
             {
-                var paramPathElements = paramPath.Split('.');
-                paramNameOfCamelCase = paramPathElements[^1].ToCamelCase();
-                paramPathOfCamelCase = string.Join(
-                    separator: '.',
-                    paramPathElements.Select(pathElement => pathElement.ToCamelCase()));
+                var paramPathElements = paramPath
+                    .Split(separator: '.')
+                    .Select(pathElement => JsonNamingPolicy.CamelCase.ConvertName(pathElement))
+                    .ToArray();
+                camelCaseParamName = paramPathElements[^1];
+                camelCaseParamPath = string.Join(separator: '.', paramPathElements);
             }
 
             foreach (var modelError in modelStateEntry.Errors)
             {
                 yield return new InvalidParameters.Parameter(
                     modelStateEntry.RawValue,
-                    paramNameOfCamelCase,
-                    paramPathOfCamelCase,
+                    camelCaseParamName,
+                    camelCaseParamPath,
                     modelError.ErrorMessage != string.Empty
                         ? modelError.ErrorMessage
                         : "Unknown error.",

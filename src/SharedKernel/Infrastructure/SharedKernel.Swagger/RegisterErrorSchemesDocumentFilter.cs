@@ -1,5 +1,5 @@
 ﻿using System.Reflection;
-using CaseExtensions;
+using System.Text.Json;
 using Microsoft.OpenApi.Any;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
@@ -32,9 +32,6 @@ public sealed class RegisterErrorSchemesDocumentFilter : IDocumentFilter
         }
 
         var baseType = typeof(Error);
-
-        context.SchemaGenerator.GenerateSchema(baseType, context.SchemaRepository);
-
         foreach (var assembly in _assemblies)
         {
             foreach (var type in assembly.GetTypes().Where(type => type.IsSubclassOf(baseType)))
@@ -42,11 +39,9 @@ public sealed class RegisterErrorSchemesDocumentFilter : IDocumentFilter
                 context.SchemaGenerator.GenerateSchema(type, context.SchemaRepository);
                 context.SchemaRepository
                     .Schemas[type.BuildSwaggerSchemaName()]
-                    .Properties[nameof(Error.Type).ToCamelCase()]
-                    .Default = new OpenApiString(type.Name.ToSnakeCase());
+                    .Properties[JsonNamingPolicy.CamelCase.ConvertName(nameof(Error.Type))]
+                    .Default = new OpenApiString(JsonNamingPolicy.SnakeCaseLower.ConvertName(type.Name));
             }
         }
-
-        context.SchemaRepository.Schemas.Remove(baseType.Name);
     }
 }

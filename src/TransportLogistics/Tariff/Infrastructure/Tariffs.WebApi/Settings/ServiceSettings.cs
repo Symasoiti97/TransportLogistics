@@ -4,6 +4,8 @@ internal sealed class ServiceSettings
 {
     public ServiceSettings(string name)
     {
+        ArgumentException.ThrowIfNullOrWhiteSpace(name);
+
         Name = name;
     }
 
