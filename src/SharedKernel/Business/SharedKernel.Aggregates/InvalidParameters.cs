@@ -37,9 +37,8 @@ public sealed class InvalidParameters : Error
         /// <param name="path">Path</param>
         /// <param name="message">Error message</param>
         /// <param name="error">Error</param>
-        public Parameter(object? value, string name, string path, string message, object? error)
+        public Parameter(object? value, string? name, string path, string message, object? error)
         {
-            ArgumentException.ThrowIfNullOrWhiteSpace(name);
             ArgumentException.ThrowIfNullOrWhiteSpace(message);
 
             Value = value;
@@ -59,8 +58,7 @@ public sealed class InvalidParameters : Error
         ///     Наименование параметра
         /// </summary>
         /// <example>email</example>
-        [Required]
-        public string Name { get; }
+        public string? Name { get; }
 
         /// <summary>
         ///     Путь к параметру

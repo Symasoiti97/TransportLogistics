@@ -5,4 +5,8 @@
         <AssemblyName>TL.SharedKernel.Infrastructure.JsonSerializer.Extensions</AssemblyName>
     </PropertyGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\..\Business\SharedKernel.Aggregates\SharedKernel.Aggregates.csproj" />
+    </ItemGroup>
+
 </Project>

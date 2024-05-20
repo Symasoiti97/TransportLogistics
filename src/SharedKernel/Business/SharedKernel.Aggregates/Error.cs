@@ -1,18 +1,10 @@
-﻿using System.Text.Json;
-using System.Text.Json.Serialization;
-
-namespace TL.SharedKernel.Business.Aggregates;
+﻿namespace TL.SharedKernel.Business.Aggregates;
 
 /// <summary>
 /// Ошибка
 /// </summary>
 public abstract class Error
 {
-    /// <summary>
-    /// Тип ошибки
-    /// </summary>
-    public string Type => JsonNamingPolicy.SnakeCaseLower.ConvertName(GetType().Name);
-
     /// <summary>
     /// Создает <see cref="Error"/>
     /// </summary>
@@ -34,13 +26,11 @@ public abstract class Error
     /// <summary>
     /// Детали ошибки
     /// </summary>
-    [JsonIgnore]
     public string? Details { get; }
 
     /// <summary>
     /// Сообщение ошибки
     /// </summary>
-    [JsonIgnore]
     public abstract string Message { get; }
 
     /// <summary>

@@ -1,9 +1,8 @@
-﻿using System.Reflection;
-using System.Text.Json;
-using Microsoft.OpenApi.Any;
+﻿using Microsoft.OpenApi.Any;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using TL.SharedKernel.Business.Aggregates;
+using TL.SharedKernel.Infrastructure.JsonSerializer.Extensions;
 
 namespace TL.SharedKernel.Infrastructure.Swagger;
 
@@ -13,15 +12,15 @@ namespace TL.SharedKernel.Infrastructure.Swagger;
 public sealed class RegisterErrorSchemesDocumentFilter : IDocumentFilter
 {
     private readonly string _documentName;
-    private readonly Assembly[] _assemblies;
+    private readonly Type[] _errorTypes;
 
-    public RegisterErrorSchemesDocumentFilter(string documentName, params Assembly[] assemblies)
+    public RegisterErrorSchemesDocumentFilter(string documentName, params Type[] errorTypes)
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(documentName);
-        ArgumentNullException.ThrowIfNull(assemblies);
+        ArgumentNullException.ThrowIfNull(errorTypes);
 
         _documentName = documentName;
-        _assemblies = assemblies;
+        _errorTypes = errorTypes;
     }
 
     public void Apply(OpenApiDocument swaggerDoc, DocumentFilterContext context)
@@ -31,16 +30,25 @@ public sealed class RegisterErrorSchemesDocumentFilter : IDocumentFilter
             return;
         }
 
-        var baseType = typeof(Error);
-        foreach (var assembly in _assemblies)
+        foreach (var type in _errorTypes)
         {
-            foreach (var type in assembly.GetTypes().Where(type => type.IsSubclassOf(baseType)))
+            context.SchemaGenerator.GenerateSchema(type, context.SchemaRepository);
+            var schema = context.SchemaRepository.Schemas[type.BuildSwaggerSchemaName()];
+            var oldProperties = schema.Properties;
+            schema.Properties = new Dictionary<string, OpenApiSchema>();
+            schema.Properties.Add(
+                new(
+                    "type",
+                    new OpenApiSchema
+                    {
+                        Type = "string",
+                        ReadOnly = true,
+                        Default = new OpenApiString(ErrorExtensions.BuildType(type))
+                    }));
+            foreach (var openApiSchema in oldProperties
+                         .Where(property => property.Key is not ("message" or "details")))
             {
-                context.SchemaGenerator.GenerateSchema(type, context.SchemaRepository);
-                context.SchemaRepository
-                    .Schemas[type.BuildSwaggerSchemaName()]
-                    .Properties[JsonNamingPolicy.CamelCase.ConvertName(nameof(Error.Type))]
-                    .Default = new OpenApiString(JsonNamingPolicy.SnakeCaseLower.ConvertName(type.Name));
+                schema.Properties.Add(openApiSchema);
             }
         }
     }
