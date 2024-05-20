@@ -2,7 +2,6 @@
 using Microsoft.OpenApi.Any;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
-using TL.SharedKernel.Business.Aggregates;
 using TL.SharedKernel.Infrastructure.Swagger;
 
 namespace TL.TransportLogistics.Tariffs.Startups.WebApi.Extensions;
@@ -35,11 +34,7 @@ internal static class SwaggerGenOptionsExtensions
         options.SchemaFilter<AnnotationOperationSchemaFilter>();
         options.DocumentFilter<RegisterErrorSchemesDocumentFilter>(
             TariffApiErrorsDocumentName,
-            new[]
-            {
-                typeof(ThrowerExtensions).Assembly,
-                typeof(Business.Aggregates.AggregateTariff.Errors.TariffNotFound).Assembly
-            });
+            ProblemDetailsExtensions.ErrorTypes);
 
         options.MapType<ProblemDetails>(BuildProblemDetailsSchema);
     }

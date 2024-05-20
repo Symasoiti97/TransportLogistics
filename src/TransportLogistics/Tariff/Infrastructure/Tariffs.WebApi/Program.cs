@@ -1,9 +1,9 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using System.Text.Json.Serialization.Metadata;
 using Hellang.Middleware.ProblemDetails;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using TL.SharedKernel.Business.Aggregates;
 using TL.SharedKernel.Infrastructure.JsonSerializer.Extensions;
 using TL.TransportLogistics.Tariffs.Infrastructure.DependencyInjection;
 using TL.TransportLogistics.Tariffs.Startups.WebApi.Extensions;
@@ -21,9 +21,13 @@ builder.Services
     .AddJsonOptions(
         options =>
         {
+            options.JsonSerializerOptions.TypeInfoResolver = new DefaultJsonTypeInfoResolver
+            {
+                Modifiers = {info => ErrorJsonTypeInfoModifier.Modify(info, ProblemDetailsExtensions.ErrorTypes)}
+            };
             options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
-            options.JsonSerializerOptions.Converters.Add(new SubTypeConverter<Error>());
             options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
+            options.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
         });
 
 builder.Services.AddSingleton(

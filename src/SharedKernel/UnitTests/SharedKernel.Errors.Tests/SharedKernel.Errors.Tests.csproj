@@ -23,6 +23,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\..\Business\SharedKernel.Aggregates\SharedKernel.Aggregates.csproj" />
+      <ProjectReference Include="..\..\Infrastructure\SharedKernel.JsonSerializer.Extensions\SharedKernel.JsonSerializer.Extensions.csproj" />
     </ItemGroup>
 
 </Project>

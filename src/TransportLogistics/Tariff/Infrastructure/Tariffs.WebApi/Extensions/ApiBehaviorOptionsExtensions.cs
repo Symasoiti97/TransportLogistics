@@ -18,7 +18,7 @@ internal static class ApiBehaviorOptionsExtensions
             return new BadRequestObjectResult(
                 new ProblemDetails
                 {
-                    Type = ProblemDetailsExtensions.BuildType(serviceSettings.Name, error.Type),
+                    Type = ProblemDetailsExtensions.BuildType(serviceSettings.Name, error),
                     Title = error.Message,
                     Status = StatusCodes.Status400BadRequest,
                     Instance = actionContext.HttpContext.Request.Path,
@@ -31,11 +31,10 @@ internal static class ApiBehaviorOptionsExtensions
     {
         foreach (var (paramPath, modelStateEntry) in modelStateDictionary)
         {
-            string camelCaseParamName;
+            string? camelCaseParamName = null;
             string camelCaseParamPath;
             if (string.IsNullOrEmpty(paramPath))
             {
-                camelCaseParamName = "$";
                 camelCaseParamPath = "$";
             }
             else
@@ -45,7 +44,7 @@ internal static class ApiBehaviorOptionsExtensions
                     .Select(pathElement => JsonNamingPolicy.CamelCase.ConvertName(pathElement))
                     .ToArray();
                 camelCaseParamName = paramPathElements[^1];
-                camelCaseParamPath = string.Join(separator: '.', paramPathElements);
+                camelCaseParamPath = $"${string.Join(separator: '.', paramPathElements)}";
             }
 
             foreach (var modelError in modelStateEntry.Errors)

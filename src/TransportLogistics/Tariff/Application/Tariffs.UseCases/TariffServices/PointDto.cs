@@ -12,20 +12,20 @@ public sealed class PointDto
     /// Идентификатор локациии
     /// </summary>
     /// <example>a6883df6-e66f-41c3-b001-722629b38a04</example>
-    [Required]
+    [NotDefault]
     public Guid LocationId { get; set; }
 
     /// <summary>
     /// Тип точки
     /// </summary>
     /// <example>Fob</example>
-    [Required]
+    [NotDefault]
     public PointType Type { get; set; }
 
     /// <summary>
     /// Порядковый номер
     /// </summary>
     /// <example>1</example>
-    [Required]
+    [NotDefault]
     public ushort Order { get; set; }
 }
