@@ -14,6 +14,6 @@ public sealed class ErrorTests
 
         var errorException = action.Should().Throw<ErrorException>();
         var error = errorException.Which.Error;
-        error.BuildType().Should().Be("invalid_value");
+        error.BuildType().Should().Be("invalid-value");
     }
 }
