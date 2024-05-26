@@ -28,4 +28,10 @@
       <ProjectReference Include="..\..\..\Infrastructure\SharedKernel.JsonSerializer.Extensions\SharedKernel.JsonSerializer.Extensions.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Compile Update="JsonSerializingTestsData.cs">
+        <DependentUpon>JsonSerializingTests.cs</DependentUpon>
+      </Compile>
+    </ItemGroup>
+
 </Project>
