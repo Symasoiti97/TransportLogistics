@@ -44,9 +44,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharedKernel.DataAccess", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharedKernel.DependencyInjection", "SharedKernel\Infrastructure\SharedKernel.DependencyInjection\SharedKernel.DependencyInjection.csproj", "{27494C41-BA18-4358-9A56-FA4437F0FB72}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharedKernel.Compress.Extensions.Tests", "SharedKernel\Infrastructure\SharedKernel.Compress.Extensions.Tests\SharedKernel.Compress.Extensions.Tests.csproj", "{C7677423-9C93-48EA-9313-185EFB3FBED7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharedKernel.Compress.Extensions.Tests", "SharedKernel\Startups\UnitTests\SharedKernel.Compress.Extensions.Tests\SharedKernel.Compress.Extensions.Tests.csproj", "{C7677423-9C93-48EA-9313-185EFB3FBED7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharedKernel.Benchmarks", "SharedKernel\Infrastructure\SharedKernel.Benchmarks\SharedKernel.Benchmarks.csproj", "{88BB2D6B-8977-4041-A9F8-7B9387F6590A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharedKernel.Benchmarks", "SharedKernel\Startups\SharedKernel.Benchmarks\SharedKernel.Benchmarks.csproj", "{88BB2D6B-8977-4041-A9F8-7B9387F6590A}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Application", "Application", "{ED06F305-C315-4BD7-B5C4-3163C79BB989}"
 EndProject
@@ -72,9 +72,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharedKernel.JsonSerializer
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "System", "System", "{E24F2EB5-5D90-4936-AF81-244FADD97D9B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharedKernel.System.ComponentModel.DataAnnotations", "SharedKernel\SharedKernel.System.ComponentModel.DataAnnotations\SharedKernel.System.ComponentModel.DataAnnotations.csproj", "{B2906C9E-0F68-4411-91AE-0A42132D3283}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharedKernel.System.ComponentModel.DataAnnotations", "SharedKernel\System\SharedKernel.System.ComponentModel.DataAnnotations\SharedKernel.System.ComponentModel.DataAnnotations.csproj", "{B2906C9E-0F68-4411-91AE-0A42132D3283}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharedKernel.Errors.Tests", "SharedKernel\UnitTests\SharedKernel.Errors.Tests\SharedKernel.Errors.Tests.csproj", "{A95D4352-7CDC-454F-936E-6BDB337517AB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharedKernel.Errors.Tests", "SharedKernel\Startups\UnitTests\SharedKernel.Errors.Tests\SharedKernel.Errors.Tests.csproj", "{A95D4352-7CDC-454F-936E-6BDB337517AB}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Locations", "Locations", "{8F1B675D-5498-4E25-9107-527AE12C8DA7}"
 EndProject
@@ -101,7 +101,6 @@ Global
 		{F65ECD21-D2AC-480D-9FAA-755660C93E45} = {AEF58B74-7460-4CBC-8B29-48424C3ECB3E}
 		{6BF7E91D-E3E1-4E95-8A1D-8BD7EC801E28} = {AEF58B74-7460-4CBC-8B29-48424C3ECB3E}
 		{27494C41-BA18-4358-9A56-FA4437F0FB72} = {AEF58B74-7460-4CBC-8B29-48424C3ECB3E}
-		{88BB2D6B-8977-4041-A9F8-7B9387F6590A} = {AEF58B74-7460-4CBC-8B29-48424C3ECB3E}
 		{ED06F305-C315-4BD7-B5C4-3163C79BB989} = {4A280D79-8C5E-4A58-A933-C78CCBE47255}
 		{D3B7D508-20A7-4103-83DE-3BE1338EC18E} = {4A280D79-8C5E-4A58-A933-C78CCBE47255}
 		{7B5E1D9C-7271-4650-A992-BCC03F8C2DBF} = {ED06F305-C315-4BD7-B5C4-3163C79BB989}
@@ -123,6 +122,7 @@ Global
 		{D8C451DF-942F-4A05-9196-931C387660A7} = {8F1B675D-5498-4E25-9107-527AE12C8DA7}
 		{3D013B1A-3947-4C97-BB7F-F93749DDD288} = {D8C451DF-942F-4A05-9196-931C387660A7}
 		{18E60F1F-BF57-466C-B0C6-8B385DE64350} = {AEF58B74-7460-4CBC-8B29-48424C3ECB3E}
+		{88BB2D6B-8977-4041-A9F8-7B9387F6590A} = {E6E0A242-1BFB-44F9-A824-202267D03ACC}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{CC61AC50-79CD-4DBF-A4C7-0812646D8AD5}.net6|Any CPU.ActiveCfg = Debug|Any CPU

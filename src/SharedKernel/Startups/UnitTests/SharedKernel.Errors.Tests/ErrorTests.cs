@@ -2,7 +2,7 @@ using FluentAssertions;
 using TL.SharedKernel.Business.Aggregates;
 using TL.SharedKernel.Infrastructure.JsonSerializer.Extensions;
 
-namespace SharedKernel.Errors.Tests;
+namespace TL.SharedKernel.Errors.Tests;
 
 public sealed class ErrorTests
 {
