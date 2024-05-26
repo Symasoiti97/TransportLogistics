@@ -21,13 +21,13 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\SharedKernel.Compress.Extensions\SharedKernel.Compress.Extensions.csproj"/>
-    </ItemGroup>
-
-    <ItemGroup>
         <Compile Update="CompressExtensionsTestsData.cs">
             <DependentUpon>CompressExtensionsTests.cs</DependentUpon>
         </Compile>
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\..\Infrastructure\SharedKernel.Compress.Extensions\SharedKernel.Compress.Extensions.csproj" />
     </ItemGroup>
 
 </Project>

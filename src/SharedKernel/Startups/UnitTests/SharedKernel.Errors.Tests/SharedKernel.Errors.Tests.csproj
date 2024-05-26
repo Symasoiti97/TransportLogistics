@@ -1,6 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
+        <RootNamespace>TL.SharedKernel.Errors.Tests</RootNamespace>
+        <AssemblyName>TL.SharedKernel.Errors.Tests</AssemblyName>
         <ImplicitUsings>enable</ImplicitUsings>
         <IsPackable>false</IsPackable>
     </PropertyGroup>
@@ -22,8 +24,8 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\Business\SharedKernel.Aggregates\SharedKernel.Aggregates.csproj" />
-      <ProjectReference Include="..\..\Infrastructure\SharedKernel.JsonSerializer.Extensions\SharedKernel.JsonSerializer.Extensions.csproj" />
+      <ProjectReference Include="..\..\..\Business\SharedKernel.Aggregates\SharedKernel.Aggregates.csproj" />
+      <ProjectReference Include="..\..\..\Infrastructure\SharedKernel.JsonSerializer.Extensions\SharedKernel.JsonSerializer.Extensions.csproj" />
     </ItemGroup>
 
 </Project>

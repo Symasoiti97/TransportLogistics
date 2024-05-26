@@ -11,7 +11,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\..\Business\SharedKernel.Aggregates\SharedKernel.Aggregates.csproj" />
-      <ProjectReference Include="..\..\SharedKernel.System.ComponentModel.DataAnnotations\SharedKernel.System.ComponentModel.DataAnnotations.csproj" />
+      <ProjectReference Include="..\..\System\SharedKernel.System.ComponentModel.DataAnnotations\SharedKernel.System.ComponentModel.DataAnnotations.csproj" />
       <ProjectReference Include="..\SharedKernel.JsonSerializer.Extensions\SharedKernel.JsonSerializer.Extensions.csproj" />
     </ItemGroup>
 
