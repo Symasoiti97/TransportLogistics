@@ -6,12 +6,12 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Compile Update="ICommand.cs">
-        <DependentUpon>ICommandHandler.cs</DependentUpon>
-      </Compile>
-      <Compile Update="IQuery.cs">
-        <DependentUpon>IQueryHandler.cs</DependentUpon>
-      </Compile>
+        <Compile Update="ICommand.cs">
+            <DependentUpon>ICommandHandler.cs</DependentUpon>
+        </Compile>
+        <Compile Update="IQuery.cs">
+            <DependentUpon>IQueryHandler.cs</DependentUpon>
+        </Compile>
     </ItemGroup>
 
 </Project>

@@ -7,7 +7,7 @@ using TL.SharedKernel.Infrastructure.JsonSerializer.Extensions;
 namespace TL.SharedKernel.Infrastructure.Swagger;
 
 /// <summary>
-/// Генерирует схемы для типа <see cref="Error"/>
+/// Генерирует схемы для типа <see cref="Error" />
 /// </summary>
 public sealed class RegisterErrorSchemesDocumentFilter : IDocumentFilter
 {

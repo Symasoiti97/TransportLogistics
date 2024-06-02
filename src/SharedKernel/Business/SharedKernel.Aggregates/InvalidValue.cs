@@ -7,6 +7,18 @@ namespace TL.SharedKernel.Business.Aggregates;
 /// </summary>
 public sealed class InvalidValue : Error
 {
+    /// <summary>
+    /// Создать <see cref="InvalidValue" />
+    /// </summary>
+    /// <param name="value">Ошибочное значение</param>
+    /// <param name="name">Наименование значения</param>
+    /// <param name="details">Сообщение об ошибке</param>
+    public InvalidValue(object? value, string name, string details) : base(details)
+    {
+        Value = value;
+        Name = name;
+    }
+
     /// <inheritdoc />
     public override string Message => "Invalid value.";
 
@@ -22,16 +34,4 @@ public sealed class InvalidValue : Error
     /// </summary>
     /// <example>null</example>
     public object? Value { get; }
-
-    /// <summary>
-    /// Создать <see cref="InvalidValue"/>
-    /// </summary>
-    /// <param name="value">Ошибочное значение</param>
-    /// <param name="name">Наименование значения</param>
-    /// <param name="details">Сообщение об ошибке</param>
-    public InvalidValue(object? value, string name, string details) : base(details)
-    {
-        Value = value;
-        Name = name;
-    }
 }

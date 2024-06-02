@@ -21,7 +21,6 @@ var host = Host.CreateDefaultBuilder(args)
         })
     .Build();
 
-
 host.Run();
 
 static Neo4JSettings GetNeo4JSettings(IConfiguration configuration)

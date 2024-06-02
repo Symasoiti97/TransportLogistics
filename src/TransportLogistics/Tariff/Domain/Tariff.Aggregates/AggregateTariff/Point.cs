@@ -8,7 +8,7 @@ namespace TL.TransportLogistics.Tariffs.Business.Aggregates.AggregateTariff;
 public sealed class Point : ValueObject
 {
     /// <summary>
-    /// Создать <see cref="Point"/>
+    /// Создать <see cref="Point" />
     /// </summary>
     /// <param name="locationId">Идентификатор локации</param>
     /// <param name="pointType">Тип точки</param>
@@ -41,7 +41,7 @@ public sealed class Point : ValueObject
     public string Hash => $"{LocationId}|{Type}|{Order}";
 
     /// <summary>
-    /// Создать точку с типом <see cref="PointType.Fob"/>
+    /// Создать точку с типом <see cref="PointType.Fob" />
     /// </summary>
     /// <param name="locationId">Идентификатор локации</param>
     /// <param name="order">Порядковый номер</param>
@@ -52,7 +52,7 @@ public sealed class Point : ValueObject
     }
 
     /// <summary>
-    /// Создать точку с типом <see cref="PointType.For"/>
+    /// Создать точку с типом <see cref="PointType.For" />
     /// </summary>
     /// <param name="locationId">Идентификатор локации</param>
     /// <param name="order">Порядковый номер</param>
@@ -63,7 +63,7 @@ public sealed class Point : ValueObject
     }
 
     /// <summary>
-    /// Создать точку с типом <see cref="PointType.Fot"/>
+    /// Создать точку с типом <see cref="PointType.Fot" />
     /// </summary>
     /// <param name="locationId">Идентификатор локации</param>
     /// <param name="order">Порядковый номер</param>

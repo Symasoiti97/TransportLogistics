@@ -3,6 +3,4 @@
 /// <summary>
 /// Команда
 /// </summary>
-public interface ICommand
-{
-}
+public interface ICommand;

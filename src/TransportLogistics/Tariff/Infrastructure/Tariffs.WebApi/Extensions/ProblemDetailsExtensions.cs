@@ -10,6 +10,7 @@ namespace TL.TransportLogistics.Tariffs.Startups.WebApi.Extensions;
 internal static class ProblemDetailsExtensions
 {
     public const string ErrorKey = "error";
+
     public static Type[] ErrorTypes
         => new[]
             {
@@ -18,6 +19,7 @@ internal static class ProblemDetailsExtensions
             }
             .SelectMany(assembly => assembly.GetTypes().Where(type => type.IsSubclassOf(typeof(Error))))
             .ToArray();
+
     public static void Configure(ProblemDetailsOptions options)
     {
         ArgumentNullException.ThrowIfNull(options);

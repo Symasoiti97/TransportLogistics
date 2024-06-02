@@ -8,14 +8,14 @@ namespace TL.SharedKernel.Infrastructure.AspNet.Extensions.Middlewares.Validatio
 // TODO необходима доработка, валидация должна возвращать список ошибок корректно
 /// <summary>
 /// Атрибут валидации для проверки что объект может быть указанным типом
-/// Для маппинга в указанный тип, используется <see cref="IMapper"/>
+/// Для маппинга в указанный тип, используется <see cref="IMapper" />
 /// </summary>
 public class MustBeAttribute : ValidationAttribute
 {
     private readonly Type _mustBeType;
 
     /// <summary>
-    /// Создать <see cref="MustBeAttribute"/>
+    /// Создать <see cref="MustBeAttribute" />
     /// </summary>
     /// <param name="mustBeType">Тип, в который должен маппится аргумент/свойство</param>
     public MustBeAttribute(Type mustBeType)

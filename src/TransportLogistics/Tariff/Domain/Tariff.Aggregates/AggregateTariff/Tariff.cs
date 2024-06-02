@@ -15,7 +15,7 @@ public sealed class Tariff : Entity<Guid>, IAggregateRoot
     /// <param name="route">Маршрут</param>
     /// <param name="cargoEquipment">Оборудование груза</param>
     /// <param name="price">Цена</param>
-    /// <param name="isDraft">True - тариф-черновик<br/>False - действущий тариф</param>
+    /// <param name="isDraft">True - тариф-черновик<br />False - действущий тариф</param>
     public Tariff(
         Guid id,
         Guid managerProfileId,
@@ -79,7 +79,7 @@ public sealed class Tariff : Entity<Guid>, IAggregateRoot
     /// <param name="route">Маршрут</param>
     /// <param name="cargoEquipment">Оборудование груза</param>
     /// <param name="price">Цена</param>
-    /// <param name="isDraft">True - тариф-черновик<br/>False - действущий тариф</param>
+    /// <param name="isDraft">True - тариф-черновик<br />False - действущий тариф</param>
     /// <returns>Новый тариф</returns>
     public static Tariff Create(
         Guid id,

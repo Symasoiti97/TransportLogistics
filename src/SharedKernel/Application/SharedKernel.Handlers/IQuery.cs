@@ -5,6 +5,4 @@ namespace TL.SharedKernel.Application.Commands;
 /// </summary>
 /// <typeparam name="TResult">Результат запроса</typeparam>
 // ReSharper disable once UnusedTypeParameter
-public interface IQuery<out TResult>
-{
-}
+public interface IQuery<out TResult>;

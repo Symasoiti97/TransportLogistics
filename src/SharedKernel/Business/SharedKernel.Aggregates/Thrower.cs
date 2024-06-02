@@ -6,7 +6,7 @@
 public struct Thrower
 {
     /// <summary>
-    /// Выбрасывет исключение <see cref="ErrorException"/>
+    /// Выбрасывет исключение <see cref="ErrorException" />
     /// </summary>
     /// <param name="error"></param>
     /// <exception cref="ErrorException"></exception>

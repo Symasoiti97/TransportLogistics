@@ -15,7 +15,7 @@ internal sealed class PublishTariffCommandHandler : ICommandHandler<PublishTarif
         _tariffRepository = tariffRepository;
     }
 
-    public async Task HandleAsync(PublishTariffCommand command, CancellationToken cancellationToken = default)
+    public async Task HandleAsync(PublishTariffCommand command, CancellationToken cancellationToken)
     {
         var tariff = await _tariffRepository.GetAsync(command.TariffId, cancellationToken).ConfigureAwait(false);
 

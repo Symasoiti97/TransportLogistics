@@ -10,7 +10,7 @@ public static class ServiceCollectionExtensions
     /// <summary>
     /// Регистрация сервисов для работы с neo4j
     /// <list type="bullet">
-    ///     <item>Регестрирует <see cref="ICypherGraphClientFactory"/>, как <see cref="ServiceLifetime.Singleton"/>.</item>
+    ///     <item>Регестрирует <see cref="ICypherGraphClientFactory" />, как <see cref="ServiceLifetime.Singleton" />.</item>
     /// </list>
     /// </summary>
     /// <param name="services">Коллекция сервисов</param>

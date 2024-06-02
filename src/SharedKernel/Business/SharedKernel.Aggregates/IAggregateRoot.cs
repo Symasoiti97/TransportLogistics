@@ -3,6 +3,4 @@
 /// <summary>
 /// Корень агрегата
 /// </summary>
-public interface IAggregateRoot
-{
-}
+public interface IAggregateRoot;

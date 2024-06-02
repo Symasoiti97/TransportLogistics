@@ -18,7 +18,7 @@ public static class ThrowerExtensions
     /// <param name="value">Значение</param>
     /// <param name="paramName">Наименование значения</param>
     /// <typeparam name="T">Тип значения</typeparam>
-    /// <returns><paramref name="thrower"/></returns>
+    /// <returns><paramref name="thrower" /></returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static ref readonly Thrower IfNull<T>(
         this in Thrower thrower,
@@ -46,7 +46,7 @@ public static class ThrowerExtensions
     /// <param name="value">Значение</param>
     /// <param name="paramName">Наименование значения</param>
     /// <typeparam name="T">Тип значения</typeparam>
-    /// <returns><paramref name="thrower"/></returns>
+    /// <returns><paramref name="thrower" /></returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static ref readonly Thrower IfNotNull<T>(
         this in Thrower thrower,
@@ -74,7 +74,7 @@ public static class ThrowerExtensions
     /// <param name="value">Значение</param>
     /// <param name="paramName">Наименование значения</param>
     /// <typeparam name="T">Тип значения</typeparam>
-    /// <returns><paramref name="thrower"/></returns>
+    /// <returns><paramref name="thrower" /></returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static ref readonly Thrower IfDefault<T>(
         this in Thrower thrower,
@@ -102,7 +102,7 @@ public static class ThrowerExtensions
     /// <param name="value">Значение</param>
     /// <param name="paramName">Наименование значения</param>
     /// <typeparam name="T">Тип значения</typeparam>
-    /// <returns><paramref name="thrower"/></returns>
+    /// <returns><paramref name="thrower" /></returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static ref readonly Thrower IfUndefined<T>(
         this in Thrower thrower,
@@ -132,7 +132,7 @@ public static class ThrowerExtensions
     /// <param name="message">Сообщение об ошибке</param>
     /// <param name="paramName">Наименование значения</param>
     /// <typeparam name="T">Тип значения</typeparam>
-    /// <returns><paramref name="thrower"/></returns>
+    /// <returns><paramref name="thrower" /></returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static ref readonly Thrower IfNot<T>(
         this in Thrower thrower,
@@ -161,7 +161,7 @@ public static class ThrowerExtensions
     /// <param name="thrower">Строитель ошибок</param>
     /// <param name="value">Значение</param>
     /// <param name="paramName">Наименование значения</param>
-    /// <returns><paramref name="thrower"/></returns>
+    /// <returns><paramref name="thrower" /></returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static ref readonly Thrower IfNullOrWhiteSpace(
         this in Thrower thrower,
@@ -183,12 +183,12 @@ public static class ThrowerExtensions
     }
 
     /// <summary>
-    /// Выбрасывает <see cref="ErrorException"/> c ошибкой <see cref="InvalidValue"/>, если коллекция не имеет элементов
+    /// Выбрасывает <see cref="ErrorException" /> c ошибкой <see cref="InvalidValue" />, если коллекция не имеет элементов
     /// </summary>
     /// <param name="thrower">Строитель ошибок</param>
     /// <param name="value">Значение</param>
     /// <param name="paramName">Наименование значения</param>
-    /// <returns><paramref name="thrower"/></returns>
+    /// <returns><paramref name="thrower" /></returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static ref readonly Thrower IfEmpty<T>(
         this in Thrower thrower,

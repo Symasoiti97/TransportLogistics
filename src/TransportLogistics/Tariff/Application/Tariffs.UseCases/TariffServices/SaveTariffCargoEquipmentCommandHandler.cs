@@ -14,9 +14,10 @@ internal sealed class SaveTariffCargoCommandHandler : ICommandHandler<SaveTariff
         _tariffRepository = tariffRepository;
     }
 
-    public async Task HandleAsync(SaveTariffCargoEquipmentCommand equipmentCommand, CancellationToken cancellationToken = default)
+    public async Task HandleAsync(SaveTariffCargoEquipmentCommand equipmentCommand, CancellationToken cancellationToken)
     {
-        var tariff = await _tariffRepository.GetAsync(equipmentCommand.TariffId, cancellationToken).ConfigureAwait(false);
+        var tariff = await _tariffRepository.GetAsync(equipmentCommand.TariffId, cancellationToken)
+            .ConfigureAwait(false);
 
         tariff.SetCargoEquipment(equipmentCommand.CargoEquipment);
 

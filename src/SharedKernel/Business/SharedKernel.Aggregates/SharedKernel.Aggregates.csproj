@@ -6,33 +6,33 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Compile Update="InvalidValue.cs">
-        <DependentUpon>Error.cs</DependentUpon>
-      </Compile>
-      <Compile Update="Entity.cs">
-        <DependentUpon>IAggregateRoot.cs</DependentUpon>
-      </Compile>
-      <Compile Update="ValueObject.cs">
-        <DependentUpon>IAggregateRoot.cs</DependentUpon>
-      </Compile>
-      <Compile Update="ThrowerExtensions.cs">
-        <DependentUpon>Thrower.cs</DependentUpon>
-      </Compile>
-      <Compile Update="NotFound.cs">
-        <DependentUpon>Error.cs</DependentUpon>
-      </Compile>
-      <Compile Update="InvalidParameters.cs">
-        <DependentUpon>Error.cs</DependentUpon>
-      </Compile>
-      <Compile Update="Thrower.cs">
-        <DependentUpon>Error.cs</DependentUpon>
-      </Compile>
-      <Compile Update="Error.cs">
-        <DependentUpon>ErrorException.cs</DependentUpon>
-      </Compile>
-      <Compile Update="Conflict.cs">
-        <DependentUpon>Error.cs</DependentUpon>
-      </Compile>
+        <Compile Update="InvalidValue.cs">
+            <DependentUpon>Error.cs</DependentUpon>
+        </Compile>
+        <Compile Update="Entity.cs">
+            <DependentUpon>IAggregateRoot.cs</DependentUpon>
+        </Compile>
+        <Compile Update="ValueObject.cs">
+            <DependentUpon>IAggregateRoot.cs</DependentUpon>
+        </Compile>
+        <Compile Update="ThrowerExtensions.cs">
+            <DependentUpon>Thrower.cs</DependentUpon>
+        </Compile>
+        <Compile Update="NotFound.cs">
+            <DependentUpon>Error.cs</DependentUpon>
+        </Compile>
+        <Compile Update="InvalidParameters.cs">
+            <DependentUpon>Error.cs</DependentUpon>
+        </Compile>
+        <Compile Update="Thrower.cs">
+            <DependentUpon>Error.cs</DependentUpon>
+        </Compile>
+        <Compile Update="Error.cs">
+            <DependentUpon>ErrorException.cs</DependentUpon>
+        </Compile>
+        <Compile Update="Conflict.cs">
+            <DependentUpon>Error.cs</DependentUpon>
+        </Compile>
     </ItemGroup>
 
 </Project>

@@ -15,11 +15,11 @@ internal static class ComparatorTestsData
 
         var points1 = new HashSet<Point>
         {
-            Point.Fot(firstCountryLocationId1, 1),
-            Point.Fot(secondCountryLocationId1, 2)
+            Point.Fot(firstCountryLocationId1, order: 1),
+            Point.Fot(secondCountryLocationId1, order: 2)
         };
         var route1 = new Route(points1);
-        var price1 = new Price(1200, CurrencyCode.USD);
+        var price1 = new Price(value: 1200, CurrencyCode.USD);
 
         var srcTariff1 = new Tariff(
             tariffId1,
@@ -46,11 +46,11 @@ internal static class ComparatorTestsData
 
         var points2 = new HashSet<Point>
         {
-            Point.Fot(firstCountryLocationId2, 1),
-            Point.Fot(secondCountryLocationId2, 2)
+            Point.Fot(firstCountryLocationId2, order: 1),
+            Point.Fot(secondCountryLocationId2, order: 2)
         };
         var route2 = new Route(points2);
-        var price2 = new Price(1200, CurrencyCode.USD);
+        var price2 = new Price(value: 1200, CurrencyCode.USD);
 
         var srcTariff2 = new Tariff(
             Guid.NewGuid(),
@@ -75,13 +75,13 @@ internal static class ComparatorTestsData
     {
         var srcPoints1 = new HashSet<Point>
         {
-            Point.Fot(locationId: Guid.NewGuid(), order: 1),
-            Point.Fot(locationId: Guid.NewGuid(), order: 2)
+            Point.Fot(Guid.NewGuid(), order: 1),
+            Point.Fot(Guid.NewGuid(), order: 2)
         };
         var destPoints1 = new HashSet<Point>
         {
-            Point.Fot(locationId: Guid.NewGuid(), order: 1),
-            Point.Fot(locationId: Guid.NewGuid(), order: 2)
+            Point.Fot(Guid.NewGuid(), order: 1),
+            Point.Fot(Guid.NewGuid(), order: 2)
         };
         var srcRoute1 = new Route(srcPoints1);
         var destRoute1 = new Route(destPoints1);
@@ -96,8 +96,8 @@ internal static class ComparatorTestsData
 
         var srcPoints2 = new HashSet<Point>
         {
-            Point.Fot(firstCountryLocationId2, 1),
-            Point.Fot(secondCountryLocationId2, 2)
+            Point.Fot(firstCountryLocationId2, order: 1),
+            Point.Fot(secondCountryLocationId2, order: 2)
         };
         var destPoints2 = new HashSet<Point>
         {
@@ -114,13 +114,13 @@ internal static class ComparatorTestsData
 
         var srcPoints3 = new HashSet<Point>
         {
-            Point.Fot(secondCountryLocationId2, 2),
-            Point.Fot(firstCountryLocationId2, 1)
+            Point.Fot(secondCountryLocationId2, order: 2),
+            Point.Fot(firstCountryLocationId2, order: 1)
         };
         var destPoints3 = new HashSet<Point>
         {
-            Point.Fot(firstCountryLocationId2, 1),
-            Point.Fot(secondCountryLocationId2, 2)
+            Point.Fot(firstCountryLocationId2, order: 1),
+            Point.Fot(secondCountryLocationId2, order: 2)
         };
         var srcRoute3 = new Route(srcPoints3);
         var destRoute3 = new Route(destPoints3);
