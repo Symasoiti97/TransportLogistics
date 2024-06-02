@@ -8,7 +8,7 @@ namespace TL.SharedKernel.Infrastructure.Swagger;
 /// <summary>
 /// Описывает в swagger следующие аннтоции:
 /// <list type="bullet">
-///     <item><see cref="NotDefaultAttribute"/></item>
+///     <item><see cref="NotDefaultAttribute" /></item>
 /// </list>
 /// </summary>
 public sealed class AnnotationOperationSchemaFilter : ISchemaFilter

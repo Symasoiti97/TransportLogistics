@@ -7,11 +7,11 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="AutoFixture" Version="4.17.0" />
-        <PackageReference Include="AutoFixture.Xunit2" Version="4.17.0" />
-        <PackageReference Include="FluentAssertions" Version="6.4.0" />
-        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.11.0" />
-        <PackageReference Include="xunit" Version="2.4.1" />
+        <PackageReference Include="AutoFixture" Version="4.17.0"/>
+        <PackageReference Include="AutoFixture.Xunit2" Version="4.17.0"/>
+        <PackageReference Include="FluentAssertions" Version="6.4.0"/>
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.11.0"/>
+        <PackageReference Include="xunit" Version="2.4.1"/>
         <PackageReference Include="xunit.runner.visualstudio" Version="2.4.3">
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
             <PrivateAssets>all</PrivateAssets>
@@ -23,16 +23,16 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\..\Domain\Tariff.Aggregates\Tariff.Aggregates.csproj" />
+        <ProjectReference Include="..\..\Domain\Tariff.Aggregates\Tariff.Aggregates.csproj"/>
     </ItemGroup>
 
     <ItemGroup>
-      <Compile Update="ComparatorTestsData.cs">
-        <DependentUpon>ComparatorTests.cs</DependentUpon>
-      </Compile>
-      <Compile Update="TariffTestsData.cs">
-        <DependentUpon>TariffTests.cs</DependentUpon>
-      </Compile>
+        <Compile Update="ComparatorTestsData.cs">
+            <DependentUpon>ComparatorTests.cs</DependentUpon>
+        </Compile>
+        <Compile Update="TariffTestsData.cs">
+            <DependentUpon>TariffTests.cs</DependentUpon>
+        </Compile>
     </ItemGroup>
 
 </Project>

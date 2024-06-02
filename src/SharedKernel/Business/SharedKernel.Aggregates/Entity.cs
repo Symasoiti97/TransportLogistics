@@ -7,7 +7,7 @@
 public abstract class Entity<TKey> where TKey : struct, IComparable
 {
     /// <summary>
-    /// Create <see cref="Entity{TKey}"/>
+    /// Create <see cref="Entity{TKey}" />
     /// </summary>
     /// <param name="id">Entity id</param>
     protected Entity(TKey id)
@@ -62,7 +62,7 @@ public abstract class Entity<TKey> where TKey : struct, IComparable
     /// <returns></returns>
     public static bool operator ==(Entity<TKey>? left, Entity<TKey>? right)
     {
-        return left?.Equals(right) ?? Equals(right, null);
+        return left?.Equals(right) ?? Equals(right, objB: null);
     }
 
     /// <summary>

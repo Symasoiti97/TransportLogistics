@@ -16,6 +16,6 @@ public static class SwaggerExtensions
 
         var genericParams = type.GetGenericArguments().Select(genericType => genericType.Name);
         var length = type.Name.IndexOf('`');
-        return $"{type.Name.AsSpan(start: 0, length)}<{string.Join(',', genericParams)}>";
+        return $"{type.Name.AsSpan(start: 0, length)}<{string.Join(separator: ',', genericParams)}>";
     }
 }

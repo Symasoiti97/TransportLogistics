@@ -14,7 +14,7 @@ internal static class LocationExtensions
     public static IEnumerable<KeyValuePair<string, string>> FilterNamesByCultures(
         this IEnumerable<KeyValuePair<string, string>> source)
     {
-        if (source is null) throw new ArgumentNullException(nameof(source));
+        ArgumentNullException.ThrowIfNull(source);
 
         return source.Where(i => LocationNames.Contains(i.Key));
     }
@@ -23,8 +23,8 @@ internal static class LocationExtensions
         this IEnumerable<KeyValuePair<string, string>> source,
         IEnumerable<KeyValuePair<string, string>> names)
     {
-        if (source is null) throw new ArgumentNullException(nameof(source));
-        if (names is null) throw new ArgumentNullException(nameof(names));
+        ArgumentNullException.ThrowIfNull(source);
+        ArgumentNullException.ThrowIfNull(names);
 
         return source.Join(
             names,
@@ -36,7 +36,7 @@ internal static class LocationExtensions
 
     public static string? BuildFullTxt(this IEnumerable<KeyValuePair<string, string>> source)
     {
-        if (source is null) throw new ArgumentNullException(nameof(source));
+        ArgumentNullException.ThrowIfNull(source);
 
         return source.Any() ? string.Join(" | ", source.Select(x => x.Value).Distinct()) : null;
     }
@@ -65,7 +65,7 @@ internal static class LocationExtensions
 
     public static bool IsCyrillic(this string value)
     {
-        if (value is null) throw new ArgumentNullException(nameof(value));
+        ArgumentNullException.ThrowIfNull(value);
 
         return value.Any(
             c => c >= UnicodeRanges.Cyrillic.FirstCodePoint &&
@@ -74,7 +74,7 @@ internal static class LocationExtensions
 
     public static bool IsCyrillicFirstSymbol(this string value)
     {
-        if (string.IsNullOrWhiteSpace(value)) throw new ArgumentNullException(nameof(value));
+        ArgumentNullException.ThrowIfNull(value);
 
         var c = value.First();
         return c >= UnicodeRanges.Cyrillic.FirstCodePoint &&
@@ -83,7 +83,7 @@ internal static class LocationExtensions
 
     public static bool IsBasicLatinFirstSymbol(this string value)
     {
-        if (string.IsNullOrWhiteSpace(value)) throw new ArgumentNullException(nameof(value));
+        ArgumentNullException.ThrowIfNull(value);
 
         var c = value.First();
         return c >= UnicodeRanges.BasicLatin.FirstCodePoint &&

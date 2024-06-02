@@ -3,12 +3,12 @@
 namespace TL.SharedKernel.Business.Aggregates;
 
 /// <summary>
-///     Invalid params
+/// Invalid params
 /// </summary>
 public sealed class InvalidParameters : Error
 {
     /// <summary>
-    ///     Создать <see cref="InvalidValue" />
+    /// Создать <see cref="InvalidValue" />
     /// </summary>
     /// <param name="parameters"></param>
     public InvalidParameters(IEnumerable<Parameter> parameters)
@@ -17,7 +17,7 @@ public sealed class InvalidParameters : Error
     }
 
     /// <summary>
-    ///     Invalid parameters
+    /// Invalid parameters
     /// </summary>
     public IEnumerable<Parameter> Parameters { get; }
 
@@ -25,12 +25,12 @@ public sealed class InvalidParameters : Error
     public override string Message => "Invalid params.";
 
     /// <summary>
-    ///     Parameter
+    /// Parameter
     /// </summary>
     public sealed class Parameter
     {
         /// <summary>
-        ///     Creates <see cref="Parameter" />
+        /// Creates <see cref="Parameter" />
         /// </summary>
         /// <param name="value">Value</param>
         /// <param name="name">Name</param>
@@ -49,31 +49,31 @@ public sealed class InvalidParameters : Error
         }
 
         /// <summary>
-        ///     Ошибачное значение
+        /// Ошибачное значение
         /// </summary>
         /// <example>email.ru</example>
         public object? Value { get; }
 
         /// <summary>
-        ///     Наименование параметра
+        /// Наименование параметра
         /// </summary>
         /// <example>email</example>
         public string? Name { get; }
 
         /// <summary>
-        ///     Путь к параметру
+        /// Путь к параметру
         /// </summary>
         /// <example>userProfile.email</example>
         [Required]
         public string Path { get; }
 
         /// <summary>
-        ///     Сообщение об ошибке
+        /// Сообщение об ошибке
         /// </summary>
         public string Message { get; }
 
         /// <summary>
-        ///     Error
+        /// Error
         /// </summary>
         public object? Error { get; }
     }

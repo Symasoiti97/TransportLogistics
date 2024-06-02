@@ -13,12 +13,12 @@ public abstract class ValueObject
     /// <returns>true if objects are equal, else false</returns>
     protected static bool EqualOperator(ValueObject? left, ValueObject? right)
     {
-        if (ReferenceEquals(left, null) ^ ReferenceEquals(right, null))
+        if (ReferenceEquals(left, objB: null) ^ ReferenceEquals(right, objB: null))
         {
             return false;
         }
 
-        return ReferenceEquals(left, null) || left.Equals(right);
+        return ReferenceEquals(left, objB: null) || left.Equals(right);
     }
 
     /// <summary>

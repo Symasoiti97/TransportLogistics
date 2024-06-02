@@ -14,7 +14,7 @@ public sealed class CompressExtensionsBenchmark
     [GlobalSetup]
     public void GlobalSetup()
     {
-        _stringToCompress = new string('*', N);
+        _stringToCompress = new string(c: '*', N);
         _stringToDecompress = _stringToCompress.Compress();
     }
 

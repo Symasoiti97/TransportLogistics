@@ -27,7 +27,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\..\Infrastructure\SharedKernel.Compress.Extensions\SharedKernel.Compress.Extensions.csproj" />
+        <ProjectReference Include="..\..\..\Infrastructure\SharedKernel.Compress.Extensions\SharedKernel.Compress.Extensions.csproj"/>
     </ItemGroup>
 
 </Project>

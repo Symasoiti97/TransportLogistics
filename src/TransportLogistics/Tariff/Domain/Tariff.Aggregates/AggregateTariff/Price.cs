@@ -9,7 +9,7 @@ namespace TL.TransportLogistics.Tariffs.Business.Aggregates.AggregateTariff;
 public sealed class Price : ValueObject
 {
     /// <summary>
-    /// Cоздать <see cref="Price"/>
+    /// Cоздать <see cref="Price" />
     /// </summary>
     /// <param name="value">Цена</param>
     /// <param name="currencyCode">Код валюты</param>

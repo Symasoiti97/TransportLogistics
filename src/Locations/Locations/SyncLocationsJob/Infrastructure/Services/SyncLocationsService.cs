@@ -168,13 +168,13 @@ internal class SyncLocationsService
              SELECT region.id "Id", region.tags "Tags", st_y(st_centroid(st_polygonize(w.linestring))) "Latitude", st_x(st_centroid(st_polygonize(w.linestring))) "Longitude"
              FROM (SELECT region.*
                    FROM relations region
-             
+
              INNER JOIN relation_members rm on region.id = rm.member_id
              INNER JOIN relations r on rm.relation_id = r.id
-             
+
              INNER JOIN relation_members rm2 on r.id = rm2.member_id
              INNER JOIN relations r2 on rm2.relation_id = r2.id
-             
+
              INNER JOIN relation_members rm3 on r2.id = rm3.member_id
              INNER JOIN relations r3 on rm3.relation_id = r3.id AND r3.id = {parentLocation.SyncId}
              INNER JOIN region_admin_levels c on r3.tags -> 'ISO3166-1' = c."Code" AND region.tags -> 'admin_level' = ANY(c."Levels")
@@ -185,7 +185,7 @@ internal class SyncLocationsService
              FROM relations region
              INNER JOIN relation_members rm on region.id = rm.member_id
              INNER JOIN relations r on rm.relation_id = r.id
-             
+
              INNER JOIN relation_members rm2 on r.id = rm2.member_id
              INNER JOIN relations r2 on rm2.relation_id = r2.id AND r2.id = {parentLocation.SyncId}
              INNER JOIN region_admin_levels c on r2.tags -> 'ISO3166-1' = c."Code" AND region.tags -> 'admin_level' = ANY(c."Levels")

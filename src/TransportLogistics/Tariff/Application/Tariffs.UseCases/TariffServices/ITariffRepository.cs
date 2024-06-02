@@ -1,5 +1,4 @@
-﻿using TL.SharedKernel.Application.Repositories;
-using TL.TransportLogistics.Tariffs.Business.Aggregates.AggregateTariff;
+﻿using TL.TransportLogistics.Tariffs.Business.Aggregates.AggregateTariff;
 
 namespace TL.TransportLogistics.Tariffs.Application.UseCases.TariffServices;
 
@@ -7,7 +6,7 @@ namespace TL.TransportLogistics.Tariffs.Application.UseCases.TariffServices;
 /// Хранилище тарифа
 /// Использовать для управления тарифом - получать и изменять тариф
 /// </summary>
-public interface ITariffRepository : IRepository
+public interface ITariffRepository
 {
     /// <summary>
     /// Получить тариф

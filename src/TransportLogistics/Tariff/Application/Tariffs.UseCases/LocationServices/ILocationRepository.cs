@@ -1,12 +1,10 @@
-﻿using TL.SharedKernel.Application.Repositories;
-
-namespace TL.TransportLogistics.Tariffs.Application.UseCases.LocationServices;
+﻿namespace TL.TransportLogistics.Tariffs.Application.UseCases.LocationServices;
 
 /// <summary>
 /// Хранилище локаций
 /// Использовать для получения локации
 /// </summary>
-public interface ILocationRepository : IRepository
+public interface ILocationRepository
 {
     /// <summary>
     /// Получить список локаций по идентификаторам

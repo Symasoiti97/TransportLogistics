@@ -16,17 +16,20 @@ public static class ServiceExtensions
     /// <summary>
     /// Регистрация сервисов тарифа
     /// <list type="bullet">
-    ///     <item>Регестрирует <see cref="IUserContext"/>, как <see cref="ServiceLifetime.Scoped"/> только mock для ASPNETCORE_ENVIRONMENT=Development</item>
     ///     <item>
-    ///     Регестрирует <see cref="ICommandHandler{TCommand}"/>, как <see cref="ServiceLifetime.Transient"/>.<br/>
+    ///     Регестрирует <see cref="IUserContext" />, как <see cref="ServiceLifetime.Scoped" /> только mock для
+    ///     ASPNETCORE_ENVIRONMENT=Development
+    ///     </item>
+    ///     <item>
+    ///     Регестрирует <see cref="ICommandHandler{TCommand}" />, как <see cref="ServiceLifetime.Transient" />.<br />
     ///     Доступные команды:
-    ///         <list type="bullet">
-    ///             <item><see cref="CreateTariffCommand"/></item>
-    ///             <item><see cref="SaveTariffRouteCommand"/></item>
-    ///             <item><see cref="SaveTariffCargoEquipmentCommand"/></item>
-    ///             <item><see cref="SaveTariffPriceCommand"/></item>
-    ///             <item><see cref="PublishTariffCommand"/></item>
-    ///         </list>
+    ///     <list type="bullet">
+    ///         <item><see cref="CreateTariffCommand" /></item>
+    ///         <item><see cref="SaveTariffRouteCommand" /></item>
+    ///         <item><see cref="SaveTariffCargoEquipmentCommand" /></item>
+    ///         <item><see cref="SaveTariffPriceCommand" /></item>
+    ///         <item><see cref="PublishTariffCommand" /></item>
+    ///     </list>
     ///     </item>
     /// </list>
     /// </summary>

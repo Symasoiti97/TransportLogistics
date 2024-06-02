@@ -30,7 +30,9 @@ internal sealed class SaveTariffRouteCommandHandler : ICommandHandler<SaveTariff
         await _tariffRepository.UpdateAsync(tariff, cancellationToken);
     }
 
-    private async Task EnsureThatLocationsExistsAsync(SaveTariffRouteCommand command, CancellationToken cancellationToken)
+    private async Task EnsureThatLocationsExistsAsync(
+        SaveTariffRouteCommand command,
+        CancellationToken cancellationToken)
     {
         var locationIds = command.Route.Points.Select(p => p.LocationId).ToHashSet();
         await _locationRepository.EnsureThatLocationsExists(locationIds, cancellationToken).ConfigureAwait(false);

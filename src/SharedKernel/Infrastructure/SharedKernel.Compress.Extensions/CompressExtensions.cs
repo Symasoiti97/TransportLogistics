@@ -16,7 +16,7 @@ public static class CompressExtensions
         var outputStream = new MemoryStream();
         using (var gzipStream = new GZipStream(outputStream, CompressionMode.Compress))
         {
-            gzipStream.Write(bytesToCompress, 0, bytesToCompress.Length);
+            gzipStream.Write(bytesToCompress, offset: 0, bytesToCompress.Length);
         }
 
         return Convert.ToBase64String(outputStream.ToArray());

@@ -16,7 +16,7 @@ public class TariffNotFound : NotFound
     public override string Message => "Tariff not found.";
 
     /// <summary>
-    /// Создать <see cref="TariffNotFound"/>
+    /// Создать <see cref="TariffNotFound" />
     /// </summary>
     /// <param name="tariffId">Идентификатор тарифа</param>
     public TariffNotFound(Guid tariffId) : base($"Not found tariff with id '{tariffId}'")

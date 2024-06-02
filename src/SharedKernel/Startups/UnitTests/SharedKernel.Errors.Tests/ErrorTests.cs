@@ -11,7 +11,6 @@ public sealed class ErrorTests
     public void ThrowErrorIfValueNull_Test2(object? value)
     {
         var action = () => Error.Throw().IfNull(value);
-
         var errorException = action.Should().Throw<ErrorException>();
         var error = errorException.Which.Error;
         error.BuildType().Should().Be("invalid-value");

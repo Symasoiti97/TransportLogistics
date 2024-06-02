@@ -9,7 +9,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\..\..\..\SharedKernel\Business\SharedKernel.Aggregates\SharedKernel.Aggregates.csproj" />
+        <ProjectReference Include="..\..\..\..\SharedKernel\Business\SharedKernel.Aggregates\SharedKernel.Aggregates.csproj"/>
     </ItemGroup>
 
 </Project>

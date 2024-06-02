@@ -6,7 +6,7 @@
 public abstract class Error
 {
     /// <summary>
-    /// Создает <see cref="Error"/>
+    /// Создает <see cref="Error" />
     /// </summary>
     /// <param name="details">Детали ошибки</param>
     protected Error(string details)
@@ -17,7 +17,7 @@ public abstract class Error
     }
 
     /// <summary>
-    /// Создает <see cref="Error"/>
+    /// Создает <see cref="Error" />
     /// </summary>
     protected Error()
     {
@@ -34,7 +34,7 @@ public abstract class Error
     public abstract string Message { get; }
 
     /// <summary>
-    /// Инициализирует <see cref="Thrower"/>
+    /// Инициализирует <see cref="Thrower" />
     /// </summary>
     /// <returns></returns>
     public static Thrower Throw()

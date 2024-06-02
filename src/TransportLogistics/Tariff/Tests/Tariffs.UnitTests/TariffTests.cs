@@ -33,8 +33,8 @@ public sealed class TariffTests
             var tariffRoute2 = new Route(
                 new HashSet<Point>
                 {
-                    Point.Fob(Guid.NewGuid(), 1),
-                    Point.Fob(Guid.NewGuid(), 3)
+                    Point.Fob(Guid.NewGuid(), order: 1),
+                    Point.Fob(Guid.NewGuid(), order: 3)
                 });
 
             Tariff.Create(
@@ -50,9 +50,9 @@ public sealed class TariffTests
             var tariffRoute2 = new Route(
                 new HashSet<Point>
                 {
-                    Point.Fob(Guid.NewGuid(), 1),
-                    Point.Fob(Guid.NewGuid(), 2),
-                    Point.Fob(Guid.NewGuid(), 2)
+                    Point.Fob(Guid.NewGuid(), order: 1),
+                    Point.Fob(Guid.NewGuid(), order: 2),
+                    Point.Fob(Guid.NewGuid(), order: 2)
                 });
 
             Tariff.Create(

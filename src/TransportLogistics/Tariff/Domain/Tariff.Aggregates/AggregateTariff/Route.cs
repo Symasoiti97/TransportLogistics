@@ -7,8 +7,10 @@ namespace TL.TransportLogistics.Tariffs.Business.Aggregates.AggregateTariff;
 /// </summary>
 public sealed class Route : ValueObject
 {
+    private const byte MinPointCount = 2;
+
     /// <summary>
-    /// Создать <see cref="Route"/>
+    /// Создать <see cref="Route" />
     /// </summary>
     /// <param name="points">Точки маршрута</param>
     public Route(IReadOnlyCollection<Point> points)
@@ -16,8 +18,6 @@ public sealed class Route : ValueObject
         Points = EnsureThatPointIsValid(points);
         Type = DefineRouteType();
     }
-
-    private const byte MinPointCount = 2;
 
     /// <summary>
     /// Тип маршрута
