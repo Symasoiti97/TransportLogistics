@@ -1,3 +1,4 @@
+using System.ComponentModel.Exceptions;
 using TL.SharedKernel.Business.Aggregates;
 
 namespace TL.TransportLogistics.Tariffs.Business.Aggregates.AggregateTariff;
@@ -80,7 +81,7 @@ public sealed class Point : ValueObject
 
     private void SetPointType(PointType pointType)
     {
-        Error.Throw().IfUndefined(pointType);
+        InvalidEnumArgumentException.ThrowIfUndefined(pointType);
 
         Type = pointType;
     }

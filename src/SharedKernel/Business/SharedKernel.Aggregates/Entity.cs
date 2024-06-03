@@ -1,4 +1,6 @@
-﻿namespace TL.SharedKernel.Business.Aggregates;
+﻿using ArgumentException = System.ComponentModel.Exceptions.ArgumentException;
+
+namespace TL.SharedKernel.Business.Aggregates;
 
 /// <summary>
 /// Entity
@@ -26,7 +28,7 @@ public abstract class Entity<TKey> where TKey : struct, IComparable
     /// <param name="id">Entity id</param>
     private void SetId(TKey id)
     {
-        Error.Throw().IfDefault(id);
+        ArgumentException.ThrowIfDefault(id);
 
         Id = id;
     }

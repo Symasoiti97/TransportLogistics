@@ -6,29 +6,6 @@
 public abstract class Error
 {
     /// <summary>
-    /// Создает <see cref="Error" />
-    /// </summary>
-    /// <param name="details">Детали ошибки</param>
-    protected Error(string details)
-    {
-        ArgumentException.ThrowIfNullOrWhiteSpace(details);
-
-        Details = details;
-    }
-
-    /// <summary>
-    /// Создает <see cref="Error" />
-    /// </summary>
-    protected Error()
-    {
-    }
-
-    /// <summary>
-    /// Детали ошибки
-    /// </summary>
-    public string? Details { get; }
-
-    /// <summary>
     /// Сообщение ошибки
     /// </summary>
     public abstract string Message { get; }
@@ -42,5 +19,7 @@ public abstract class Error
         return new Thrower();
     }
 
-    public static implicit operator ErrorException(Error error) => new(error);
+    public static implicit operator ErrorException(Error error) => new(error, message: null);
+
+    public ErrorException WithDetails(string details) => new(this, details);
 }

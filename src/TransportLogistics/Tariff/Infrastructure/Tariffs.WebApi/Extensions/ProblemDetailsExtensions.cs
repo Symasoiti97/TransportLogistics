@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using TL.SharedKernel.Business.Aggregates;
 using TL.SharedKernel.Infrastructure.JsonSerializer.Extensions;
-using TL.TransportLogistics.Tariffs.Business.Aggregates.AggregateTariff.Errors;
 using TL.TransportLogistics.Tariffs.Startups.WebApi.Settings;
 using ProblemDetailsOptions = Hellang.Middleware.ProblemDetails.ProblemDetailsOptions;
 
@@ -14,8 +13,8 @@ internal static class ProblemDetailsExtensions
     public static Type[] ErrorTypes
         => new[]
             {
-                typeof(ThrowerExtensions).Assembly,
-                typeof(TariffNotFound).Assembly
+                typeof(TL.SharedKernel.Business.Aggregates.AssemblyReference).Assembly,
+                typeof(TL.TransportLogistics.Tariffs.Business.Aggregates.AssemblyReference).Assembly
             }
             .SelectMany(assembly => assembly.GetTypes().Where(type => type.IsSubclassOf(typeof(Error))))
             .ToArray();
@@ -45,7 +44,9 @@ internal static class ProblemDetailsExtensions
                     Status = statusMapper.TryMap(errorException.Error, out var status)
                         ? status
                         : StatusCodes.Status500InternalServerError,
-                    Detail = errorException.Error.Details,
+                    Detail = errorException.HasDetails
+                        ? errorException.Message
+                        : null,
                     Extensions = {{ErrorKey, errorException.Error}}
                 };
 

@@ -13,7 +13,7 @@ public sealed class InvalidValue : Error
     /// <param name="value">Ошибочное значение</param>
     /// <param name="name">Наименование значения</param>
     /// <param name="details">Сообщение об ошибке</param>
-    public InvalidValue(object? value, string name, string details) : base(details)
+    public InvalidValue(object? value, string name)
     {
         Value = value;
         Name = name;

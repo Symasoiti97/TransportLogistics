@@ -72,7 +72,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharedKernel.JsonSerializer
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "System", "System", "{E24F2EB5-5D90-4936-AF81-244FADD97D9B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharedKernel.System.ComponentModel.DataAnnotations", "SharedKernel\System\SharedKernel.System.ComponentModel.DataAnnotations\SharedKernel.System.ComponentModel.DataAnnotations.csproj", "{B2906C9E-0F68-4411-91AE-0A42132D3283}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharedKernel.System.ComponentModel", "SharedKernel\System\SharedKernel.System.ComponentModel\SharedKernel.System.ComponentModel.csproj", "{B2906C9E-0F68-4411-91AE-0A42132D3283}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharedKernel.Errors.Tests", "SharedKernel\Startups\UnitTests\SharedKernel.Errors.Tests\SharedKernel.Errors.Tests.csproj", "{A95D4352-7CDC-454F-936E-6BDB337517AB}"
 EndProject

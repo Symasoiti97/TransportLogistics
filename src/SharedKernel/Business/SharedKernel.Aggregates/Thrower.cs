@@ -12,6 +12,6 @@ public struct Thrower
     /// <exception cref="ErrorException"></exception>
     public static void Throw(Error error)
     {
-        throw new ErrorException(error);
+        throw new ErrorException(error, message: null);
     }
 }

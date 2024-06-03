@@ -19,7 +19,7 @@
     <ItemGroup>
         <ProjectReference Include="..\..\..\..\SharedKernel\Application\SharedKernel.Handlers\SharedKernel.Handlers.csproj"/>
         <ProjectReference Include="..\..\..\..\SharedKernel\Application\SharedKernel.Repositories\SharedKernel.Repositories.csproj"/>
-        <ProjectReference Include="..\..\..\..\SharedKernel\System\SharedKernel.System.ComponentModel.DataAnnotations\SharedKernel.System.ComponentModel.DataAnnotations.csproj"/>
+        <ProjectReference Include="..\..\..\..\SharedKernel\System\SharedKernel.System.ComponentModel\SharedKernel.System.ComponentModel.csproj"/>
         <ProjectReference Include="..\..\Domain\Tariff.Aggregates\Tariff.Aggregates.csproj"/>
     </ItemGroup>
 

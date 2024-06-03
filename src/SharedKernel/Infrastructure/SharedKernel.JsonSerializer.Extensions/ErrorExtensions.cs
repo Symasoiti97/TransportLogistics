@@ -14,7 +14,7 @@ public static class ErrorExtensions
     {
         if (!errorType.IsSubclassOf(typeof(Error)))
         {
-            throw new ArgumentException("Argument errorType must be Error", nameof(errorType));
+            throw new ArgumentException("Argument errorType must be Error.", nameof(errorType));
         }
 
         return JsonNamingPolicy.KebabCaseLower.ConvertName(errorType.Name);
