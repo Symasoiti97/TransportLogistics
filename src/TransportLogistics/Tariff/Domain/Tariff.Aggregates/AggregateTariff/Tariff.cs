@@ -1,4 +1,6 @@
 ﻿using TL.SharedKernel.Business.Aggregates;
+using TL.TransportLogistics.Tariffs.Business.Aggregates.AggregateTariff.Errors;
+using ArgumentException = System.ComponentModel.Exceptions.ArgumentException;
 
 namespace TL.TransportLogistics.Tariffs.Business.Aggregates.AggregateTariff;
 
@@ -98,7 +100,7 @@ public sealed class Tariff : Entity<Guid>, IAggregateRoot
     /// <param name="price">Цена</param>
     public void SetPrice(Price? price)
     {
-        Error.Throw().IfNull(price);
+        ArgumentNullException.ThrowIfNull(price);
 
         Price = price;
         SetAsDraft();
@@ -110,7 +112,7 @@ public sealed class Tariff : Entity<Guid>, IAggregateRoot
     /// <param name="route">Маршрут</param>
     public void SetRoute(Route route)
     {
-        Error.Throw().IfNull(route);
+        ArgumentNullException.ThrowIfNull(route);
 
         Route = route;
         SetAsDraft();
@@ -133,10 +135,13 @@ public sealed class Tariff : Entity<Guid>, IAggregateRoot
     {
         if (IsDraft)
         {
-            Error.Throw()
-                .IfNull(Route)
-                .IfNull(CargoEquipment)
-                .IfNull(Price);
+            var isUndefinedRoute = Route is not null;
+            var isUndefinedCargoEquipment = CargoEquipment is not null;
+            var isUndefinedPrice = Price is not null;
+            if (isUndefinedRoute || isUndefinedCargoEquipment || isUndefinedPrice)
+            {
+                throw new TariffCannotBeReal(isUndefinedRoute, isUndefinedCargoEquipment, isUndefinedPrice);
+            }
 
             IsDraft = false;
         }
@@ -144,7 +149,7 @@ public sealed class Tariff : Entity<Guid>, IAggregateRoot
 
     private void SetManager(Guid profileId)
     {
-        Error.Throw().IfDefault(profileId);
+        ArgumentException.ThrowIfDefault(profileId);
 
         ManagerProfileId = profileId;
     }

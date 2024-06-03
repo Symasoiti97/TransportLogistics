@@ -19,7 +19,7 @@ public class TariffNotFound : NotFound
     /// Создать <see cref="TariffNotFound" />
     /// </summary>
     /// <param name="tariffId">Идентификатор тарифа</param>
-    public TariffNotFound(Guid tariffId) : base($"Not found tariff with id '{tariffId}'")
+    public TariffNotFound(Guid tariffId)
     {
         TariffId = tariffId;
     }

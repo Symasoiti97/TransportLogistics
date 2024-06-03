@@ -3,7 +3,7 @@
 /// <summary>
 /// Ошибка некорректного параметра
 /// </summary>
-public sealed class Conflict(string details) : Error(details)
+public class Conflict : Error
 {
     /// <inheritdoc />
     public override string Message => "Conflict.";

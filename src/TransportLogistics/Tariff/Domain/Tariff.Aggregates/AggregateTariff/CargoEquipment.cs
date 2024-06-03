@@ -1,4 +1,4 @@
-﻿using TL.SharedKernel.Business.Aggregates;
+﻿using System.ComponentModel.Exceptions;
 
 namespace TL.TransportLogistics.Tariffs.Business.Aggregates.AggregateTariff;
 
@@ -15,9 +15,9 @@ public sealed class CargoEquipment
     /// <param name="containerSize">Размер контейнера</param>
     public CargoEquipment(CargoType cargoType, ContainerOwn containerOwn, ContainerSize containerSize)
     {
-        Error.Throw().IfUndefined(containerSize);
-        Error.Throw().IfUndefined(containerOwn);
-        Error.Throw().IfUndefined(containerSize);
+        InvalidEnumArgumentException.ThrowIfUndefined(cargoType);
+        InvalidEnumArgumentException.ThrowIfUndefined(containerOwn);
+        InvalidEnumArgumentException.ThrowIfUndefined(containerSize);
 
         CargoType = cargoType;
         ContainerOwn = containerOwn;

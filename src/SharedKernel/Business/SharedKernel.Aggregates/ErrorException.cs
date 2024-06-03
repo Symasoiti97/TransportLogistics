@@ -8,18 +8,22 @@ public class ErrorException : Exception
     /// <inheritdoc />
     public ErrorException(
         Error error,
+        string? message,
         Exception? innerException = null)
         : base(
-            error.Message,
+            message,
             innerException)
     {
         ArgumentNullException.ThrowIfNull(error);
 
         Error = error;
+        HasDetails = message is not null;
     }
 
     /// <summary>
     /// Ошибки
     /// </summary>
     public Error Error { get; }
+
+    public bool HasDetails { get; }
 }

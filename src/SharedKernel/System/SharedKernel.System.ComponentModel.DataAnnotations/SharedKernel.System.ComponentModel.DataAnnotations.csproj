@@ -1,8 +1,0 @@
-<Project Sdk="Microsoft.NET.Sdk">
-
-    <PropertyGroup>
-        <RootNamespace>System.ComponentModel.DataAnnotations</RootNamespace>
-        <AssemblyName>TL.SharedKernel.System.ComponentModel.DataAnnotations</AssemblyName>
-    </PropertyGroup>
-
-</Project>

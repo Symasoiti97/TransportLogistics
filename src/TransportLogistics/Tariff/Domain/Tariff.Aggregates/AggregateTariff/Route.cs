@@ -44,7 +44,7 @@ public sealed class Route : ValueObject
         {
             if (point.Order != order)
             {
-                throw new Conflict("Invalid point order");
+                throw new Conflict().WithDetails($"Invalid point order {order}.");
             }
 
             sortedPoint.Add(point);
@@ -53,7 +53,7 @@ public sealed class Route : ValueObject
 
         if (order < MinPointCount)
         {
-            throw new Conflict("Point count must be greater than or equals 2");
+            throw new Conflict().WithDetails("Point count must be greater than or equals 2.");
         }
 
         return sortedPoint;

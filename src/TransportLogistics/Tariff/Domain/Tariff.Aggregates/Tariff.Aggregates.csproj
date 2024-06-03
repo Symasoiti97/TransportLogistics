@@ -10,6 +10,7 @@
 
     <ItemGroup>
         <ProjectReference Include="..\..\..\..\SharedKernel\Business\SharedKernel.Aggregates\SharedKernel.Aggregates.csproj"/>
+        <ProjectReference Include="..\..\..\..\SharedKernel\System\SharedKernel.System.ComponentModel\SharedKernel.System.ComponentModel.csproj"/>
     </ItemGroup>
 
 </Project>
