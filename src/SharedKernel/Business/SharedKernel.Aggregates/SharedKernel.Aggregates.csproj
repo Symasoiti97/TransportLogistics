@@ -13,12 +13,6 @@
         <Compile Update="InvalidValue.cs">
             <DependentUpon>Error.cs</DependentUpon>
         </Compile>
-        <Compile Update="Entity.cs">
-            <DependentUpon>IAggregateRoot.cs</DependentUpon>
-        </Compile>
-        <Compile Update="ValueObject.cs">
-            <DependentUpon>IAggregateRoot.cs</DependentUpon>
-        </Compile>
         <Compile Update="NotFound.cs">
             <DependentUpon>Error.cs</DependentUpon>
         </Compile>
