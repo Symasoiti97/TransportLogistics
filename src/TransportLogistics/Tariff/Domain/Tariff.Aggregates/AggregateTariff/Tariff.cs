@@ -1,5 +1,6 @@
 ﻿using TL.SharedKernel.Business.Aggregates;
 using TL.TransportLogistics.Tariffs.Business.Aggregates.AggregateTariff.Errors;
+using TL.TransportLogistics.Tariffs.Business.Aggregates.AggregateTariff.Events;
 using ArgumentException = System.ComponentModel.Exceptions.ArgumentException;
 
 namespace TL.TransportLogistics.Tariffs.Business.Aggregates.AggregateTariff;
@@ -7,7 +8,7 @@ namespace TL.TransportLogistics.Tariffs.Business.Aggregates.AggregateTariff;
 /// <summary>
 /// Тариф
 /// </summary>
-public sealed class Tariff : Entity<Guid>, IAggregateRoot
+public sealed class Tariff : AggregateRoot<Guid>
 {
     /// <summary>
     /// Инициализировать тариф
@@ -91,7 +92,11 @@ public sealed class Tariff : Entity<Guid>, IAggregateRoot
         Price? price = null,
         bool isDraft = true)
     {
-        return new Tariff(id, managerProfileId, route, cargoEquipment, price, isDraft);
+        var tariff = new Tariff(id, managerProfileId, route, cargoEquipment, price, isDraft);
+
+        tariff.Raise(TariffCreated.Create(tariff.Id));
+
+        return tariff;
     }
 
     /// <summary>
