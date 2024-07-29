@@ -19,9 +19,6 @@
         <Compile Update="InvalidParameters.cs">
             <DependentUpon>Error.cs</DependentUpon>
         </Compile>
-        <Compile Update="Thrower.cs">
-            <DependentUpon>Error.cs</DependentUpon>
-        </Compile>
         <Compile Update="Error.cs">
             <DependentUpon>ErrorException.cs</DependentUpon>
         </Compile>
