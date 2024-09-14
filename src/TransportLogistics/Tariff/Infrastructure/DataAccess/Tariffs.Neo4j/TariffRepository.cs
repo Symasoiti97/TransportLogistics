@@ -1,5 +1,6 @@
 ﻿using Neo4jClient.Cypher;
 using TL.SharedKernel.Infrastructure.Compress.Extensions;
+using TL.SharedKernel.Infrastructure.Neo4j;
 using TL.TransportLogistics.Tariffs.Application.UseCases.TariffServices;
 using TL.TransportLogistics.Tariffs.Business.Aggregates.AggregateTariff;
 using TL.TransportLogistics.Tariffs.Business.Aggregates.AggregateTariff.Errors;
@@ -9,33 +10,33 @@ namespace TL.TransportLogistics.Tariffs.Infrastructure.DataAccess.Neo4j;
 
 internal sealed class TariffRepository : ITariffRepository
 {
-    private readonly TariffDbContext _tariffDbContext;
+    private readonly ICypherGraphClientFactory _graphClientFactory;
 
-    public TariffRepository(TariffDbContext tariffDbContext)
+    public TariffRepository(ICypherGraphClientFactory graphClientFactory)
     {
-        ArgumentNullException.ThrowIfNull(tariffDbContext);
+        ArgumentNullException.ThrowIfNull(graphClientFactory);
 
-        _tariffDbContext = tariffDbContext;
+        _graphClientFactory = graphClientFactory;
     }
 
     public async Task<Tariff> GetAsync(Guid tariffId, CancellationToken cancellationToken)
     {
-        var tariffResults = await _tariffDbContext.ReadAsync(
-            query => query
-                .Match("(tariff:Tariff {Id: $tariffId})")
-                .OptionalMatch("(tariff)-[:HAS_ROUTE]->(route:Route)-[point:HAS_POINT]->(location:Location)")
-                .WithParam("tariffId", tariffId)
-                .Return(
-                    (tariff, route, point, location) =>
-                        new TariffResult
-                        {
-                            Tariff = tariff.As<TariffNode>(),
-                            Route = route.As<RouteNode>(),
-                            LocationPoints = Return.As<TariffResult.LocationPoint[]>(
-                                "collect({Point: point, Location: location})")
-                        })
-                .ResultsAsync,
-            cancellationToken).ConfigureAwait(false);
+        var query = await _graphClientFactory.GetCypherFluentQueryAsync(cancellationToken).ConfigureAwait(false);
+
+        var tariffResults = await query
+            .Match("(tariff:Tariff {Id: $tariffId})")
+            .OptionalMatch("(tariff)-[:HAS_ROUTE]->(route:Route)-[point:HAS_POINT]->(location:Location)")
+            .WithParam("tariffId", tariffId)
+            .Return(
+                (tariff, route, point, location) =>
+                    new TariffResult
+                    {
+                        Tariff = tariff.As<TariffNode>(),
+                        Route = route.As<RouteNode>(),
+                        LocationPoints = Return.As<TariffResult.LocationPoint[]>(
+                            "collect({Point: point, Location: location})")
+                    })
+            .ResultsAsync.ConfigureAwait(false);
 
         var tariffResult = tariffResults.Single();
         if (tariffResult is null)
@@ -48,59 +49,58 @@ internal sealed class TariffRepository : ITariffRepository
 
     public async Task AddAsync(Tariff tariff, CancellationToken cancellationToken)
     {
-        _tariffDbContext.AddCommand(
-            query =>
-            {
-                if (tariff.Route is not null)
+        ArgumentNullException.ThrowIfNull(tariff);
+
+        var query = await _graphClientFactory.GetCypherFluentQueryAsync(cancellationToken).ConfigureAwait(false);
+
+        if (tariff.Route is not null)
+        {
+            query = BuildMergeRouteQuery(tariff.Route, query);
+        }
+
+        query = query
+            .Create("(t:Tariff $tariff)")
+            .WithParam(
+                "tariff",
+                new TariffNode
                 {
-                    query = BuildMergeRouteQuery(tariff.Route, query);
-                }
+                    Id = tariff.Id,
+                    Price = tariff.Price?.Value,
+                    CurrencyCode = tariff.Price?.CurrencyCode,
+                    CargoType = tariff.CargoEquipment?.CargoType,
+                    ContainerOwn = tariff.CargoEquipment?.ContainerOwn,
+                    ContainerSize = tariff.CargoEquipment?.ContainerSize,
+                    CreatedUtc = DateTime.UtcNow,
+                    UpdatedUtc = DateTime.UtcNow,
+                    IsDraft = tariff.IsDraft,
+                    ManagerProfileId = tariff.ManagerProfileId
+                });
 
-                query = query
-                    .Create("(t:Tariff $tariff)")
-                    .WithParam(
-                        "tariff",
-                        new TariffNode
-                        {
-                            Id = tariff.Id,
-                            Price = tariff.Price?.Value,
-                            CurrencyCode = tariff.Price?.CurrencyCode,
-                            CargoType = tariff.CargoEquipment?.CargoType,
-                            ContainerOwn = tariff.CargoEquipment?.ContainerOwn,
-                            ContainerSize = tariff.CargoEquipment?.ContainerSize,
-                            CreatedUtc = DateTime.UtcNow,
-                            UpdatedUtc = DateTime.UtcNow,
-                            IsDraft = tariff.IsDraft,
-                            ManagerProfileId = tariff.ManagerProfileId
-                        });
+        if (tariff.Route is not null)
+        {
+            query = query.Create("(t)-[:HAS_ROUTE]->(r)");
+        }
 
-                if (tariff.Route is not null)
-                {
-                    query = query.Create("(t)-[:HAS_ROUTE]->(r)");
-                }
-
-                return query.ExecuteWithoutResultsAsync();
-            });
-
-        await _tariffDbContext.SaveChangesAsync(cancellationToken);
+        await query.ExecuteWithoutResultsAsync();
     }
 
     public async Task UpdateAsync(Tariff tariff, CancellationToken cancellationToken)
     {
-        _tariffDbContext.AddCommand(
-            query =>
-            {
-                if (tariff.Route is not null)
-                {
-                    query = BuildMergeRouteQuery(tariff.Route, query)
-                        .With("r");
-                }
+        ArgumentNullException.ThrowIfNull(tariff);
 
-                query = query
-                    .Match("(t:Tariff {Id: $tariff.Id})")
-                    .OptionalMatch("(t)-[oldHR:HAS_ROUTE]->(:Route)")
-                    .Set(
-                        @"
+        var query = await _graphClientFactory.GetCypherFluentQueryAsync(cancellationToken).ConfigureAwait(false);
+
+        if (tariff.Route is not null)
+        {
+            query = BuildMergeRouteQuery(tariff.Route, query)
+                .With("r");
+        }
+
+        query = query
+            .Match("(t:Tariff {Id: $tariff.Id})")
+            .OptionalMatch("(t)-[oldHR:HAS_ROUTE]->(:Route)")
+            .Set(
+                @"
                     t.Price = $tariff.Price,
                     t.CurrencyCode = $tariff.CurrencyCode,
                     t.CargoType = $tariff.CargoType,
@@ -109,37 +109,29 @@ internal sealed class TariffRepository : ITariffRepository
                     t.UpdatedUtc = $tariff.UpdatedUtc,
                     t.IsDraft = $tariff.IsDraft,
                     t.ManagerProfileId = $tariff.ManagerProfileId")
-                    .WithParam(
-                        "tariff",
-                        new TariffNode
-                        {
-                            Id = tariff.Id,
-                            Price = tariff.Price?.Value,
-                            CurrencyCode = tariff.Price?.CurrencyCode,
-                            CargoType = tariff.CargoEquipment?.CargoType,
-                            ContainerOwn = tariff.CargoEquipment?.ContainerOwn,
-                            ContainerSize = tariff.CargoEquipment?.ContainerSize,
-                            UpdatedUtc = DateTime.UtcNow,
-                            IsDraft = tariff.IsDraft,
-                            ManagerProfileId = tariff.ManagerProfileId
-                        });
-
-                query = query.Delete("oldHR");
-
-                if (tariff.Route is not null)
+            .WithParam(
+                "tariff",
+                new TariffNode
                 {
-                    query = query.Create("(t)-[:HAS_ROUTE]->(r)");
-                }
+                    Id = tariff.Id,
+                    Price = tariff.Price?.Value,
+                    CurrencyCode = tariff.Price?.CurrencyCode,
+                    CargoType = tariff.CargoEquipment?.CargoType,
+                    ContainerOwn = tariff.CargoEquipment?.ContainerOwn,
+                    ContainerSize = tariff.CargoEquipment?.ContainerSize,
+                    UpdatedUtc = DateTime.UtcNow,
+                    IsDraft = tariff.IsDraft,
+                    ManagerProfileId = tariff.ManagerProfileId
+                });
 
-                return query.ExecuteWithoutResultsAsync();
-            });
+        query = query.Delete("oldHR");
 
-        await _tariffDbContext.SaveChangesAsync(cancellationToken);
-    }
+        if (tariff.Route is not null)
+        {
+            query = query.Create("(t)-[:HAS_ROUTE]->(r)");
+        }
 
-    public Task SaveChangesAsync(CancellationToken cancellationToken)
-    {
-        return _tariffDbContext.SaveChangesAsync(cancellationToken);
+        await query.ExecuteWithoutResultsAsync();
     }
 
     private static ICypherFluentQuery BuildMergeRouteQuery(Route route, ICypherFluentQuery query)

@@ -49,7 +49,6 @@ public static class ServiceExtensions
 
         services.AddNeo4JServices(neo4JSettings);
 
-        services.AddScoped<TariffDbContext>();
         services.AddTransient<ITariffRepository, TariffRepository>();
         services.AddTransient<ILocationRepository, LocationRepository>();
 

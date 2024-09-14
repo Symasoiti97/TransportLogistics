@@ -1,6 +1,6 @@
 using Microsoft.Extensions.Logging;
 using Neo4jClient;
-using Neo4jClient.Transactions;
+using Neo4jClient.Cypher;
 using Nito.AsyncEx;
 using TL.SharedKernel.Infrastructure.DependencyInjection.Settings;
 using TL.SharedKernel.Infrastructure.Neo4j;
@@ -44,18 +44,11 @@ internal sealed class CypherGraphClientFactory : ICypherGraphClientFactory
             });
     }
 
-    public async Task<ICypherGraphClient> GetCypherGraphClientAsync(CancellationToken cancellationToken)
+    public async Task<ICypherFluentQuery> GetCypherFluentQueryAsync(CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
 
-        return await _cypherGraphClientLazy.Task.ConfigureAwait(false);
-    }
-
-    public async Task<ITransactionalGraphClient> GetTransactionCypherGraphClientAsync(
-        CancellationToken cancellationToken)
-    {
-        cancellationToken.ThrowIfCancellationRequested();
-
-        return await _cypherGraphClientLazy.Task.ConfigureAwait(false);
+        var graphClient = await _cypherGraphClientLazy.Task.ConfigureAwait(false);
+        return graphClient.Cypher;
     }
 }

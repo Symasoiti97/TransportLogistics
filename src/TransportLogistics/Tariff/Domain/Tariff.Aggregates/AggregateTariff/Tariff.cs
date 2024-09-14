@@ -138,18 +138,20 @@ public sealed class Tariff : AggregateRoot<Guid>
     /// </summary>
     public void SetAsReal()
     {
-        if (IsDraft)
+        if (!IsDraft)
         {
-            var isUndefinedRoute = Route is not null;
-            var isUndefinedCargoEquipment = CargoEquipment is not null;
-            var isUndefinedPrice = Price is not null;
-            if (isUndefinedRoute || isUndefinedCargoEquipment || isUndefinedPrice)
-            {
-                throw new TariffCannotBeReal(isUndefinedRoute, isUndefinedCargoEquipment, isUndefinedPrice);
-            }
-
-            IsDraft = false;
+            return;
         }
+
+        var isUndefinedRoute = Route is null;
+        var isUndefinedCargoEquipment = CargoEquipment is null;
+        var isUndefinedPrice = Price is null;
+        if (isUndefinedRoute || isUndefinedCargoEquipment || isUndefinedPrice)
+        {
+            throw new TariffCannotBeReal(isUndefinedRoute, isUndefinedCargoEquipment, isUndefinedPrice);
+        }
+
+        IsDraft = false;
     }
 
     private void SetManager(Guid profileId)
