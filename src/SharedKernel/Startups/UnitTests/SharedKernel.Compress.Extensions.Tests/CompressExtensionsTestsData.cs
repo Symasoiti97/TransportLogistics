@@ -7,7 +7,7 @@ public sealed class CompressExtensionsTestsData
         yield return
         [
             "111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111",
-            "H4sIAAAAAAAACjM0pC0AADssp0VgAAAA"
+            "H4sIAAAAAAAAEzM0pC0AADssp0VgAAAA"
         ];
     }
 
@@ -15,7 +15,7 @@ public sealed class CompressExtensionsTestsData
     {
         yield return
         [
-            "H4sIAAAAAAAACjM0pC0AADssp0VgAAAA",
+            "H4sIAAAAAAAAEzM0pC0AADssp0VgAAAA",
             "111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111"
         ];
     }
