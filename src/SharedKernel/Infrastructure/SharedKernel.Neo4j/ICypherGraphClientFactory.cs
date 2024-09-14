@@ -1,5 +1,4 @@
-﻿using Neo4jClient;
-using Neo4jClient.Transactions;
+﻿using Neo4jClient.Cypher;
 
 namespace TL.SharedKernel.Infrastructure.Neo4j;
 
@@ -13,12 +12,5 @@ public interface ICypherGraphClientFactory
     /// </summary>
     /// <param name="cancellationToken">Токен отмены</param>
     /// <returns>Клиент для работы с neo4j</returns>
-    Task<ICypherGraphClient> GetCypherGraphClientAsync(CancellationToken cancellationToken);
-
-    /// <summary>
-    /// Получить клиента для работы c neo4j
-    /// </summary>
-    /// <param name="cancellationToken">Токе отмены</param>
-    /// <returns>Клиент для работы с neo4j</returns>
-    Task<ITransactionalGraphClient> GetTransactionCypherGraphClientAsync(CancellationToken cancellationToken);
+    Task<ICypherFluentQuery> GetCypherFluentQueryAsync(CancellationToken cancellationToken);
 }

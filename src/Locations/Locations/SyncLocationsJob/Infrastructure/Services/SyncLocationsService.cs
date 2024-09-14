@@ -495,8 +495,7 @@ internal class SyncLocationsService
 
         async Task InnerSaveLocations()
         {
-            var query = (await _graphClientFactory.GetTransactionCypherGraphClientAsync(CancellationToken.None))
-                .Cypher
+            var query = (await _graphClientFactory.GetCypherFluentQueryAsync(CancellationToken.None))
                 .Unwind(locationBatch, "newL")
                 .Match("(h:Location {SyncId: {parentSyncId}, Type: {parentType}, SourceType: {parentSourceType}})")
                 .Merge("(l:Location {SyncId: newL.SyncId, Type: newL.Type, SourceType: newL.SourceType})")
@@ -529,7 +528,7 @@ internal class SyncLocationsService
             SourceType = LocationSourceType.System,
             Type = LocationType.World
         };
-        var query = (await _graphClientFactory.GetTransactionCypherGraphClientAsync(CancellationToken.None)).Cypher
+        var query = (await _graphClientFactory.GetCypherFluentQueryAsync(CancellationToken.None))
             .Unwind(new[] {worldLocation}, "newL")
             .Merge("(l:NewLocation {SyncId: newL.SyncId, Type: newL.Type, SourceType: newL.SourceType})")
             .With("l, l.Id as id, newL")
