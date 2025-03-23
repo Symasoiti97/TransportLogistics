@@ -1,0 +1,26 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net9.0</TargetFramework>
+        <RootNamespace>TL.Socials.Identity.Application.UseCases</RootNamespace>
+        <AssemblyName>TL.Socials.Identity.Application.UseCases</AssemblyName>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\..\..\SharedKernel\Application\SharedKernel.Handlers\SharedKernel.Handlers.csproj" />
+      <ProjectReference Include="..\..\Businees\Identity.Aggregates\Identity.Aggregates.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Compile Update="UserServices\LoginUserByPasswordCommandHandler.cs">
+        <DependentUpon>LoginUserByPasswordCommand.cs</DependentUpon>
+      </Compile>
+      <Compile Update="UserServices\RegisterUserWithPasswordCommandHandler.cs">
+        <DependentUpon>RegisterUserWithPasswordCommand.cs</DependentUpon>
+      </Compile>
+      <Compile Update="UserServices\UserTokens.cs">
+        <DependentUpon>ITokenGenerator.cs</DependentUpon>
+      </Compile>
+    </ItemGroup>
+
+</Project>
