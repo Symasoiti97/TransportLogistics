@@ -15,6 +15,7 @@
     <ItemGroup>
       <ProjectReference Include="..\..\..\..\SharedKernel\Application\SharedKernel.Handlers\SharedKernel.Handlers.csproj" />
       <ProjectReference Include="..\..\Application\Identity.UseCases\Identity.UseCases.csproj" />
+      <ProjectReference Include="..\..\Infrastructure\Identity.DependencyInjection\Identity.DependencyInjection.csproj" />
     </ItemGroup>
 
 </Project>
