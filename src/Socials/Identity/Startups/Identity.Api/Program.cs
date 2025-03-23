@@ -1,4 +1,5 @@
 using Hellang.Middleware.ProblemDetails;
+using TL.Socials.Identity.Infrastructure.DependencyInjection;
 using ProblemDetailsOptions = Hellang.Middleware.ProblemDetails.ProblemDetailsOptions;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -8,6 +9,9 @@ builder.Services.AddControllers();
 builder.Services.AddOpenApi();
 builder.Services.AddProblemDetails((Action<ProblemDetailsOptions>?) null);
 builder.Services.AddHttpLogging();
+builder.Services.AddIdentityServices(
+    configuration.GetConnectionString("IdentityPostgres")
+    ?? throw new InvalidOperationException("IdentityPostgres is not set"));
 
 var app = builder.Build();
 
