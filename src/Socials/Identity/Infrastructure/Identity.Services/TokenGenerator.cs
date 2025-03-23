@@ -1,6 +1,5 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
-using System.Text;
 using Microsoft.IdentityModel.Tokens;
 using TL.Socials.Identity.Application.UseCases.UserServices;
 
@@ -10,7 +9,7 @@ internal sealed class TokenGenerator : ITokenGenerator
 {
     public UserTokens Generate(Guid userId)
     {
-        return new UserTokens(GenerateJwtToken(userId), Guid.NewGuid().ToString());
+        return new UserTokens(userId, GenerateJwtToken(userId), Guid.NewGuid().ToString());
     }
 
     private static string GenerateJwtToken(Guid userId)
@@ -20,8 +19,8 @@ internal sealed class TokenGenerator : ITokenGenerator
             new Claim("user-id", userId.ToString())
         };
 
-        var secretKey = "your-256-bit-secret";
-        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey));
+        var bytes = Convert.FromBase64String("bXlTdXBlckF1dGhlbnRpY2F0aW9uU2VjcmV0MTIzNDU2");
+        var key = new SymmetricSecurityKey(bytes);
         var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
         var token = new JwtSecurityToken(
