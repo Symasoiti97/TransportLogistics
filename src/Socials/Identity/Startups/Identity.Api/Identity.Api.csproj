@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+    <PropertyGroup>
+        <TargetFramework>net9.0</TargetFramework>
+        <RootNamespace>TL.Socials.Identity.Startups.Api</RootNamespace>
+        <AssemblyName>TL.Socials.Identity.Startups.Api</AssemblyName>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Hellang.Middleware.ProblemDetails" Version="6.5.1" />
+        <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.2"/>
+        <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="8.0.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\..\..\SharedKernel\Application\SharedKernel.Handlers\SharedKernel.Handlers.csproj" />
+      <ProjectReference Include="..\..\Application\Identity.UseCases\Identity.UseCases.csproj" />
+    </ItemGroup>
+
+</Project>
