@@ -10,6 +10,7 @@
         <ProjectReference Include="..\..\..\..\SharedKernel\Application\SharedKernel.Handlers\SharedKernel.Handlers.csproj"/>
         <ProjectReference Include="..\..\Application\Identity.UseCases\Identity.UseCases.csproj"/>
         <ProjectReference Include="..\DataAccess\Identity.Postgres\Identity.Postgres.csproj" />
+        <ProjectReference Include="..\DataAccess\Identity.Redis\Identity.Redis.csproj" />
         <ProjectReference Include="..\Identity.Services\Identity.Services.csproj" />
     </ItemGroup>
 

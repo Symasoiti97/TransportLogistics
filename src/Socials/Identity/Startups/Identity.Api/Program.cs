@@ -11,7 +11,9 @@ builder.Services.AddProblemDetails((Action<ProblemDetailsOptions>?) null);
 builder.Services.AddHttpLogging();
 builder.Services.AddIdentityServices(
     configuration.GetConnectionString("IdentityPostgres")
-    ?? throw new InvalidOperationException("IdentityPostgres is not set"));
+    ?? throw new InvalidOperationException("IdentityPostgres is not set"),
+    configuration.GetConnectionString("IdentityRedis")
+    ?? throw new InvalidOperationException("IdentityRedis is not set"));
 
 var app = builder.Build();
 
