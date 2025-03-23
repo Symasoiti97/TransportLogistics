@@ -4,6 +4,7 @@ using TL.SharedKernel.Application.Commands;
 using TL.Socials.Identity.Application.UseCases.UserServices;
 using TL.Socials.Identity.Infrastructure.DataAccess.Postgres;
 using TL.Socials.Identity.Infrastructure.DataAccess.Postgres.Repositories;
+using TL.Socials.Identity.Infrastructure.Services;
 
 namespace TL.Socials.Identity.Infrastructure.DependencyInjection;
 
@@ -42,6 +43,7 @@ public static class ServiceCollectionExtensions
             .AddTransient<IQueryHandler<LoginUserByPasswordCommand, UserTokens>, LoginUserByPasswordCommandHandler>();
 
         services.AddTransient<IUserRepository, UserRepository>();
+        services.AddTransient<ITokenGenerator, TokenGenerator>();
 
         services.AddDbContext<IdentityDbContext>(options => options.UseNpgsql(pgConnectionString));
 

@@ -19,7 +19,7 @@ internal sealed class LoginUserByPasswordCommandHandler(
             throw new Conflict().WithDetails("Email address not found or password is incorrect.");
         }
 
-        var tokens = tokenGenerator.Generate(user.Email);
+        var tokens = tokenGenerator.Generate(user.Id);
         var userSession = UserSession.Create(user.Id, tokens.RefreshToken);
 
         await userSessionRepository.AddAsync(userSession, cancellationToken);
