@@ -6,11 +6,8 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <Compile Update="ICommand.cs">
-            <DependentUpon>ICommandHandler.cs</DependentUpon>
-        </Compile>
-        <Compile Update="IQuery.cs">
-            <DependentUpon>IQueryHandler.cs</DependentUpon>
+        <Compile Update="IUseCase.cs">
+            <DependentUpon>IUseCaseHandler.cs</DependentUpon>
         </Compile>
     </ItemGroup>
 

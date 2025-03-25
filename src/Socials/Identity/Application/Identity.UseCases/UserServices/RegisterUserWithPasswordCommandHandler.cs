@@ -4,7 +4,7 @@ using TL.Socials.Identity.Business.Aggregates.UserAggregate;
 namespace TL.Socials.Identity.Application.UseCases.UserServices;
 
 internal sealed class RegisterUserWithPasswordCommandHandler(IUserRepository userRepository)
-    : ICommandHandler<RegisterUserWithPasswordCommand>
+    : IUseCaseHandler<RegisterUserWithPasswordCommand>
 {
     public async Task HandleAsync(RegisterUserWithPasswordCommand command, CancellationToken cancellationToken)
     {

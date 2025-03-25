@@ -7,7 +7,7 @@ namespace TL.TransportLogistics.Tariffs.Application.UseCases.TariffServices;
 /// <summary>
 /// Обработчик для создания тарифа
 /// </summary>
-internal sealed class CreateTariffCommandHandler : ICommandHandler<CreateTariffCommand>
+internal sealed class CreateTariffCommandHandler : IUseCaseHandler<CreateTariffCommand>
 {
     private readonly ITariffRepository _tariffRepository;
     private readonly IUserContext _userContext;

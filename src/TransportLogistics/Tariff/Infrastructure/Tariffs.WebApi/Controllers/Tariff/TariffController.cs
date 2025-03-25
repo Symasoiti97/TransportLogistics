@@ -32,7 +32,7 @@ public sealed class TariffController : ControllerBase
     [ProducesResponseType(typeof(TariffView), StatusCodes.Status200OK)]
     public async Task<IActionResult> GetTariff(
         [FromRoute] Guid tariffId,
-        [FromServices] IQueryHandler<GetTariffQuery, TariffView> queryHandler,
+        [FromServices] IUseCaseHandler<GetTariffQuery, TariffView> queryHandler,
         CancellationToken cancellationToken)
     {
         var getTariffQuery = new GetTariffQuery(tariffId);
@@ -52,8 +52,8 @@ public sealed class TariffController : ControllerBase
     [ProducesResponseType(typeof(TariffView), StatusCodes.Status201Created)]
     public async Task<IActionResult> CreateTariff(
         [FromBody] CreateTariffRequest request,
-        [FromServices] ICommandHandler<CreateTariffCommand> commandHandler,
-        [FromServices] IQueryHandler<GetTariffQuery, TariffView> queryHandler,
+        [FromServices] IUseCaseHandler<CreateTariffCommand> commandHandler,
+        [FromServices] IUseCaseHandler<GetTariffQuery, TariffView> queryHandler,
         CancellationToken cancellationToken)
     {
         var command = new CreateTariffCommand(request.TariffId);
@@ -79,8 +79,8 @@ public sealed class TariffController : ControllerBase
     public async Task<IActionResult> SaveTariffRoute(
         [FromRoute] Guid tariffId,
         [FromBody] SaveTariffRouteRequest request,
-        [FromServices] ICommandHandler<SaveTariffRouteCommand> commandHandler,
-        [FromServices] IQueryHandler<GetTariffQuery, TariffView> queryHandler,
+        [FromServices] IUseCaseHandler<SaveTariffRouteCommand> commandHandler,
+        [FromServices] IUseCaseHandler<GetTariffQuery, TariffView> queryHandler,
         CancellationToken cancellationToken)
     {
         var points = request.Route.Points
@@ -109,8 +109,8 @@ public sealed class TariffController : ControllerBase
     public async Task<IActionResult> SaveTariffCargo(
         [FromRoute] Guid tariffId,
         [FromBody] SaveTariffCargoRequest request,
-        [FromServices] ICommandHandler<SaveTariffCargoEquipmentCommand> commandHandler,
-        [FromServices] IQueryHandler<GetTariffQuery, TariffView> queryHandler,
+        [FromServices] IUseCaseHandler<SaveTariffCargoEquipmentCommand> commandHandler,
+        [FromServices] IUseCaseHandler<GetTariffQuery, TariffView> queryHandler,
         CancellationToken cancellationToken)
     {
         var command = new SaveTariffCargoEquipmentCommand(
@@ -137,8 +137,8 @@ public sealed class TariffController : ControllerBase
     public async Task<IActionResult> SaveTariffPrice(
         [FromRoute] Guid tariffId,
         [FromBody] SaveTariffPriceRequest request,
-        [FromServices] ICommandHandler<SaveTariffPriceCommand> commandHandler,
-        [FromServices] IQueryHandler<GetTariffQuery, TariffView> queryHandler,
+        [FromServices] IUseCaseHandler<SaveTariffPriceCommand> commandHandler,
+        [FromServices] IUseCaseHandler<GetTariffQuery, TariffView> queryHandler,
         CancellationToken cancellationToken)
     {
         var command = new SaveTariffPriceCommand(tariffId, new Price(request.Price, request.CurrencyCode));
@@ -163,7 +163,7 @@ public sealed class TariffController : ControllerBase
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     public async Task<IActionResult> PublishTariff(
         [FromRoute] Guid tariffId,
-        [FromServices] ICommandHandler<PublishTariffCommand> commandHandler,
+        [FromServices] IUseCaseHandler<PublishTariffCommand> commandHandler,
         CancellationToken cancellationToken)
     {
         var command = new PublishTariffCommand(tariffId);

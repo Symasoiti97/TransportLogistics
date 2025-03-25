@@ -17,16 +17,10 @@ public static class ServiceCollectionExtensions
     /// Регистрация сервисов тарифа
     /// <list type="bullet">
     ///     <item>
-    ///     Регестрирует <see cref="ICommandHandler{TCommand}" />, как <see cref="ServiceLifetime.Transient" />.<br />
+    ///     Регестрирует <see cref="IUseCaseHandler{TUseCase}" />, как <see cref="ServiceLifetime.Transient" />.<br />
     ///     Доступные команды:
     ///     <list type="bullet">
     ///         <item><see cref="RegisterUserWithPasswordCommand" /></item>
-    ///     </list>
-    ///     </item>
-    ///     <item>
-    ///     Регестрирует <see cref="IQueryHandler{TQuery, TResult}" />, как <see cref="ServiceLifetime.Transient" />.<br />
-    ///     Доступные queries:
-    ///     <list type="bullet">
     ///         <item><see cref="LoginUserByPasswordCommand" /></item>
     ///     </list>
     ///     </item>
@@ -45,9 +39,9 @@ public static class ServiceCollectionExtensions
         string redisConnectionString)
     {
         services
-            .AddTransient<ICommandHandler<RegisterUserWithPasswordCommand>, RegisterUserWithPasswordCommandHandler>();
+            .AddTransient<IUseCaseHandler<RegisterUserWithPasswordCommand>, RegisterUserWithPasswordCommandHandler>();
         services
-            .AddTransient<IQueryHandler<LoginUserByPasswordCommand, UserTokens>, LoginUserByPasswordCommandHandler>();
+            .AddTransient<IUseCaseHandler<LoginUserByPasswordCommand, UserTokens>, LoginUserByPasswordCommandHandler>();
 
         services.AddTransient<IUserRepository, UserRepository>();
         services.AddTransient<IUserSessionRepository, UserSessionRepository>();
