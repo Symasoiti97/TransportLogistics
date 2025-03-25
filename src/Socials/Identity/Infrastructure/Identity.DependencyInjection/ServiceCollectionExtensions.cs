@@ -7,6 +7,7 @@ using TL.Socials.Identity.Infrastructure.DataAccess.Postgres;
 using TL.Socials.Identity.Infrastructure.DataAccess.Postgres.Repositories;
 using TL.Socials.Identity.Infrastructure.DataAccess.Redis;
 using TL.Socials.Identity.Infrastructure.Services;
+using TL.Socials.Identity.Infrastructure.Services.Options;
 using IRedisDatabase = StackExchange.Redis.IDatabase;
 
 namespace TL.Socials.Identity.Infrastructure.DependencyInjection;
@@ -30,11 +31,13 @@ public static class ServiceCollectionExtensions
     /// </list>
     /// </summary>
     /// <param name="services">Коллекция сервисов</param>
+    /// <param name="jwtTokenOptions">JWT token options</param>
     /// <param name="pgConnectionString">Строка подключения к postgres</param>
     /// <param name="redisConnectionString">Строка подключения к redis</param>
     /// <returns>Коллекция сервисов</returns>
     public static IServiceCollection AddIdentityServices(
         this IServiceCollection services,
+        JwtTokenOptions jwtTokenOptions,
         string pgConnectionString,
         string redisConnectionString)
     {
@@ -45,6 +48,7 @@ public static class ServiceCollectionExtensions
 
         services.AddTransient<IUserRepository, UserRepository>();
         services.AddTransient<IUserSessionRepository, UserSessionRepository>();
+        services.AddSingleton(jwtTokenOptions);
         services.AddTransient<ITokenGenerator, TokenGenerator>();
 
         services.AddDbContext<IdentityDbContext>(options => options.UseNpgsql(pgConnectionString));
