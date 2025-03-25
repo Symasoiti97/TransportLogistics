@@ -5,7 +5,7 @@ using TL.TransportLogistics.Tariffs.Business.Aggregates.AggregateTariff.Errors;
 
 namespace TL.TransportLogistics.Tariffs.Infrastructure.DataAccess.Neo4j.Queries;
 
-internal sealed class GetTariffQueryHandler : IQueryHandler<GetTariffQuery, TariffView>
+internal sealed class GetTariffQueryHandler : IUseCaseHandler<GetTariffQuery, TariffView>
 {
     private readonly ICypherGraphClientFactory _graphClientFactory;
 

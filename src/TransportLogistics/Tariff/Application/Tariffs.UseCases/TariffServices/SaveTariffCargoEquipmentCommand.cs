@@ -8,4 +8,4 @@ namespace TL.TransportLogistics.Tariffs.Application.UseCases.TariffServices;
 /// </summary>
 /// <param name="TariffId">Идентификатор тарифа</param>
 /// <param name="CargoEquipment">Оборудование груза</param>
-public sealed record SaveTariffCargoEquipmentCommand(Guid TariffId, CargoEquipment CargoEquipment) : ICommand;
+public sealed record SaveTariffCargoEquipmentCommand(Guid TariffId, CargoEquipment CargoEquipment) : IUseCase;

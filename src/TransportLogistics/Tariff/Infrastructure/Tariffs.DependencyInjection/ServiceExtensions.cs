@@ -21,7 +21,7 @@ public static class ServiceExtensions
     ///     ASPNETCORE_ENVIRONMENT=Development
     ///     </item>
     ///     <item>
-    ///     Регестрирует <see cref="ICommandHandler{TCommand}" />, как <see cref="ServiceLifetime.Transient" />.<br />
+    ///     Регестрирует <see cref="IUseCase{TCommand}" />, как <see cref="ServiceLifetime.Transient" />.<br />
     ///     Доступные команды:
     ///     <list type="bullet">
     ///         <item><see cref="CreateTariffCommand" /></item>
@@ -40,12 +40,12 @@ public static class ServiceExtensions
         this IServiceCollection services,
         INeo4JSettings neo4JSettings)
     {
-        services.AddTransient<ICommandHandler<CreateTariffCommand>, CreateTariffCommandHandler>();
-        services.AddTransient<ICommandHandler<SaveTariffRouteCommand>, SaveTariffRouteCommandHandler>();
-        services.AddTransient<ICommandHandler<SaveTariffCargoEquipmentCommand>, SaveTariffCargoCommandHandler>();
-        services.AddTransient<ICommandHandler<SaveTariffPriceCommand>, SaveTariffPriceCommandHandler>();
-        services.AddTransient<ICommandHandler<PublishTariffCommand>, PublishTariffCommandHandler>();
-        services.AddTransient<IQueryHandler<GetTariffQuery, TariffView>, GetTariffQueryHandler>();
+        services.AddTransient<IUseCaseHandler<CreateTariffCommand>, CreateTariffCommandHandler>();
+        services.AddTransient<IUseCaseHandler<SaveTariffRouteCommand>, SaveTariffRouteCommandHandler>();
+        services.AddTransient<IUseCaseHandler<SaveTariffCargoEquipmentCommand>, SaveTariffCargoCommandHandler>();
+        services.AddTransient<IUseCaseHandler<SaveTariffPriceCommand>, SaveTariffPriceCommandHandler>();
+        services.AddTransient<IUseCaseHandler<PublishTariffCommand>, PublishTariffCommandHandler>();
+        services.AddTransient<IUseCaseHandler<GetTariffQuery, TariffView>, GetTariffQueryHandler>();
 
         services.AddNeo4JServices(neo4JSettings);
 

@@ -8,4 +8,4 @@ namespace TL.TransportLogistics.Tariffs.Application.UseCases.TariffServices;
 /// </summary>
 /// <param name="TariffId">Идентификатор тарифа</param>
 /// <param name="Route">Маршрут</param>
-public sealed record SaveTariffRouteCommand(Guid TariffId, Route Route) : ICommand;
+public sealed record SaveTariffRouteCommand(Guid TariffId, Route Route) : IUseCase;

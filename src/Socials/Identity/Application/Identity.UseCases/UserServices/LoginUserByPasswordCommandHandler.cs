@@ -8,7 +8,7 @@ internal sealed class LoginUserByPasswordCommandHandler(
     IUserRepository userRepository,
     IUserSessionRepository userSessionRepository,
     ITokenGenerator tokenGenerator)
-    : IQueryHandler<LoginUserByPasswordCommand, UserTokens>
+    : IUseCaseHandler<LoginUserByPasswordCommand, UserTokens>
 {
     public async Task<UserTokens> HandleAsync(LoginUserByPasswordCommand command, CancellationToken cancellationToken)
     {

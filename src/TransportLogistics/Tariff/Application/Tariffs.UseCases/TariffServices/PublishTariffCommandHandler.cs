@@ -6,7 +6,7 @@ namespace TL.TransportLogistics.Tariffs.Application.UseCases.TariffServices;
 /// Команда публикации тарифа
 /// Переводит тариф из черновика в действующий (Создает копию)
 /// </summary>
-internal sealed class PublishTariffCommandHandler : ICommandHandler<PublishTariffCommand>
+internal sealed class PublishTariffCommandHandler : IUseCaseHandler<PublishTariffCommand>
 {
     private readonly ITariffRepository _tariffRepository;
 

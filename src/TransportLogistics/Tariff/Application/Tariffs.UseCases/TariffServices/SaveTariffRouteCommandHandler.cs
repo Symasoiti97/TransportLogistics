@@ -6,7 +6,7 @@ namespace TL.TransportLogistics.Tariffs.Application.UseCases.TariffServices;
 /// <summary>
 /// Обработчик для сохранения тарифа с параметрами маршрута
 /// </summary>
-internal sealed class SaveTariffRouteCommandHandler : ICommandHandler<SaveTariffRouteCommand>
+internal sealed class SaveTariffRouteCommandHandler : IUseCaseHandler<SaveTariffRouteCommand>
 {
     private readonly ITariffRepository _tariffRepository;
     private readonly ILocationRepository _locationRepository;

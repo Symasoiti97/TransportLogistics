@@ -6,4 +6,4 @@ namespace TL.TransportLogistics.Tariffs.Application.UseCases.TariffServices;
 /// Запрос на получения тарифа
 /// </summary>
 /// <param name="TariffId">Идентификатор тарифа</param>
-public sealed record GetTariffQuery(Guid TariffId) : IQuery<TariffView>;
+public sealed record GetTariffQuery(Guid TariffId) : IUseCase<TariffView>;

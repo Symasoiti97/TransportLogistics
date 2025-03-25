@@ -5,7 +5,7 @@ namespace TL.TransportLogistics.Tariffs.Application.UseCases.TariffServices;
 /// <summary>
 /// Обработчик команды сохранения тарифа с параметрами груза
 /// </summary>
-internal sealed class SaveTariffCargoCommandHandler : ICommandHandler<SaveTariffCargoEquipmentCommand>
+internal sealed class SaveTariffCargoCommandHandler : IUseCaseHandler<SaveTariffCargoEquipmentCommand>
 {
     private readonly ITariffRepository _tariffRepository;
 

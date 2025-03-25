@@ -13,7 +13,7 @@ public sealed class AuthController : ControllerBase
     [HttpPost("login/password")]
     public async Task<LoginResultDto> Login(
         [FromBody] LoginUserByPasswordDto loginUserByPassword,
-        [FromServices] IQueryHandler<LoginUserByPasswordCommand, UserTokens> commandHandler,
+        [FromServices] IUseCaseHandler<LoginUserByPasswordCommand, UserTokens> commandHandler,
         CancellationToken cancellationToken)
     {
         var userTokens = await commandHandler.HandleAsync(
@@ -30,7 +30,7 @@ public sealed class AuthController : ControllerBase
     [HttpPost("register/password")]
     public Task RegisterByPassword(
         [FromBody] RegisterUserByPasswordDto registerUserByPassword,
-        [FromServices] ICommandHandler<RegisterUserWithPasswordCommand> commandHandler,
+        [FromServices] IUseCaseHandler<RegisterUserWithPasswordCommand> commandHandler,
         CancellationToken cancellationToken)
     {
         return commandHandler.HandleAsync(
