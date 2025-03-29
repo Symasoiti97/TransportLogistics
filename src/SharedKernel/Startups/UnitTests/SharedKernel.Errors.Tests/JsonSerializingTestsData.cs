@@ -18,7 +18,7 @@ public sealed partial class JsonSerializingTests
         }
     };
 
-    private static object[][] Data() =>
+    public static object[][] Data() =>
     [
         [
             new InvalidParameters(

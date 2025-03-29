@@ -5,7 +5,7 @@ namespace TL.TransportLogistics.Tariffs.Startups.Tests.UnitTests;
 
 internal static class ComparatorTestsData
 {
-    public static IEnumerable<object> CompareTariffs_Test_Data()
+    public static IEnumerable<object[]> CompareTariffs_Test_Data()
     {
         var tariffId1 = Guid.NewGuid();
         var managerProfileId1 = Guid.NewGuid();
@@ -71,7 +71,7 @@ internal static class ComparatorTestsData
         };
     }
 
-    public static IEnumerable<object> CompareRoutes_Test_Data()
+    public static IEnumerable<object[]> CompareRoutes_Test_Data()
     {
         var srcPoints1 = new HashSet<Point>
         {
@@ -86,10 +86,10 @@ internal static class ComparatorTestsData
         var srcRoute1 = new Route(srcPoints1);
         var destRoute1 = new Route(destPoints1);
 
-        yield return new object[]
-        {
+        yield return
+        [
             srcRoute1, destRoute1, false
-        };
+        ];
 
         var firstCountryLocationId2 = Guid.NewGuid();
         var secondCountryLocationId2 = Guid.NewGuid();
@@ -107,10 +107,10 @@ internal static class ComparatorTestsData
         var srcRoute2 = new Route(srcPoints2);
         var destRoute2 = new Route(destPoints2);
 
-        yield return new object[]
-        {
+        yield return
+        [
             srcRoute2, destRoute2, true
-        };
+        ];
 
         var srcPoints3 = new HashSet<Point>
         {
@@ -125,9 +125,9 @@ internal static class ComparatorTestsData
         var srcRoute3 = new Route(srcPoints3);
         var destRoute3 = new Route(destPoints3);
 
-        yield return new object[]
-        {
+        yield return
+        [
             srcRoute3, destRoute3, true
-        };
+        ];
     }
 }

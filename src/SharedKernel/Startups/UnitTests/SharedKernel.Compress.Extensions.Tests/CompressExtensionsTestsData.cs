@@ -2,7 +2,7 @@ namespace TL.SharedKernel.Infrastructure.Compress.Extensions.Tests;
 
 public sealed class CompressExtensionsTestsData
 {
-    public static IEnumerable<string[]> CompressTestData()
+    public static IEnumerable<object[]> CompressTestData()
     {
         yield return
         [
@@ -11,7 +11,7 @@ public sealed class CompressExtensionsTestsData
         ];
     }
 
-    public static IEnumerable<string[]> DecompressTestData()
+    public static IEnumerable<object[]> DecompressTestData()
     {
         yield return
         [

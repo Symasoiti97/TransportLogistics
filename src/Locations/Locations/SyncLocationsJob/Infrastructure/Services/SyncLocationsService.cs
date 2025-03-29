@@ -96,7 +96,7 @@ internal class SyncLocationsService
                 {
                     foreach (var city in cities)
                     {
-                        var railways = (await GetRailwaysAsync(new[] {city.SyncId}).FirstOrDefaultAsync()).Item2;
+                        var railways = (await GetRailwaysAsync([city.SyncId]).FirstOrDefaultAsync()).Item2;
                         try
                         {
                             await SaveLocationsAsync(await railways.ToArrayAsync(), city);

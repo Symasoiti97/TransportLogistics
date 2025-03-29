@@ -94,6 +94,6 @@ public sealed class Point : ValueObject
     /// <inheritdoc />
     protected override IEnumerable<object> GetEqualityComponents()
     {
-        return new object[] {LocationId, Order, Type};
+        return [LocationId, Order, Type];
     }
 }

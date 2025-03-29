@@ -5,7 +5,7 @@ namespace TL.TransportLogistics.Tariffs.Startups.Tests.UnitTests;
 
 internal static class TariffTestsData
 {
-    public static IEnumerable<Tariff[]> TariffCopyAsReal_Negative_Test_Data()
+    public static IEnumerable<object[]> TariffCopyAsReal_Negative_Test_Data()
     {
         var tariffRoute1 = new Route(
             new HashSet<Point>
@@ -22,7 +22,7 @@ internal static class TariffTestsData
         yield return [tariff1];
     }
 
-    public static IEnumerable<Tariff[]> TariffCopyAsReal_Positive_Test_Data()
+    public static IEnumerable<object[]> TariffCopyAsReal_Positive_Test_Data()
     {
         var tariffRoute1 = new Route(
             new HashSet<Point>
