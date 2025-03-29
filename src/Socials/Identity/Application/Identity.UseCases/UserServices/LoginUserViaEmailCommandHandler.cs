@@ -22,7 +22,7 @@ internal sealed class LoginUserViaEmailCommandHandler(
         var tokens = tokenGenerator.Generate(user.Id);
         var userSession = UserSession.Create(user.Id, tokens.RefreshToken);
 
-        await userSessionRepository.AddAsync(userSession, cancellationToken);
+        await userSessionRepository.SaveAsync(userSession, cancellationToken);
 
         return tokens;
     }

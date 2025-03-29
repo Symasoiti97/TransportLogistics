@@ -4,5 +4,6 @@ namespace TL.Socials.Identity.Application.UseCases.UserServices;
 
 public interface IUserSessionRepository
 {
-    Task AddAsync(UserSession userSession, CancellationToken cancellationToken);
+    Task SaveAsync(UserSession userSession, CancellationToken cancellationToken);
+    Task<UserSession?> FindAsync(string refreshToken, CancellationToken cancellationToken);
 }

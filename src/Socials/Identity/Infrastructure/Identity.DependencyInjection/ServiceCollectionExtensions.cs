@@ -49,6 +49,8 @@ public static class ServiceCollectionExtensions
             .AddTransient<IUseCaseHandler<RegisterUserViaEmailCommand>, RegisterUserWithPasswordCommandHandler>();
         services
             .AddTransient<IUseCaseHandler<LoginUserViaEmailCommand, UserTokens>, LoginUserViaEmailCommandHandler>();
+        services
+            .AddTransient<IUseCaseHandler<RefreshAuthTokenCommand, UserTokens>, RefreshAuthTokenCommandHandler>();
 
         services.AddTransient<IUserRepository, UserRepository>();
         services.AddTransient<IUserSessionRepository, UserSessionRepository>();

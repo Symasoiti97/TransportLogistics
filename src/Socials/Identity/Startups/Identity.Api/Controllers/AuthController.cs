@@ -10,6 +10,8 @@ namespace TL.Socials.Identity.Startups.Api.Controllers;
 [Route("[controller]")]
 public sealed class AuthController : ControllerBase
 {
+    private const string AccessToken = "access_token";
+
     [HttpPost("register/email/request")]
     public async Task<RequestUserRegisterViaEmailAnswerDto> RequestUserRegisterViaEmailAsync(
         [FromBody] RequestUserRegisterViaEmailDto transfer,
@@ -49,7 +51,22 @@ public sealed class AuthController : ControllerBase
                 transfer.Password),
             cancellationToken);
 
-        HttpContext.Response.Cookies.Append("access_token", userTokens.AccessToken);
+        HttpContext.Response.Cookies.Append(AccessToken, userTokens.AccessToken);
+
+        return new LoginResultDto(userTokens.UserId, userTokens.RefreshToken);
+    }
+
+    [HttpPost("refresh/token")]
+    public async Task<LoginResultDto> RefreshAuthTokenAsync(
+        [FromBody] RefreshAuthTokenDto transfer,
+        [FromServices] IUseCaseHandler<RefreshAuthTokenCommand, UserTokens> commandHandler,
+        CancellationToken cancellationToken)
+    {
+        var userTokens = await commandHandler.HandleAsync(
+            new RefreshAuthTokenCommand(transfer.RefreshToken),
+            cancellationToken);
+
+        HttpContext.Response.Cookies.Append(AccessToken, userTokens.AccessToken);
 
         return new LoginResultDto(userTokens.UserId, userTokens.RefreshToken);
     }
