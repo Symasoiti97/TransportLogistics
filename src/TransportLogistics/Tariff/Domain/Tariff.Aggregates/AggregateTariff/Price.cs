@@ -47,6 +47,6 @@ public sealed class Price : ValueObject
     /// <inheritdoc />
     protected override IEnumerable<object> GetEqualityComponents()
     {
-        return new object[] {Value, CurrencyCode};
+        return [Value, CurrencyCode];
     }
 }
