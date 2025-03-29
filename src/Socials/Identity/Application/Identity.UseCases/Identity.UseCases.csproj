@@ -18,10 +18,10 @@
 
     <ItemGroup>
       <Compile Update="UserServices\LoginUserViaEmailCommandHandler.cs">
-        <DependentUpon>LoginUserByPasswordCommand.cs</DependentUpon>
+        <DependentUpon>LoginUserViaEmailCommand.cs</DependentUpon>
       </Compile>
       <Compile Update="UserServices\RegisterUserViaEmailCommandHandler.cs">
-        <DependentUpon>RegisterUserWithPasswordCommand.cs</DependentUpon>
+        <DependentUpon>RegisterUserViaEmailCommand.cs</DependentUpon>
       </Compile>
       <Compile Update="UserServices\UserTokens.cs">
         <DependentUpon>ITokenGenerator.cs</DependentUpon>
@@ -29,8 +29,8 @@
       <Compile Update="UserServices\RequestUserRegisterViaEmailCommandHandler.cs">
         <DependentUpon>RequestUserRegisterViaEmailCommand.cs</DependentUpon>
       </Compile>
-      <Compile Update="UserServices\Token.cs">
-        <DependentUpon>ITokenRepository.cs</DependentUpon>
+      <Compile Update="UserServices\RefreshAuthTokenCommandHandler.cs">
+        <DependentUpon>RefreshAuthTokenCommand.cs</DependentUpon>
       </Compile>
     </ItemGroup>
 

@@ -1,5 +1,6 @@
 using TL.SharedKernel.Application.Commands;
 using TL.SharedKernel.Business.Aggregates;
+using TL.Socials.Identity.Business.Aggregates.TokenAggregate;
 
 namespace TL.Socials.Identity.Application.UseCases.UserServices;
 
