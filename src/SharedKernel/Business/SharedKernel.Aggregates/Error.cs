@@ -12,5 +12,6 @@ public abstract class Error
 
     public static implicit operator ErrorException(Error error) => new(error, message: null);
 
-    public ErrorException WithDetails(string details) => new(this, details);
+    public ErrorException WithDetails(string details, Exception? innerException = null)
+        => new(this, details, innerException);
 }

@@ -40,7 +40,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastru
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharedKernel.Compress.Extensions", "SharedKernel\Infrastructure\SharedKernel.Compress.Extensions\SharedKernel.Compress.Extensions.csproj", "{F65ECD21-D2AC-480D-9FAA-755660C93E45}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharedKernel.DataAccess", "SharedKernel\Infrastructure\SharedKernel.DataAccess\SharedKernel.DataAccess.csproj", "{6BF7E91D-E3E1-4E95-8A1D-8BD7EC801E28}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharedKernel.DataAccess.Postgres", "SharedKernel\Infrastructure\SharedKernel.DataAccess.Postgres\SharedKernel.DataAccess.Postgres.csproj", "{6BF7E91D-E3E1-4E95-8A1D-8BD7EC801E28}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharedKernel.DependencyInjection", "SharedKernel\Infrastructure\SharedKernel.DependencyInjection\SharedKernel.DependencyInjection.csproj", "{27494C41-BA18-4358-9A56-FA4437F0FB72}"
 EndProject

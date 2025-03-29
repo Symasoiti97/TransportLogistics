@@ -10,33 +10,47 @@ namespace TL.Socials.Identity.Startups.Api.Controllers;
 [Route("[controller]")]
 public sealed class AuthController : ControllerBase
 {
-    [HttpPost("login/password")]
-    public async Task<LoginResultDto> Login(
-        [FromBody] LoginUserByPasswordDto loginUserByPassword,
-        [FromServices] IUseCaseHandler<LoginUserByPasswordCommand, UserTokens> commandHandler,
+    [HttpPost("register/email/request")]
+    public async Task<RequestUserRegisterViaEmailAnswerDto> RequestUserRegisterViaEmailAsync(
+        [FromBody] RequestUserRegisterViaEmailDto transfer,
+        [FromServices] IUseCaseHandler<RequestUserRegisterViaEmailCommand, bool> commandHandler,
+        CancellationToken cancellationToken)
+    {
+        var isNewUser = await commandHandler.HandleAsync(
+            new RequestUserRegisterViaEmailCommand(new Email(transfer.Email)),
+            cancellationToken);
+
+        return new RequestUserRegisterViaEmailAnswerDto(isNewUser);
+    }
+
+    [HttpPost("register/email")]
+    public Task RegisterUserViaEmailAsync(
+        [FromBody] RegisterUserViaEmailDto transfer,
+        [FromServices] IUseCaseHandler<RegisterUserViaEmailCommand> commandHandler,
+        CancellationToken cancellationToken)
+    {
+        return commandHandler.HandleAsync(
+            new RegisterUserViaEmailCommand(
+                new Email(transfer.Email),
+                transfer.Password,
+                transfer.Token),
+            cancellationToken);
+    }
+
+    [HttpPost("login/email")]
+    public async Task<LoginResultDto> LoginUserViaEmailAsync(
+        [FromBody] LoginUserViaEmailDto transfer,
+        [FromServices] IUseCaseHandler<LoginUserViaEmailCommand, UserTokens> commandHandler,
         CancellationToken cancellationToken)
     {
         var userTokens = await commandHandler.HandleAsync(
-            new LoginUserByPasswordCommand(
-                new Email(loginUserByPassword.Email),
-                loginUserByPassword.Password),
+            new LoginUserViaEmailCommand(
+                new Email(transfer.Email),
+                transfer.Password),
             cancellationToken);
 
         HttpContext.Response.Cookies.Append("access_token", userTokens.AccessToken);
 
         return new LoginResultDto(userTokens.UserId, userTokens.RefreshToken);
-    }
-
-    [HttpPost("register/password")]
-    public Task RegisterByPassword(
-        [FromBody] RegisterUserByPasswordDto registerUserByPassword,
-        [FromServices] IUseCaseHandler<RegisterUserWithPasswordCommand> commandHandler,
-        CancellationToken cancellationToken)
-    {
-        return commandHandler.HandleAsync(
-            new RegisterUserWithPasswordCommand(
-                new Email(registerUserByPassword.Email),
-                registerUserByPassword.Password),
-            cancellationToken);
     }
 }

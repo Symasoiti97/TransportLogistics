@@ -4,13 +4,13 @@ using TL.Socials.Identity.Business.Aggregates.UserSessionAggregate;
 
 namespace TL.Socials.Identity.Application.UseCases.UserServices;
 
-internal sealed class LoginUserByPasswordCommandHandler(
+internal sealed class LoginUserViaEmailCommandHandler(
     IUserRepository userRepository,
     IUserSessionRepository userSessionRepository,
     ITokenGenerator tokenGenerator)
-    : IUseCaseHandler<LoginUserByPasswordCommand, UserTokens>
+    : IUseCaseHandler<LoginUserViaEmailCommand, UserTokens>
 {
-    public async Task<UserTokens> HandleAsync(LoginUserByPasswordCommand command, CancellationToken cancellationToken)
+    public async Task<UserTokens> HandleAsync(LoginUserViaEmailCommand command, CancellationToken cancellationToken)
     {
         var user = await userRepository.FindAsync(command.Email, cancellationToken).ConfigureAwait(false);
 

@@ -4,9 +4,9 @@ using TL.Socials.Identity.Business.Aggregates.UserAggregate;
 namespace TL.Socials.Identity.Application.UseCases.UserServices;
 
 internal sealed class RegisterUserWithPasswordCommandHandler(IUserRepository userRepository)
-    : IUseCaseHandler<RegisterUserWithPasswordCommand>
+    : IUseCaseHandler<RegisterUserViaEmailCommand>
 {
-    public async Task HandleAsync(RegisterUserWithPasswordCommand command, CancellationToken cancellationToken)
+    public async Task HandleAsync(RegisterUserViaEmailCommand command, CancellationToken cancellationToken)
     {
         var user = User.Create(command.Email, command.Password);
 

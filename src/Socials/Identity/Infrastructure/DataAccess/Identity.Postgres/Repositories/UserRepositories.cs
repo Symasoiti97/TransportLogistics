@@ -1,6 +1,9 @@
 using Microsoft.EntityFrameworkCore;
+using TL.SharedKernel.Business.Aggregates;
+using TL.SharedKernel.Infrastructure.DataAccess.Postgres.Extensions;
 using TL.Socials.Identity.Application.UseCases.UserServices;
 using TL.Socials.Identity.Business.Aggregates.UserAggregate;
+using TL.Socials.Identity.Infrastructure.DataAccess.Postgres.Configuration;
 
 namespace TL.Socials.Identity.Infrastructure.DataAccess.Postgres.Repositories;
 
@@ -11,10 +14,18 @@ internal sealed class UserRepository(IdentityDbContext identityDbContext) : IUse
         return identityDbContext.Set<User>().SingleOrDefaultAsync(user => user.Email == email, cancellationToken);
     }
 
-    public Task AddAsync(User user, CancellationToken cancellationToken)
+    public async Task AddAsync(User user, CancellationToken cancellationToken)
     {
         identityDbContext.Set<User>().Add(user);
 
-        return identityDbContext.SaveChangesAsync(cancellationToken);
+        try
+        {
+            await identityDbContext.SaveChangesAsync(cancellationToken);
+        }
+        catch (DbUpdateException exception)
+            when (exception.IsPostgresUniqueConstraintViolation(UserConfiguration.UniqueEmailConstraintName))
+        {
+            throw new Conflict().WithDetails("User already exists.", exception);
+        }
     }
 }

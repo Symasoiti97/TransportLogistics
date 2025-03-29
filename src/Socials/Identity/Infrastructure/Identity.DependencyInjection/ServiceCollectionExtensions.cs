@@ -21,8 +21,9 @@ public static class ServiceCollectionExtensions
     ///     Регестрирует <see cref="IUseCaseHandler{TUseCase}" />, как <see cref="ServiceLifetime.Transient" />.<br />
     ///     Доступные команды:
     ///     <list type="bullet">
-    ///         <item><see cref="RegisterUserWithPasswordCommand" /></item>
-    ///         <item><see cref="LoginUserByPasswordCommand" /></item>
+    ///         <item><see cref="RequestUserRegisterViaEmailCommand" /></item>
+    ///         <item><see cref="RegisterUserViaEmailCommand" /></item>
+    ///         <item><see cref="LoginUserViaEmailCommand" /></item>
     ///     </list>
     ///     </item>
     ///     <item>
@@ -42,12 +43,16 @@ public static class ServiceCollectionExtensions
         string redisConnectionString)
     {
         services
-            .AddTransient<IUseCaseHandler<RegisterUserWithPasswordCommand>, RegisterUserWithPasswordCommandHandler>();
+            .AddTransient<IUseCaseHandler<RequestUserRegisterViaEmailCommand, bool>,
+                RequestUserRegisterViaEmailCommandHandler>();
         services
-            .AddTransient<IUseCaseHandler<LoginUserByPasswordCommand, UserTokens>, LoginUserByPasswordCommandHandler>();
+            .AddTransient<IUseCaseHandler<RegisterUserViaEmailCommand>, RegisterUserWithPasswordCommandHandler>();
+        services
+            .AddTransient<IUseCaseHandler<LoginUserViaEmailCommand, UserTokens>, LoginUserViaEmailCommandHandler>();
 
         services.AddTransient<IUserRepository, UserRepository>();
         services.AddTransient<IUserSessionRepository, UserSessionRepository>();
+        services.AddTransient<IUserRegisterViaEmailTokenRepository, UserRegisterViaEmailTokenRepository>();
         services.AddSingleton(jwtTokenOptions);
         services.AddTransient<ITokenGenerator, TokenGenerator>();
 
