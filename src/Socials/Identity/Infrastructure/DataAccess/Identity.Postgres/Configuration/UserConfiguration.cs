@@ -7,6 +7,8 @@ namespace TL.Socials.Identity.Infrastructure.DataAccess.Postgres.Configuration;
 
 internal sealed class UserConfiguration : IEntityTypeConfiguration<User>
 {
+    public const string UniqueEmailConstraintName = "IX_users_Email";
+
     public void Configure(EntityTypeBuilder<User> builder)
     {
         builder.ToTable("users");
@@ -22,7 +24,8 @@ internal sealed class UserConfiguration : IEntityTypeConfiguration<User>
             .HasConversion<EmailConverter>();
 
         builder.HasIndex(user => user.Email)
-            .IsUnique();
+            .IsUnique()
+            .HasDatabaseName(UniqueEmailConstraintName);
 
         builder.Property(user => user.PasswordHash)
             .IsRequired()

@@ -18,14 +18,20 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Compile Update="UserServices\LoginUserByPasswordCommandHandler.cs">
+      <Compile Update="UserServices\LoginUserViaEmailCommandHandler.cs">
         <DependentUpon>LoginUserByPasswordCommand.cs</DependentUpon>
       </Compile>
-      <Compile Update="UserServices\RegisterUserWithPasswordCommandHandler.cs">
+      <Compile Update="UserServices\RegisterUserViaEmailCommandHandler.cs">
         <DependentUpon>RegisterUserWithPasswordCommand.cs</DependentUpon>
       </Compile>
       <Compile Update="UserServices\UserTokens.cs">
         <DependentUpon>ITokenGenerator.cs</DependentUpon>
+      </Compile>
+      <Compile Update="UserServices\RequestUserRegisterViaEmailCommandHandler.cs">
+        <DependentUpon>RequestUserRegisterViaEmailCommand.cs</DependentUpon>
+      </Compile>
+      <Compile Update="UserServices\Token.cs">
+        <DependentUpon>ITokenRepository.cs</DependentUpon>
       </Compile>
     </ItemGroup>
 
