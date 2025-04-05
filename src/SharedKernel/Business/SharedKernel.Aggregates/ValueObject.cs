@@ -27,10 +27,7 @@ public abstract class ValueObject
     /// <param name="left">Left value object</param>
     /// <param name="right">Right value object</param>
     /// <returns>false if objects are equal, else true</returns>
-    protected static bool NotEqualOperator(ValueObject? left, ValueObject? right)
-    {
-        return !EqualOperator(left, right);
-    }
+    protected static bool NotEqualOperator(ValueObject? left, ValueObject? right) => !EqualOperator(left, right);
 
     /// <summary>
     /// Get quality components

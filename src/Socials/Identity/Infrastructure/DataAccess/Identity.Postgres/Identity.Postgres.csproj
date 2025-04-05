@@ -19,7 +19,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\..\..\..\..\SharedKernel\Infrastructure\SharedKernel.DataAccess.Postgres\SharedKernel.DataAccess.Postgres.csproj" />
+        <ProjectReference Include="..\..\..\..\..\SharedKernel\Infrastructure\SharedKernel.DataAccess.Postgres\SharedKernel.DataAccess.Postgres.csproj"/>
         <ProjectReference Include="..\..\..\Application\Identity.UseCases\Identity.UseCases.csproj"/>
         <ProjectReference Include="..\..\..\Businees\Identity.Aggregates\Identity.Aggregates.csproj"/>
     </ItemGroup>

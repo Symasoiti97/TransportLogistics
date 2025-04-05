@@ -3,6 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using StackExchange.Redis;
 using TL.SharedKernel.Application.Commands;
 using TL.Socials.Identity.Application.UseCases.UserServices;
+using TL.Socials.Identity.Business.Aggregates.TokenAggregate;
 using TL.Socials.Identity.Infrastructure.DataAccess.Postgres;
 using TL.Socials.Identity.Infrastructure.DataAccess.Postgres.Repositories;
 using TL.Socials.Identity.Infrastructure.DataAccess.Redis;
@@ -51,6 +52,9 @@ public static class ServiceCollectionExtensions
             .AddTransient<IUseCaseHandler<LoginUserViaEmailCommand, UserTokens>, LoginUserViaEmailCommandHandler>();
         services
             .AddTransient<IUseCaseHandler<RefreshAuthTokenCommand, UserTokens>, RefreshAuthTokenCommandHandler>();
+        services
+            .AddTransient<IUseCaseHandler<UserRegisterViaEmailTokenCreated>,
+                SendRequestUserRegisterEmailEventHandler>();
 
         services.AddTransient<IUserRepository, UserRepository>();
         services.AddTransient<IUserSessionRepository, UserSessionRepository>();

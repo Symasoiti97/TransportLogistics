@@ -17,6 +17,7 @@ public sealed class UserRegisterViaEmailToken : AggregateRoot<Guid>
     public static UserRegisterViaEmailToken Create(Email email)
     {
         var token = new UserRegisterViaEmailToken(Guid.NewGuid(), email);
+        token.Raise(new UserRegisterViaEmailTokenCreated(Guid.NewGuid(), token.Id));
         return token;
     }
 }

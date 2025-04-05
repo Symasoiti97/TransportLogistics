@@ -8,10 +8,7 @@ namespace TL.Socials.Identity.Infrastructure.Services;
 
 internal sealed class TokenGenerator(JwtTokenOptions options) : ITokenGenerator
 {
-    public UserTokens Generate(Guid userId)
-    {
-        return new UserTokens(userId, GenerateJwtToken(userId), Guid.NewGuid().ToString());
-    }
+    public UserTokens Generate(Guid userId) => new(userId, GenerateJwtToken(userId), Guid.NewGuid().ToString());
 
     private string GenerateJwtToken(Guid userId)
     {

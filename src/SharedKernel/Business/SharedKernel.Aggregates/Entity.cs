@@ -50,11 +50,9 @@ public abstract class Entity<TKey> where TKey : struct, IComparable
     }
 
     /// <inheritdoc />
-    public override int GetHashCode()
-    {
+    public override int GetHashCode() =>
         // ReSharper disable once NonReadonlyMemberInGetHashCode
-        return Id.GetHashCode();
-    }
+        Id.GetHashCode();
 
     /// <summary>
     /// Check equal between two object
@@ -62,10 +60,8 @@ public abstract class Entity<TKey> where TKey : struct, IComparable
     /// <param name="left"></param>
     /// <param name="right"></param>
     /// <returns></returns>
-    public static bool operator ==(Entity<TKey>? left, Entity<TKey>? right)
-    {
-        return left?.Equals(right) ?? Equals(right, objB: null);
-    }
+    public static bool operator ==(Entity<TKey>? left, Entity<TKey>? right) =>
+        left?.Equals(right) ?? Equals(right, objB: null);
 
     /// <summary>
     /// Check not equal between two object
@@ -73,8 +69,5 @@ public abstract class Entity<TKey> where TKey : struct, IComparable
     /// <param name="left">Left object</param>
     /// <param name="right">Right object</param>
     /// <returns></returns>
-    public static bool operator !=(Entity<TKey>? left, Entity<TKey>? right)
-    {
-        return !(left == right);
-    }
+    public static bool operator !=(Entity<TKey>? left, Entity<TKey>? right) => !(left == right);
 }

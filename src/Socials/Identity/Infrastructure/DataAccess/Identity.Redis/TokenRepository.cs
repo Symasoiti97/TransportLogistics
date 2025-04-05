@@ -3,10 +3,15 @@ using StackExchange.Redis;
 using TL.Socials.Identity.Application.UseCases.UserServices;
 using TL.Socials.Identity.Business.Aggregates.TokenAggregate;
 using TL.Socials.Identity.Business.Aggregates.UserAggregate;
+using TL.Socials.Identity.Infrastructure.DataAccess.Redis.Options;
 
 namespace TL.Socials.Identity.Infrastructure.DataAccess.Redis;
 
-internal sealed class UserRegisterViaEmailTokenRepository(IDatabase database) : IUserRegisterViaEmailTokenRepository
+internal sealed class UserRegisterViaEmailTokenRepository(
+    IDatabase database,
+    EventProcessorOptions eventOptions,
+    JsonSerializerOptions serializerOptions)
+    : IUserRegisterViaEmailTokenRepository
 {
     public async Task AddAsync(UserRegisterViaEmailToken token, CancellationToken cancellationToken)
     {
@@ -18,6 +23,15 @@ internal sealed class UserRegisterViaEmailTokenRepository(IDatabase database) : 
 
         await database.StringSetAsync(tokenKey, jsonData, TimeSpan.FromDays(3));
         await database.StringSetAsync(tokenEmailIndexKey, tokenKey, TimeSpan.FromDays(3));
+
+        foreach (var tokenEvent in token.Events)
+        {
+            await database.StreamAddAsync(
+                eventOptions.StreamName,
+                [
+                    new NameValueEntry("event", JsonSerializer.Serialize(tokenEvent, serializerOptions))
+                ]);
+        }
     }
 
     public async Task<UserRegisterViaEmailToken?> FindAsync(Email email, CancellationToken cancellationToken)

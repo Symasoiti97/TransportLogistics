@@ -23,7 +23,7 @@ public sealed partial class JsonSerializingTests
         [
             new InvalidParameters(
             [
-                new InvalidParameters.Parameter(null, "name", "$path", "Message", null)
+                new InvalidParameters.Parameter(value: null, "name", "$path", "Message", error: null)
             ]),
             """{"type":"invalid-parameters","parameters":[{"name":"name","path":"$path","message":"Message"}]}"""
         ]

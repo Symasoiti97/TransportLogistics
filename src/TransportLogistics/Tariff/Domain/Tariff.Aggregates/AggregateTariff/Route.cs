@@ -60,14 +60,8 @@ public sealed class Route : ValueObject
     }
 
     // TODO: Реалзиовать установку типа маршрута и добавить валидацию
-    private static RouteType DefineRouteType()
-    {
-        return RouteType.Unknown;
-    }
+    private static RouteType DefineRouteType() => RouteType.Unknown;
 
     /// <inheritdoc />
-    protected override IEnumerable<object> GetEqualityComponents()
-    {
-        return Points.Cast<object>().Append(Type);
-    }
+    protected override IEnumerable<object> GetEqualityComponents() => Points.Cast<object>().Append(Type);
 }

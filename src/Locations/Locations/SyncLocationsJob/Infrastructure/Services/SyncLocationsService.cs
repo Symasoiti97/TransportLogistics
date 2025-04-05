@@ -17,9 +17,6 @@ namespace TL.Locations.Locations.SyncLocationsTool.Infrastructure.Services;
 /// </remarks>
 internal class SyncLocationsService
 {
-    private readonly OsmDbContext _osmDbContext;
-    private readonly ICypherGraphClientFactory _graphClientFactory;
-
     //excludeCountries - страны дубликаты(11980, 1252792, 9604462)
     private static readonly long[] ExcludeCountries = [11980, 1252792, 9604462];
     private static readonly long[] IncludeCountries = [59065];
@@ -28,6 +25,9 @@ internal class SyncLocationsService
 
     private static readonly long[] ExcludeRegions =
         [1692123, 9581354, 72639, 3795586, 3788485, 1574364, 3082668, 9604138, 11819141, 11871225, 12101417];
+
+    private readonly ICypherGraphClientFactory _graphClientFactory;
+    private readonly OsmDbContext _osmDbContext;
 
     public SyncLocationsService(OsmDbContext osmDbContext, ICypherGraphClientFactory graphClientFactory)
     {

@@ -1,4 +1,4 @@
-namespace TL.SharedKernel.Application.Commands;
+namespace TL.SharedKernel.Business.Aggregates;
 
 /// <summary>
 /// Сценарий, бывает двух типов: команда и запрос

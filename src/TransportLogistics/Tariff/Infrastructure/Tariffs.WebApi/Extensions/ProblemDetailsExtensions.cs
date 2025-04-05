@@ -13,8 +13,8 @@ internal static class ProblemDetailsExtensions
     public static Type[] ErrorTypes
         => new[]
             {
-                typeof(TL.SharedKernel.Business.Aggregates.AssemblyReference).Assembly,
-                typeof(TL.TransportLogistics.Tariffs.Business.Aggregates.AssemblyReference).Assembly
+                typeof(AssemblyReference).Assembly,
+                typeof(Business.Aggregates.AssemblyReference).Assembly
             }
             .SelectMany(assembly => assembly.GetTypes().Where(type => type.IsSubclassOf(typeof(Error))))
             .ToArray();
@@ -68,8 +68,5 @@ internal static class ProblemDetailsExtensions
             });
     }
 
-    public static string BuildType(string serviceName, Error error)
-    {
-        return $"/{serviceName}/api/errors/{error.BuildType()}";
-    }
+    public static string BuildType(string serviceName, Error error) => $"/{serviceName}/api/errors/{error.BuildType()}";
 }

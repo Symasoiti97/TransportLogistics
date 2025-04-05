@@ -9,9 +9,9 @@ namespace TL.TransportLogistics.Tariffs.Startups.WebApi.Extensions;
 internal static class SwaggerGenOptionsExtensions
 {
     public const string TariffApiDocumentName = "tariff-api";
-    public static OpenApiInfo TariffApiInfo => new() {Title = "TL.Tariffs API", Version = "v1"};
 
     public const string TariffApiErrorsDocumentName = "tariff-api-errors";
+    public static OpenApiInfo TariffApiInfo => new() {Title = "TL.Tariffs API", Version = "v1"};
     public static OpenApiInfo TariffApiErrorsInfo => new() {Title = "TL.Tariffs API Errors", Version = "v1"};
 
     public static void SwaggerGenOptionsAction(SwaggerGenOptions options)
@@ -39,9 +39,8 @@ internal static class SwaggerGenOptionsExtensions
         options.MapType<ProblemDetails>(BuildProblemDetailsSchema);
     }
 
-    private static OpenApiSchema BuildProblemDetailsSchema()
-    {
-        return new OpenApiSchema
+    private static OpenApiSchema BuildProblemDetailsSchema() =>
+        new()
         {
             Type = "object",
             Properties = new Dictionary<string, OpenApiSchema>
@@ -128,5 +127,4 @@ internal static class SwaggerGenOptionsExtensions
                 }
             }
         };
-    }
 }
