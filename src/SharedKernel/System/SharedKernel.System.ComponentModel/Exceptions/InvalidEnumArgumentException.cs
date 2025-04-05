@@ -19,7 +19,7 @@ public static class InvalidEnumArgumentException
 
         if (!Enum.IsDefined(value))
         {
-            throw new System.ComponentModel.InvalidEnumArgumentException(
+            throw new ComponentModel.InvalidEnumArgumentException(
                 $"Value can not be undefined. (Parameter '{paramName}')");
         }
     }

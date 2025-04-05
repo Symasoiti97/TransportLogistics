@@ -6,9 +6,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <Compile Update="IUseCase.cs">
-            <DependentUpon>IUseCaseHandler.cs</DependentUpon>
-        </Compile>
+        <ProjectReference Include="..\..\Business\SharedKernel.Aggregates\SharedKernel.Aggregates.csproj"/>
     </ItemGroup>
 
 </Project>

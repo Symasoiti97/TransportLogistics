@@ -5,8 +5,8 @@ namespace TL.Locations.Locations.SyncLocationsTool;
 
 public sealed class Worker : BackgroundService
 {
-    private readonly IServiceProvider _serviceProvider;
     private readonly ILogger<Worker> _logger;
+    private readonly IServiceProvider _serviceProvider;
 
     public Worker(IServiceProvider serviceProvider, ILogger<Worker> logger)
     {
@@ -33,10 +33,7 @@ public sealed class Worker : BackgroundService
 
 public static class LoggerExtensions
 {
-    public static LogWatcher BeginLogWatch(this ILogger logger, string operationName)
-    {
-        return new LogWatcher(logger, operationName);
-    }
+    public static LogWatcher BeginLogWatch(this ILogger logger, string operationName) => new(logger, operationName);
 }
 
 public sealed class LogWatcher : IDisposable

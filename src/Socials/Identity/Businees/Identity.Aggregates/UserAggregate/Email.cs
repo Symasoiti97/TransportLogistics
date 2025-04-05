@@ -21,10 +21,7 @@ public sealed partial class Email : ValueObject
 
     public string Value { get; }
 
-    protected override IEnumerable<object> GetEqualityComponents()
-    {
-        return [Value];
-    }
+    protected override IEnumerable<object> GetEqualityComponents() => [Value];
 
     [GeneratedRegex(@"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$")]
     private static partial Regex EmailRegex();

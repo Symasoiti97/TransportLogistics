@@ -8,8 +8,8 @@ namespace TL.TransportLogistics.Tariffs.Application.UseCases.TariffServices;
 /// </summary>
 internal sealed class SaveTariffRouteCommandHandler : IUseCaseHandler<SaveTariffRouteCommand>
 {
-    private readonly ITariffRepository _tariffRepository;
     private readonly ILocationRepository _locationRepository;
+    private readonly ITariffRepository _tariffRepository;
 
     public SaveTariffRouteCommandHandler(ITariffRepository tariffRepository, ILocationRepository locationRepository)
     {

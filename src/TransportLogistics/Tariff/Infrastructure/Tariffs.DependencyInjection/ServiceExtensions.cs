@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using TL.SharedKernel.Application.Commands;
 using TL.SharedKernel.Application.Repositories;
+using TL.SharedKernel.Business.Aggregates;
 using TL.SharedKernel.Infrastructure.DependencyInjection;
 using TL.SharedKernel.Infrastructure.DependencyInjection.Settings;
 using TL.TransportLogistics.Tariffs.Application.UseCases.LocationServices;

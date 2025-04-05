@@ -1,4 +1,6 @@
-﻿namespace TL.SharedKernel.Application.Commands;
+﻿using TL.SharedKernel.Business.Aggregates;
+
+namespace TL.SharedKernel.Application.Commands;
 
 /// <summary>
 /// Обработчик сценария, используется как для команд так и для запросов
@@ -11,10 +13,21 @@ public interface IUseCaseHandler<in TUseCase, TResult> where TUseCase : IUseCase
 }
 
 /// <summary>
-/// Обработчик сценария, используется как для команд так и для запросов
+/// Обработчик сценария, используется как для команд так и для событий
 /// </summary>
 /// <typeparam name="TUseCase">Тип команды</typeparam>
-public interface IUseCaseHandler<in TUseCase> where TUseCase : IUseCase
+public interface IUseCaseHandler<in TUseCase> : IUseCaseHandler where TUseCase : IUseCase
 {
+    Task IUseCaseHandler.HandleAsync(object command, CancellationToken cancellationToken) =>
+        HandleAsync((TUseCase) command, cancellationToken);
+
     Task HandleAsync(TUseCase command, CancellationToken cancellationToken);
+}
+
+/// <summary>
+/// Обработчик сценария, используется как для команд так и для событий
+/// </summary>
+public interface IUseCaseHandler
+{
+    Task HandleAsync(object command, CancellationToken cancellationToken);
 }

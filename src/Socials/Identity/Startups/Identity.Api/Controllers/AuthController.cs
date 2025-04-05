@@ -30,14 +30,12 @@ public sealed class AuthController : ControllerBase
         [FromBody] RegisterUserViaEmailDto transfer,
         [FromServices] IUseCaseHandler<RegisterUserViaEmailCommand> commandHandler,
         CancellationToken cancellationToken)
-    {
-        return commandHandler.HandleAsync(
+        => commandHandler.HandleAsync(
             new RegisterUserViaEmailCommand(
                 new Email(transfer.Email),
                 transfer.Password,
                 transfer.Token),
             cancellationToken);
-    }
 
     [HttpPost("login/email")]
     public async Task<LoginResultDto> LoginUserViaEmailAsync(

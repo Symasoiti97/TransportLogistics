@@ -20,6 +20,11 @@ public sealed class User : AggregateRoot<Guid>
         UpdatedDate = updatedDate;
     }
 
+    public Email Email { get; }
+    public string PasswordHash { get; }
+    public DateTimeOffset CreatedDate { get; }
+    public DateTimeOffset UpdatedDate { get; }
+
     public static User Create(Email email, string password)
     {
         ArgumentNullException.ThrowIfNull(password);
@@ -33,9 +38,5 @@ public sealed class User : AggregateRoot<Guid>
             now);
     }
 
-    public Email Email { get; }
-    public string PasswordHash { get; }
-    public DateTimeOffset CreatedDate { get; }
-    public DateTimeOffset UpdatedDate { get; }
     public bool IsPasswordValid(string password) => BCrypt.Net.BCrypt.Verify(password, PasswordHash);
 }

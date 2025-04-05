@@ -47,10 +47,7 @@ public sealed class Point : ValueObject
     /// <param name="locationId">Идентификатор локации</param>
     /// <param name="order">Порядковый номер</param>
     /// <returns>Точка</returns>
-    public static Point Fob(Guid locationId, ushort order)
-    {
-        return new Point(locationId, PointType.Fob, order);
-    }
+    public static Point Fob(Guid locationId, ushort order) => new(locationId, PointType.Fob, order);
 
     /// <summary>
     /// Создать точку с типом <see cref="PointType.For" />
@@ -58,10 +55,7 @@ public sealed class Point : ValueObject
     /// <param name="locationId">Идентификатор локации</param>
     /// <param name="order">Порядковый номер</param>
     /// <returns>Точка</returns>
-    public static Point For(Guid locationId, ushort order)
-    {
-        return new Point(locationId, PointType.For, order);
-    }
+    public static Point For(Guid locationId, ushort order) => new(locationId, PointType.For, order);
 
     /// <summary>
     /// Создать точку с типом <see cref="PointType.Fot" />
@@ -69,10 +63,7 @@ public sealed class Point : ValueObject
     /// <param name="locationId">Идентификатор локации</param>
     /// <param name="order">Порядковый номер</param>
     /// <returns>Точка</returns>
-    public static Point Fot(Guid locationId, ushort order)
-    {
-        return new Point(locationId, PointType.Fot, order);
-    }
+    public static Point Fot(Guid locationId, ushort order) => new(locationId, PointType.Fot, order);
 
     private void SetOrder(ushort order)
     {
@@ -92,8 +83,5 @@ public sealed class Point : ValueObject
     }
 
     /// <inheritdoc />
-    protected override IEnumerable<object> GetEqualityComponents()
-    {
-        return [LocationId, Order, Type];
-    }
+    protected override IEnumerable<object> GetEqualityComponents() => [LocationId, Order, Type];
 }

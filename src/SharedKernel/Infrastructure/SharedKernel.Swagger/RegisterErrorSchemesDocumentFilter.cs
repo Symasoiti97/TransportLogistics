@@ -37,7 +37,7 @@ public sealed class RegisterErrorSchemesDocumentFilter : IDocumentFilter
             var oldProperties = schema.Properties;
             schema.Properties = new Dictionary<string, OpenApiSchema>();
             schema.Properties.Add(
-                new(
+                new KeyValuePair<string, OpenApiSchema>(
                     "type",
                     new OpenApiSchema
                     {
