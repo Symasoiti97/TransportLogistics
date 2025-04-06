@@ -7,6 +7,7 @@ using TL.Socials.Identity.Business.Aggregates.TokenAggregate;
 using TL.Socials.Identity.Infrastructure.DataAccess.Postgres;
 using TL.Socials.Identity.Infrastructure.DataAccess.Postgres.Repositories;
 using TL.Socials.Identity.Infrastructure.DataAccess.Redis;
+using TL.Socials.Identity.Infrastructure.DependencyInjection.Stubs;
 using TL.Socials.Identity.Infrastructure.Services;
 using TL.Socials.Identity.Infrastructure.Services.Options;
 using IRedisDatabase = StackExchange.Redis.IDatabase;
@@ -36,18 +37,30 @@ public static class ServiceCollectionExtensions
     /// <param name="jwtTokenOptions">JWT token options</param>
     /// <param name="pgConnectionString">Строка подключения к postgres</param>
     /// <param name="redisConnectionString">Строка подключения к redis</param>
+    /// <param name="useStubs">Испольовать ли стабы (Для тестирования)</param>
     /// <returns>Коллекция сервисов</returns>
     public static IServiceCollection AddIdentityServices(
         this IServiceCollection services,
         JwtTokenOptions jwtTokenOptions,
         string pgConnectionString,
-        string redisConnectionString)
+        string redisConnectionString,
+        bool useStubs = false)
     {
+        if (useStubs)
+        {
+            services.AddTransient<RegisterUserViaEmailCommandHandler>();
+            services
+                .AddTransient<IUseCaseHandler<RegisterUserViaEmailCommand>, StubRegisterUserViaEmailCommandHandler>();
+        }
+        else
+        {
+            services
+                .AddTransient<IUseCaseHandler<RegisterUserViaEmailCommand>, RegisterUserViaEmailCommandHandler>();
+        }
+
         services
             .AddTransient<IUseCaseHandler<RequestUserRegisterViaEmailCommand, bool>,
                 RequestUserRegisterViaEmailCommandHandler>();
-        services
-            .AddTransient<IUseCaseHandler<RegisterUserViaEmailCommand>, RegisterUserWithPasswordCommandHandler>();
         services
             .AddTransient<IUseCaseHandler<LoginUserViaEmailCommand, UserTokens>, LoginUserViaEmailCommandHandler>();
         services

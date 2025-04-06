@@ -5,7 +5,6 @@ using TL.Socials.Identity.Infrastructure.DataAccess.Redis;
 using TL.Socials.Identity.Infrastructure.DataAccess.Redis.Options;
 using TL.Socials.Identity.Infrastructure.DependencyInjection;
 using TL.Socials.Identity.Infrastructure.Services.Options;
-using TL.Socials.Identity.Startups.Api;
 using TL.Socials.Identity.Startups.Api.BackgroundServices;
 using ProblemDetailsOptions = Hellang.Middleware.ProblemDetails.ProblemDetailsOptions;
 
@@ -19,7 +18,8 @@ builder.Services.AddHttpLogging();
 builder.Services.AddIdentityServices(
     configuration.GetRequiredSectionValue<JwtTokenOptions>("JwtTokenOptions"),
     configuration.GetRequiredConnectionString("IdentityPostgres"),
-    configuration.GetRequiredConnectionString("IdentityRedis"));
+    configuration.GetRequiredConnectionString("IdentityRedis"),
+    builder.Environment.IsDevelopment());
 builder.Services.AddSingleton(
     configuration.GetRequiredSectionValue<EventProcessorOptions>("RedisEventProcessorOptions"));
 builder.Services.AddTransient<EventProcessor>();
