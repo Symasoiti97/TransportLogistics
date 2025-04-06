@@ -5,13 +5,13 @@ namespace TL.Socials.Identity.Business.Aggregates.TokenAggregate;
 
 public sealed class UserRegisterViaEmailToken : AggregateRoot<Guid>
 {
-    public UserRegisterViaEmailToken(Guid id, Email email, string tokenValue) : base(id)
+    public UserRegisterViaEmailToken(Guid id, Email email, string value) : base(id)
     {
         ArgumentNullException.ThrowIfNull(email);
-        ArgumentException.ThrowIfNullOrWhiteSpace(tokenValue);
+        ArgumentException.ThrowIfNullOrWhiteSpace(value);
 
         Email = email;
-        Value = tokenValue;
+        Value = value;
     }
 
     public Email Email { get; }

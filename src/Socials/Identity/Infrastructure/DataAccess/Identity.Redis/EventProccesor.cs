@@ -31,17 +31,17 @@ public sealed class EventProcessor(
 
         while (!cancellationToken.IsCancellationRequested)
         {
-            var messages = database.StreamReadGroup(
+            var messages = await database.StreamReadGroupAsync(
                 options.StreamName,
                 options.ConsumerGroup,
                 options.ConsumerName,
-                "0-0",
+                ">",
                 count: 1);
 
             foreach (var message in messages)
             {
                 var @event = message.GetEvent(serializerOptions);
-                var retries = message.TryGetRetries();
+                var retries = message.GetRetries();
                 var handlerType = message.TryGetHandlerType();
 
                 logger.LogInformation(
@@ -77,7 +77,7 @@ public sealed class EventProcessor(
                                 [
                                     new NameValueEntry("event", JsonSerializer.Serialize(@event)),
                                     new NameValueEntry("retries", newRetries),
-                                    new NameValueEntry("handler-type", handler.GetType().FullName)
+                                    new NameValueEntry("handler-type", handler.GetType().Name)
                                 ]);
 
                             logger.LogInformation(
