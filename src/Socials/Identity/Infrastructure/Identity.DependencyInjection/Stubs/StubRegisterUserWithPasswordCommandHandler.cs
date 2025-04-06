@@ -15,9 +15,11 @@ internal sealed class StubRegisterUserViaEmailCommandHandler(
         {
             await originHandler.HandleAsync(command, cancellationToken).ConfigureAwait(false);
         }
+        else
+        {
+            var user = User.Create(command.Email, command.Password);
 
-        var user = User.Create(command.Email, command.Password);
-
-        await userRepository.AddAsync(user, cancellationToken).ConfigureAwait(false);
+            await userRepository.AddAsync(user, cancellationToken).ConfigureAwait(false);
+        }
     }
 }

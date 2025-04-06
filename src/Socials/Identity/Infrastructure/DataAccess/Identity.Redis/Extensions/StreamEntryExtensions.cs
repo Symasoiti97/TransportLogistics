@@ -13,13 +13,13 @@ internal static class StreamEntryExtensions
                ?? throw new InvalidOperationException("Invalid event");
     }
 
-    public static int? TryGetRetries(this StreamEntry eventMessage)
+    public static int GetRetries(this StreamEntry eventMessage)
     {
         var entry = eventMessage.Values.SingleOrDefault(value => value.Name == "retries");
 
         if (!entry.Value.HasValue || !entry.Value.IsInteger)
         {
-            return null;
+            return 0;
         }
 
         return (int) entry.Value;

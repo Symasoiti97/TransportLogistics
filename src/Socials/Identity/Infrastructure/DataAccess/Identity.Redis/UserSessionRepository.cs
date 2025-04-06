@@ -16,8 +16,12 @@ internal sealed class UserSessionRepository(IRedisDatabase database) : IUserSess
 
         var refreshTokenIndexKey = BuildRefreshTokenIndexKey(userSession.RefreshToken);
 
-        await database.StringSetAsync(userSessionKey, jsonData, TimeSpan.FromDays(30));
-        await database.StringSetAsync(refreshTokenIndexKey, userSessionKey, TimeSpan.FromDays(30));
+        var transaction = database.CreateTransaction();
+
+        _ = transaction.StringSetAsync(userSessionKey, jsonData, TimeSpan.FromDays(30));
+        _ = transaction.StringSetAsync(refreshTokenIndexKey, userSessionKey, TimeSpan.FromDays(30));
+
+        await transaction.ExecuteAsync();
     }
 
     public async Task<UserSession?> FindAsync(string refreshToken, CancellationToken cancellationToken)

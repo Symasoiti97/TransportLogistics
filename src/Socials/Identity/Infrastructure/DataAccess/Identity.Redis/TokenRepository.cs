@@ -21,17 +21,21 @@ internal sealed class UserRegisterViaEmailTokenRepository(
         var tokenEmailIndexKey = BuildTokenEmailIndex(token.Email);
         var jsonData = JsonSerializer.SerializeToUtf8Bytes(token);
 
-        await database.StringSetAsync(tokenKey, jsonData, TimeSpan.FromDays(3));
-        await database.StringSetAsync(tokenEmailIndexKey, tokenKey, TimeSpan.FromDays(3));
+        var transaction = database.CreateTransaction();
+
+        _ = transaction.StringSetAsync(tokenKey, jsonData, TimeSpan.FromDays(3));
+        _ = transaction.StringSetAsync(tokenEmailIndexKey, tokenKey, TimeSpan.FromDays(3));
 
         foreach (var tokenEvent in token.Events)
         {
-            await database.StreamAddAsync(
+            _ = transaction.StreamAddAsync(
                 eventOptions.StreamName,
                 [
                     new NameValueEntry("event", JsonSerializer.Serialize(tokenEvent, serializerOptions))
                 ]);
         }
+
+        await transaction.ExecuteAsync();
     }
 
     public async Task<UserRegisterViaEmailToken?> FindAsync(Email email, CancellationToken cancellationToken)
