@@ -7,4 +7,5 @@ public interface IUserRegisterViaEmailTokenRepository
 {
     Task AddAsync(UserRegisterViaEmailToken token, CancellationToken cancellationToken);
     Task<UserRegisterViaEmailToken?> FindAsync(Email email, CancellationToken cancellationToken);
+    Task<UserRegisterViaEmailToken?> FindAsync(Guid tokenId, CancellationToken cancellationToken);
 }

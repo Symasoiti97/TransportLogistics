@@ -56,6 +56,22 @@ internal sealed class UserRegisterViaEmailTokenRepository(
                ?? throw new InvalidOperationException("Deserialize error.");
     }
 
+    public async Task<UserRegisterViaEmailToken?> FindAsync(Guid tokenId, CancellationToken cancellationToken)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+
+        var tokenKey = BuildTokenKey(tokenId);
+
+        var jsonValue = await database.StringGetAsync(tokenKey).ConfigureAwait(false);
+        if (!jsonValue.HasValue)
+        {
+            return null;
+        }
+
+        return JsonSerializer.Deserialize<UserRegisterViaEmailToken>((byte[]) jsonValue!)
+               ?? throw new InvalidOperationException("Deserialize error.");
+    }
+
     private static string BuildTokenKey(Guid tokenId) => $"RequestEmailRegisterToken:{tokenId}";
     private static string BuildTokenEmailIndex(Email email) => $"RequestEmailRegisterTokenEmailIndex:{email.Value}";
 }
