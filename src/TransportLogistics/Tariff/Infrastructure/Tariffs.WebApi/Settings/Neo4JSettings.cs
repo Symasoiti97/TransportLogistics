@@ -6,6 +6,10 @@ internal sealed class Neo4JSettings : INeo4JSettings
 {
     public Neo4JSettings(Uri uri, string userName, string password)
     {
+        ArgumentNullException.ThrowIfNull(uri);
+        ArgumentException.ThrowIfNullOrWhiteSpace(userName);
+        ArgumentException.ThrowIfNullOrWhiteSpace(password);
+
         Uri = uri;
         UserName = userName;
         Password = password;

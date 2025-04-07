@@ -4,6 +4,7 @@ using System.Text.Json.Serialization.Metadata;
 using Hellang.Middleware.ProblemDetails;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
+using TL.SharedKernel.Infrastructure.AspNet.Extensions.Middlewares.Extensions;
 using TL.SharedKernel.Infrastructure.JsonSerializer.Extensions;
 using TL.TransportLogistics.Tariffs.Infrastructure.DependencyInjection;
 using TL.TransportLogistics.Tariffs.Startups.WebApi.Extensions;
@@ -37,7 +38,7 @@ builder.Services.AddEndpointsApiExplorer();
 
 builder.Services.AddSwaggerGen(SwaggerExtensions.SwaggerGenOptionsAction);
 
-builder.Services.AddTariffServices(GetNeo4JSettings(builder.Configuration));
+builder.Services.AddTariffServices(builder.Configuration.GetRequiredSectionValue<Neo4JSettings>("Neo4jSettings"));
 
 builder.Services.AddLocalization();
 
@@ -74,14 +75,6 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
-
-static Neo4JSettings GetNeo4JSettings(IConfiguration configuration)
-{
-    return new Neo4JSettings(
-        new Uri(configuration["Neo4jSettings:Uri"]),
-        configuration["Neo4jSettings:UserName"],
-        configuration["Neo4jSettings:Password"]);
-}
 
 static ServiceSettings GetServiceSettings(IConfiguration configuration)
 {
