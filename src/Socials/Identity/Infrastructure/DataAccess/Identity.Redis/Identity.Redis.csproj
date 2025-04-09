@@ -19,4 +19,13 @@
         <PackageReference Include="StackExchange.Redis" Version="2.8.31"/>
     </ItemGroup>
 
+    <ItemGroup>
+        <Compile Update="UserLoginViaPhoneTokenRepository.cs">
+            <DependentUpon>TokenRepository.cs</DependentUpon>
+        </Compile>
+        <Compile Update="UserRegisterViaEmailTokenRepository.cs">
+            <DependentUpon>TokenRepository.cs</DependentUpon>
+        </Compile>
+    </ItemGroup>
+
 </Project>

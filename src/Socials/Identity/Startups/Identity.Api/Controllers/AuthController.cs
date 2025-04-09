@@ -68,4 +68,37 @@ public sealed class AuthController : ControllerBase
 
         return new LoginResultDto(userTokens.UserId, userTokens.RefreshToken);
     }
+
+    [HttpPost("login/phone/request")]
+    public Task RequestUserLoginViaPhone(
+        [FromBody] RequestUserLoginViaPhoneDto transfer,
+        [FromServices] IUseCaseHandler<RequestUserLoginViaPhoneCommand> commandHandler,
+        CancellationToken cancellationToken)
+        => commandHandler.HandleAsync(
+            new RequestUserLoginViaPhoneCommand(new PhoneNumber(transfer.PhoneNumber)),
+            cancellationToken);
+
+    [HttpPost("login/phone")]
+    public async Task<LoginResultDto> LoginUserViaPhone(
+        [FromBody] LoginUserViaPhoneDto transfer,
+        [FromServices] IUseCaseHandler<RegisterUserViaPhoneCommand> registerCommandHandler,
+        [FromServices] IUseCaseHandler<LoginUserViaPhoneCommand, UserTokens> loginCommandHandler,
+        CancellationToken cancellationToken)
+    {
+        await registerCommandHandler
+            .HandleAsync(
+                new RegisterUserViaPhoneCommand(new PhoneNumber(transfer.PhoneNumber), transfer.Code),
+                cancellationToken)
+            .ConfigureAwait(false);
+
+        var userTokens = await loginCommandHandler
+            .HandleAsync(
+                new LoginUserViaPhoneCommand(new PhoneNumber(transfer.PhoneNumber)),
+                cancellationToken)
+            .ConfigureAwait(false);
+
+        HttpContext.Response.Cookies.Append(AccessToken, userTokens.AccessToken);
+
+        return new LoginResultDto(userTokens.UserId, userTokens.RefreshToken);
+    }
 }

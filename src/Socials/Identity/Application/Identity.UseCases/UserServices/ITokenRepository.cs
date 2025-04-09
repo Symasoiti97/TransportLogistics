@@ -1,11 +1,10 @@
 using TL.Socials.Identity.Business.Aggregates.TokenAggregate;
-using TL.Socials.Identity.Business.Aggregates.UserAggregate;
 
 namespace TL.Socials.Identity.Application.UseCases.UserServices;
 
-public interface IUserRegisterViaEmailTokenRepository
+public interface ITokenRepository<TToken> where TToken : Token
 {
-    Task AddAsync(UserRegisterViaEmailToken token, CancellationToken cancellationToken);
-    Task<UserRegisterViaEmailToken?> FindAsync(Email email, CancellationToken cancellationToken);
-    Task<UserRegisterViaEmailToken?> FindAsync(Guid tokenId, CancellationToken cancellationToken);
+    Task SaveAsync(TToken token, CancellationToken cancellationToken);
+    Task<TToken?> FindAsync(string tokenValue, CancellationToken cancellationToken);
+    Task<TToken?> FindAsync(Guid tokenId, CancellationToken cancellationToken);
 }

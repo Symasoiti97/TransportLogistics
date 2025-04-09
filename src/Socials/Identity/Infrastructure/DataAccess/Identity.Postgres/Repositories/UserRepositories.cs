@@ -10,9 +10,12 @@ namespace TL.Socials.Identity.Infrastructure.DataAccess.Postgres.Repositories;
 internal sealed class UserRepository(IdentityDbContext identityDbContext) : IUserRepository
 {
     public Task<User?> FindAsync(Email email, CancellationToken cancellationToken)
-    {
-        return identityDbContext.Set<User>().SingleOrDefaultAsync(user => user.Email == email, cancellationToken);
-    }
+        => identityDbContext.Set<User>().SingleOrDefaultAsync(user => user.Email == email, cancellationToken);
+
+    public Task<User?> FindAsync(PhoneNumber phoneNumber, CancellationToken cancellationToken)
+        => identityDbContext.Set<User>().SingleOrDefaultAsync(
+            user => user.PhoneNumber == phoneNumber,
+            cancellationToken);
 
     public async Task AddAsync(User user, CancellationToken cancellationToken)
     {
