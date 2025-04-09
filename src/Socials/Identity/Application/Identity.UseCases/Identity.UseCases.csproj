@@ -32,6 +32,21 @@
         <Compile Update="UserServices\RefreshAuthTokenCommandHandler.cs">
             <DependentUpon>RefreshAuthTokenCommand.cs</DependentUpon>
         </Compile>
+        <Compile Update="UserServices\LoginUserViaPhoneCommandHandler.cs">
+            <DependentUpon>LoginUserViaPhoneCommand.cs</DependentUpon>
+        </Compile>
+        <Compile Update="UserServices\RegisterUserViaPhoneCommandHandler.cs">
+            <DependentUpon>RegisterUserViaPhoneCommand.cs</DependentUpon>
+        </Compile>
+        <Compile Update="UserServices\RequestUserLoginViaPhoneCommandHandler.cs">
+            <DependentUpon>RequestUserLoginViaPhoneCommand.cs</DependentUpon>
+        </Compile>
+        <Compile Update="UserServices\IUserRegisterViaEmailTokenRepository.cs">
+            <DependentUpon>ITokenRepository.cs</DependentUpon>
+        </Compile>
+        <Compile Update="UserServices\IUserRegisterViaPhoneTokenRepository.cs">
+            <DependentUpon>ITokenRepository.cs</DependentUpon>
+        </Compile>
     </ItemGroup>
 
     <ItemGroup>

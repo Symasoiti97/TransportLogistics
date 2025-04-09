@@ -68,10 +68,17 @@ public static class ServiceCollectionExtensions
         services
             .AddTransient<IUseCaseHandler<UserRegisterViaEmailTokenCreated>,
                 SendRequestUserRegisterEmailEventHandler>();
+        services
+            .AddTransient<IUseCaseHandler<RequestUserLoginViaPhoneCommand>, RequestUserLoginViaPhoneCommandHandler>();
+        services
+            .AddTransient<IUseCaseHandler<RegisterUserViaPhoneCommand>, RegisterUserViaPhoneCommandHandler>();
+        services
+            .AddTransient<IUseCaseHandler<LoginUserViaPhoneCommand, UserTokens>, LoginUserViaPhoneCommandHandler>();
 
         services.AddTransient<IUserRepository, UserRepository>();
         services.AddTransient<IUserSessionRepository, UserSessionRepository>();
         services.AddTransient<IUserRegisterViaEmailTokenRepository, UserRegisterViaEmailTokenRepository>();
+        services.AddTransient<IUserLoginViaPhoneTokenRepository, UserLoginViaPhoneTokenRepository>();
         services.AddSingleton(jwtTokenOptions);
         services.AddTransient<ITokenGenerator, TokenGenerator>();
 

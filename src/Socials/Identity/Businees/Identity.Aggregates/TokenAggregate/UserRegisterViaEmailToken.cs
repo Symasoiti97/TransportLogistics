@@ -1,21 +1,17 @@
-using TL.SharedKernel.Business.Aggregates;
 using TL.Socials.Identity.Business.Aggregates.UserAggregate;
 
 namespace TL.Socials.Identity.Business.Aggregates.TokenAggregate;
 
-public sealed class UserRegisterViaEmailToken : AggregateRoot<Guid>
+public sealed class UserRegisterViaEmailToken : Token
 {
-    public UserRegisterViaEmailToken(Guid id, Email email, string value) : base(id)
+    public UserRegisterViaEmailToken(Guid id, Email email, string value) : base(id, value)
     {
         ArgumentNullException.ThrowIfNull(email);
-        ArgumentException.ThrowIfNullOrWhiteSpace(value);
 
         Email = email;
-        Value = value;
     }
 
     public Email Email { get; }
-    public string Value { get; }
 
     public static UserRegisterViaEmailToken Create(Email email)
     {
@@ -23,4 +19,6 @@ public sealed class UserRegisterViaEmailToken : AggregateRoot<Guid>
         token.Raise(new UserRegisterViaEmailTokenCreated(Guid.NewGuid(), token.Id));
         return token;
     }
+
+    protected override string GenerateTokenValue() => Guid.NewGuid().ToString();
 }

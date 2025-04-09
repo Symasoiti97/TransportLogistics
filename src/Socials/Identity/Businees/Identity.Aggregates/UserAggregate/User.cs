@@ -6,22 +6,32 @@ public sealed class User : AggregateRoot<Guid>
 {
     public User(
         Guid id,
-        Email email,
-        string passwordHash,
+        Email? email,
+        string? passwordHash,
+        PhoneNumber? phoneNumber,
         DateTimeOffset createdDate,
         DateTimeOffset updatedDate) : base(id)
     {
-        ArgumentNullException.ThrowIfNull(email);
-        ArgumentNullException.ThrowIfNull(passwordHash);
+        if (email is null && phoneNumber is null)
+        {
+            throw new Conflict().WithDetails("Email or phone number are required.");
+        }
+
+        if (email is not null && passwordHash is null)
+        {
+            throw new Conflict().WithDetails("Email and phone number are required.");
+        }
 
         Email = email;
         PasswordHash = passwordHash;
+        PhoneNumber = phoneNumber;
         CreatedDate = createdDate;
         UpdatedDate = updatedDate;
     }
 
-    public Email Email { get; }
-    public string PasswordHash { get; }
+    public Email? Email { get; }
+    public string? PasswordHash { get; }
+    public PhoneNumber? PhoneNumber { get; }
     public DateTimeOffset CreatedDate { get; }
     public DateTimeOffset UpdatedDate { get; }
 
@@ -34,6 +44,19 @@ public sealed class User : AggregateRoot<Guid>
             Guid.NewGuid(),
             email,
             BCrypt.Net.BCrypt.HashPassword(password),
+            phoneNumber: null,
+            now,
+            now);
+    }
+
+    public static User Create(PhoneNumber phoneNumber)
+    {
+        var now = DateTimeOffset.UtcNow;
+        return new User(
+            Guid.NewGuid(),
+            email: null,
+            passwordHash: null,
+            phoneNumber,
             now,
             now);
     }

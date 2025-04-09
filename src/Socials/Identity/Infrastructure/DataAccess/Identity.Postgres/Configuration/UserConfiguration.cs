@@ -7,7 +7,8 @@ namespace TL.Socials.Identity.Infrastructure.DataAccess.Postgres.Configuration;
 
 internal sealed class UserConfiguration : IEntityTypeConfiguration<User>
 {
-    public const string UniqueEmailConstraintName = "IX_users_Email";
+    public const string UniqueEmailConstraintName = "ix_users_email";
+    public const string UniquePhoneNumberConstraintName = "ix_users_phone_number";
 
     public void Configure(EntityTypeBuilder<User> builder)
     {
@@ -19,7 +20,6 @@ internal sealed class UserConfiguration : IEntityTypeConfiguration<User>
             .ValueGeneratedNever();
 
         builder.Property(user => user.Email)
-            .IsRequired()
             .HasMaxLength(256)
             .HasConversion<EmailConverter>();
 
@@ -28,8 +28,15 @@ internal sealed class UserConfiguration : IEntityTypeConfiguration<User>
             .HasDatabaseName(UniqueEmailConstraintName);
 
         builder.Property(user => user.PasswordHash)
-            .IsRequired()
             .HasMaxLength(512);
+
+        builder.Property(user => user.PhoneNumber)
+            .HasMaxLength(20)
+            .HasConversion<PhoneNumberConverter>();
+
+        builder.HasIndex(user => user.PhoneNumber)
+            .IsUnique()
+            .HasDatabaseName(UniquePhoneNumberConstraintName);
 
         builder.Property(user => user.CreatedDate)
             .IsRequired();

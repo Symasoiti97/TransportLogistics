@@ -25,7 +25,7 @@ internal sealed class RequestUserRegisterViaEmailCommandHandler(
             throw new Conflict().WithDetails("User register request already exists.");
         }
 
-        await tokenRepository.AddAsync(UserRegisterViaEmailToken.Create(command.Email), cancellationToken);
+        await tokenRepository.SaveAsync(UserRegisterViaEmailToken.Create(command.Email), cancellationToken);
 
         return true;
     }

@@ -5,5 +5,6 @@ namespace TL.Socials.Identity.Application.UseCases.UserServices;
 public interface IUserRepository
 {
     Task<User?> FindAsync(Email email, CancellationToken cancellationToken);
+    Task<User?> FindAsync(PhoneNumber phoneNumber, CancellationToken cancellationToken);
     Task AddAsync(User user, CancellationToken cancellationToken);
 }
