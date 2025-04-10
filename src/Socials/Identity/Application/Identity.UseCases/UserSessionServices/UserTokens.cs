@@ -1,4 +1,4 @@
-namespace TL.Socials.Identity.Application.UseCases.UserServices;
+namespace TL.Socials.Identity.Application.UseCases.UserSessionServices;
 
 public sealed class UserTokens(Guid userId, string accessToken, string refreshToken)
 {

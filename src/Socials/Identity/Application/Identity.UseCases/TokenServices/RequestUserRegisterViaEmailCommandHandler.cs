@@ -1,8 +1,9 @@
 using TL.SharedKernel.Application.Commands;
 using TL.SharedKernel.Business.Aggregates;
+using TL.Socials.Identity.Application.UseCases.UserServices;
 using TL.Socials.Identity.Business.Aggregates.TokenAggregate;
 
-namespace TL.Socials.Identity.Application.UseCases.UserServices;
+namespace TL.Socials.Identity.Application.UseCases.TokenServices;
 
 internal sealed class RequestUserRegisterViaEmailCommandHandler(
     IUserRepository userRepository,

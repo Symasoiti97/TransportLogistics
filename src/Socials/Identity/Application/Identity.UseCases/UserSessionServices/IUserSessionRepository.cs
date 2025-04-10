@@ -1,6 +1,6 @@
 using TL.Socials.Identity.Business.Aggregates.UserSessionAggregate;
 
-namespace TL.Socials.Identity.Application.UseCases.UserServices;
+namespace TL.Socials.Identity.Application.UseCases.UserSessionServices;
 
 public interface IUserSessionRepository
 {

@@ -1,7 +1,7 @@
 using TL.SharedKernel.Application.Commands;
 using TL.Socials.Identity.Business.Aggregates.TokenAggregate;
 
-namespace TL.Socials.Identity.Application.UseCases.UserServices;
+namespace TL.Socials.Identity.Application.UseCases.TokenServices;
 
 internal sealed class RequestUserLoginViaPhoneCommandHandler(
     IUserLoginViaPhoneTokenRepository tokenRepository)

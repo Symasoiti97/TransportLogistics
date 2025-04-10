@@ -1,11 +1,11 @@
 using TL.SharedKernel.Application.Commands;
 using TL.SharedKernel.Business.Aggregates;
 
-namespace TL.Socials.Identity.Application.UseCases.UserServices;
+namespace TL.Socials.Identity.Application.UseCases.UserSessionServices;
 
 internal sealed class RefreshAuthTokenCommandHandler(
     IUserSessionRepository userSessionRepository,
-    ITokenGenerator tokenGenerator)
+    IAuthTokenGenerator authTokenGenerator)
     : IUseCaseHandler<RefreshAuthTokenCommand, UserTokens>
 {
     public async Task<UserTokens> HandleAsync(RefreshAuthTokenCommand command, CancellationToken cancellationToken)
@@ -17,7 +17,7 @@ internal sealed class RefreshAuthTokenCommandHandler(
             throw new Conflict().WithDetails("Refresh token not found.");
         }
 
-        var tokens = tokenGenerator.Generate(userSession.UserId);
+        var tokens = authTokenGenerator.Generate(userSession.UserId);
         userSession.UpdateRefreshToken(tokens.RefreshToken);
 
         await userSessionRepository.SaveAsync(userSession, cancellationToken);
