@@ -1,6 +1,6 @@
 using TL.Socials.Identity.Business.Aggregates.TokenAggregate;
 
-namespace TL.Socials.Identity.Application.UseCases.UserServices;
+namespace TL.Socials.Identity.Application.UseCases.TokenServices;
 
 public interface ITokenRepository<TToken> where TToken : Token
 {

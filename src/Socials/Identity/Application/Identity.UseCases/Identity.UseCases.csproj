@@ -17,35 +17,29 @@
     </ItemGroup>
 
     <ItemGroup>
-        <Compile Update="UserServices\LoginUserViaEmailCommandHandler.cs">
-            <DependentUpon>LoginUserViaEmailCommand.cs</DependentUpon>
-        </Compile>
         <Compile Update="UserServices\RegisterUserViaEmailCommandHandler.cs">
             <DependentUpon>RegisterUserViaEmailCommand.cs</DependentUpon>
-        </Compile>
-        <Compile Update="UserServices\UserTokens.cs">
-            <DependentUpon>ITokenGenerator.cs</DependentUpon>
-        </Compile>
-        <Compile Update="UserServices\RequestUserRegisterViaEmailCommandHandler.cs">
-            <DependentUpon>RequestUserRegisterViaEmailCommand.cs</DependentUpon>
-        </Compile>
-        <Compile Update="UserServices\RefreshAuthTokenCommandHandler.cs">
-            <DependentUpon>RefreshAuthTokenCommand.cs</DependentUpon>
-        </Compile>
-        <Compile Update="UserServices\LoginUserViaPhoneCommandHandler.cs">
-            <DependentUpon>LoginUserViaPhoneCommand.cs</DependentUpon>
         </Compile>
         <Compile Update="UserServices\RegisterUserViaPhoneCommandHandler.cs">
             <DependentUpon>RegisterUserViaPhoneCommand.cs</DependentUpon>
         </Compile>
-        <Compile Update="UserServices\RequestUserLoginViaPhoneCommandHandler.cs">
-            <DependentUpon>RequestUserLoginViaPhoneCommand.cs</DependentUpon>
+        <Compile Update="TokenServices\RequestUserLoginViaPhoneCommandHandler.cs">
+          <DependentUpon>RequestUserLoginViaPhoneCommand.cs</DependentUpon>
         </Compile>
-        <Compile Update="UserServices\IUserRegisterViaEmailTokenRepository.cs">
-            <DependentUpon>ITokenRepository.cs</DependentUpon>
+        <Compile Update="TokenServices\RequestUserRegisterViaEmailCommandHandler.cs">
+          <DependentUpon>RequestUserRegisterViaEmailCommand.cs</DependentUpon>
         </Compile>
-        <Compile Update="UserServices\IUserRegisterViaPhoneTokenRepository.cs">
-            <DependentUpon>ITokenRepository.cs</DependentUpon>
+        <Compile Update="UserSessionServices\LoginUserViaEmailCommandHandler.cs">
+          <DependentUpon>LoginUserViaEmailCommand.cs</DependentUpon>
+        </Compile>
+        <Compile Update="UserSessionServices\LoginUserViaPhoneCommandHandler.cs">
+          <DependentUpon>LoginUserViaPhoneCommand.cs</DependentUpon>
+        </Compile>
+        <Compile Update="UserSessionServices\RefreshAuthTokenCommandHandler.cs">
+          <DependentUpon>RefreshAuthTokenCommand.cs</DependentUpon>
+        </Compile>
+        <Compile Update="UserSessionServices\UserTokens.cs">
+          <DependentUpon>ITokenGenerator.cs</DependentUpon>
         </Compile>
     </ItemGroup>
 

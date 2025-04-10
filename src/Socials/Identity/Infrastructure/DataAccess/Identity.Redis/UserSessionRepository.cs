@@ -1,5 +1,5 @@
 ﻿using System.Text.Json;
-using TL.Socials.Identity.Application.UseCases.UserServices;
+using TL.Socials.Identity.Application.UseCases.UserSessionServices;
 using TL.Socials.Identity.Business.Aggregates.UserSessionAggregate;
 using IRedisDatabase = StackExchange.Redis.IDatabase;
 

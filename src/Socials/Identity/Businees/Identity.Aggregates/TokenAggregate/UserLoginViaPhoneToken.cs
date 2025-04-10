@@ -17,7 +17,11 @@ public sealed class UserLoginViaPhoneToken : Token
     public PhoneNumber PhoneNumber { get; }
 
     public static UserLoginViaPhoneToken Create(PhoneNumber phoneNumber)
-        => new(Guid.NewGuid(), phoneNumber, GenerateVerificationCode());
+    {
+        var token = new UserLoginViaPhoneToken(Guid.NewGuid(), phoneNumber, GenerateVerificationCode());
+        token.Raise(new UserLoginViaPhoneTokenCreated(Guid.NewGuid(), token.Id));
+        return token;
+    }
 
     private static string GenerateVerificationCode()
         => string.Join(

@@ -2,7 +2,9 @@
 using Microsoft.Extensions.DependencyInjection;
 using StackExchange.Redis;
 using TL.SharedKernel.Application.Commands;
+using TL.Socials.Identity.Application.UseCases.TokenServices;
 using TL.Socials.Identity.Application.UseCases.UserServices;
+using TL.Socials.Identity.Application.UseCases.UserSessionServices;
 using TL.Socials.Identity.Business.Aggregates.TokenAggregate;
 using TL.Socials.Identity.Infrastructure.DataAccess.Postgres;
 using TL.Socials.Identity.Infrastructure.DataAccess.Postgres.Repositories;
@@ -74,13 +76,15 @@ public static class ServiceCollectionExtensions
             .AddTransient<IUseCaseHandler<RegisterUserViaPhoneCommand>, RegisterUserViaPhoneCommandHandler>();
         services
             .AddTransient<IUseCaseHandler<LoginUserViaPhoneCommand, UserTokens>, LoginUserViaPhoneCommandHandler>();
+        services
+            .AddTransient<IUseCaseHandler<UserLoginViaPhoneTokenCreated>, SendRequestUserLoginViaPhoneEventHandler>();
 
         services.AddTransient<IUserRepository, UserRepository>();
         services.AddTransient<IUserSessionRepository, UserSessionRepository>();
         services.AddTransient<IUserRegisterViaEmailTokenRepository, UserRegisterViaEmailTokenRepository>();
         services.AddTransient<IUserLoginViaPhoneTokenRepository, UserLoginViaPhoneTokenRepository>();
         services.AddSingleton(jwtTokenOptions);
-        services.AddTransient<ITokenGenerator, TokenGenerator>();
+        services.AddTransient<IAuthTokenGenerator, AuthTokenGenerator>();
 
         services.AddDbContext<IdentityDbContext>(options => options.UseNpgsql(pgConnectionString));
 

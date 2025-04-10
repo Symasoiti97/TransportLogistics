@@ -1,6 +1,6 @@
 using System.Text.Json;
 using StackExchange.Redis;
-using TL.Socials.Identity.Application.UseCases.UserServices;
+using TL.Socials.Identity.Application.UseCases.TokenServices;
 using TL.Socials.Identity.Business.Aggregates.TokenAggregate;
 using TL.Socials.Identity.Business.Aggregates.UserAggregate;
 using TL.Socials.Identity.Infrastructure.DataAccess.Redis.Options;

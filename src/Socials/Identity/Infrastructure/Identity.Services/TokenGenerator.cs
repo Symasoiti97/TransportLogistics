@@ -1,12 +1,12 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using Microsoft.IdentityModel.Tokens;
-using TL.Socials.Identity.Application.UseCases.UserServices;
+using TL.Socials.Identity.Application.UseCases.UserSessionServices;
 using TL.Socials.Identity.Infrastructure.Services.Options;
 
 namespace TL.Socials.Identity.Infrastructure.Services;
 
-internal sealed class TokenGenerator(JwtTokenOptions options) : ITokenGenerator
+internal sealed class AuthTokenGenerator(JwtTokenOptions options) : IAuthTokenGenerator
 {
     public UserTokens Generate(Guid userId) => new(userId, GenerateJwtToken(userId), Guid.NewGuid().ToString());
 

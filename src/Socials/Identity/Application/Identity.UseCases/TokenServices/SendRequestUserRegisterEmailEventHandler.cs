@@ -3,7 +3,7 @@ using TL.SharedKernel.Application.Commands;
 using TL.SharedKernel.Business.Aggregates;
 using TL.Socials.Identity.Business.Aggregates.TokenAggregate;
 
-namespace TL.Socials.Identity.Application.UseCases.UserServices;
+namespace TL.Socials.Identity.Application.UseCases.TokenServices;
 
 internal sealed class SendRequestUserRegisterEmailEventHandler(
     IUserRegisterViaEmailTokenRepository tokenRepository,
@@ -19,7 +19,7 @@ internal sealed class SendRequestUserRegisterEmailEventHandler(
         }
 
         logger.LogDebug(
-            "Sent email notification of request user register with email/token: {Email}/{Token}",
+            "Sent email notification of request user register with email/token: {Email}/{TokenValue}",
             token.Email.Value,
             token.Value);
     }
