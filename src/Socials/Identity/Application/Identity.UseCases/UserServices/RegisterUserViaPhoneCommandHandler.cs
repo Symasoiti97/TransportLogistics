@@ -14,7 +14,7 @@ internal sealed class RegisterUserViaPhoneCommandHandler(
     {
         var token = await tokenRepository.FindAsync(command.Code, cancellationToken);
 
-        if (token is null || !token.PhoneNumber.Equals(command.PhoneNumber))
+        if (token?.IsValid(command.PhoneNumber) != true)
         {
             throw new Conflict().WithDetails("Invalid code.");
         }

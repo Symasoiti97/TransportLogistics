@@ -20,5 +20,8 @@ public sealed class UserRegisterViaEmailToken : Token
         return token;
     }
 
+    public bool IsValid(Email email)
+        => Email.Equals(email) && DateTimeOffset.UtcNow <= ExpiresAt;
+
     protected override string GenerateTokenValue() => Guid.NewGuid().ToString();
 }

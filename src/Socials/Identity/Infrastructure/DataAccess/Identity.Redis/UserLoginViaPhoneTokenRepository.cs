@@ -38,11 +38,15 @@ internal sealed class UserLoginViaPhoneTokenRepository(
                ?? throw new InvalidOperationException("Deserialize error.");
     }
 
-    protected override void SetIndexes(ITransaction transaction, UserLoginViaPhoneToken token, string tokenKey)
+    protected override void SetIndexes(
+        ITransaction transaction,
+        UserLoginViaPhoneToken token,
+        string tokenKey,
+        TimeSpan expiration)
     {
-        _ = transaction.StringSetAsync(BuildTokenPhoneIndexKey(token.PhoneNumber), tokenKey, TimeSpan.FromDays(3));
+        _ = transaction.StringSetAsync(BuildTokenPhoneIndexKey(token.PhoneNumber), tokenKey, expiration);
 
-        base.SetIndexes(transaction, token, tokenKey);
+        base.SetIndexes(transaction, token, tokenKey, expiration);
     }
 
     protected override string BuildTokenKey(Guid tokenId) => $"UserLoginViaPhoneToken:{tokenId}";
