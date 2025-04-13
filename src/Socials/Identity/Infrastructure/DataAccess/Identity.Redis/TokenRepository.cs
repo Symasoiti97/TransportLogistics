@@ -22,9 +22,10 @@ internal abstract class TokenRepository<TToken>(
         var transaction = Database.CreateTransaction();
 
         var tokenKey = BuildTokenKey(token.Id);
-        _ = transaction.StringSetAsync(tokenKey, jsonData, TimeSpan.FromDays(3));
+        var expiration = token.ExpiresAt - DateTimeOffset.UtcNow;
+        _ = transaction.StringSetAsync(tokenKey, jsonData, expiration);
 
-        SetIndexes(transaction, token, tokenKey);
+        SetIndexes(transaction, token, tokenKey, expiration);
 
         foreach (var tokenEvent in token.Events)
         {
@@ -79,9 +80,9 @@ internal abstract class TokenRepository<TToken>(
     protected abstract string BuildTokenKey(Guid tokenId);
     protected abstract string BuildTokenValueIndexKey(string tokenValue);
 
-    protected virtual void SetIndexes(ITransaction transaction, TToken token, string tokenKey)
+    protected virtual void SetIndexes(ITransaction transaction, TToken token, string tokenKey, TimeSpan expiration)
     {
         var tokenValueIndexKey = BuildTokenValueIndexKey(token.Value);
-        _ = transaction.StringSetAsync(tokenValueIndexKey, tokenKey, TimeSpan.FromDays(3));
+        _ = transaction.StringSetAsync(tokenValueIndexKey, tokenKey, expiration);
     }
 }

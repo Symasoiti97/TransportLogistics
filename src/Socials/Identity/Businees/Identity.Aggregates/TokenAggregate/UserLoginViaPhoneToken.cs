@@ -23,6 +23,9 @@ public sealed class UserLoginViaPhoneToken : Token
         return token;
     }
 
+    public bool IsValid(PhoneNumber phoneNumber)
+        => PhoneNumber.Equals(phoneNumber) && DateTimeOffset.UtcNow <= ExpiresAt;
+
     private static string GenerateVerificationCode()
         => string.Join(
             "",

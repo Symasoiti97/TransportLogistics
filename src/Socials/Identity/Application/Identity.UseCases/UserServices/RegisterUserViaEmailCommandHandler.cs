@@ -12,11 +12,11 @@ internal sealed class RegisterUserViaEmailCommandHandler(
 {
     public async Task HandleAsync(RegisterUserViaEmailCommand command, CancellationToken cancellationToken)
     {
-        var token = await tokenRepository.FindAsync(command.Email, cancellationToken).ConfigureAwait(false);
+        var token = await tokenRepository.FindAsync(command.Token, cancellationToken).ConfigureAwait(false);
 
-        if (token?.Value != command.Token)
+        if (token?.IsValid(command.Email) != true)
         {
-            throw new Conflict().WithDetails("Email does not match.");
+            throw new Conflict().WithDetails("Token is not valid.");
         }
 
         var user = User.Create(command.Email, command.Password);

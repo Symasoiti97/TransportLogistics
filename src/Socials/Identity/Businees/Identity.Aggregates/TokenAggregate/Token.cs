@@ -9,9 +9,15 @@ public abstract class Token : AggregateRoot<Guid>
         ArgumentException.ThrowIfNullOrWhiteSpace(value);
 
         Value = value;
+        CreatedAt = DateTimeOffset.UtcNow;
+        ExpiresAt = CreatedAt.Add(DefaultTokenLifetime);
     }
 
+    private static TimeSpan DefaultTokenLifetime => TimeSpan.FromMinutes(5);
+
     public string Value { get; private set; }
+    public DateTimeOffset CreatedAt { get; }
+    public DateTimeOffset ExpiresAt { get; }
 
     public void UpdateTokenValue()
     {

@@ -36,11 +36,15 @@ internal sealed class UserRegisterViaEmailTokenRepository(
                ?? throw new InvalidOperationException("Deserialize error.");
     }
 
-    protected override void SetIndexes(ITransaction transaction, UserRegisterViaEmailToken token, string tokenKey)
+    protected override void SetIndexes(
+        ITransaction transaction,
+        UserRegisterViaEmailToken token,
+        string tokenKey,
+        TimeSpan expiration)
     {
         _ = transaction.StringSetAsync(BuildTokenEmailIndex(token.Email), tokenKey, TimeSpan.FromDays(3));
 
-        base.SetIndexes(transaction, token, tokenKey);
+        base.SetIndexes(transaction, token, tokenKey, expiration);
     }
 
     protected override string BuildTokenKey(Guid tokenId) => $"RequestEmailRegisterToken:{tokenId}";
