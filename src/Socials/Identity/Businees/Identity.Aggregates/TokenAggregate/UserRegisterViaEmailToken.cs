@@ -4,18 +4,33 @@ namespace TL.Socials.Identity.Business.Aggregates.TokenAggregate;
 
 public sealed class UserRegisterViaEmailToken : Token
 {
-    public UserRegisterViaEmailToken(Guid id, Email email, string value) : base(id, value)
+    public UserRegisterViaEmailToken(
+        Guid id,
+        Email email,
+        string value,
+        DateTimeOffset createdAt,
+        DateTimeOffset expiresAt)
+        : base(id, value, createdAt, expiresAt)
     {
         ArgumentNullException.ThrowIfNull(email);
 
         Email = email;
     }
 
+    private static TimeSpan DefaultTokenLifetime => TimeSpan.FromMinutes(30);
+
     public Email Email { get; }
 
     public static UserRegisterViaEmailToken Create(Email email)
     {
-        var token = new UserRegisterViaEmailToken(Guid.NewGuid(), email, Guid.NewGuid().ToString());
+        var createdAt = DateTimeOffset.UtcNow;
+        var expiresAt = createdAt.Add(DefaultTokenLifetime);
+        var token = new UserRegisterViaEmailToken(
+            Guid.NewGuid(),
+            email,
+            Guid.NewGuid().ToString(),
+            createdAt,
+            expiresAt);
         token.Raise(new UserRegisterViaEmailTokenCreated(Guid.NewGuid(), token.Id));
         return token;
     }
@@ -23,5 +38,10 @@ public sealed class UserRegisterViaEmailToken : Token
     public bool IsValid(Email email)
         => Email.Equals(email) && DateTimeOffset.UtcNow <= ExpiresAt;
 
-    protected override string GenerateTokenValue() => Guid.NewGuid().ToString();
+    public void UpdateTokenValue()
+    {
+        CreatedAt = DateTimeOffset.UtcNow;
+        ExpiresAt = CreatedAt.Add(DefaultTokenLifetime);
+        Value = Guid.NewGuid().ToString();
+    }
 }
