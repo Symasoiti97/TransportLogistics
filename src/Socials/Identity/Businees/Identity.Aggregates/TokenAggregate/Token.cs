@@ -4,25 +4,16 @@ namespace TL.Socials.Identity.Business.Aggregates.TokenAggregate;
 
 public abstract class Token : AggregateRoot<Guid>
 {
-    protected Token(Guid id, string value) : base(id)
+    protected Token(Guid id, string value, DateTimeOffset createdAt, DateTimeOffset expiresAt) : base(id)
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(value);
 
         Value = value;
-        CreatedAt = DateTimeOffset.UtcNow;
-        ExpiresAt = CreatedAt.Add(DefaultTokenLifetime);
+        CreatedAt = createdAt;
+        ExpiresAt = expiresAt;
     }
 
-    private static TimeSpan DefaultTokenLifetime => TimeSpan.FromMinutes(5);
-
-    public string Value { get; private set; }
-    public DateTimeOffset CreatedAt { get; }
-    public DateTimeOffset ExpiresAt { get; }
-
-    public void UpdateTokenValue()
-    {
-        Value = GenerateTokenValue();
-    }
-
-    protected abstract string GenerateTokenValue();
+    public string Value { get; protected set; }
+    public DateTimeOffset CreatedAt { get; protected set; }
+    public DateTimeOffset ExpiresAt { get; protected set; }
 }
