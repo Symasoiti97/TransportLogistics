@@ -42,20 +42,21 @@ public sealed class EventProcessor(
             {
                 var @event = message.GetEvent(serializerOptions);
                 var retries = message.GetRetries();
-                var handlerType = message.TryGetHandlerType();
+                var handlerTypeName = message.TryGetHandlerType();
 
                 logger.LogInformation(
                     "Processing event {EventId} of {EventType} type. Retries: {Retries}",
                     @event.Id,
                     @event.GetType().Name,
-                    handlerType);
+                    handlerTypeName);
 
                 var eventHandlerType = typeof(IUseCaseHandler<>).MakeGenericType(@event.GetType());
                 var handlers = (IEnumerable<IUseCaseHandler>) serviceProvider.GetServices(eventHandlerType);
 
                 foreach (var handler in handlers)
                 {
-                    if (handlerType is not null && handler.GetType().Name != handlerType)
+                    var handlerType = handler.GetType();
+                    if (handlerTypeName is not null && handlerType.Name != handlerTypeName)
                     {
                         continue;
                     }
@@ -72,13 +73,8 @@ public sealed class EventProcessor(
                         if (retries < MaxRetries)
                         {
                             var newRetries = retries + 1;
-                            database.StreamAdd(
-                                options.StreamName,
-                                [
-                                    new NameValueEntry("event", JsonSerializer.Serialize(@event)),
-                                    new NameValueEntry("retries", newRetries),
-                                    new NameValueEntry("handler-type", handler.GetType().Name)
-                                ]);
+
+                            database.AddEventMessage(@event, newRetries, handlerType, options, serializerOptions);
 
                             logger.LogInformation(
                                 "Retrying event {MessageId} (Attempt {NewRetries}/{MaxRetries})",
@@ -88,13 +84,7 @@ public sealed class EventProcessor(
                         }
                         else
                         {
-                            database.StreamAdd(
-                                options.DlqStreamName,
-                                [
-                                    new NameValueEntry("event", JsonSerializer.Serialize(@event)),
-                                    new NameValueEntry("retries", retries),
-                                    new NameValueEntry("handler-type", handler.GetType().Name)
-                                ]);
+                            database.AddEventMessage(@event, retries, handlerType, options, serializerOptions);
 
                             logger.LogInformation("Moving event {MessageId} to Dead-Letter Queue", message.Id);
                         }

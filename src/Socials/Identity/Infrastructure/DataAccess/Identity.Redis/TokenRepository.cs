@@ -1,6 +1,7 @@
 using System.Text.Json;
 using StackExchange.Redis;
 using TL.Socials.Identity.Business.Aggregates.TokenAggregate;
+using TL.Socials.Identity.Infrastructure.DataAccess.Redis.Extensions;
 using TL.Socials.Identity.Infrastructure.DataAccess.Redis.Options;
 
 namespace TL.Socials.Identity.Infrastructure.DataAccess.Redis;
@@ -27,14 +28,7 @@ internal abstract class TokenRepository<TToken>(
 
         SetIndexes(transaction, token, tokenKey, expiration);
 
-        foreach (var tokenEvent in token.Events)
-        {
-            _ = transaction.StreamAddAsync(
-                eventOptions.StreamName,
-                [
-                    new NameValueEntry("event", JsonSerializer.Serialize(tokenEvent, serializerOptions))
-                ]);
-        }
+        transaction.AddEventMessages(token.Events, eventOptions, serializerOptions);
 
         await transaction.ExecuteAsync();
     }
