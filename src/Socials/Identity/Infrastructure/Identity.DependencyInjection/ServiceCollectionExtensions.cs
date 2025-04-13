@@ -53,6 +53,9 @@ public static class ServiceCollectionExtensions
             services.AddTransient<RegisterUserViaEmailCommandHandler>();
             services
                 .AddTransient<IUseCaseHandler<RegisterUserViaEmailCommand>, StubRegisterUserViaEmailCommandHandler>();
+            services.AddTransient<RegisterUserViaPhoneCommandHandler>();
+            services
+                .AddTransient<IUseCaseHandler<RegisterUserViaPhoneCommand>, StubRegisterUserViaPhoneCommandHandler>();
         }
         else
         {
