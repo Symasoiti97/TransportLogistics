@@ -18,8 +18,9 @@ internal sealed class UserSessionRepository(IRedisDatabase database) : IUserSess
 
         var transaction = database.CreateTransaction();
 
-        _ = transaction.StringSetAsync(userSessionKey, jsonData, TimeSpan.FromDays(30));
-        _ = transaction.StringSetAsync(refreshTokenIndexKey, userSessionKey, TimeSpan.FromDays(30));
+        var expiration = userSession.ExpiresAt - DateTimeOffset.UtcNow;
+        _ = transaction.StringSetAsync(userSessionKey, jsonData, expiration);
+        _ = transaction.StringSetAsync(refreshTokenIndexKey, userSessionKey, expiration);
 
         await transaction.ExecuteAsync();
     }
