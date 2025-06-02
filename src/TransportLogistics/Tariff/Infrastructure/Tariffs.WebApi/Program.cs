@@ -26,8 +26,8 @@ var errorTypes
 
 var builder = WebApplication.CreateBuilder(args);
 
-var settings = builder.Configuration.GetRequiredSectionValue<ApiOptions>("ApiSettings");
-builder.Services.AddSingleton(settings);
+var apiOptions = builder.Configuration.GetRequiredSectionValue<ApiOptions>("ApiOptions");
+builder.Services.AddSingleton(apiOptions);
 
 builder.Services
     .AddHttpLogging(_ => { })
@@ -53,7 +53,7 @@ builder.Services.AddSwaggerGen(
     options => SwaggerGenOptionsExtensions.SwaggerGenOptionsAction(
         new ServiceSwaggerGenOptions(
             options,
-            settings.Name,
+            apiOptions.Name,
             errorTypes)));
 
 builder.Services.AddTariffServices(builder.Configuration.GetRequiredSectionValue<Neo4JSettings>("Neo4jSettings"));
@@ -80,11 +80,11 @@ if (app.Environment.IsDevelopment())
         options =>
         {
             options.SwaggerEndpoint(
-                $"{settings.Name}/swagger.json",
-                settings.Name);
+                $"{apiOptions.Name}/swagger.json",
+                apiOptions.Name);
             options.SwaggerEndpoint(
-                $"{settings.Name + "-errors"}/swagger.json",
-                settings.Name + "-errors");
+                $"{apiOptions.Name + "-errors"}/swagger.json",
+                apiOptions.Name + "-errors");
         });
 }
 
