@@ -66,7 +66,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Startups", "Startups", "{1D
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharedKernel.Swagger", "SharedKernel\Infrastructure\SharedKernel.Swagger\SharedKernel.Swagger.csproj", "{F740B099-F6EA-4C74-89DF-2F5A07B2D9F7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharedKernel.AspNet.Extensions", "SharedKernel\Infrastructure\SharedKernel.AspNet.Extensions\SharedKernel.AspNet.Extensions.csproj", "{8402DE26-4592-4481-9230-126B65522009}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharedKernel.AspNet", "SharedKernel\Infrastructure\SharedKernel.AspNet\SharedKernel.AspNet.csproj", "{8402DE26-4592-4481-9230-126B65522009}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharedKernel.JsonSerializer.Extensions", "SharedKernel\Infrastructure\SharedKernel.JsonSerializer.Extensions\SharedKernel.JsonSerializer.Extensions.csproj", "{F03A8924-928B-4F87-AA61-D969C532B884}"
 EndProject

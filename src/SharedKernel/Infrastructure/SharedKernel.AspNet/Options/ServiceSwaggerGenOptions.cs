@@ -1,6 +1,6 @@
 using Swashbuckle.AspNetCore.SwaggerGen;
 
-namespace TL.SharedKernel.Infrastructure.AspNet.Extensions.Middlewares.Extensions;
+namespace TL.SharedKernel.Infrastructure.AspNet.Options;
 
 public sealed class ServiceSwaggerGenOptions
 {

@@ -4,10 +4,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using TL.SharedKernel.Business.Aggregates;
+using TL.SharedKernel.Infrastructure.AspNet.Options;
 using TL.SharedKernel.Infrastructure.JsonSerializer.Extensions;
 using ProblemDetailsOptions = Hellang.Middleware.ProblemDetails.ProblemDetailsOptions;
 
-namespace TL.SharedKernel.Infrastructure.AspNet.Extensions.Middlewares.Extensions;
+namespace TL.SharedKernel.Infrastructure.AspNet.Extensions;
 
 public static class ProblemDetailsExtensions
 {
@@ -30,7 +31,7 @@ public static class ProblemDetailsExtensions
         options.Map<ErrorException>(
             (httpContext, errorException) =>
             {
-                var serviceSettings = httpContext.RequestServices.GetRequiredService<ApiSettings>();
+                var serviceSettings = httpContext.RequestServices.GetRequiredService<ApiOptions>();
                 var problemDetails = new ProblemDetails
                 {
                     Type = BuildType(serviceSettings.Name, errorException.Error),
