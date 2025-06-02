@@ -1,6 +1,6 @@
 ﻿using TL.SharedKernel.Business.Aggregates;
 
-namespace TL.TransportLogistics.Tariffs.Startups.WebApi.Extensions;
+namespace TL.SharedKernel.Infrastructure.AspNet.Extensions.Middlewares.Extensions;
 
 internal sealed class ErrorToStatusMapper
 {
