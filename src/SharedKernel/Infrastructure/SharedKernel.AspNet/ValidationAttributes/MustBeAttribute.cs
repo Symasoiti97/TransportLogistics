@@ -3,7 +3,7 @@ using AutoMapper;
 using Microsoft.Extensions.DependencyInjection;
 using TL.SharedKernel.Business.Aggregates;
 
-namespace TL.SharedKernel.Infrastructure.AspNet.Extensions.Middlewares.ValidationAttributes;
+namespace TL.SharedKernel.Infrastructure.AspNet.ValidationAttributes;
 
 // TODO необходима доработка, валидация должна возвращать список ошибок корректно
 /// <summary>

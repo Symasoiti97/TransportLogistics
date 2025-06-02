@@ -2,9 +2,10 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Any;
 using Microsoft.OpenApi.Models;
+using TL.SharedKernel.Infrastructure.AspNet.Options;
 using TL.SharedKernel.Infrastructure.Swagger;
 
-namespace TL.SharedKernel.Infrastructure.AspNet.Extensions.Middlewares.Extensions;
+namespace TL.SharedKernel.Infrastructure.AspNet.Extensions;
 
 public static class SwaggerGenOptionsExtensions
 {

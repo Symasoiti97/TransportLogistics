@@ -4,8 +4,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.Extensions.DependencyInjection;
 using TL.SharedKernel.Business.Aggregates;
+using TL.SharedKernel.Infrastructure.AspNet.Options;
 
-namespace TL.SharedKernel.Infrastructure.AspNet.Extensions.Middlewares.Extensions;
+namespace TL.SharedKernel.Infrastructure.AspNet.Extensions;
 
 public static class ApiBehaviorOptionsExtensions
 {
@@ -14,7 +15,7 @@ public static class ApiBehaviorOptionsExtensions
         options.InvalidModelStateResponseFactory = actionContext =>
         {
             var error = new InvalidParameters(GetParams(actionContext.ModelState));
-            var serviceSettings = actionContext.HttpContext.RequestServices.GetRequiredService<ApiSettings>();
+            var serviceSettings = actionContext.HttpContext.RequestServices.GetRequiredService<ApiOptions>();
 
             return new BadRequestObjectResult(
                 new ProblemDetails

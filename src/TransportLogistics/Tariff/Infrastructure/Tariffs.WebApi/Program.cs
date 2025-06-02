@@ -5,14 +5,15 @@ using Hellang.Middleware.ProblemDetails;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using TL.SharedKernel.Business.Aggregates;
-using TL.SharedKernel.Infrastructure.AspNet.Extensions.Middlewares.Extensions;
+using TL.SharedKernel.Infrastructure.AspNet.Extensions;
+using TL.SharedKernel.Infrastructure.AspNet.Options;
 using TL.SharedKernel.Infrastructure.JsonSerializer.Extensions;
 using TL.TransportLogistics.Tariffs.Infrastructure.DependencyInjection;
 using TL.TransportLogistics.Tariffs.Startups.WebApi.Settings;
 using ProblemDetailsExtensions =
-    TL.SharedKernel.Infrastructure.AspNet.Extensions.Middlewares.Extensions.ProblemDetailsExtensions;
+    TL.SharedKernel.Infrastructure.AspNet.Extensions.ProblemDetailsExtensions;
 using SwaggerGenOptionsExtensions =
-    TL.SharedKernel.Infrastructure.AspNet.Extensions.Middlewares.Extensions.SwaggerGenOptionsExtensions;
+    TL.SharedKernel.Infrastructure.AspNet.Extensions.SwaggerGenOptionsExtensions;
 
 var errorTypes
     = new[]
@@ -25,7 +26,7 @@ var errorTypes
 
 var builder = WebApplication.CreateBuilder(args);
 
-var settings = builder.Configuration.GetRequiredSectionValue<ApiSettings>("ApiSettings");
+var settings = builder.Configuration.GetRequiredSectionValue<ApiOptions>("ApiSettings");
 builder.Services.AddSingleton(settings);
 
 builder.Services
@@ -69,7 +70,7 @@ app.UseProblemDetails();
 
 app.UseHttpLogging();
 
-var serviceSettings = app.Services.GetRequiredService<ApiSettings>();
+var serviceSettings = app.Services.GetRequiredService<ApiOptions>();
 app.UsePathBase($"/{serviceSettings.Name}");
 
 if (app.Environment.IsDevelopment())

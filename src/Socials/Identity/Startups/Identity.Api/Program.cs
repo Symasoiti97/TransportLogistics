@@ -3,7 +3,7 @@ using System.Text.Json.Serialization;
 using System.Text.Json.Serialization.Metadata;
 using Hellang.Middleware.ProblemDetails;
 using TL.SharedKernel.Business.Aggregates;
-using TL.SharedKernel.Infrastructure.AspNet.Extensions.Middlewares.Extensions;
+using TL.SharedKernel.Infrastructure.AspNet.Extensions;
 using TL.SharedKernel.Infrastructure.JsonSerializer.Extensions;
 using TL.Socials.Identity.Infrastructure.DataAccess.Redis;
 using TL.Socials.Identity.Infrastructure.DataAccess.Redis.Options;

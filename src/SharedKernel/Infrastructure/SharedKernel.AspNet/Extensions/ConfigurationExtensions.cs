@@ -1,6 +1,6 @@
 using Microsoft.Extensions.Configuration;
 
-namespace TL.SharedKernel.Infrastructure.AspNet.Extensions.Middlewares.Extensions;
+namespace TL.SharedKernel.Infrastructure.AspNet.Extensions;
 
 public static class ConfigurationExtensions
 {

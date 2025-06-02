@@ -1,6 +1,6 @@
 ﻿using TL.SharedKernel.Business.Aggregates;
 
-namespace TL.SharedKernel.Infrastructure.AspNet.Extensions.Middlewares.Extensions;
+namespace TL.SharedKernel.Infrastructure.AspNet;
 
 internal sealed class ErrorToStatusMapper
 {

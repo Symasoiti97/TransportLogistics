@@ -1,8 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <RootNamespace>TL.SharedKernel.Infrastructure.AspNet.Extensions.Middlewares</RootNamespace>
-        <AssemblyName>TL.SharedKernel.Infrastructure.AspNet.Extensions.Middlewares</AssemblyName>
+        <RootNamespace>TL.SharedKernel.Infrastructure.AspNet</RootNamespace>
+        <AssemblyName>TL.SharedKernel.Infrastructure.AspNet</AssemblyName>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
     </PropertyGroup>
 
