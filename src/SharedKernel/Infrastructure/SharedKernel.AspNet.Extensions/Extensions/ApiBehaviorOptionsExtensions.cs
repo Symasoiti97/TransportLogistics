@@ -1,19 +1,20 @@
 ﻿using System.Text.Json;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Microsoft.Extensions.DependencyInjection;
 using TL.SharedKernel.Business.Aggregates;
-using TL.TransportLogistics.Tariffs.Startups.WebApi.Settings;
 
-namespace TL.TransportLogistics.Tariffs.Startups.WebApi.Extensions;
+namespace TL.SharedKernel.Infrastructure.AspNet.Extensions.Middlewares.Extensions;
 
-internal static class ApiBehaviorOptionsExtensions
+public static class ApiBehaviorOptionsExtensions
 {
     public static void Configure(ApiBehaviorOptions options)
     {
         options.InvalidModelStateResponseFactory = actionContext =>
         {
             var error = new InvalidParameters(GetParams(actionContext.ModelState));
-            var serviceSettings = actionContext.HttpContext.RequestServices.GetRequiredService<ServiceSettings>();
+            var serviceSettings = actionContext.HttpContext.RequestServices.GetRequiredService<ApiSettings>();
 
             return new BadRequestObjectResult(
                 new ProblemDetails

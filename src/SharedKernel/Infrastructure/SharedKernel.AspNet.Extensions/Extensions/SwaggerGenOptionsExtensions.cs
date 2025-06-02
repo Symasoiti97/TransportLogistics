@@ -1,42 +1,49 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Any;
 using Microsoft.OpenApi.Models;
-using Swashbuckle.AspNetCore.SwaggerGen;
 using TL.SharedKernel.Infrastructure.Swagger;
 
-namespace TL.TransportLogistics.Tariffs.Startups.WebApi.Extensions;
+namespace TL.SharedKernel.Infrastructure.AspNet.Extensions.Middlewares.Extensions;
 
-internal static class SwaggerGenOptionsExtensions
+public static class SwaggerGenOptionsExtensions
 {
-    public const string TariffApiDocumentName = "tariff-api";
-
-    public const string TariffApiErrorsDocumentName = "tariff-api-errors";
-    public static OpenApiInfo TariffApiInfo => new() {Title = "TL.Tariffs API", Version = "v1"};
-    public static OpenApiInfo TariffApiErrorsInfo => new() {Title = "TL.Tariffs API Errors", Version = "v1"};
-
-    public static void SwaggerGenOptionsAction(SwaggerGenOptions options)
+    public static void SwaggerGenOptionsAction(ServiceSwaggerGenOptions options)
     {
-        options.SwaggerDoc(TariffApiDocumentName, TariffApiInfo);
-        options.SwaggerDoc(TariffApiErrorsDocumentName, TariffApiErrorsInfo);
+        var errorsDocumentName = options.DocumentName + "-errors";
+        options.SwaggerGenOptions.SwaggerDoc(
+            options.DocumentName,
+            new OpenApiInfo
+            {
+                Title = options.DocumentName,
+                Version = "v1"
+            });
+        options.SwaggerGenOptions.SwaggerDoc(
+            errorsDocumentName,
+            new OpenApiInfo
+            {
+                Title = errorsDocumentName,
+                Version = "v1"
+            });
 
-        options.SupportNonNullableReferenceTypes();
-        options.UseAllOfToExtendReferenceSchemas();
-        options.DocInclusionPredicate((docName, _) => docName == TariffApiDocumentName);
+        options.SwaggerGenOptions.SupportNonNullableReferenceTypes();
+        options.SwaggerGenOptions.UseAllOfToExtendReferenceSchemas();
+        options.SwaggerGenOptions.DocInclusionPredicate((docName, _) => docName == options.DocumentName);
 
-        options.CustomSchemaIds(type => type.BuildSwaggerSchemaName());
+        options.SwaggerGenOptions.CustomSchemaIds(type => type.BuildSwaggerSchemaName());
 
         foreach (var fileName in Directory.GetFiles(AppContext.BaseDirectory, "*.xml"))
         {
-            options.IncludeXmlComments(fileName, includeControllerXmlComments: true);
+            options.SwaggerGenOptions.IncludeXmlComments(fileName, includeControllerXmlComments: true);
         }
 
-        options.SchemaFilter<EnumSchemaFilter>(AppContext.BaseDirectory);
-        options.SchemaFilter<AnnotationOperationSchemaFilter>();
-        options.DocumentFilter<RegisterErrorSchemesDocumentFilter>(
-            TariffApiErrorsDocumentName,
-            ProblemDetailsExtensions.ErrorTypes);
+        options.SwaggerGenOptions.SchemaFilter<EnumSchemaFilter>(AppContext.BaseDirectory);
+        options.SwaggerGenOptions.SchemaFilter<AnnotationOperationSchemaFilter>();
+        options.SwaggerGenOptions.DocumentFilter<RegisterErrorSchemesDocumentFilter>(
+            errorsDocumentName,
+            options.ErrorTypes);
 
-        options.MapType<ProblemDetails>(BuildProblemDetailsSchema);
+        options.SwaggerGenOptions.MapType<ProblemDetails>(BuildProblemDetailsSchema);
     }
 
     private static OpenApiSchema BuildProblemDetailsSchema() =>

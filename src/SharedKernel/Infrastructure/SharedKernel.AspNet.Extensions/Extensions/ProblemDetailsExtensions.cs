@@ -1,23 +1,17 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using TL.SharedKernel.Business.Aggregates;
 using TL.SharedKernel.Infrastructure.JsonSerializer.Extensions;
-using TL.TransportLogistics.Tariffs.Startups.WebApi.Settings;
 using ProblemDetailsOptions = Hellang.Middleware.ProblemDetails.ProblemDetailsOptions;
 
-namespace TL.TransportLogistics.Tariffs.Startups.WebApi.Extensions;
+namespace TL.SharedKernel.Infrastructure.AspNet.Extensions.Middlewares.Extensions;
 
-internal static class ProblemDetailsExtensions
+public static class ProblemDetailsExtensions
 {
     public const string ErrorKey = "error";
-
-    public static Type[] ErrorTypes
-        => new[]
-            {
-                typeof(AssemblyReference).Assembly,
-                typeof(Business.Aggregates.AssemblyReference).Assembly
-            }
-            .SelectMany(assembly => assembly.GetTypes().Where(type => type.IsSubclassOf(typeof(Error))))
-            .ToArray();
 
     public static void Configure(ProblemDetailsOptions options)
     {
@@ -36,7 +30,7 @@ internal static class ProblemDetailsExtensions
         options.Map<ErrorException>(
             (httpContext, errorException) =>
             {
-                var serviceSettings = httpContext.RequestServices.GetRequiredService<ServiceSettings>();
+                var serviceSettings = httpContext.RequestServices.GetRequiredService<ApiSettings>();
                 var problemDetails = new ProblemDetails
                 {
                     Type = BuildType(serviceSettings.Name, errorException.Error),
