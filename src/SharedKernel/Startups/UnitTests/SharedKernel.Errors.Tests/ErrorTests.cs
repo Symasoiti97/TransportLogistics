@@ -10,7 +10,7 @@ public sealed class ErrorTests
     [InlineData((object?) null)]
     public void ThrowErrorIfValueNull_Test2(object? value)
     {
-        var action = new Action(() => throw new InvalidValue("string", "name"));
+        var action = new Action(() => throw new InvalidValue(value, "name"));
         var errorException = action.Should().Throw<ErrorException>();
         var error = errorException.Which.Error;
         error.BuildType().Should().Be("invalid-value");

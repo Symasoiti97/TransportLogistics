@@ -3,7 +3,6 @@
     <PropertyGroup>
         <RootNamespace>TL.TransportLogistics.Tariffs.Application.UseCases</RootNamespace>
         <AssemblyName>TL.TransportLogistics.Tariffs.Application.UseCases</AssemblyName>
-        <GenerateDocumentationFile>true</GenerateDocumentationFile>
     </PropertyGroup>
 
     <ItemGroup>

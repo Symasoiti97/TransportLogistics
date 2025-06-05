@@ -5,7 +5,6 @@
         <AssemblyName>TL.TransportLogistics.Tariffs.Business.Aggregates</AssemblyName>
         <Configurations>Debug;Release</Configurations>
         <Platforms>AnyCPU</Platforms>
-        <GenerateDocumentationFile>true</GenerateDocumentationFile>
     </PropertyGroup>
 
     <ItemGroup>
