@@ -5,8 +5,4 @@
         <AssemblyName>TL.SharedKernel.Infrastructure.Compress.Extensions</AssemblyName>
     </PropertyGroup>
 
-    <ItemGroup>
-        <PackageReference Include="System.IO.Compression" Version="4.3.0"/>
-    </ItemGroup>
-
 </Project>
