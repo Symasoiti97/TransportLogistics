@@ -7,5 +7,5 @@ public class Relation
     public int UserId { get; set; }
     public DateTime Tstamp { get; set; }
     public long ChangesetId { get; set; }
-    public Dictionary<string, string> Tags { get; set; }
+    public Dictionary<string, string>? Tags { get; set; }
 }
