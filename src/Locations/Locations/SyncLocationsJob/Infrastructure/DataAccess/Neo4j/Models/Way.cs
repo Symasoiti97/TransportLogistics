@@ -9,8 +9,8 @@ public class Way
     public int UserId { get; set; }
     public DateTime Tstamp { get; set; }
     public long ChangesetId { get; set; }
-    public Dictionary<string, string> Tags { get; set; }
-    public long[] Nodes { get; set; }
-    public Geometry Bbox { get; set; }
-    public Geometry Linestring { get; set; }
+    public Dictionary<string, string>? Tags { get; set; }
+    public long[]? Nodes { get; set; }
+    public Geometry? Bbox { get; set; }
+    public Geometry? Linestring { get; set; }
 }

@@ -140,8 +140,8 @@ internal class SyncLocationsService
             {
                 Id = Guid.NewGuid(),
                 Type = LocationType.Country,
-                Origin = x.Tags.GetValueOrDefault("name"),
-                En = x.Tags.TryGetValue("name:en", out var nameEn) ? nameEn :
+                Origin = x.Tags!.GetValueOrDefault("name"),
+                En = x.Tags!.TryGetValue("name:en", out var nameEn) ? nameEn :
                     x.Tags.TryGetValue("name", out nameEn) && nameEn.IsBasicLatinFirstSymbol() ? nameEn :
                     nameEn.Unidecode(),
                 Ru = x.Tags.TryGetValue("name:ru", out var nameRu) ? nameRu :
@@ -209,8 +209,8 @@ internal class SyncLocationsService
             {
                 Id = Guid.NewGuid(),
                 Type = LocationType.Region,
-                Origin = x.Tags.GetValueOrDefault("name"),
-                En = x.Tags.TryGetValue("name:en", out var nameEn) ? nameEn :
+                Origin = x.Tags!.GetValueOrDefault("name"),
+                En = x.Tags!.TryGetValue("name:en", out var nameEn) ? nameEn :
                     x.Tags.TryGetValue("name", out nameEn) && nameEn.IsBasicLatinFirstSymbol() ? nameEn :
                     nameEn.Unidecode(),
                 Ru = x.Tags.TryGetValue("name:ru", out var nameRu) ? nameRu :
@@ -249,8 +249,8 @@ internal class SyncLocationsService
             x => new Location
             {
                 Id = Guid.NewGuid(),
-                Origin = x.Tags.GetValueOrDefault("name"),
-                En = x.Tags.TryGetValue("name:en", out var nameEn) ? nameEn :
+                Origin = x.Tags?.GetValueOrDefault("name"),
+                En = x.Tags!.TryGetValue("name:en", out var nameEn) ? nameEn :
                     x.Tags.TryGetValue("name", out nameEn) && nameEn.IsBasicLatinFirstSymbol() ? nameEn :
                     nameEn.Unidecode(),
                 Ru = x.Tags.TryGetValue("name:ru", out var nameRu) ? nameRu :
@@ -261,8 +261,8 @@ internal class SyncLocationsService
                     long.TryParse(population, out var populationNumber)
                         ? populationNumber
                         : 0,
-                Latitude = x.Geom.Y,
-                Longitude = x.Geom.X,
+                Latitude = x.Geom?.Y,
+                Longitude = x.Geom?.X,
                 Type = LocationType.City,
                 SyncId = x.Id,
                 SourceType = LocationSourceType.OsmNode,
@@ -300,8 +300,8 @@ internal class SyncLocationsService
             x => new Location
             {
                 Id = Guid.NewGuid(),
-                Origin = x.Tags.GetValueOrDefault("name"),
-                En = x.Tags.TryGetValue("name:en", out var nameEn) ? nameEn :
+                Origin = x.Tags?.GetValueOrDefault("name"),
+                En = x.Tags!.TryGetValue("name:en", out var nameEn) ? nameEn :
                     x.Tags.TryGetValue("name", out nameEn) && nameEn.IsBasicLatinFirstSymbol() ? nameEn :
                     nameEn.Unidecode(),
                 Ru = x.Tags.TryGetValue("name:ru", out var nameRu) ? nameRu :
@@ -312,8 +312,8 @@ internal class SyncLocationsService
                     long.TryParse(population, out var populationNumber)
                         ? populationNumber
                         : 0,
-                Latitude = x.Geom.Y,
-                Longitude = x.Geom.X,
+                Latitude = x.Geom?.Y,
+                Longitude = x.Geom?.X,
                 Type = LocationType.City,
                 SyncId = x.Id,
                 SourceType = LocationSourceType.OsmNode,
@@ -343,12 +343,12 @@ internal class SyncLocationsService
              """);
 
         return result.AsAsyncEnumerable()
-            .Where(x => !x.Tags.TryGetValue("transport", out var transport) || transport == "train").Select(
+            .Where(x => !x.Tags!.TryGetValue("transport", out var transport) || transport == "train").Select(
                 x => new Location
                 {
                     Id = Guid.NewGuid(),
-                    Origin = x.Tags.GetValueOrDefault("name"),
-                    En = x.Tags.TryGetValue("name:en", out var nameEn) ? nameEn :
+                    Origin = x.Tags?.GetValueOrDefault("name"),
+                    En = x.Tags!.TryGetValue("name:en", out var nameEn) ? nameEn :
                         x.Tags.TryGetValue("name", out nameEn) && nameEn.IsBasicLatinFirstSymbol() ? nameEn :
                         nameEn.Unidecode(),
                     Ru = x.Tags.TryGetValue("name:ru", out var nameRu) ? nameRu :
@@ -399,13 +399,13 @@ internal class SyncLocationsService
                         Ru = parent.ParentName,
                         Origin = parent.ParentName
                     },
-                    nodes.Where(x => !x.Tags.TryGetValue("transport", out var transport) || transport == "train")
+                    nodes.Where(x => !x.Tags!.TryGetValue("transport", out var transport) || transport == "train")
                         .Select(
                             x => new Location
                             {
                                 Id = Guid.NewGuid(),
-                                Origin = x.Tags.GetValueOrDefault("name"),
-                                En = x.Tags.TryGetValue("name:en", out var nameEn)
+                                Origin = x.Tags?.GetValueOrDefault("name"),
+                                En = x.Tags!.TryGetValue("name:en", out var nameEn)
                                     ? nameEn
                                     : x.Tags.TryGetValue("name", out nameEn) && nameEn.IsBasicLatinFirstSymbol()
                                         ? nameEn
@@ -453,12 +453,12 @@ internal class SyncLocationsService
                 new Location
                 {
                     Id = Guid.NewGuid(),
-                    En = x.Tags.TryGetValue("name:en", out var nameEn) ? nameEn :
+                    En = x.Tags!.TryGetValue("name:en", out var nameEn) ? nameEn :
                         x.Tags.TryGetValue("name", out nameEn) ? nameEn : null,
                     Ru = x.Tags.TryGetValue("name:ru", out var nameRu) ? nameRu :
                         x.Tags.TryGetValue("name", out nameRu) ? nameRu : null,
-                    Latitude = x.Geom.X,
-                    Longitude = x.Geom.Y,
+                    Latitude = x.Geom?.X,
+                    Longitude = x.Geom?.Y,
                     Type = LocationType.Railway,
                     SyncId = x.Id,
                     SourceType = LocationSourceType.OsmNode,
