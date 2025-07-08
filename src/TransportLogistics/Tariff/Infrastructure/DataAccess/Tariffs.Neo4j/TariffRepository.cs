@@ -8,34 +8,24 @@ using TL.TransportLogistics.Tariffs.Infrastructure.DataAccess.Neo4j.Entities;
 
 namespace TL.TransportLogistics.Tariffs.Infrastructure.DataAccess.Neo4j;
 
-internal sealed class TariffRepository : ITariffRepository
+internal sealed class TariffRepository(ICypherGraphClientFactory graphClientFactory) : ITariffRepository
 {
-    private readonly ICypherGraphClientFactory _graphClientFactory;
-
-    public TariffRepository(ICypherGraphClientFactory graphClientFactory)
-    {
-        ArgumentNullException.ThrowIfNull(graphClientFactory);
-
-        _graphClientFactory = graphClientFactory;
-    }
-
     public async Task<Tariff> GetAsync(Guid tariffId, CancellationToken cancellationToken)
     {
-        var query = await _graphClientFactory.GetCypherFluentQueryAsync(cancellationToken).ConfigureAwait(false);
+        var query = await graphClientFactory.GetCypherFluentQueryAsync(cancellationToken).ConfigureAwait(false);
 
         var tariffResults = await query
             .Match("(tariff:Tariff {Id: $tariffId})")
             .OptionalMatch("(tariff)-[:HAS_ROUTE]->(route:Route)-[point:HAS_POINT]->(location:Location)")
             .WithParam("tariffId", tariffId)
-            .Return(
-                (tariff, route, point, location) =>
-                    new TariffResult
-                    {
-                        Tariff = tariff.As<TariffNode>(),
-                        Route = route.As<RouteNode>(),
-                        LocationPoints = Return.As<TariffResult.LocationPoint[]>(
-                            "collect({Point: point, Location: location})")
-                    })
+            .Return((tariff, route, point, location) =>
+                new TariffResult
+                {
+                    Tariff = tariff.As<TariffNode>(),
+                    Route = route.As<RouteNode>(),
+                    LocationPoints = Return.As<TariffResult.LocationPoint[]>(
+                        "collect({Point: point, Location: location})")
+                })
             .ResultsAsync.ConfigureAwait(false);
 
         var tariffResult = tariffResults.Single();
@@ -51,7 +41,7 @@ internal sealed class TariffRepository : ITariffRepository
     {
         ArgumentNullException.ThrowIfNull(tariff);
 
-        var query = await _graphClientFactory.GetCypherFluentQueryAsync(cancellationToken).ConfigureAwait(false);
+        var query = await graphClientFactory.GetCypherFluentQueryAsync(cancellationToken).ConfigureAwait(false);
 
         if (tariff.Route is not null)
         {
@@ -88,7 +78,7 @@ internal sealed class TariffRepository : ITariffRepository
     {
         ArgumentNullException.ThrowIfNull(tariff);
 
-        var query = await _graphClientFactory.GetCypherFluentQueryAsync(cancellationToken).ConfigureAwait(false);
+        var query = await graphClientFactory.GetCypherFluentQueryAsync(cancellationToken).ConfigureAwait(false);
 
         if (tariff.Route is not null)
         {
@@ -183,12 +173,11 @@ internal sealed class TariffRepository : ITariffRepository
         if (result.Route is not null)
         {
             var points = result.LocationPoints
-                .Select(
-                    locationPoint =>
-                        new Point(
-                            locationPoint.Location.Id,
-                            locationPoint.Point.Type,
-                            (ushort) locationPoint.Point.Order))
+                .Select(locationPoint =>
+                    new Point(
+                        locationPoint.Location.Id,
+                        locationPoint.Point.Type,
+                        (ushort) locationPoint.Point.Order))
                 .ToHashSet();
 
             route = new Route(points);

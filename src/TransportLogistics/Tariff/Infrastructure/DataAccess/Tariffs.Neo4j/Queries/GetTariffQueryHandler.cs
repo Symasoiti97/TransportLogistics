@@ -5,22 +5,14 @@ using TL.TransportLogistics.Tariffs.Business.Aggregates.AggregateTariff.Errors;
 
 namespace TL.TransportLogistics.Tariffs.Infrastructure.DataAccess.Neo4j.Queries;
 
-internal sealed class GetTariffQueryHandler : IUseCaseHandler<GetTariffQuery, TariffView>
+internal sealed class GetTariffQueryHandler(ICypherGraphClientFactory graphClientFactory)
+    : IUseCaseHandler<GetTariffQuery, TariffView>
 {
-    private readonly ICypherGraphClientFactory _graphClientFactory;
-
-    public GetTariffQueryHandler(ICypherGraphClientFactory graphClientFactory)
-    {
-        ArgumentNullException.ThrowIfNull(graphClientFactory);
-
-        _graphClientFactory = graphClientFactory;
-    }
-
     public async Task<TariffView> HandleAsync(GetTariffQuery command, CancellationToken cancellationToken)
     {
         ArgumentNullException.ThrowIfNull(command);
 
-        var query = await _graphClientFactory.GetCypherFluentQueryAsync(cancellationToken).ConfigureAwait(false);
+        var query = await graphClientFactory.GetCypherFluentQueryAsync(cancellationToken).ConfigureAwait(false);
 
         var tariffViews = await query
             .Match("(t:Tariff {Id: $tariffId})")

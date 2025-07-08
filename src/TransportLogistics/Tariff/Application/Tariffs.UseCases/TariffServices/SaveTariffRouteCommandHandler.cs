@@ -6,28 +6,22 @@ namespace TL.TransportLogistics.Tariffs.Application.UseCases.TariffServices;
 /// <summary>
 /// Обработчик для сохранения тарифа с параметрами маршрута
 /// </summary>
-internal sealed class SaveTariffRouteCommandHandler : IUseCaseHandler<SaveTariffRouteCommand>
+internal sealed class SaveTariffRouteCommandHandler(
+    ITariffRepository tariffRepository,
+    ILocationRepository locationRepository)
+    : IUseCaseHandler<SaveTariffRouteCommand>
 {
-    private readonly ILocationRepository _locationRepository;
-    private readonly ITariffRepository _tariffRepository;
-
-    public SaveTariffRouteCommandHandler(ITariffRepository tariffRepository, ILocationRepository locationRepository)
-    {
-        _tariffRepository = tariffRepository;
-        _locationRepository = locationRepository;
-    }
-
     public async Task HandleAsync(SaveTariffRouteCommand command, CancellationToken cancellationToken)
     {
         ArgumentNullException.ThrowIfNull(command);
 
-        var tariff = await _tariffRepository.GetAsync(command.TariffId, cancellationToken).ConfigureAwait(false);
+        var tariff = await tariffRepository.GetAsync(command.TariffId, cancellationToken).ConfigureAwait(false);
 
         await EnsureThatLocationsExistsAsync(command, cancellationToken);
 
         tariff.SetRoute(command.Route);
 
-        await _tariffRepository.UpdateAsync(tariff, cancellationToken);
+        await tariffRepository.UpdateAsync(tariff, cancellationToken);
     }
 
     private async Task EnsureThatLocationsExistsAsync(
@@ -35,6 +29,6 @@ internal sealed class SaveTariffRouteCommandHandler : IUseCaseHandler<SaveTariff
         CancellationToken cancellationToken)
     {
         var locationIds = command.Route.Points.Select(p => p.LocationId).ToHashSet();
-        await _locationRepository.EnsureThatLocationsExists(locationIds, cancellationToken).ConfigureAwait(false);
+        await locationRepository.EnsureThatLocationsExists(locationIds, cancellationToken).ConfigureAwait(false);
     }
 }

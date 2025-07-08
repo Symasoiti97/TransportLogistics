@@ -1,5 +1,4 @@
 ﻿using TL.SharedKernel.Application.Commands;
-using TL.SharedKernel.Application.Repositories;
 using TL.TransportLogistics.Tariffs.Business.Aggregates.AggregateTariff;
 
 namespace TL.TransportLogistics.Tariffs.Application.UseCases.TariffServices;
@@ -7,24 +6,13 @@ namespace TL.TransportLogistics.Tariffs.Application.UseCases.TariffServices;
 /// <summary>
 /// Обработчик для создания тарифа
 /// </summary>
-internal sealed class CreateTariffCommandHandler : IUseCaseHandler<CreateTariffCommand>
+internal sealed class CreateTariffCommandHandler(ITariffRepository tariffRepository)
+    : IUseCaseHandler<CreateTariffCommand>
 {
-    private readonly ITariffRepository _tariffRepository;
-    private readonly IUserContext _userContext;
-
-    public CreateTariffCommandHandler(ITariffRepository tariffRepository, IUserContext userContext)
-    {
-        ArgumentNullException.ThrowIfNull(tariffRepository);
-        ArgumentNullException.ThrowIfNull(userContext);
-
-        _tariffRepository = tariffRepository;
-        _userContext = userContext;
-    }
-
     public async Task HandleAsync(CreateTariffCommand command, CancellationToken cancellationToken)
     {
-        var tariff = Tariff.Create(command.TariffId, _userContext.GetProfileId());
+        var tariff = Tariff.Create(command.TariffId, command.ManagerProfileId);
 
-        await _tariffRepository.AddAsync(tariff, cancellationToken);
+        await tariffRepository.AddAsync(tariff, cancellationToken);
     }
 }

@@ -5,22 +5,16 @@ namespace TL.TransportLogistics.Tariffs.Application.UseCases.TariffServices;
 /// <summary>
 /// Обработчик команды сохранения тарифа с параметрами груза
 /// </summary>
-internal sealed class SaveTariffCargoCommandHandler : IUseCaseHandler<SaveTariffCargoEquipmentCommand>
+internal sealed class SaveTariffCargoCommandHandler(ITariffRepository tariffRepository)
+    : IUseCaseHandler<SaveTariffCargoEquipmentCommand>
 {
-    private readonly ITariffRepository _tariffRepository;
-
-    public SaveTariffCargoCommandHandler(ITariffRepository tariffRepository)
-    {
-        _tariffRepository = tariffRepository;
-    }
-
     public async Task HandleAsync(SaveTariffCargoEquipmentCommand equipmentCommand, CancellationToken cancellationToken)
     {
-        var tariff = await _tariffRepository.GetAsync(equipmentCommand.TariffId, cancellationToken)
+        var tariff = await tariffRepository.GetAsync(equipmentCommand.TariffId, cancellationToken)
             .ConfigureAwait(false);
 
         tariff.SetCargoEquipment(equipmentCommand.CargoEquipment);
 
-        await _tariffRepository.UpdateAsync(tariff, cancellationToken);
+        await tariffRepository.UpdateAsync(tariff, cancellationToken);
     }
 }
