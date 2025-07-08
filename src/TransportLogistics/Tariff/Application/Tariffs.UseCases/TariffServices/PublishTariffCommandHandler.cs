@@ -6,21 +6,15 @@ namespace TL.TransportLogistics.Tariffs.Application.UseCases.TariffServices;
 /// Команда публикации тарифа
 /// Переводит тариф из черновика в действующий (Создает копию)
 /// </summary>
-internal sealed class PublishTariffCommandHandler : IUseCaseHandler<PublishTariffCommand>
+internal sealed class PublishTariffCommandHandler(ITariffRepository tariffRepository)
+    : IUseCaseHandler<PublishTariffCommand>
 {
-    private readonly ITariffRepository _tariffRepository;
-
-    public PublishTariffCommandHandler(ITariffRepository tariffRepository)
-    {
-        _tariffRepository = tariffRepository;
-    }
-
     public async Task HandleAsync(PublishTariffCommand command, CancellationToken cancellationToken)
     {
-        var tariff = await _tariffRepository.GetAsync(command.TariffId, cancellationToken).ConfigureAwait(false);
+        var tariff = await tariffRepository.GetAsync(command.TariffId, cancellationToken).ConfigureAwait(false);
 
         tariff.SetAsReal();
 
-        await _tariffRepository.UpdateAsync(tariff, cancellationToken);
+        await tariffRepository.UpdateAsync(tariff, cancellationToken);
     }
 }

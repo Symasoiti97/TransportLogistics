@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using TL.SharedKernel.Application.Commands;
+using TL.SharedKernel.Application.Repositories;
 using TL.TransportLogistics.Tariffs.Application.UseCases.TariffServices;
 using TL.TransportLogistics.Tariffs.Business.Aggregates.AggregateTariff;
 using TL.TransportLogistics.Tariffs.Startups.WebApi.Controllers.Tariff.Dto;
@@ -47,6 +48,7 @@ public sealed class TariffController : ControllerBase
     /// <param name="request">Параметры запроса</param>
     /// <param name="commandHandler">Обработчик команды</param>
     /// <param name="queryHandler">Обработчик запроса</param>
+    /// <param name="userContext">Пользовательский контекст</param>
     /// <param name="cancellationToken">Токен отмены</param>
     [HttpPost]
     [ProducesResponseType(typeof(TariffView), StatusCodes.Status201Created)]
@@ -54,9 +56,10 @@ public sealed class TariffController : ControllerBase
         [FromBody] CreateTariffRequest request,
         [FromServices] IUseCaseHandler<CreateTariffCommand> commandHandler,
         [FromServices] IUseCaseHandler<GetTariffQuery, TariffView> queryHandler,
+        [FromServices] IUserContext userContext,
         CancellationToken cancellationToken)
     {
-        var command = new CreateTariffCommand(request.TariffId);
+        var command = new CreateTariffCommand(request.TariffId, userContext.GetProfileId());
 
         await commandHandler.HandleAsync(command, cancellationToken).ConfigureAwait(false);
 

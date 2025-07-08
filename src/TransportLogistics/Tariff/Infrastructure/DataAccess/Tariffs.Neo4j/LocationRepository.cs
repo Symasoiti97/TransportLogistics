@@ -3,20 +3,11 @@ using TL.TransportLogistics.Tariffs.Application.UseCases.LocationServices;
 
 namespace TL.TransportLogistics.Tariffs.Infrastructure.DataAccess.Neo4j;
 
-internal sealed class LocationRepository : ILocationRepository
+internal sealed class LocationRepository(ICypherGraphClientFactory graphClientFactory) : ILocationRepository
 {
-    private readonly ICypherGraphClientFactory _graphClientFactory;
-
-    public LocationRepository(ICypherGraphClientFactory graphClientFactory)
-    {
-        ArgumentNullException.ThrowIfNull(graphClientFactory);
-
-        _graphClientFactory = graphClientFactory;
-    }
-
     public async Task EnsureThatLocationsExists(IReadOnlySet<Guid> locationIds, CancellationToken cancellationToken)
     {
-        var query = await _graphClientFactory.GetCypherFluentQueryAsync(cancellationToken).ConfigureAwait(false);
+        var query = await graphClientFactory.GetCypherFluentQueryAsync(cancellationToken).ConfigureAwait(false);
 
         var results = await query
             .Unwind("$locationIds", "locationId")

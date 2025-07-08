@@ -6,4 +6,4 @@ namespace TL.TransportLogistics.Tariffs.Application.UseCases.TariffServices;
 /// Команда для создания тарифа
 /// </summary>
 /// <param name="TariffId">Идентификатор тарфиа</param>
-public sealed record CreateTariffCommand(Guid TariffId) : IUseCase;
+public sealed record CreateTariffCommand(Guid TariffId, Guid ManagerProfileId) : IUseCase;
