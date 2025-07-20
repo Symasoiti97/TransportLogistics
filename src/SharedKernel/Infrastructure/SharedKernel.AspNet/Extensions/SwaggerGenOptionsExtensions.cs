@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.OpenApi.Any;
+﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
 using TL.SharedKernel.Infrastructure.AspNet.Options;
 using TL.SharedKernel.Infrastructure.Swagger;
@@ -44,95 +42,6 @@ public static class SwaggerGenOptionsExtensions
             errorsDocumentName,
             options.ErrorTypes);
 
-        options.SwaggerGenOptions.MapType<ProblemDetails>(BuildProblemDetailsSchema);
+        options.SwaggerGenOptions.DocumentFilter<ProblemDetailsSchemaDocumentFilter>();
     }
-
-    private static OpenApiSchema BuildProblemDetailsSchema() =>
-        new()
-        {
-            Type = "object",
-            Properties = new Dictionary<string, OpenApiSchema>
-            {
-                {
-                    "type", new OpenApiSchema
-                    {
-                        Type = "string",
-                        ReadOnly = true,
-                        Description = "URI identifier error",
-                        Example = new OpenApiString("/errors/not-found"),
-                        Nullable = false,
-                        Title = "Type"
-                    }
-                },
-                {
-                    "title", new OpenApiSchema
-                    {
-                        Type = "string",
-                        ReadOnly = true,
-                        Description = "Error message",
-                        Example = new OpenApiString("Not found."),
-                        Nullable = true,
-                        Title = "Title"
-                    }
-                },
-                {
-                    "detail", new OpenApiSchema
-                    {
-                        Type = "string",
-                        ReadOnly = true,
-                        Description = "Detail error message",
-                        Example = new OpenApiString("Entity '1' not found"),
-                        Nullable = true,
-                        Title = "Title"
-                    }
-                },
-                {
-                    "status", new OpenApiSchema
-                    {
-                        Type = "number",
-                        ReadOnly = true,
-                        Description = "Status code",
-                        Example = new OpenApiInteger(404),
-                        Nullable = true,
-                        Title = "Status code"
-                    }
-                },
-                {
-                    "instance", new OpenApiSchema
-                    {
-                        Type = "string",
-                        ReadOnly = true,
-                        Description = "Http route the http request",
-                        Example = new OpenApiString("/user-service/api/user/1"),
-                        Nullable = true,
-                        Title = "Uri"
-                    }
-                },
-                {
-                    "error", new OpenApiSchema
-                    {
-                        Type = "object",
-                        ReadOnly = true,
-                        Description = "Error data",
-                        Nullable = true,
-                        Title = "Error",
-                        AdditionalPropertiesAllowed = true,
-                        Properties = new Dictionary<string, OpenApiSchema>
-                        {
-                            {
-                                "type", new OpenApiSchema
-                                {
-                                    Type = "string",
-                                    ReadOnly = true,
-                                    Description = "URI identifier error",
-                                    Example = new OpenApiString("not-found"),
-                                    Nullable = false,
-                                    Title = "Type"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        };
 }
