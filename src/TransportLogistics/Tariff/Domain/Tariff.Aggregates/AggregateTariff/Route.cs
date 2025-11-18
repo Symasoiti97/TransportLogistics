@@ -10,16 +10,6 @@ public sealed class Route : ValueObject
     private const byte MinPointCount = 2;
 
     /// <summary>
-    /// Создать <see cref="Route" />
-    /// </summary>
-    /// <param name="points">Точки маршрута</param>
-    public Route(IReadOnlyCollection<Point> points)
-    {
-        Points = EnsureThatPointIsValid(points);
-        Type = DefineRouteType();
-    }
-
-    /// <summary>
     /// Тип маршрута
     /// </summary>
     public RouteType Type { get; }
@@ -33,6 +23,19 @@ public sealed class Route : ValueObject
     /// Уникальный hash маршрута
     /// </summary>
     public string Hash => $"{string.Join("|", Points.Select(x => x.Hash))}|{Type}";
+
+    /// <summary>
+    /// Создать <see cref="Route" />
+    /// </summary>
+    /// <param name="points">Точки маршрута</param>
+    public Route(IReadOnlyCollection<Point> points)
+    {
+        Points = EnsureThatPointIsValid(points);
+        Type = DefineRouteType();
+    }
+
+    /// <inheritdoc />
+    protected override IEnumerable<object> GetEqualityComponents() => Points.Cast<object>().Append(Type);
 
     private static IReadOnlySet<Point> EnsureThatPointIsValid(IReadOnlyCollection<Point> points)
     {
@@ -61,7 +64,4 @@ public sealed class Route : ValueObject
 
     // TODO: Реалзиовать установку типа маршрута и добавить валидацию
     private static RouteType DefineRouteType() => RouteType.Unknown;
-
-    /// <inheritdoc />
-    protected override IEnumerable<object> GetEqualityComponents() => Points.Cast<object>().Append(Type);
 }

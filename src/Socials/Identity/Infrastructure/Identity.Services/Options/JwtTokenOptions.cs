@@ -2,6 +2,11 @@ namespace TL.Socials.Identity.Infrastructure.Services.Options;
 
 public sealed class JwtTokenOptions
 {
+    public string SecurityKey { get; }
+    public string Issuer { get; }
+    public string Audience { get; }
+    public TimeSpan ExpiresTime { get; }
+
     public JwtTokenOptions(
         string securityKey,
         string issuer,
@@ -17,9 +22,4 @@ public sealed class JwtTokenOptions
         Audience = audience;
         ExpiresTime = expiresTime;
     }
-
-    public string SecurityKey { get; }
-    public string Issuer { get; }
-    public string Audience { get; }
-    public TimeSpan ExpiresTime { get; }
 }

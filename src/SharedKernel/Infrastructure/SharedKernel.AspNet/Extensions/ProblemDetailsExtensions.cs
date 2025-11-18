@@ -28,39 +28,37 @@ public static class ProblemDetailsExtensions
         statusMapper.AddMap<InvalidValue>(StatusCodes.Status409Conflict);
         statusMapper.AddMap<Conflict>(StatusCodes.Status409Conflict);
 
-        options.Map<ErrorException>(
-            (httpContext, errorException) =>
+        options.Map<ErrorException>((httpContext, errorException) =>
+        {
+            var serviceSettings = httpContext.RequestServices.GetRequiredService<ApiOptions>();
+            var problemDetails = new ProblemDetails
             {
-                var serviceSettings = httpContext.RequestServices.GetRequiredService<ApiOptions>();
-                var problemDetails = new ProblemDetails
-                {
-                    Type = BuildType(serviceSettings.Name, errorException.Error),
-                    Title = errorException.Error.Message,
-                    Status = statusMapper.TryMap(errorException.Error, out var status)
-                        ? status
-                        : StatusCodes.Status500InternalServerError,
-                    Detail = errorException.HasDetails
-                        ? errorException.Message
-                        : null,
-                    Extensions = {{ErrorKey, errorException.Error}}
-                };
+                Type = BuildType(serviceSettings.Name, errorException.Error),
+                Title = errorException.Error.Message,
+                Status = statusMapper.TryMap(errorException.Error, out var status)
+                    ? status
+                    : StatusCodes.Status500InternalServerError,
+                Detail = errorException.HasDetails
+                    ? errorException.Message
+                    : null,
+                Extensions = {{ErrorKey, errorException.Error}}
+            };
 
-                return problemDetails;
-            });
+            return problemDetails;
+        });
 
-        options.Map<Exception>(
-            exception =>
+        options.Map<Exception>(exception =>
+        {
+            var problemDetails = new ProblemDetails
             {
-                var problemDetails = new ProblemDetails
-                {
-                    Type = "about:blank",
-                    Title = "Unhandle error.",
-                    Status = StatusCodes.Status500InternalServerError,
-                    Detail = exception.Message
-                };
+                Type = "about:blank",
+                Title = "Unhandle error.",
+                Status = StatusCodes.Status500InternalServerError,
+                Detail = exception.Message
+            };
 
-                return problemDetails;
-            });
+            return problemDetails;
+        });
     }
 
     public static string BuildType(string serviceName, Error error) => $"/{serviceName}/api/errors/{error.BuildType()}";

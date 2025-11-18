@@ -9,6 +9,11 @@ namespace TL.SharedKernel.Business.Aggregates;
 public abstract class Entity<TKey> where TKey : struct, IComparable
 {
     /// <summary>
+    /// Entity id
+    /// </summary>
+    public TKey Id { get; private set; }
+
+    /// <summary>
     /// Create <see cref="Entity{TKey}" />
     /// </summary>
     /// <param name="id">Entity id</param>
@@ -18,20 +23,21 @@ public abstract class Entity<TKey> where TKey : struct, IComparable
     }
 
     /// <summary>
-    /// Entity id
+    /// Check equal between two object
     /// </summary>
-    public TKey Id { get; private set; }
+    /// <param name="left"></param>
+    /// <param name="right"></param>
+    /// <returns></returns>
+    public static bool operator ==(Entity<TKey>? left, Entity<TKey>? right) =>
+        left?.Equals(right) ?? Equals(right, objB: null);
 
     /// <summary>
-    /// Set entity id
+    /// Check not equal between two object
     /// </summary>
-    /// <param name="id">Entity id</param>
-    private void SetId(TKey id)
-    {
-        ArgumentException.ThrowIfDefault(id);
-
-        Id = id;
-    }
+    /// <param name="left">Left object</param>
+    /// <param name="right">Right object</param>
+    /// <returns></returns>
+    public static bool operator !=(Entity<TKey>? left, Entity<TKey>? right) => !(left == right);
 
     /// <inheritdoc />
     public override bool Equals(object? obj)
@@ -55,19 +61,13 @@ public abstract class Entity<TKey> where TKey : struct, IComparable
         Id.GetHashCode();
 
     /// <summary>
-    /// Check equal between two object
+    /// Set entity id
     /// </summary>
-    /// <param name="left"></param>
-    /// <param name="right"></param>
-    /// <returns></returns>
-    public static bool operator ==(Entity<TKey>? left, Entity<TKey>? right) =>
-        left?.Equals(right) ?? Equals(right, objB: null);
+    /// <param name="id">Entity id</param>
+    private void SetId(TKey id)
+    {
+        ArgumentException.ThrowIfDefault(id);
 
-    /// <summary>
-    /// Check not equal between two object
-    /// </summary>
-    /// <param name="left">Left object</param>
-    /// <param name="right">Right object</param>
-    /// <returns></returns>
-    public static bool operator !=(Entity<TKey>? left, Entity<TKey>? right) => !(left == right);
+        Id = id;
+    }
 }

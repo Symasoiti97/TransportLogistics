@@ -9,6 +9,16 @@ namespace TL.TransportLogistics.Tariffs.Business.Aggregates.AggregateTariff;
 public sealed class Price : ValueObject
 {
     /// <summary>
+    /// Значение
+    /// </summary>
+    public decimal Value { get; private set; }
+
+    /// <summary>
+    /// Код валюты
+    /// </summary>
+    public CurrencyCode CurrencyCode { get; private set; }
+
+    /// <summary>
     /// Cоздать <see cref="Price" />
     /// </summary>
     /// <param name="value">Цена</param>
@@ -19,15 +29,8 @@ public sealed class Price : ValueObject
         SetCurrencyCode(currencyCode);
     }
 
-    /// <summary>
-    /// Значение
-    /// </summary>
-    public decimal Value { get; private set; }
-
-    /// <summary>
-    /// Код валюты
-    /// </summary>
-    public CurrencyCode CurrencyCode { get; private set; }
+    /// <inheritdoc />
+    protected override IEnumerable<object> GetEqualityComponents() => [Value, CurrencyCode];
 
     private void SetValue(decimal value)
     {
@@ -43,7 +46,4 @@ public sealed class Price : ValueObject
 
         CurrencyCode = currencyCode;
     }
-
-    /// <inheritdoc />
-    protected override IEnumerable<object> GetEqualityComponents() => [Value, CurrencyCode];
 }

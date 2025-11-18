@@ -7,11 +7,6 @@ namespace TL.SharedKernel.Infrastructure.Swagger;
 
 public sealed class ProblemDetailsSchemaDocumentFilter : IDocumentFilter
 {
-    public void Apply(OpenApiDocument swaggerDoc, DocumentFilterContext context)
-    {
-        context.SchemaRepository.Schemas[nameof(ProblemDetails)] = ProblemDetailsSchema;
-    }
-
     private static readonly OpenApiSchema ProblemDetailsSchema =
         new()
         {
@@ -100,4 +95,9 @@ public sealed class ProblemDetailsSchemaDocumentFilter : IDocumentFilter
                 }
             }
         };
+
+    public void Apply(OpenApiDocument swaggerDoc, DocumentFilterContext context)
+    {
+        context.SchemaRepository.Schemas[nameof(ProblemDetails)] = ProblemDetailsSchema;
+    }
 }

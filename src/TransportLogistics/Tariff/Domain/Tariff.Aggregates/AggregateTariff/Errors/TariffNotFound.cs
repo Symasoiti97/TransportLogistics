@@ -8,6 +8,14 @@ namespace TL.TransportLogistics.Tariffs.Business.Aggregates.AggregateTariff.Erro
 public class TariffNotFound : NotFound
 {
     /// <summary>
+    /// Идентификатор тарифа
+    /// </summary>
+    public Guid TariffId { get; }
+
+    /// <inheritdoc />
+    public override string Message => "Tariff not found.";
+
+    /// <summary>
     /// Создать <see cref="TariffNotFound" />
     /// </summary>
     /// <param name="tariffId">Идентификатор тарифа</param>
@@ -15,12 +23,4 @@ public class TariffNotFound : NotFound
     {
         TariffId = tariffId;
     }
-
-    /// <summary>
-    /// Идентификатор тарифа
-    /// </summary>
-    public Guid TariffId { get; }
-
-    /// <inheritdoc />
-    public override string Message => "Tariff not found.";
 }

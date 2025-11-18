@@ -18,10 +18,10 @@ public interface IUseCaseHandler<in TUseCase, TResult> where TUseCase : IUseCase
 /// <typeparam name="TUseCase">Тип команды</typeparam>
 public interface IUseCaseHandler<in TUseCase> : IUseCaseHandler where TUseCase : IUseCase
 {
+    Task HandleAsync(TUseCase command, CancellationToken cancellationToken);
+
     Task IUseCaseHandler.HandleAsync(object command, CancellationToken cancellationToken) =>
         HandleAsync((TUseCase) command, cancellationToken);
-
-    Task HandleAsync(TUseCase command, CancellationToken cancellationToken);
 }
 
 /// <summary>

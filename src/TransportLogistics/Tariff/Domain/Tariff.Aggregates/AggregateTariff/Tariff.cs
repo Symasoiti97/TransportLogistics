@@ -11,6 +11,33 @@ namespace TL.TransportLogistics.Tariffs.Business.Aggregates.AggregateTariff;
 public sealed class Tariff : AggregateRoot<Guid>
 {
     /// <summary>
+    /// Маршрут
+    /// </summary>
+    public Route? Route { get; private set; }
+
+    /// <summary>
+    /// Оборудование груза
+    /// </summary>
+    public CargoEquipment? CargoEquipment { get; private set; }
+
+    /// <summary>
+    /// Цена
+    /// </summary>
+    public Price? Price { get; private set; }
+
+    /// <summary>
+    /// Идентификатор профиля, менеджер текущего тарифа
+    /// </summary>
+    public Guid ManagerProfileId { get; private set; }
+
+    /// <summary>
+    /// Указывает тариф является черновиком или действующим
+    /// True - тариф является черновиком
+    /// False - тариф является действующим
+    /// </summary>
+    public bool IsDraft { get; private set; }
+
+    /// <summary>
     /// Инициализировать тариф
     /// </summary>
     /// <param name="id">Идентификатор тарифы</param>
@@ -46,33 +73,6 @@ public sealed class Tariff : AggregateRoot<Guid>
 
         SetDraft(isDraft);
     }
-
-    /// <summary>
-    /// Маршрут
-    /// </summary>
-    public Route? Route { get; private set; }
-
-    /// <summary>
-    /// Оборудование груза
-    /// </summary>
-    public CargoEquipment? CargoEquipment { get; private set; }
-
-    /// <summary>
-    /// Цена
-    /// </summary>
-    public Price? Price { get; private set; }
-
-    /// <summary>
-    /// Идентификатор профиля, менеджер текущего тарифа
-    /// </summary>
-    public Guid ManagerProfileId { get; private set; }
-
-    /// <summary>
-    /// Указывает тариф является черновиком или действующим
-    /// True - тариф является черновиком
-    /// False - тариф является действующим
-    /// </summary>
-    public bool IsDraft { get; private set; }
 
     /// <summary>
     /// Создать тариф
@@ -175,7 +175,7 @@ public sealed class Tariff : AggregateRoot<Guid>
 
     private void SetAsDraft()
     {
-        if (IsDraft == false)
+        if (!IsDraft)
         {
             IsDraft = true;
         }

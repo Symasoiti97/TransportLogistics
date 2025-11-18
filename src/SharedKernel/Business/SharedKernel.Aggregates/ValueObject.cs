@@ -5,6 +5,25 @@
 /// </summary>
 public abstract class ValueObject
 {
+    /// <inheritdoc />
+    public override bool Equals(object? obj)
+    {
+        if (obj is null || obj.GetType() != GetType())
+        {
+            return false;
+        }
+
+        var other = (ValueObject) obj;
+
+        return GetEqualityComponents().SequenceEqual(other.GetEqualityComponents());
+    }
+
+    /// <inheritdoc />
+    public override int GetHashCode()
+    {
+        return GetEqualityComponents().Select(x => x.GetHashCode()).Aggregate((x, y) => x ^ y);
+    }
+
     /// <summary>
     /// Equal value object
     /// </summary>
@@ -34,23 +53,4 @@ public abstract class ValueObject
     /// </summary>
     /// <returns>Quality components</returns>
     protected abstract IEnumerable<object> GetEqualityComponents();
-
-    /// <inheritdoc />
-    public override bool Equals(object? obj)
-    {
-        if (obj is null || obj.GetType() != GetType())
-        {
-            return false;
-        }
-
-        var other = (ValueObject) obj;
-
-        return GetEqualityComponents().SequenceEqual(other.GetEqualityComponents());
-    }
-
-    /// <inheritdoc />
-    public override int GetHashCode()
-    {
-        return GetEqualityComponents().Select(x => x.GetHashCode()).Aggregate((x, y) => x ^ y);
-    }
 }

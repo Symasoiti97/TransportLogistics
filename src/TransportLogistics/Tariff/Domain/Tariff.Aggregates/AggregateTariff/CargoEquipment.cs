@@ -8,6 +8,21 @@ namespace TL.TransportLogistics.Tariffs.Business.Aggregates.AggregateTariff;
 public sealed class CargoEquipment
 {
     /// <summary>
+    /// Груз
+    /// </summary>
+    public CargoType? CargoType { get; }
+
+    /// <summary>
+    /// Собственность контейнера
+    /// </summary>
+    public ContainerOwn? ContainerOwn { get; }
+
+    /// <summary>
+    /// Размер контейнера
+    /// </summary>
+    public ContainerSize? ContainerSize { get; }
+
+    /// <summary>
     /// Создает
     /// </summary>
     /// <param name="cargoType">Тип груза</param>
@@ -23,19 +38,4 @@ public sealed class CargoEquipment
         ContainerOwn = containerOwn;
         ContainerSize = containerSize;
     }
-
-    /// <summary>
-    /// Груз
-    /// </summary>
-    public CargoType? CargoType { get; }
-
-    /// <summary>
-    /// Собственность контейнера
-    /// </summary>
-    public ContainerOwn? ContainerOwn { get; }
-
-    /// <summary>
-    /// Размер контейнера
-    /// </summary>
-    public ContainerSize? ContainerSize { get; }
 }

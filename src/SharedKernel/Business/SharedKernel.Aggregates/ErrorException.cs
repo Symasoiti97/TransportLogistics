@@ -5,6 +5,13 @@
 /// </summary>
 public class ErrorException : Exception
 {
+    /// <summary>
+    /// Ошибки
+    /// </summary>
+    public Error Error { get; }
+
+    public bool HasDetails { get; }
+
     /// <inheritdoc />
     public ErrorException(
         Error error,
@@ -19,11 +26,4 @@ public class ErrorException : Exception
         Error = error;
         HasDetails = message is not null;
     }
-
-    /// <summary>
-    /// Ошибки
-    /// </summary>
-    public Error Error { get; }
-
-    public bool HasDetails { get; }
 }
