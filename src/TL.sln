@@ -97,6 +97,8 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionFiles", "SolutionFiles", "{6EA113A9-8805-4172-8DF6-7B5B047C1240}"
 	ProjectSection(SolutionItems) = preProject
 		Directory.Build.props = Directory.Build.props
+		TL.sln.DotSettings = TL.sln.DotSettings
+		.editorconfig = .editorconfig
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Application", "Application", "{07893472-3C48-4144-B136-B19D42FD79F3}"
