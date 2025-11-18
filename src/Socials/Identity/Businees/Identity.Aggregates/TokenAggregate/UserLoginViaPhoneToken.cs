@@ -6,7 +6,8 @@ namespace TL.Socials.Identity.Business.Aggregates.TokenAggregate;
 public sealed class UserLoginViaPhoneToken : Token
 {
     private const int VerificationCodeLength = 6;
-    private static TimeSpan DefaultTokenLifetime => TimeSpan.FromMinutes(10);
+
+    public PhoneNumber PhoneNumber { get; }
 
     public UserLoginViaPhoneToken(
         Guid id,
@@ -24,8 +25,6 @@ public sealed class UserLoginViaPhoneToken : Token
 
         PhoneNumber = phoneNumber;
     }
-
-    public PhoneNumber PhoneNumber { get; }
 
     public static UserLoginViaPhoneToken Create(PhoneNumber phoneNumber)
     {
@@ -58,4 +57,6 @@ public sealed class UserLoginViaPhoneToken : Token
 
         return RandomNumberGenerator.GetInt32(min, max).ToString();
     }
+
+    private static TimeSpan DefaultTokenLifetime => TimeSpan.FromMinutes(10);
 }

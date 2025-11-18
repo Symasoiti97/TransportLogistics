@@ -13,35 +13,34 @@ internal sealed class CypherGraphClientFactory : ICypherGraphClientFactory
 
     public CypherGraphClientFactory(INeo4JSettings neo4JSettings, ILogger<CypherGraphClientFactory> logger)
     {
-        _cypherGraphClientLazy = new AsyncLazy<BoltGraphClient>(
-            async () =>
+        _cypherGraphClientLazy = new AsyncLazy<BoltGraphClient>(async () =>
+        {
+            var boltGraphClient = new BoltGraphClient(
+                neo4JSettings.Uri,
+                neo4JSettings.UserName,
+                neo4JSettings.Password);
+
+            boltGraphClient.OperationCompleted += OnCypherGraphClientOnOperationCompleted;
+            await boltGraphClient.ConnectAsync().ConfigureAwait(false);
+
+            return boltGraphClient;
+
+            void OnCypherGraphClientOnOperationCompleted(object _, OperationCompletedEventArgs eventArgs)
             {
-                var boltGraphClient = new BoltGraphClient(
-                    neo4JSettings.Uri,
-                    neo4JSettings.UserName,
-                    neo4JSettings.Password);
-
-                boltGraphClient.OperationCompleted += OnCypherGraphClientOnOperationCompleted;
-                await boltGraphClient.ConnectAsync().ConfigureAwait(false);
-
-                return boltGraphClient;
-
-                void OnCypherGraphClientOnOperationCompleted(object _, OperationCompletedEventArgs eventArgs)
+                if (eventArgs.HasException)
                 {
-                    if (eventArgs.HasException)
-                    {
-                        logger.LogError(
-                            eventArgs.Exception,
-                            "Neo4j exception. Database: {Database} QueryText: {QueryText}",
-                            eventArgs.Database,
-                            eventArgs.QueryText);
-                    }
-                    else
-                    {
-                        logger.LogDebug("OperationCompleted. QueryText: {QueryText}", eventArgs.QueryText);
-                    }
+                    logger.LogError(
+                        eventArgs.Exception,
+                        "Neo4j exception. Database: {Database} QueryText: {QueryText}",
+                        eventArgs.Database,
+                        eventArgs.QueryText);
                 }
-            });
+                else
+                {
+                    logger.LogDebug("OperationCompleted. QueryText: {QueryText}", eventArgs.QueryText);
+                }
+            }
+        });
     }
 
     public async Task<ICypherFluentQuery> GetCypherFluentQueryAsync(CancellationToken cancellationToken)

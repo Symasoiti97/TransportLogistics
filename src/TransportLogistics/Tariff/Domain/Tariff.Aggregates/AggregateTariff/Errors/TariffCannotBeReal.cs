@@ -6,14 +6,6 @@ namespace TL.TransportLogistics.Tariffs.Business.Aggregates.AggregateTariff.Erro
 public sealed class TariffCannotBeReal : Conflict
 {
     /// <inheritdoc />
-    public TariffCannotBeReal(bool isUndefinedRoute, bool isUndefinedCargoEquipment, bool isUndefinedPrice)
-    {
-        IsUndefinedRoute = isUndefinedRoute;
-        IsUndefinedCargoEquipment = isUndefinedCargoEquipment;
-        IsUndefinedPrice = isUndefinedPrice;
-    }
-
-    /// <inheritdoc />
     public override string Message => "Tariff cannot be real";
 
     /// <summary>
@@ -30,4 +22,12 @@ public sealed class TariffCannotBeReal : Conflict
     /// Указывает определена ли цена
     /// </summary>
     public bool IsUndefinedPrice { get; }
+
+    /// <inheritdoc />
+    public TariffCannotBeReal(bool isUndefinedRoute, bool isUndefinedCargoEquipment, bool isUndefinedPrice)
+    {
+        IsUndefinedRoute = isUndefinedRoute;
+        IsUndefinedCargoEquipment = isUndefinedCargoEquipment;
+        IsUndefinedPrice = isUndefinedPrice;
+    }
 }

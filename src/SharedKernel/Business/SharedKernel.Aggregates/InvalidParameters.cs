@@ -8,6 +8,14 @@ namespace TL.SharedKernel.Business.Aggregates;
 public sealed class InvalidParameters : Error
 {
     /// <summary>
+    /// Invalid parameters
+    /// </summary>
+    public IEnumerable<Parameter> Parameters { get; }
+
+    /// <inheritdoc />
+    public override string Message => "Invalid params.";
+
+    /// <summary>
     /// Создать <see cref="InvalidValue" />
     /// </summary>
     /// <param name="parameters"></param>
@@ -17,37 +25,10 @@ public sealed class InvalidParameters : Error
     }
 
     /// <summary>
-    /// Invalid parameters
-    /// </summary>
-    public IEnumerable<Parameter> Parameters { get; }
-
-    /// <inheritdoc />
-    public override string Message => "Invalid params.";
-
-    /// <summary>
     /// Parameter
     /// </summary>
     public sealed class Parameter
     {
-        /// <summary>
-        /// Creates <see cref="Parameter" />
-        /// </summary>
-        /// <param name="value">Value</param>
-        /// <param name="name">Name</param>
-        /// <param name="path">Path</param>
-        /// <param name="message">Error message</param>
-        /// <param name="error">Error</param>
-        public Parameter(object? value, string? name, string path, string message, object? error)
-        {
-            ArgumentException.ThrowIfNullOrWhiteSpace(message);
-
-            Value = value;
-            Name = name;
-            Path = path;
-            Message = message;
-            Error = error;
-        }
-
         /// <summary>
         /// Ошибачное значение
         /// </summary>
@@ -76,5 +57,24 @@ public sealed class InvalidParameters : Error
         /// Error
         /// </summary>
         public object? Error { get; }
+
+        /// <summary>
+        /// Creates <see cref="Parameter" />
+        /// </summary>
+        /// <param name="value">Value</param>
+        /// <param name="name">Name</param>
+        /// <param name="path">Path</param>
+        /// <param name="message">Error message</param>
+        /// <param name="error">Error</param>
+        public Parameter(object? value, string? name, string path, string message, object? error)
+        {
+            ArgumentException.ThrowIfNullOrWhiteSpace(message);
+
+            Value = value;
+            Name = name;
+            Path = path;
+            Message = message;
+            Error = error;
+        }
     }
 }

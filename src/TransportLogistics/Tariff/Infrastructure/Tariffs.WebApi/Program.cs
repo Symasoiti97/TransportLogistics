@@ -18,7 +18,7 @@ using SwaggerGenOptionsExtensions =
 var errorTypes
     = new[]
         {
-            typeof(TL.SharedKernel.Business.Aggregates.AssemblyReference).Assembly,
+            typeof(AssemblyReference).Assembly,
             typeof(TL.TransportLogistics.Tariffs.Business.Aggregates.AssemblyReference).Assembly
         }
         .SelectMany(assembly => assembly.GetTypes().Where(type => type.IsSubclassOf(typeof(Error))))
@@ -32,29 +32,27 @@ builder.Services.AddSingleton(apiOptions);
 builder.Services
     .AddHttpLogging(_ => { })
     .AddControllers()
-    .AddJsonOptions(
-        options =>
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.TypeInfoResolver = new DefaultJsonTypeInfoResolver
         {
-            options.JsonSerializerOptions.TypeInfoResolver = new DefaultJsonTypeInfoResolver
-            {
-                Modifiers = {info => ErrorJsonTypeInfoModifier.Modify(info, errorTypes)}
-            };
-            options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
-            options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
-            options.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
-        });
+            Modifiers = {info => ErrorJsonTypeInfoModifier.Modify(info, errorTypes)}
+        };
+        options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+        options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
+        options.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
+    });
 
-builder.Services.AddSingleton(
-    provider => provider.GetRequiredService<IOptions<JsonOptions>>().Value.JsonSerializerOptions);
+builder.Services.AddSingleton(provider =>
+    provider.GetRequiredService<IOptions<JsonOptions>>().Value.JsonSerializerOptions);
 
 builder.Services.AddEndpointsApiExplorer();
 
-builder.Services.AddSwaggerGen(
-    options => SwaggerGenOptionsExtensions.SwaggerGenOptionsAction(
-        new ServiceSwaggerGenOptions(
-            options,
-            apiOptions.Name,
-            errorTypes)));
+builder.Services.AddSwaggerGen(options => SwaggerGenOptionsExtensions.SwaggerGenOptionsAction(
+    new ServiceSwaggerGenOptions(
+        options,
+        apiOptions.Name,
+        errorTypes)));
 
 builder.Services.AddTariffServices(builder.Configuration.GetRequiredSectionValue<Neo4JSettings>("Neo4jSettings"));
 
@@ -76,16 +74,15 @@ app.UsePathBase($"/{serviceSettings.Name}");
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI(
-        options =>
-        {
-            options.SwaggerEndpoint(
-                $"{apiOptions.Name}/swagger.json",
-                apiOptions.Name);
-            options.SwaggerEndpoint(
-                $"{apiOptions.Name + "-errors"}/swagger.json",
-                apiOptions.Name + "-errors");
-        });
+    app.UseSwaggerUI(options =>
+    {
+        options.SwaggerEndpoint(
+            $"{apiOptions.Name}/swagger.json",
+            apiOptions.Name);
+        options.SwaggerEndpoint(
+            $"{apiOptions.Name + "-errors"}/swagger.json",
+            apiOptions.Name + "-errors");
+    });
 }
 
 app.UseAuthorization();

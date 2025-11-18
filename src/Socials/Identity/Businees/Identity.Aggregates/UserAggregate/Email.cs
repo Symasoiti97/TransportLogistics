@@ -5,6 +5,8 @@ namespace TL.Socials.Identity.Business.Aggregates.UserAggregate;
 
 public sealed partial class Email : ValueObject
 {
+    public string Value { get; }
+
     public Email(string value)
     {
         ArgumentNullException.ThrowIfNull(value);
@@ -18,8 +20,6 @@ public sealed partial class Email : ValueObject
 
         Value = normalized;
     }
-
-    public string Value { get; }
 
     protected override IEnumerable<object> GetEqualityComponents() => [Value];
 

@@ -4,6 +4,12 @@ namespace TL.Socials.Identity.Business.Aggregates.UserAggregate;
 
 public sealed class User : AggregateRoot<Guid>
 {
+    public Email? Email { get; }
+    public string? PasswordHash { get; }
+    public PhoneNumber? PhoneNumber { get; }
+    public DateTimeOffset CreatedDate { get; }
+    public DateTimeOffset UpdatedDate { get; }
+
     public User(
         Guid id,
         Email? email,
@@ -28,12 +34,6 @@ public sealed class User : AggregateRoot<Guid>
         CreatedDate = createdDate;
         UpdatedDate = updatedDate;
     }
-
-    public Email? Email { get; }
-    public string? PasswordHash { get; }
-    public PhoneNumber? PhoneNumber { get; }
-    public DateTimeOffset CreatedDate { get; }
-    public DateTimeOffset UpdatedDate { get; }
 
     public static User Create(Email email, string password)
     {

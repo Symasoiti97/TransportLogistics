@@ -29,26 +29,24 @@ var apiOptions = configuration.GetRequiredSectionValue<ApiOptions>("ApiOptions")
 builder.Services.AddSingleton(apiOptions);
 
 builder.Services.AddControllers()
-    .AddJsonOptions(
-        options =>
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.TypeInfoResolver = new DefaultJsonTypeInfoResolver
         {
-            options.JsonSerializerOptions.TypeInfoResolver = new DefaultJsonTypeInfoResolver
-            {
-                Modifiers = {info => ErrorJsonTypeInfoModifier.Modify(info, errorTypes)}
-            };
-            options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
-            options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
-            options.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
-        });
+            Modifiers = {info => ErrorJsonTypeInfoModifier.Modify(info, errorTypes)}
+        };
+        options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+        options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
+        options.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
+    });
 
 builder.Services.AddEndpointsApiExplorer();
 
-builder.Services.AddSwaggerGen(
-    options => SwaggerGenOptionsExtensions.SwaggerGenOptionsAction(
-        new ServiceSwaggerGenOptions(
-            options,
-            apiOptions.Name,
-            errorTypes)));
+builder.Services.AddSwaggerGen(options => SwaggerGenOptionsExtensions.SwaggerGenOptionsAction(
+    new ServiceSwaggerGenOptions(
+        options,
+        apiOptions.Name,
+        errorTypes)));
 
 builder.Services.AddProblemDetails((Action<ProblemDetailsOptions>?) null);
 builder.Services.AddHttpLogging();
@@ -62,16 +60,15 @@ builder.Services.AddSingleton(
 builder.Services.AddTransient<EventProcessor>();
 builder.Services.AddHostedService<EventProcessWorker>();
 
-builder.Services.AddSingleton(
-    _ =>
+builder.Services.AddSingleton(_ =>
+{
+    var resolver = new EventTypeInfoResolver();
+    return new JsonSerializerOptions
     {
-        var resolver = new EventTypeInfoResolver();
-        return new JsonSerializerOptions
-        {
-            WriteIndented = true,
-            TypeInfoResolver = resolver
-        };
-    });
+        WriteIndented = true,
+        TypeInfoResolver = resolver
+    };
+});
 
 var app = builder.Build();
 
@@ -84,16 +81,15 @@ app.UsePathBase($"/{configuration["ServiceName"]}");
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI(
-        options =>
-        {
-            options.SwaggerEndpoint(
-                $"{apiOptions.Name}/swagger.json",
-                apiOptions.Name);
-            options.SwaggerEndpoint(
-                $"{apiOptions.Name + "-errors"}/swagger.json",
-                apiOptions.Name + "-errors");
-        });
+    app.UseSwaggerUI(options =>
+    {
+        options.SwaggerEndpoint(
+            $"{apiOptions.Name}/swagger.json",
+            apiOptions.Name);
+        options.SwaggerEndpoint(
+            $"{apiOptions.Name + "-errors"}/swagger.json",
+            apiOptions.Name + "-errors");
+    });
 }
 
 app.UseAuthorization();

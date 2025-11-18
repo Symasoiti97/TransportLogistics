@@ -4,6 +4,8 @@ namespace TL.Socials.Identity.Business.Aggregates.TokenAggregate;
 
 public sealed class UserRegisterViaEmailToken : Token
 {
+    public Email Email { get; }
+
     public UserRegisterViaEmailToken(
         Guid id,
         Email email,
@@ -16,10 +18,6 @@ public sealed class UserRegisterViaEmailToken : Token
 
         Email = email;
     }
-
-    private static TimeSpan DefaultTokenLifetime => TimeSpan.FromMinutes(30);
-
-    public Email Email { get; }
 
     public static UserRegisterViaEmailToken Create(Email email)
     {
@@ -44,4 +42,6 @@ public sealed class UserRegisterViaEmailToken : Token
         ExpiresAt = CreatedAt.Add(DefaultTokenLifetime);
         Value = Guid.NewGuid().ToString();
     }
+
+    private static TimeSpan DefaultTokenLifetime => TimeSpan.FromMinutes(30);
 }

@@ -135,30 +135,29 @@ internal class SyncLocationsService
              WHERE (r.tags -> 'admin_level' = '2' AND r.tags -> 'boundary' = 'administrative' AND r.tags-> 'ISO3166-1' is not null) OR r.id = 7750160;
              """);
 
-        return result.AsAsyncEnumerable().Select(
-            x => new Location
-            {
-                Id = Guid.NewGuid(),
-                Type = LocationType.Country,
-                Origin = x.Tags!.GetValueOrDefault("name"),
-                En = x.Tags!.TryGetValue("name:en", out var nameEn) ? nameEn :
-                    x.Tags.TryGetValue("name", out nameEn) && nameEn.IsBasicLatinFirstSymbol() ? nameEn :
-                    nameEn.Unidecode(),
-                Ru = x.Tags.TryGetValue("name:ru", out var nameRu) ? nameRu :
-                    x.Tags.TryGetValue("name", out nameRu) && nameRu.IsCyrillicFirstSymbol() ? nameRu :
-                    nameRu.Unidecode(),
-                Population =
-                    x.Tags.TryGetValue("population", out var population) &&
-                    long.TryParse(population, out var populationNumber)
-                        ? populationNumber
-                        : 0,
-                MultiLanguageName = x.Tags.FilterNamesByCultures().BuildFullTxt(),
-                SyncId = x.Id,
-                SourceType = LocationSourceType.OsmRelation,
-                Code = x.Tags.TryGetValue("ISO3166-1", out var code) ? code : null,
-                Latitude = x.Geom?.Y,
-                Longitude = x.Geom?.X
-            });
+        return result.AsAsyncEnumerable().Select(x => new Location
+        {
+            Id = Guid.NewGuid(),
+            Type = LocationType.Country,
+            Origin = x.Tags!.GetValueOrDefault("name"),
+            En = x.Tags!.TryGetValue("name:en", out var nameEn) ? nameEn :
+                x.Tags.TryGetValue("name", out nameEn) && nameEn.IsBasicLatinFirstSymbol() ? nameEn :
+                nameEn.Unidecode(),
+            Ru = x.Tags.TryGetValue("name:ru", out var nameRu) ? nameRu :
+                x.Tags.TryGetValue("name", out nameRu) && nameRu.IsCyrillicFirstSymbol() ? nameRu :
+                nameRu.Unidecode(),
+            Population =
+                x.Tags.TryGetValue("population", out var population) &&
+                long.TryParse(population, out var populationNumber)
+                    ? populationNumber
+                    : 0,
+            MultiLanguageName = x.Tags.FilterNamesByCultures().BuildFullTxt(),
+            SyncId = x.Id,
+            SourceType = LocationSourceType.OsmRelation,
+            Code = x.Tags.TryGetValue("ISO3166-1", out var code) ? code : null,
+            Latitude = x.Geom?.Y,
+            Longitude = x.Geom?.X
+        });
     }
 
     private IAsyncEnumerable<Location> GetRegionsAsync(Location parentLocation)
@@ -204,28 +203,27 @@ internal class SyncLocationsService
              GROUP BY region.id, region.tags ORDER BY region.tags -> 'admin_level';
              """);
 
-        return result.AsAsyncEnumerable().Select(
-            x => new Location
-            {
-                Id = Guid.NewGuid(),
-                Type = LocationType.Region,
-                Origin = x.Tags!.GetValueOrDefault("name"),
-                En = x.Tags!.TryGetValue("name:en", out var nameEn) ? nameEn :
-                    x.Tags.TryGetValue("name", out nameEn) && nameEn.IsBasicLatinFirstSymbol() ? nameEn :
-                    nameEn.Unidecode(),
-                Ru = x.Tags.TryGetValue("name:ru", out var nameRu) ? nameRu :
-                    x.Tags.TryGetValue("name", out nameRu) && nameRu.IsCyrillicFirstSymbol() ? nameRu :
-                    nameRu.Unidecode(),
-                Latitude = x.Latitude,
-                Longitude = x.Longitude,
-                Population = x.Population,
-                PostalCode = x.Tags.TryGetValue("addr:postcode", out var postcode)
-                    ? postcode
-                    : x.Tags.GetValueOrDefault("postal_code"),
-                MultiLanguageName = x.Tags.FilterNamesByCultures().BuildFullTxt(),
-                SyncId = x.Id,
-                SourceType = LocationSourceType.OsmRelation
-            });
+        return result.AsAsyncEnumerable().Select(x => new Location
+        {
+            Id = Guid.NewGuid(),
+            Type = LocationType.Region,
+            Origin = x.Tags!.GetValueOrDefault("name"),
+            En = x.Tags!.TryGetValue("name:en", out var nameEn) ? nameEn :
+                x.Tags.TryGetValue("name", out nameEn) && nameEn.IsBasicLatinFirstSymbol() ? nameEn :
+                nameEn.Unidecode(),
+            Ru = x.Tags.TryGetValue("name:ru", out var nameRu) ? nameRu :
+                x.Tags.TryGetValue("name", out nameRu) && nameRu.IsCyrillicFirstSymbol() ? nameRu :
+                nameRu.Unidecode(),
+            Latitude = x.Latitude,
+            Longitude = x.Longitude,
+            Population = x.Population,
+            PostalCode = x.Tags.TryGetValue("addr:postcode", out var postcode)
+                ? postcode
+                : x.Tags.GetValueOrDefault("postal_code"),
+            MultiLanguageName = x.Tags.FilterNamesByCultures().BuildFullTxt(),
+            SyncId = x.Id,
+            SourceType = LocationSourceType.OsmRelation
+        });
     }
 
     private IAsyncEnumerable<Location> GetCities(long relationId)
@@ -245,32 +243,31 @@ internal class SyncLocationsService
                                       GROUP BY role) p), city.geom)
              """);
 
-        return query.AsAsyncEnumerable().Select(
-            x => new Location
-            {
-                Id = Guid.NewGuid(),
-                Origin = x.Tags?.GetValueOrDefault("name"),
-                En = x.Tags!.TryGetValue("name:en", out var nameEn) ? nameEn :
-                    x.Tags.TryGetValue("name", out nameEn) && nameEn.IsBasicLatinFirstSymbol() ? nameEn :
-                    nameEn.Unidecode(),
-                Ru = x.Tags.TryGetValue("name:ru", out var nameRu) ? nameRu :
-                    x.Tags.TryGetValue("name", out nameRu) && nameRu.IsCyrillicFirstSymbol() ? nameRu :
-                    nameRu.Unidecode(),
-                Population =
-                    x.Tags.TryGetValue("population", out var population) &&
-                    long.TryParse(population, out var populationNumber)
-                        ? populationNumber
-                        : 0,
-                Latitude = x.Geom?.Y,
-                Longitude = x.Geom?.X,
-                Type = LocationType.City,
-                SyncId = x.Id,
-                SourceType = LocationSourceType.OsmNode,
-                PostalCode = x.Tags.TryGetValue("addr:postcode", out var postcode)
-                    ? postcode
-                    : x.Tags.GetValueOrDefault("postal_code"),
-                MultiLanguageName = x.Tags.FilterNamesByCultures().BuildFullTxt()
-            });
+        return query.AsAsyncEnumerable().Select(x => new Location
+        {
+            Id = Guid.NewGuid(),
+            Origin = x.Tags?.GetValueOrDefault("name"),
+            En = x.Tags!.TryGetValue("name:en", out var nameEn) ? nameEn :
+                x.Tags.TryGetValue("name", out nameEn) && nameEn.IsBasicLatinFirstSymbol() ? nameEn :
+                nameEn.Unidecode(),
+            Ru = x.Tags.TryGetValue("name:ru", out var nameRu) ? nameRu :
+                x.Tags.TryGetValue("name", out nameRu) && nameRu.IsCyrillicFirstSymbol() ? nameRu :
+                nameRu.Unidecode(),
+            Population =
+                x.Tags.TryGetValue("population", out var population) &&
+                long.TryParse(population, out var populationNumber)
+                    ? populationNumber
+                    : 0,
+            Latitude = x.Geom?.Y,
+            Longitude = x.Geom?.X,
+            Type = LocationType.City,
+            SyncId = x.Id,
+            SourceType = LocationSourceType.OsmNode,
+            PostalCode = x.Tags.TryGetValue("addr:postcode", out var postcode)
+                ? postcode
+                : x.Tags.GetValueOrDefault("postal_code"),
+            MultiLanguageName = x.Tags.FilterNamesByCultures().BuildFullTxt()
+        });
     }
 
     private IAsyncEnumerable<Location> GetCitiesAsync(long countrySyncId, IEnumerable<long> regionsSyncIds)
@@ -296,32 +293,31 @@ internal class SyncLocationsService
                                                              GROUP BY r.id, rm.member_role) p) p2 ON true), city.geom)
              """);
 
-        return query.AsAsyncEnumerable().Select(
-            x => new Location
-            {
-                Id = Guid.NewGuid(),
-                Origin = x.Tags?.GetValueOrDefault("name"),
-                En = x.Tags!.TryGetValue("name:en", out var nameEn) ? nameEn :
-                    x.Tags.TryGetValue("name", out nameEn) && nameEn.IsBasicLatinFirstSymbol() ? nameEn :
-                    nameEn.Unidecode(),
-                Ru = x.Tags.TryGetValue("name:ru", out var nameRu) ? nameRu :
-                    x.Tags.TryGetValue("name", out nameRu) && nameRu.IsCyrillicFirstSymbol() ? nameRu :
-                    nameRu.Unidecode(),
-                Population =
-                    x.Tags.TryGetValue("population", out var population) &&
-                    long.TryParse(population, out var populationNumber)
-                        ? populationNumber
-                        : 0,
-                Latitude = x.Geom?.Y,
-                Longitude = x.Geom?.X,
-                Type = LocationType.City,
-                SyncId = x.Id,
-                SourceType = LocationSourceType.OsmNode,
-                PostalCode = x.Tags.TryGetValue("addr:postcode", out var postcode)
-                    ? postcode
-                    : x.Tags.GetValueOrDefault("postal_code"),
-                MultiLanguageName = x.Tags.FilterNamesByCultures().BuildFullTxt()
-            });
+        return query.AsAsyncEnumerable().Select(x => new Location
+        {
+            Id = Guid.NewGuid(),
+            Origin = x.Tags?.GetValueOrDefault("name"),
+            En = x.Tags!.TryGetValue("name:en", out var nameEn) ? nameEn :
+                x.Tags.TryGetValue("name", out nameEn) && nameEn.IsBasicLatinFirstSymbol() ? nameEn :
+                nameEn.Unidecode(),
+            Ru = x.Tags.TryGetValue("name:ru", out var nameRu) ? nameRu :
+                x.Tags.TryGetValue("name", out nameRu) && nameRu.IsCyrillicFirstSymbol() ? nameRu :
+                nameRu.Unidecode(),
+            Population =
+                x.Tags.TryGetValue("population", out var population) &&
+                long.TryParse(population, out var populationNumber)
+                    ? populationNumber
+                    : 0,
+            Latitude = x.Geom?.Y,
+            Longitude = x.Geom?.X,
+            Type = LocationType.City,
+            SyncId = x.Id,
+            SourceType = LocationSourceType.OsmNode,
+            PostalCode = x.Tags.TryGetValue("addr:postcode", out var postcode)
+                ? postcode
+                : x.Tags.GetValueOrDefault("postal_code"),
+            MultiLanguageName = x.Tags.FilterNamesByCultures().BuildFullTxt()
+        });
     }
 
     private IAsyncEnumerable<Location> GetRailwaysAsync(Location parentLocation)
@@ -343,8 +339,8 @@ internal class SyncLocationsService
              """);
 
         return result.AsAsyncEnumerable()
-            .Where(x => !x.Tags!.TryGetValue("transport", out var transport) || transport == "train").Select(
-                x => new Location
+            .Where(x => !x.Tags!.TryGetValue("transport", out var transport) || transport == "train").Select(x =>
+                new Location
                 {
                     Id = Guid.NewGuid(),
                     Origin = x.Tags?.GetValueOrDefault("name"),
@@ -400,29 +396,28 @@ internal class SyncLocationsService
                         Origin = parent.ParentName
                     },
                     nodes.Where(x => !x.Tags!.TryGetValue("transport", out var transport) || transport == "train")
-                        .Select(
-                            x => new Location
-                            {
-                                Id = Guid.NewGuid(),
-                                Origin = x.Tags?.GetValueOrDefault("name"),
-                                En = x.Tags!.TryGetValue("name:en", out var nameEn)
+                        .Select(x => new Location
+                        {
+                            Id = Guid.NewGuid(),
+                            Origin = x.Tags?.GetValueOrDefault("name"),
+                            En = x.Tags!.TryGetValue("name:en", out var nameEn)
+                                ? nameEn
+                                : x.Tags.TryGetValue("name", out nameEn) && nameEn.IsBasicLatinFirstSymbol()
                                     ? nameEn
-                                    : x.Tags.TryGetValue("name", out nameEn) && nameEn.IsBasicLatinFirstSymbol()
-                                        ? nameEn
-                                        : nameEn.Unidecode(),
-                                Ru = x.Tags.TryGetValue("name:ru", out var nameRu)
+                                    : nameEn.Unidecode(),
+                            Ru = x.Tags.TryGetValue("name:ru", out var nameRu)
+                                ? nameRu
+                                : x.Tags.TryGetValue("name", out nameRu) && nameRu.IsCyrillicFirstSymbol()
                                     ? nameRu
-                                    : x.Tags.TryGetValue("name", out nameRu) && nameRu.IsCyrillicFirstSymbol()
-                                        ? nameRu
-                                        : nameRu.Unidecode(),
-                                Population = x.Population,
-                                Latitude = x.Latitude,
-                                Longitude = x.Longitude,
-                                Type = LocationType.Railway,
-                                SyncId = x.Id,
-                                SourceType = LocationSourceType.OsmNode,
-                                MultiLanguageName = x.Tags.FilterNamesByCultures().BuildFullTxt()
-                            })));
+                                    : nameRu.Unidecode(),
+                            Population = x.Population,
+                            Latitude = x.Latitude,
+                            Longitude = x.Longitude,
+                            Type = LocationType.Railway,
+                            SyncId = x.Id,
+                            SourceType = LocationSourceType.OsmNode,
+                            MultiLanguageName = x.Tags.FilterNamesByCultures().BuildFullTxt()
+                        })));
     }
 
     private async Task<(Location location, IEnumerable<KeyValuePair<string, string>> names)[]> GetRailwaysAsync(
@@ -448,23 +443,22 @@ internal class SyncLocationsService
                  """)
             .ToArrayAsync();
 
-        return query.Select(
-            x => new ValueTuple<Location, IEnumerable<KeyValuePair<string, string>>>(
-                new Location
-                {
-                    Id = Guid.NewGuid(),
-                    En = x.Tags!.TryGetValue("name:en", out var nameEn) ? nameEn :
-                        x.Tags.TryGetValue("name", out nameEn) ? nameEn : null,
-                    Ru = x.Tags.TryGetValue("name:ru", out var nameRu) ? nameRu :
-                        x.Tags.TryGetValue("name", out nameRu) ? nameRu : null,
-                    Latitude = x.Geom?.X,
-                    Longitude = x.Geom?.Y,
-                    Type = LocationType.Railway,
-                    SyncId = x.Id,
-                    SourceType = LocationSourceType.OsmNode,
-                    MultiLanguageName = x.Tags.FilterNamesByCultures().JoinNames(names).BuildFullTxt()
-                },
-                x.Tags.FilterNamesByCultures().JoinNames(names))).ToArray();
+        return query.Select(x => new ValueTuple<Location, IEnumerable<KeyValuePair<string, string>>>(
+            new Location
+            {
+                Id = Guid.NewGuid(),
+                En = x.Tags!.TryGetValue("name:en", out var nameEn) ? nameEn :
+                    x.Tags.TryGetValue("name", out nameEn) ? nameEn : null,
+                Ru = x.Tags.TryGetValue("name:ru", out var nameRu) ? nameRu :
+                    x.Tags.TryGetValue("name", out nameRu) ? nameRu : null,
+                Latitude = x.Geom?.X,
+                Longitude = x.Geom?.Y,
+                Type = LocationType.Railway,
+                SyncId = x.Id,
+                SourceType = LocationSourceType.OsmNode,
+                MultiLanguageName = x.Tags.FilterNamesByCultures().JoinNames(names).BuildFullTxt()
+            },
+            x.Tags.FilterNamesByCultures().JoinNames(names))).ToArray();
     }
 
     private async Task SaveLocationsAsync(IEnumerable<Location> locations, Location hLocation)

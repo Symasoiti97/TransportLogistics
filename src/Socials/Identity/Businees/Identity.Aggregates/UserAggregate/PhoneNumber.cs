@@ -5,6 +5,8 @@ namespace TL.Socials.Identity.Business.Aggregates.UserAggregate;
 
 public sealed class PhoneNumber : ValueObject
 {
+    public string Value { get; }
+
     public PhoneNumber(string value)
     {
         ArgumentNullException.ThrowIfNull(value);
@@ -14,8 +16,6 @@ public sealed class PhoneNumber : ValueObject
 
         Value = phoneNumberUtil.Format(phoneNumber, PhoneNumberFormat.E164);
     }
-
-    public string Value { get; }
 
     protected override IEnumerable<object> GetEqualityComponents() => [Value];
 }

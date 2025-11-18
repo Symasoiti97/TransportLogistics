@@ -2,6 +2,11 @@ namespace TL.Socials.Identity.Infrastructure.DataAccess.Redis.Options;
 
 public sealed class EventProcessorOptions
 {
+    public string StreamName { get; }
+    public string ConsumerGroup { get; }
+    public string ConsumerName { get; }
+    public string DlqStreamName { get; }
+
     public EventProcessorOptions(string streamName, string consumerGroup, string consumerName, string dlqStreamName)
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(streamName);
@@ -14,9 +19,4 @@ public sealed class EventProcessorOptions
         ConsumerName = consumerName;
         DlqStreamName = dlqStreamName;
     }
-
-    public string StreamName { get; }
-    public string ConsumerGroup { get; }
-    public string ConsumerName { get; }
-    public string DlqStreamName { get; }
 }
