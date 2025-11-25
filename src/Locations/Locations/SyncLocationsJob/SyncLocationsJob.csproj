@@ -1,25 +1,25 @@
 <Project Sdk="Microsoft.NET.Sdk.Worker">
 
-    <PropertyGroup>
-        <RootNamespace>TL.Locations.Locations.SyncLocationsTool</RootNamespace>
-        <AssemblyName>TL.Locations.Locations.SyncLocationsTool</AssemblyName>
-    </PropertyGroup>
+  <PropertyGroup>
+    <RootNamespace>TL.Locations.Locations.SyncLocationsTool</RootNamespace>
+    <AssemblyName>TL.Locations.Locations.SyncLocationsTool</AssemblyName>
+  </PropertyGroup>
 
-    <ItemGroup>
-        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.5"/>
-        <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="9.0.5"/>
-        <PackageReference Include="Microsoft.Extensions.Hosting" Version="9.0.5"/>
-        <PackageReference Include="Neo4jClient" Version="5.1.20"/>
-        <PackageReference Include="NetTopologySuite" Version="2.6.0"/>
-        <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="9.0.4"/>
-        <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL.NetTopologySuite" Version="9.0.4"/>
-        <PackageReference Include="Npgsql.NetTopologySuite" Version="9.0.3"/>
-        <PackageReference Include="System.Linq.Async" Version="6.0.1"/>
-        <PackageReference Include="UnidecodeSharpFork" Version="1.0.0"/>
-    </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.5"/>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="9.0.5"/>
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="9.0.5"/>
+    <PackageReference Include="Neo4jClient" Version="5.1.20"/>
+    <PackageReference Include="NetTopologySuite" Version="2.6.0"/>
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="9.0.4"/>
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL.NetTopologySuite" Version="9.0.4"/>
+    <PackageReference Include="Npgsql.NetTopologySuite" Version="9.0.3"/>
+    <PackageReference Include="System.Linq.Async" Version="6.0.1"/>
+    <PackageReference Include="UnidecodeSharpFork" Version="1.0.0"/>
+  </ItemGroup>
 
-    <ItemGroup>
-        <ProjectReference Include="..\..\..\SharedKernel\Infrastructure\SharedKernel.AspNet\SharedKernel.AspNet.csproj"/>
-        <ProjectReference Include="..\..\..\SharedKernel\Infrastructure\SharedKernel.DependencyInjection\SharedKernel.DependencyInjection.csproj"/>
-    </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\SharedKernel\Infrastructure\SharedKernel.AspNet\SharedKernel.AspNet.csproj"/>
+    <ProjectReference Include="..\..\..\SharedKernel\Infrastructure\SharedKernel.DependencyInjection\SharedKernel.DependencyInjection.csproj"/>
+  </ItemGroup>
 </Project>

@@ -1,50 +1,50 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-    <PropertyGroup>
-        <RootNamespace>TL.Socials.Identity.Application.UseCases</RootNamespace>
-        <AssemblyName>TL.Socials.Identity.Application.UseCases</AssemblyName>
-    </PropertyGroup>
+  <PropertyGroup>
+    <RootNamespace>TL.Socials.Identity.Application.UseCases</RootNamespace>
+    <AssemblyName>TL.Socials.Identity.Application.UseCases</AssemblyName>
+  </PropertyGroup>
 
-    <ItemGroup>
-        <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
-            <_Parameter1>TL.Socials.Identity.Infrastructure.DependencyInjection</_Parameter1>
-        </AssemblyAttribute>
-    </ItemGroup>
+  <ItemGroup>
+    <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
+      <_Parameter1>TL.Socials.Identity.Infrastructure.DependencyInjection</_Parameter1>
+    </AssemblyAttribute>
+  </ItemGroup>
 
-    <ItemGroup>
-        <ProjectReference Include="..\..\..\..\SharedKernel\Application\SharedKernel.Handlers\SharedKernel.Handlers.csproj"/>
-        <ProjectReference Include="..\..\Businees\Identity.Aggregates\Identity.Aggregates.csproj"/>
-    </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\SharedKernel\Application\SharedKernel.Handlers\SharedKernel.Handlers.csproj"/>
+    <ProjectReference Include="..\..\Businees\Identity.Aggregates\Identity.Aggregates.csproj"/>
+  </ItemGroup>
 
-    <ItemGroup>
-        <Compile Update="UserServices\RegisterUserViaEmailCommandHandler.cs">
-            <DependentUpon>RegisterUserViaEmailCommand.cs</DependentUpon>
-        </Compile>
-        <Compile Update="UserServices\RegisterUserViaPhoneCommandHandler.cs">
-            <DependentUpon>RegisterUserViaPhoneCommand.cs</DependentUpon>
-        </Compile>
-        <Compile Update="TokenServices\RequestUserLoginViaPhoneCommandHandler.cs">
-            <DependentUpon>RequestUserLoginViaPhoneCommand.cs</DependentUpon>
-        </Compile>
-        <Compile Update="TokenServices\RequestUserRegisterViaEmailCommandHandler.cs">
-            <DependentUpon>RequestUserRegisterViaEmailCommand.cs</DependentUpon>
-        </Compile>
-        <Compile Update="UserSessionServices\LoginUserViaEmailCommandHandler.cs">
-            <DependentUpon>LoginUserViaEmailCommand.cs</DependentUpon>
-        </Compile>
-        <Compile Update="UserSessionServices\LoginUserViaPhoneCommandHandler.cs">
-            <DependentUpon>LoginUserViaPhoneCommand.cs</DependentUpon>
-        </Compile>
-        <Compile Update="UserSessionServices\RefreshAuthTokenCommandHandler.cs">
-            <DependentUpon>RefreshAuthTokenCommand.cs</DependentUpon>
-        </Compile>
-        <Compile Update="UserSessionServices\UserTokens.cs">
-            <DependentUpon>ITokenGenerator.cs</DependentUpon>
-        </Compile>
-    </ItemGroup>
+  <ItemGroup>
+    <Compile Update="UserServices\RegisterUserViaEmailCommandHandler.cs">
+      <DependentUpon>RegisterUserViaEmailCommand.cs</DependentUpon>
+    </Compile>
+    <Compile Update="UserServices\RegisterUserViaPhoneCommandHandler.cs">
+      <DependentUpon>RegisterUserViaPhoneCommand.cs</DependentUpon>
+    </Compile>
+    <Compile Update="TokenServices\RequestUserLoginViaPhoneCommandHandler.cs">
+      <DependentUpon>RequestUserLoginViaPhoneCommand.cs</DependentUpon>
+    </Compile>
+    <Compile Update="TokenServices\RequestUserRegisterViaEmailCommandHandler.cs">
+      <DependentUpon>RequestUserRegisterViaEmailCommand.cs</DependentUpon>
+    </Compile>
+    <Compile Update="UserSessionServices\LoginUserViaEmailCommandHandler.cs">
+      <DependentUpon>LoginUserViaEmailCommand.cs</DependentUpon>
+    </Compile>
+    <Compile Update="UserSessionServices\LoginUserViaPhoneCommandHandler.cs">
+      <DependentUpon>LoginUserViaPhoneCommand.cs</DependentUpon>
+    </Compile>
+    <Compile Update="UserSessionServices\RefreshAuthTokenCommandHandler.cs">
+      <DependentUpon>RefreshAuthTokenCommand.cs</DependentUpon>
+    </Compile>
+    <Compile Update="UserSessionServices\UserTokens.cs">
+      <DependentUpon>ITokenGenerator.cs</DependentUpon>
+    </Compile>
+  </ItemGroup>
 
-    <ItemGroup>
-        <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="9.0.5"/>
-    </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="9.0.5"/>
+  </ItemGroup>
 
 </Project>

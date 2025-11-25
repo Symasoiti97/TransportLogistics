@@ -36,7 +36,7 @@ builder.Services
     {
         options.JsonSerializerOptions.TypeInfoResolver = new DefaultJsonTypeInfoResolver
         {
-            Modifiers = {info => ErrorJsonTypeInfoModifier.Modify(info, errorTypes)}
+            Modifiers = { info => ErrorJsonTypeInfoModifier.Modify(info, errorTypes) }
         };
         options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
         options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;

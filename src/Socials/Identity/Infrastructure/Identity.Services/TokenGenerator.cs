@@ -12,10 +12,7 @@ internal sealed class AuthTokenGenerator(JwtTokenOptions options) : IAuthTokenGe
 
     private string GenerateJwtToken(Guid userId)
     {
-        var claims = new[]
-        {
-            new Claim("user-id", userId.ToString())
-        };
+        var claims = new[] { new Claim("user-id", userId.ToString()) };
 
         var bytes = Convert.FromBase64String(options.SecurityKey);
         var key = new SymmetricSecurityKey(bytes);

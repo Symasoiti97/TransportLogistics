@@ -64,8 +64,8 @@ internal static class LocationExtensions
     {
         ArgumentNullException.ThrowIfNull(value);
 
-        return value.Any(c => c >= UnicodeRanges.Cyrillic.FirstCodePoint &&
-                              c < UnicodeRanges.Cyrillic.FirstCodePoint + UnicodeRanges.Cyrillic.Length);
+        return value.Any(c => c >= UnicodeRanges.Cyrillic.FirstCodePoint
+                              && c < UnicodeRanges.Cyrillic.FirstCodePoint + UnicodeRanges.Cyrillic.Length);
     }
 
     public static bool IsCyrillicFirstSymbol(this string value)
@@ -73,8 +73,8 @@ internal static class LocationExtensions
         ArgumentNullException.ThrowIfNull(value);
 
         var c = value.First();
-        return c >= UnicodeRanges.Cyrillic.FirstCodePoint &&
-               c < UnicodeRanges.Cyrillic.FirstCodePoint + UnicodeRanges.Cyrillic.Length;
+        return c >= UnicodeRanges.Cyrillic.FirstCodePoint
+               && c < UnicodeRanges.Cyrillic.FirstCodePoint + UnicodeRanges.Cyrillic.Length;
     }
 
     public static bool IsBasicLatinFirstSymbol(this string value)
@@ -82,10 +82,14 @@ internal static class LocationExtensions
         ArgumentNullException.ThrowIfNull(value);
 
         var c = value.First();
-        return c >= UnicodeRanges.BasicLatin.FirstCodePoint &&
-               c < UnicodeRanges.BasicLatin.FirstCodePoint + UnicodeRanges.BasicLatin.Length;
+        return c >= UnicodeRanges.BasicLatin.FirstCodePoint
+               && c < UnicodeRanges.BasicLatin.FirstCodePoint + UnicodeRanges.BasicLatin.Length;
     }
 
     private static IEnumerable<string> LocationNames { get; } = CultureInfo.GetCultures(CultureTypes.AllCultures)
-        .Select(x => "name:" + x.TwoLetterISOLanguageName).Append("name").Distinct().ToArray();
+        .Select(x => "name:"
+                     + x.TwoLetterISOLanguageName)
+        .Append("name")
+        .Distinct()
+        .ToArray();
 }

@@ -13,16 +13,14 @@ public abstract class ValueObject
             return false;
         }
 
-        var other = (ValueObject) obj;
+        var other = (ValueObject)obj;
 
         return GetEqualityComponents().SequenceEqual(other.GetEqualityComponents());
     }
 
     /// <inheritdoc />
-    public override int GetHashCode()
-    {
-        return GetEqualityComponents().Select(x => x.GetHashCode()).Aggregate((x, y) => x ^ y);
-    }
+    public override int GetHashCode() =>
+        GetEqualityComponents().Select(x => x.GetHashCode()).Aggregate((x, y) => x ^ y);
 
     /// <summary>
     /// Equal value object

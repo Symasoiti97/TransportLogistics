@@ -12,13 +12,13 @@ public sealed class EnumSchemaFilter : ISchemaFilter
 
     public EnumSchemaFilter(string documentationDirectoryPath)
     {
-        _documentationDirectoryPath = documentationDirectoryPath ??
-                                      throw new ArgumentNullException(nameof(documentationDirectoryPath));
+        _documentationDirectoryPath = documentationDirectoryPath
+                                      ?? throw new ArgumentNullException(nameof(documentationDirectoryPath));
     }
 
     public void Apply(OpenApiSchema schema, SchemaFilterContext context)
     {
-        if (schema.Enum is not {Count: > 0} || context.Type is not {IsEnum: true})
+        if (schema.Enum is not { Count: > 0 } || context.Type is not { IsEnum: true })
         {
             return;
         }
@@ -35,7 +35,9 @@ public sealed class EnumSchemaFilter : ISchemaFilter
         var xPathNavigator = XDocument.Load(xmlCommentFileName).CreateNavigator();
         var htmlSummaryEnums = new StringBuilder();
         foreach (var (enumValue, enumValueDescription) in Enum.GetNames(context.Type)
-                     .Select(name => GetSummaryEnum(xPathNavigator, context.Type.FullName!, name)))
+                     .Select(name => GetSummaryEnum(xPathNavigator,
+                         context.Type.FullName!,
+                         name)))
         {
             htmlSummaryEnums.Append($"<li><i>{enumValue}</i> - {enumValueDescription}</li>");
         }

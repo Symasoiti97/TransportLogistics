@@ -7,7 +7,7 @@ namespace TL.SharedKernel.Errors.Tests;
 public sealed class ErrorTests
 {
     [Theory]
-    [InlineData((object?) null)]
+    [InlineData((object?)null)]
     public void ThrowErrorIfValueNull_Test2(object? value)
     {
         var action = new Action(() => throw new InvalidValue(value, "name"));

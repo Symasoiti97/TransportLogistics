@@ -1,17 +1,17 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-    <PropertyGroup>
-        <RootNamespace>TL.SharedKernel.Infrastructure.Benchmarks</RootNamespace>
-        <AssemblyName>TL.SharedKernel.Infrastructure.Benchmarks</AssemblyName>
-        <OutputType>Exe</OutputType>
-    </PropertyGroup>
+  <PropertyGroup>
+    <RootNamespace>TL.SharedKernel.Infrastructure.Benchmarks</RootNamespace>
+    <AssemblyName>TL.SharedKernel.Infrastructure.Benchmarks</AssemblyName>
+    <OutputType>Exe</OutputType>
+  </PropertyGroup>
 
-    <ItemGroup>
-        <PackageReference Include="BenchmarkDotNet" Version="0.15.0"/>
-    </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="BenchmarkDotNet" Version="0.15.0"/>
+  </ItemGroup>
 
-    <ItemGroup>
-        <ProjectReference Include="..\..\Infrastructure\SharedKernel.Compress.Extensions\SharedKernel.Compress.Extensions.csproj"/>
-    </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Infrastructure\SharedKernel.Compress.Extensions\SharedKernel.Compress.Extensions.csproj"/>
+  </ItemGroup>
 
 </Project>

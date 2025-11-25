@@ -23,10 +23,7 @@ public sealed class EventTypeInfoResolver : DefaultJsonTypeInfoResolver
 
         if (type == typeof(Event))
         {
-            typeInfo.PolymorphismOptions = new JsonPolymorphismOptions
-            {
-                TypeDiscriminatorPropertyName = "type"
-            };
+            typeInfo.PolymorphismOptions = new JsonPolymorphismOptions { TypeDiscriminatorPropertyName = "type" };
 
             foreach (var jsonDerivedType in KnownTypes
                          .Select(kvp => new JsonDerivedType(kvp.Value, kvp.Key)))

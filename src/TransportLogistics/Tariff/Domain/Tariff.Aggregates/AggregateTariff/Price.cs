@@ -32,10 +32,7 @@ public sealed class Price : ValueObject
     /// <inheritdoc />
     protected override IEnumerable<object> GetEqualityComponents() => [Value, CurrencyCode];
 
-    private void SetValue(decimal value)
-    {
-        Value = value;
-    }
+    private void SetValue(decimal value) => Value = value;
 
     private void SetCurrencyCode(CurrencyCode currencyCode)
     {

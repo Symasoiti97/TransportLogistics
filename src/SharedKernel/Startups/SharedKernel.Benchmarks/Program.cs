@@ -4,8 +4,5 @@ namespace TL.SharedKernel.Infrastructure.Benchmarks;
 
 internal static class Program
 {
-    private static void Main()
-    {
-        BenchmarkRunner.Run<CompressExtensionsBenchmark>();
-    }
+    private static void Main() => BenchmarkRunner.Run<CompressExtensionsBenchmark>();
 }

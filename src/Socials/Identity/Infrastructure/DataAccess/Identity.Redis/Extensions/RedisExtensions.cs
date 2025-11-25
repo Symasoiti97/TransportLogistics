@@ -27,10 +27,7 @@ internal static class RedisExtensions
         EventProcessorOptions eventOptions,
         JsonSerializerOptions serializerOptions)
     {
-        var entries = new List<NameValueEntry>
-        {
-            new("event", JsonSerializer.Serialize(@event, serializerOptions))
-        };
+        var entries = new List<NameValueEntry> { new("event", JsonSerializer.Serialize(@event, serializerOptions)) };
 
         if (retries is not null)
         {
@@ -61,7 +58,7 @@ internal static class RedisExtensions
             return 0;
         }
 
-        return (int) entry.Value;
+        return (int)entry.Value;
     }
 
     public static string? TryGetHandlerType(this StreamEntry eventMessage)

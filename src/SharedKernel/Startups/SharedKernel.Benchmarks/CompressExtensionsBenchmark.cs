@@ -9,7 +9,8 @@ public sealed class CompressExtensionsBenchmark
     private string _stringToCompress = null!;
     private string _stringToDecompress = null!;
 
-    [Params(1_000, 10_000, 50_000)] public int N;
+    [Params(1_000, 10_000, 50_000)]
+    public int N;
 
     [GlobalSetup]
     public void GlobalSetup()
@@ -19,14 +20,8 @@ public sealed class CompressExtensionsBenchmark
     }
 
     [Benchmark]
-    public void Compress()
-    {
-        _stringToCompress.Compress();
-    }
+    public void Compress() => _stringToCompress.Compress();
 
     [Benchmark]
-    public void Decompress()
-    {
-        _stringToDecompress.Decompress();
-    }
+    public void Decompress() => _stringToDecompress.Decompress();
 }

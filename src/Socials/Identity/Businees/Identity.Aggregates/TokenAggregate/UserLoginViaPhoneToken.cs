@@ -52,8 +52,8 @@ public sealed class UserLoginViaPhoneToken : Token
 
     private static string GenerateVerificationCode()
     {
-        var min = (int) Math.Pow(10, VerificationCodeLength - 1);
-        var max = (int) Math.Pow(10, VerificationCodeLength);
+        var min = (int)Math.Pow(10, VerificationCodeLength - 1);
+        var max = (int)Math.Pow(10, VerificationCodeLength);
 
         return RandomNumberGenerator.GetInt32(min, max).ToString();
     }

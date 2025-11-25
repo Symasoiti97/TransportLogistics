@@ -45,7 +45,7 @@ internal abstract class TokenRepository<TToken>(
             return null;
         }
 
-        return JsonSerializer.Deserialize<TToken>((byte[]) jsonValue!)
+        return JsonSerializer.Deserialize<TToken>((byte[])jsonValue!)
                ?? throw new InvalidOperationException("Deserialize error.");
     }
 
@@ -61,13 +61,13 @@ internal abstract class TokenRepository<TToken>(
             return null;
         }
 
-        var jsonValue = await Database.StringGetAsync((string) tokenKeyValue!).ConfigureAwait(false);
+        var jsonValue = await Database.StringGetAsync((string)tokenKeyValue!).ConfigureAwait(false);
         if (!jsonValue.HasValue)
         {
             return null;
         }
 
-        return JsonSerializer.Deserialize<TToken>((byte[]) jsonValue!)
+        return JsonSerializer.Deserialize<TToken>((byte[])jsonValue!)
                ?? throw new InvalidOperationException("Deserialize error.");
     }
 

@@ -1,8 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-    <PropertyGroup>
-        <RootNamespace>System.ComponentModel</RootNamespace>
-        <AssemblyName>TL.SharedKernel.System.ComponentModel</AssemblyName>
-    </PropertyGroup>
+  <PropertyGroup>
+    <RootNamespace>System.ComponentModel</RootNamespace>
+    <AssemblyName>TL.SharedKernel.System.ComponentModel</AssemblyName>
+  </PropertyGroup>
 
 </Project>

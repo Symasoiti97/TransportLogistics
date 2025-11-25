@@ -7,9 +7,7 @@ namespace TL.Socials.Identity.Infrastructure.DataAccess.Postgres;
 internal sealed class IdentityDbContext(DbContextOptions<IdentityDbContext> options) : DbContext(options)
 {
     protected override void OnModelCreating(ModelBuilder modelBuilder)
-    {
-        modelBuilder.ApplyConfiguration(new UserConfiguration());
-    }
+        => modelBuilder.ApplyConfiguration(new UserConfiguration());
 }
 
 // TODO: Temparary solution. See https://learn.microsoft.com/en-gb/ef/core/cli/dbcontext-creation?tabs=dotnet-core-cli

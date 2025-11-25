@@ -1,23 +1,23 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-    <PropertyGroup>
-        <RootNamespace>TL.SharedKernel.Infrastructure.AspNet</RootNamespace>
-        <AssemblyName>TL.SharedKernel.Infrastructure.AspNet</AssemblyName>
-    </PropertyGroup>
+  <PropertyGroup>
+    <RootNamespace>TL.SharedKernel.Infrastructure.AspNet</RootNamespace>
+    <AssemblyName>TL.SharedKernel.Infrastructure.AspNet</AssemblyName>
+  </PropertyGroup>
 
-    <ItemGroup>
-        <PackageReference Include="AutoMapper" Version="14.0.0"/>
-        <PackageReference Include="Hellang.Middleware.ProblemDetails" Version="6.5.1"/>
-        <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.3.0"/>
-        <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="9.0.5"/>
-        <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.0.5"/>
-        <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="8.1.4"/>
-    </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="14.0.0"/>
+    <PackageReference Include="Hellang.Middleware.ProblemDetails" Version="6.5.1"/>
+    <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.3.0"/>
+    <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="9.0.5"/>
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.0.5"/>
+    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="8.1.4"/>
+  </ItemGroup>
 
-    <ItemGroup>
-        <ProjectReference Include="..\..\Business\SharedKernel.Aggregates\SharedKernel.Aggregates.csproj"/>
-        <ProjectReference Include="..\SharedKernel.JsonSerializer.Extensions\SharedKernel.JsonSerializer.Extensions.csproj"/>
-        <ProjectReference Include="..\SharedKernel.Swagger\SharedKernel.Swagger.csproj"/>
-    </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Business\SharedKernel.Aggregates\SharedKernel.Aggregates.csproj"/>
+    <ProjectReference Include="..\SharedKernel.JsonSerializer.Extensions\SharedKernel.JsonSerializer.Extensions.csproj"/>
+    <ProjectReference Include="..\SharedKernel.Swagger\SharedKernel.Swagger.csproj"/>
+  </ItemGroup>
 
 </Project>

@@ -41,7 +41,7 @@ public static class ProblemDetailsExtensions
                 Detail = errorException.HasDetails
                     ? errorException.Message
                     : null,
-                Extensions = {{ErrorKey, errorException.Error}}
+                Extensions = { { ErrorKey, errorException.Error } }
             };
 
             return problemDetails;

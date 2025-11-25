@@ -12,7 +12,7 @@ internal sealed class UserLoginViaPhoneTokenRepository(
     EventProcessorOptions eventOptions,
     JsonSerializerOptions serializerOptions)
     : TokenRepository<UserLoginViaPhoneToken>(database, eventOptions, serializerOptions),
-        IUserLoginViaPhoneTokenRepository
+      IUserLoginViaPhoneTokenRepository
 {
     public async Task<UserLoginViaPhoneToken?> FindAsync(
         PhoneNumber phoneNumber,
@@ -28,13 +28,13 @@ internal sealed class UserLoginViaPhoneTokenRepository(
             return null;
         }
 
-        var jsonValue = await Database.StringGetAsync((string) tokenKeyValue!).ConfigureAwait(false);
+        var jsonValue = await Database.StringGetAsync((string)tokenKeyValue!).ConfigureAwait(false);
         if (!jsonValue.HasValue)
         {
             return null;
         }
 
-        return JsonSerializer.Deserialize<UserLoginViaPhoneToken>((byte[]) jsonValue!)
+        return JsonSerializer.Deserialize<UserLoginViaPhoneToken>((byte[])jsonValue!)
                ?? throw new InvalidOperationException("Deserialize error.");
     }
 

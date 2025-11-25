@@ -15,10 +15,7 @@ using ProblemDetailsOptions = Hellang.Middleware.ProblemDetails.ProblemDetailsOp
 using SwaggerGenOptionsExtensions = TL.SharedKernel.Infrastructure.AspNet.Extensions.SwaggerGenOptionsExtensions;
 
 var errorTypes
-    = new[]
-        {
-            typeof(AssemblyReference).Assembly
-        }
+    = new[] { typeof(AssemblyReference).Assembly }
         .SelectMany(assembly => assembly.GetTypes().Where(type => type.IsSubclassOf(typeof(Error))))
         .ToArray();
 
@@ -33,7 +30,7 @@ builder.Services.AddControllers()
     {
         options.JsonSerializerOptions.TypeInfoResolver = new DefaultJsonTypeInfoResolver
         {
-            Modifiers = {info => ErrorJsonTypeInfoModifier.Modify(info, errorTypes)}
+            Modifiers = { info => ErrorJsonTypeInfoModifier.Modify(info, errorTypes) }
         };
         options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
         options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
@@ -48,7 +45,7 @@ builder.Services.AddSwaggerGen(options => SwaggerGenOptionsExtensions.SwaggerGen
         apiOptions.Name,
         errorTypes)));
 
-builder.Services.AddProblemDetails((Action<ProblemDetailsOptions>?) null);
+builder.Services.AddProblemDetails((Action<ProblemDetailsOptions>?)null);
 builder.Services.AddHttpLogging();
 builder.Services.AddIdentityServices(
     configuration.GetRequiredSectionValue<JwtTokenOptions>("JwtTokenOptions"),

@@ -1,22 +1,22 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-    <PropertyGroup>
-        <RootNamespace>TL.Socials.Identity.Infrastructure.Services</RootNamespace>
-        <AssemblyName>TL.Socials.Identity.Infrastructure.Services</AssemblyName>
-    </PropertyGroup>
+  <PropertyGroup>
+    <RootNamespace>TL.Socials.Identity.Infrastructure.Services</RootNamespace>
+    <AssemblyName>TL.Socials.Identity.Infrastructure.Services</AssemblyName>
+  </PropertyGroup>
 
-    <ItemGroup>
-        <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
-            <_Parameter1>TL.Socials.Identity.Infrastructure.DependencyInjection</_Parameter1>
-        </AssemblyAttribute>
-    </ItemGroup>
+  <ItemGroup>
+    <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
+      <_Parameter1>TL.Socials.Identity.Infrastructure.DependencyInjection</_Parameter1>
+    </AssemblyAttribute>
+  </ItemGroup>
 
-    <ItemGroup>
-        <ProjectReference Include="..\..\Application\Identity.UseCases\Identity.UseCases.csproj"/>
-    </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Application\Identity.UseCases\Identity.UseCases.csproj"/>
+  </ItemGroup>
 
-    <ItemGroup>
-        <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.12.0"/>
-    </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.12.0"/>
+  </ItemGroup>
 
 </Project>

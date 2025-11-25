@@ -49,10 +49,7 @@ public sealed class LogWatcher : IDisposable
         Start();
     }
 
-    public void Dispose()
-    {
-        Stop();
-    }
+    public void Dispose() => Stop();
 
     private void Start()
     {
