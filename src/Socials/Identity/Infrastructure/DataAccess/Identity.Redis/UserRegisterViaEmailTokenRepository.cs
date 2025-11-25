@@ -12,7 +12,7 @@ internal sealed class UserRegisterViaEmailTokenRepository(
     EventProcessorOptions eventOptions,
     JsonSerializerOptions serializerOptions)
     : TokenRepository<UserRegisterViaEmailToken>(database, eventOptions, serializerOptions),
-        IUserRegisterViaEmailTokenRepository
+      IUserRegisterViaEmailTokenRepository
 {
     public async Task<UserRegisterViaEmailToken?> FindAsync(Email email, CancellationToken cancellationToken)
     {
@@ -26,13 +26,13 @@ internal sealed class UserRegisterViaEmailTokenRepository(
             return null;
         }
 
-        var jsonValue = await Database.StringGetAsync((string) tokenKeyValue!).ConfigureAwait(false);
+        var jsonValue = await Database.StringGetAsync((string)tokenKeyValue!).ConfigureAwait(false);
         if (!jsonValue.HasValue)
         {
             return null;
         }
 
-        return JsonSerializer.Deserialize<UserRegisterViaEmailToken>((byte[]) jsonValue!)
+        return JsonSerializer.Deserialize<UserRegisterViaEmailToken>((byte[])jsonValue!)
                ?? throw new InvalidOperationException("Deserialize error.");
     }
 

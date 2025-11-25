@@ -29,7 +29,5 @@ public sealed class ComparatorTests
         nameof(ComparatorTestsData.CompareRoutes_Test_Data),
         MemberType = typeof(ComparatorTestsData))]
     public void CompareRoutes_Test(Route srcRoute, Route destRoute, bool isEquals)
-    {
-        srcRoute.Equals(destRoute).Should().Be(isEquals);
-    }
+        => srcRoute.Equals(destRoute).Should().Be(isEquals);
 }

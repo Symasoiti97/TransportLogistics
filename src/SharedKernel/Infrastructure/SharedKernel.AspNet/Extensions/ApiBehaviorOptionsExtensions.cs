@@ -10,8 +10,7 @@ namespace TL.SharedKernel.Infrastructure.AspNet.Extensions;
 
 public static class ApiBehaviorOptionsExtensions
 {
-    public static void Configure(ApiBehaviorOptions options)
-    {
+    public static void Configure(ApiBehaviorOptions options) =>
         options.InvalidModelStateResponseFactory = actionContext =>
         {
             var error = new InvalidParameters(GetParams(actionContext.ModelState));
@@ -24,10 +23,9 @@ public static class ApiBehaviorOptionsExtensions
                     Title = error.Message,
                     Status = StatusCodes.Status400BadRequest,
                     Instance = actionContext.HttpContext.Request.Path,
-                    Extensions = {{ProblemDetailsExtensions.ErrorKey, error}}
+                    Extensions = { { ProblemDetailsExtensions.ErrorKey, error } }
                 });
         };
-    }
 
     private static IEnumerable<InvalidParameters.Parameter> GetParams(ModelStateDictionary modelStateDictionary)
     {

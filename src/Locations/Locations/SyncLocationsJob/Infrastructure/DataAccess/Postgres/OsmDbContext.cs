@@ -6,9 +6,7 @@ namespace TL.Locations.Locations.SyncLocationsTool.Infrastructure.DataAccess.Pos
 internal sealed class OsmDbContext : DbContext
 {
     public OsmDbContext(DbContextOptions<OsmDbContext> options)
-        : base(options)
-    {
-    }
+        : base(options) { }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
@@ -16,10 +14,8 @@ internal sealed class OsmDbContext : DbContext
         optionsBuilder.EnableSensitiveDataLogging();
     }
 
-    protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)
-    {
+    protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder) =>
         configurationBuilder.DefaultTypeMapping<Node>();
-    }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

@@ -34,10 +34,7 @@ internal static class ComparatorTestsData
             new CargoEquipment(CargoType.Bulk, ContainerOwn.Soc, ContainerSize.S20),
             price1);
 
-        yield return new object[]
-        {
-            srcTariff1, destTariff1, true
-        };
+        yield return [srcTariff1, destTariff1, true];
 
         var managerProfileId2 = Guid.NewGuid();
 
@@ -65,10 +62,7 @@ internal static class ComparatorTestsData
             new CargoEquipment(CargoType.Bulk, ContainerOwn.Soc, ContainerSize.S20),
             price2);
 
-        yield return new object[]
-        {
-            srcTariff2, destTariff2, false
-        };
+        yield return [srcTariff2, destTariff2, false];
     }
 
     public static IEnumerable<object[]> CompareRoutes_Test_Data()

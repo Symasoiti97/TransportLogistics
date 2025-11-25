@@ -1,31 +1,31 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-    <PropertyGroup>
-        <RootNamespace>TL.Socials.Identity.Infrastructure.DataAccess.Redis</RootNamespace>
-        <AssemblyName>TL.Socials.Identity.Infrastructure.DataAccess.Redis</AssemblyName>
-    </PropertyGroup>
+  <PropertyGroup>
+    <RootNamespace>TL.Socials.Identity.Infrastructure.DataAccess.Redis</RootNamespace>
+    <AssemblyName>TL.Socials.Identity.Infrastructure.DataAccess.Redis</AssemblyName>
+  </PropertyGroup>
 
-    <ItemGroup>
-        <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
-            <_Parameter1>TL.Socials.Identity.Infrastructure.DependencyInjection</_Parameter1>
-        </AssemblyAttribute>
-    </ItemGroup>
+  <ItemGroup>
+    <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
+      <_Parameter1>TL.Socials.Identity.Infrastructure.DependencyInjection</_Parameter1>
+    </AssemblyAttribute>
+  </ItemGroup>
 
-    <ItemGroup>
-        <ProjectReference Include="..\..\..\Application\Identity.UseCases\Identity.UseCases.csproj"/>
-    </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Application\Identity.UseCases\Identity.UseCases.csproj"/>
+  </ItemGroup>
 
-    <ItemGroup>
-        <PackageReference Include="StackExchange.Redis" Version="2.8.37"/>
-    </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="StackExchange.Redis" Version="2.8.37"/>
+  </ItemGroup>
 
-    <ItemGroup>
-        <Compile Update="UserLoginViaPhoneTokenRepository.cs">
-            <DependentUpon>TokenRepository.cs</DependentUpon>
-        </Compile>
-        <Compile Update="UserRegisterViaEmailTokenRepository.cs">
-            <DependentUpon>TokenRepository.cs</DependentUpon>
-        </Compile>
-    </ItemGroup>
+  <ItemGroup>
+    <Compile Update="UserLoginViaPhoneTokenRepository.cs">
+      <DependentUpon>TokenRepository.cs</DependentUpon>
+    </Compile>
+    <Compile Update="UserRegisterViaEmailTokenRepository.cs">
+      <DependentUpon>TokenRepository.cs</DependentUpon>
+    </Compile>
+  </ItemGroup>
 
 </Project>

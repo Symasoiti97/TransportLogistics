@@ -16,7 +16,8 @@ internal sealed class TariffRepository(ICypherGraphClientFactory graphClientFact
 
         var tariffResults = await query
             .Match("(tariff:Tariff {Id: $tariffId})")
-            .OptionalMatch("(tariff)-[:HAS_ROUTE]->(route:Route)-[point:HAS_POINT]->(location:Location)")
+            .OptionalMatch(
+                "(tariff)-[:HAS_ROUTE]->(route:Route)-[point:HAS_POINT]->(location:Location)")
             .WithParam("tariffId", tariffId)
             .Return((tariff, route, point, location) =>
                 new TariffResult
@@ -177,20 +178,20 @@ internal sealed class TariffRepository(ICypherGraphClientFactory graphClientFact
                     new Point(
                         locationPoint.Location.Id,
                         locationPoint.Point.Type,
-                        (ushort) locationPoint.Point.Order))
+                        (ushort)locationPoint.Point.Order))
                 .ToHashSet();
 
             route = new Route(points);
         }
 
         Price? price = null;
-        if (result.Tariff is {Price: not null, CurrencyCode: not null})
+        if (result.Tariff is { Price: not null, CurrencyCode: not null })
         {
             price = new Price(result.Tariff.Price.Value, result.Tariff.CurrencyCode.Value);
         }
 
         CargoEquipment? cargoEquipment = null;
-        if (result.Tariff is {CargoType: not null, ContainerOwn: not null, ContainerSize: not null})
+        if (result.Tariff is { CargoType: not null, ContainerOwn: not null, ContainerSize: not null })
         {
             cargoEquipment = new CargoEquipment(
                 result.Tariff.CargoType.Value,

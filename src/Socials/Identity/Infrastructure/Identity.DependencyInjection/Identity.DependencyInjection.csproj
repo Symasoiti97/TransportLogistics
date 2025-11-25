@@ -1,20 +1,20 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-    <PropertyGroup>
-        <RootNamespace>TL.Socials.Identity.Infrastructure.DependencyInjection</RootNamespace>
-        <AssemblyName>TL.Socials.Identity.Infrastructure.DependencyInjection</AssemblyName>
-    </PropertyGroup>
+  <PropertyGroup>
+    <RootNamespace>TL.Socials.Identity.Infrastructure.DependencyInjection</RootNamespace>
+    <AssemblyName>TL.Socials.Identity.Infrastructure.DependencyInjection</AssemblyName>
+  </PropertyGroup>
 
-    <ItemGroup>
-        <ProjectReference Include="..\..\..\..\SharedKernel\Application\SharedKernel.Handlers\SharedKernel.Handlers.csproj"/>
-        <ProjectReference Include="..\..\Application\Identity.UseCases\Identity.UseCases.csproj"/>
-        <ProjectReference Include="..\DataAccess\Identity.Postgres\Identity.Postgres.csproj"/>
-        <ProjectReference Include="..\DataAccess\Identity.Redis\Identity.Redis.csproj"/>
-        <ProjectReference Include="..\Identity.Services\Identity.Services.csproj"/>
-    </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\SharedKernel\Application\SharedKernel.Handlers\SharedKernel.Handlers.csproj"/>
+    <ProjectReference Include="..\..\Application\Identity.UseCases\Identity.UseCases.csproj"/>
+    <ProjectReference Include="..\DataAccess\Identity.Postgres\Identity.Postgres.csproj"/>
+    <ProjectReference Include="..\DataAccess\Identity.Redis\Identity.Redis.csproj"/>
+    <ProjectReference Include="..\Identity.Services\Identity.Services.csproj"/>
+  </ItemGroup>
 
-    <ItemGroup>
-        <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.0.5"/>
-    </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.0.5"/>
+  </ItemGroup>
 
 </Project>

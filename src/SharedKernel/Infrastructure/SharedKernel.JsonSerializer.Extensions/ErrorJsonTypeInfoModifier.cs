@@ -20,10 +20,7 @@ public static class ErrorJsonTypeInfoModifier
         }
         else if (typeInfo.Type == baseType)
         {
-            typeInfo.PolymorphismOptions = new JsonPolymorphismOptions
-            {
-                TypeDiscriminatorPropertyName = "type"
-            };
+            typeInfo.PolymorphismOptions = new JsonPolymorphismOptions { TypeDiscriminatorPropertyName = "type" };
 
             foreach (var subErrorType in subErrorTypes)
             {

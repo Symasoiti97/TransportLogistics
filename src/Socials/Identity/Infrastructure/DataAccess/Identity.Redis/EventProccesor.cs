@@ -51,7 +51,7 @@ public sealed class EventProcessor(
                     handlerTypeName);
 
                 var eventHandlerType = typeof(IUseCaseHandler<>).MakeGenericType(@event.GetType());
-                var handlers = (IEnumerable<IUseCaseHandler>) serviceProvider.GetServices(eventHandlerType);
+                var handlers = (IEnumerable<IUseCaseHandler>)serviceProvider.GetServices(eventHandlerType);
 
                 foreach (var handler in handlers)
                 {

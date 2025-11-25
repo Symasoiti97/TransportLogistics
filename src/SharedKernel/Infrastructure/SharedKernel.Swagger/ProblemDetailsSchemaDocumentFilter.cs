@@ -96,8 +96,6 @@ public sealed class ProblemDetailsSchemaDocumentFilter : IDocumentFilter
             }
         };
 
-    public void Apply(OpenApiDocument swaggerDoc, DocumentFilterContext context)
-    {
+    public void Apply(OpenApiDocument swaggerDoc, DocumentFilterContext context) =>
         context.SchemaRepository.Schemas[nameof(ProblemDetails)] = ProblemDetailsSchema;
-    }
 }

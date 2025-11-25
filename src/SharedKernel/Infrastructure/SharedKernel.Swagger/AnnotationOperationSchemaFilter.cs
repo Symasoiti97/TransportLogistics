@@ -23,8 +23,7 @@ public sealed class AnnotationOperationSchemaFilter : ISchemaFilter
             return;
         }
 
-        var properties = context.Type.GetProperties()
-            .Where(t => t.HasAttribute<NotDefaultAttribute>());
+        var properties = context.Type.GetProperties().Where(t => t.HasAttribute<NotDefaultAttribute>());
 
         foreach (var property in properties)
         {

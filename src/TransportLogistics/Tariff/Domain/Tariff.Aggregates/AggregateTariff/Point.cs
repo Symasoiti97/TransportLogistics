@@ -68,10 +68,7 @@ public sealed class Point : ValueObject
     /// <inheritdoc />
     protected override IEnumerable<object> GetEqualityComponents() => [LocationId, Order, Type];
 
-    private void SetOrder(ushort order)
-    {
-        Order = order;
-    }
+    private void SetOrder(ushort order) => Order = order;
 
     private void SetPointType(PointType pointType)
     {
@@ -80,8 +77,5 @@ public sealed class Point : ValueObject
         Type = pointType;
     }
 
-    private void SetLocationId(Guid locationId)
-    {
-        LocationId = locationId;
-    }
+    private void SetLocationId(Guid locationId) => LocationId = locationId;
 }

@@ -21,7 +21,7 @@ public interface IUseCaseHandler<in TUseCase> : IUseCaseHandler where TUseCase :
     Task HandleAsync(TUseCase command, CancellationToken cancellationToken);
 
     Task IUseCaseHandler.HandleAsync(object command, CancellationToken cancellationToken) =>
-        HandleAsync((TUseCase) command, cancellationToken);
+        HandleAsync((TUseCase)command, cancellationToken);
 }
 
 /// <summary>

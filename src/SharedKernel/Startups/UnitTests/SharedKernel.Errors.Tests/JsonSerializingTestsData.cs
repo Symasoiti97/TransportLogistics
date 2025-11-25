@@ -14,7 +14,7 @@ public sealed partial class JsonSerializingTests
         DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
         TypeInfoResolver = new DefaultJsonTypeInfoResolver
         {
-            Modifiers = {info => ErrorJsonTypeInfoModifier.Modify(info, [typeof(InvalidParameters)])}
+            Modifiers = { info => ErrorJsonTypeInfoModifier.Modify(info, [typeof(InvalidParameters)]) }
         }
     };
 

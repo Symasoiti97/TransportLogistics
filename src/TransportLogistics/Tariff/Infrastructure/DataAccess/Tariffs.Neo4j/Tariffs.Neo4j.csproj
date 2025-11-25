@@ -1,24 +1,24 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-    <PropertyGroup>
-        <RootNamespace>TL.TransportLogistics.Tariffs.Infrastructure.DataAccess.Neo4j</RootNamespace>
-        <AssemblyName>TL.TransportLogistics.Tariffs.Infrastructure.DataAccess.Neo4j</AssemblyName>
-    </PropertyGroup>
+  <PropertyGroup>
+    <RootNamespace>TL.TransportLogistics.Tariffs.Infrastructure.DataAccess.Neo4j</RootNamespace>
+    <AssemblyName>TL.TransportLogistics.Tariffs.Infrastructure.DataAccess.Neo4j</AssemblyName>
+  </PropertyGroup>
 
-    <ItemGroup>
-        <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
-            <_Parameter1>TL.TransportLogistics.Tariffs.Infrastructure.DependencyInjection</_Parameter1>
-        </AssemblyAttribute>
-    </ItemGroup>
+  <ItemGroup>
+    <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
+      <_Parameter1>TL.TransportLogistics.Tariffs.Infrastructure.DependencyInjection</_Parameter1>
+    </AssemblyAttribute>
+  </ItemGroup>
 
-    <ItemGroup>
-        <PackageReference Include="Neo4jClient" Version="5.1.20"/>
-    </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Neo4jClient" Version="5.1.20"/>
+  </ItemGroup>
 
-    <ItemGroup>
-        <ProjectReference Include="..\..\..\..\..\SharedKernel\Infrastructure\SharedKernel.Compress.Extensions\SharedKernel.Compress.Extensions.csproj"/>
-        <ProjectReference Include="..\..\..\..\..\SharedKernel\Infrastructure\SharedKernel.Neo4j\SharedKernel.Neo4j.csproj"/>
-        <ProjectReference Include="..\..\..\Application\Tariffs.UseCases\Tariffs.UseCases.csproj"/>
-    </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\..\SharedKernel\Infrastructure\SharedKernel.Compress.Extensions\SharedKernel.Compress.Extensions.csproj"/>
+    <ProjectReference Include="..\..\..\..\..\SharedKernel\Infrastructure\SharedKernel.Neo4j\SharedKernel.Neo4j.csproj"/>
+    <ProjectReference Include="..\..\..\Application\Tariffs.UseCases\Tariffs.UseCases.csproj"/>
+  </ItemGroup>
 
 </Project>

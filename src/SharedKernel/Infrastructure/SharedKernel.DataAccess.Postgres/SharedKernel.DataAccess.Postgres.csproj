@@ -1,20 +1,20 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-    <PropertyGroup>
-        <RootNamespace>TL.SharedKernel.Infrastructure.DataAccess.Postgres</RootNamespace>
-        <AssemblyName>TL.SharedKernel.Infrastructure.DataAccess.Postgres</AssemblyName>
-    </PropertyGroup>
+  <PropertyGroup>
+    <RootNamespace>TL.SharedKernel.Infrastructure.DataAccess.Postgres</RootNamespace>
+    <AssemblyName>TL.SharedKernel.Infrastructure.DataAccess.Postgres</AssemblyName>
+  </PropertyGroup>
 
 
-    <ItemGroup>
-        <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
-            <_Parameter1>TL.SharedKernel.Infrastructure.DependencyInjection</_Parameter1>
-        </AssemblyAttribute>
-    </ItemGroup>
+  <ItemGroup>
+    <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
+      <_Parameter1>TL.SharedKernel.Infrastructure.DependencyInjection</_Parameter1>
+    </AssemblyAttribute>
+  </ItemGroup>
 
-    <ItemGroup>
-        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.5"/>
-        <PackageReference Include="Npgsql" Version="9.0.3"/>
-    </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.5"/>
+    <PackageReference Include="Npgsql" Version="9.0.3"/>
+  </ItemGroup>
 
 </Project>

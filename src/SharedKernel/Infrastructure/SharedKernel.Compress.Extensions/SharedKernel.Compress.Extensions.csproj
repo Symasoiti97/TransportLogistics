@@ -1,8 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-    <PropertyGroup>
-        <RootNamespace>TL.SharedKernel.Infrastructure.Compress.Extensions</RootNamespace>
-        <AssemblyName>TL.SharedKernel.Infrastructure.Compress.Extensions</AssemblyName>
-    </PropertyGroup>
+  <PropertyGroup>
+    <RootNamespace>TL.SharedKernel.Infrastructure.Compress.Extensions</RootNamespace>
+    <AssemblyName>TL.SharedKernel.Infrastructure.Compress.Extensions</AssemblyName>
+  </PropertyGroup>
 
 </Project>

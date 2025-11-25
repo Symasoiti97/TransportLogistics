@@ -37,13 +37,13 @@ internal sealed class UserSessionRepository(IRedisDatabase database) : IUserSess
             return null;
         }
 
-        var jsonValue = await database.StringGetAsync((string) userSessionKey!).ConfigureAwait(false);
+        var jsonValue = await database.StringGetAsync((string)userSessionKey!).ConfigureAwait(false);
         if (!jsonValue.HasValue)
         {
             return null;
         }
 
-        var userSession = JsonSerializer.Deserialize<UserSession>((byte[]) jsonValue!)
+        var userSession = JsonSerializer.Deserialize<UserSession>((byte[])jsonValue!)
                           ?? throw new InvalidOperationException("Deserialize error.");
 
         if (userSession.RefreshToken != refreshToken)

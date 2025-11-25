@@ -1,15 +1,15 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-    <PropertyGroup>
-        <RootNamespace>TL.TransportLogistics.Tariffs.Business.Aggregates</RootNamespace>
-        <AssemblyName>TL.TransportLogistics.Tariffs.Business.Aggregates</AssemblyName>
-        <Configurations>Debug;Release</Configurations>
-        <Platforms>AnyCPU</Platforms>
-    </PropertyGroup>
+  <PropertyGroup>
+    <RootNamespace>TL.TransportLogistics.Tariffs.Business.Aggregates</RootNamespace>
+    <AssemblyName>TL.TransportLogistics.Tariffs.Business.Aggregates</AssemblyName>
+    <Configurations>Debug;Release</Configurations>
+    <Platforms>AnyCPU</Platforms>
+  </PropertyGroup>
 
-    <ItemGroup>
-        <ProjectReference Include="..\..\..\..\SharedKernel\Business\SharedKernel.Aggregates\SharedKernel.Aggregates.csproj"/>
-        <ProjectReference Include="..\..\..\..\SharedKernel\System\SharedKernel.System.ComponentModel\SharedKernel.System.ComponentModel.csproj"/>
-    </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\SharedKernel\Business\SharedKernel.Aggregates\SharedKernel.Aggregates.csproj"/>
+    <ProjectReference Include="..\..\..\..\SharedKernel\System\SharedKernel.System.ComponentModel\SharedKernel.System.ComponentModel.csproj"/>
+  </ItemGroup>
 
 </Project>

@@ -1,17 +1,17 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-    <PropertyGroup>
-        <RootNamespace>TL.Socials.Identity.Business.Aggregates</RootNamespace>
-        <AssemblyName>TL.Socials.Identity.Business.Aggregates</AssemblyName>
-    </PropertyGroup>
+  <PropertyGroup>
+    <RootNamespace>TL.Socials.Identity.Business.Aggregates</RootNamespace>
+    <AssemblyName>TL.Socials.Identity.Business.Aggregates</AssemblyName>
+  </PropertyGroup>
 
-    <ItemGroup>
-        <ProjectReference Include="..\..\..\..\SharedKernel\Business\SharedKernel.Aggregates\SharedKernel.Aggregates.csproj"/>
-    </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\SharedKernel\Business\SharedKernel.Aggregates\SharedKernel.Aggregates.csproj"/>
+  </ItemGroup>
 
-    <ItemGroup>
-        <PackageReference Include="BCrypt.Net-Next" Version="4.0.3"/>
-        <PackageReference Include="libphonenumber-csharp" Version="9.0.6"/>
-    </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="BCrypt.Net-Next" Version="4.0.3"/>
+    <PackageReference Include="libphonenumber-csharp" Version="9.0.6"/>
+  </ItemGroup>
 
 </Project>

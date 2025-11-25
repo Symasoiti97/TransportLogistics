@@ -13,9 +13,10 @@ internal sealed class UserRepository(IdentityDbContext identityDbContext) : IUse
         => identityDbContext.Set<User>().SingleOrDefaultAsync(user => user.Email == email, cancellationToken);
 
     public Task<User?> FindAsync(PhoneNumber phoneNumber, CancellationToken cancellationToken)
-        => identityDbContext.Set<User>().SingleOrDefaultAsync(
-            user => user.PhoneNumber == phoneNumber,
-            cancellationToken);
+        => identityDbContext.Set<User>()
+            .SingleOrDefaultAsync(
+                user => user.PhoneNumber == phoneNumber,
+                cancellationToken);
 
     public async Task AddAsync(User user, CancellationToken cancellationToken)
     {

@@ -1,18 +1,18 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-    <PropertyGroup>
-        <RootNamespace>TL.SharedKernel.Infrastructure.Swagger</RootNamespace>
-        <AssemblyName>TL.SharedKernel.Infrastructure.Swagger</AssemblyName>
-    </PropertyGroup>
+  <PropertyGroup>
+    <RootNamespace>TL.SharedKernel.Infrastructure.Swagger</RootNamespace>
+    <AssemblyName>TL.SharedKernel.Infrastructure.Swagger</AssemblyName>
+  </PropertyGroup>
 
-    <ItemGroup>
-        <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="8.1.4"/>
-    </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="8.1.4"/>
+  </ItemGroup>
 
-    <ItemGroup>
-        <ProjectReference Include="..\..\Business\SharedKernel.Aggregates\SharedKernel.Aggregates.csproj"/>
-        <ProjectReference Include="..\..\System\SharedKernel.System.ComponentModel\SharedKernel.System.ComponentModel.csproj"/>
-        <ProjectReference Include="..\SharedKernel.JsonSerializer.Extensions\SharedKernel.JsonSerializer.Extensions.csproj"/>
-    </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Business\SharedKernel.Aggregates\SharedKernel.Aggregates.csproj"/>
+    <ProjectReference Include="..\..\System\SharedKernel.System.ComponentModel\SharedKernel.System.ComponentModel.csproj"/>
+    <ProjectReference Include="..\SharedKernel.JsonSerializer.Extensions\SharedKernel.JsonSerializer.Extensions.csproj"/>
+  </ItemGroup>
 
 </Project>
