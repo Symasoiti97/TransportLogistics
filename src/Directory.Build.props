@@ -1,6 +1,6 @@
 <Project>
   <PropertyGroup>
-    <TargetFramework>net9.0</TargetFramework>
+    <TargetFramework>net10.0</TargetFramework>
     <LangVersion>latest</LangVersion>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
@@ -13,7 +13,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="ReferenceTrimmer" Version="3.3.11" PrivateAssets="All"/>
+    <PackageReference Include="ReferenceTrimmer" Version="3.3.12" PrivateAssets="All"/>
   </ItemGroup>
 
 </Project>

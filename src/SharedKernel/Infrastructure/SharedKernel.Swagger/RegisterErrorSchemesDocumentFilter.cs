@@ -1,8 +1,6 @@
-﻿using Microsoft.OpenApi.Any;
-using Microsoft.OpenApi.Models;
+﻿using Microsoft.OpenApi;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using TL.SharedKernel.Business.Aggregates;
-using TL.SharedKernel.Infrastructure.JsonSerializer.Extensions;
 
 namespace TL.SharedKernel.Infrastructure.Swagger;
 
@@ -33,23 +31,31 @@ public sealed class RegisterErrorSchemesDocumentFilter : IDocumentFilter
         foreach (var type in _errorTypes)
         {
             context.SchemaGenerator.GenerateSchema(type, context.SchemaRepository);
-            var schema = context.SchemaRepository.Schemas[type.BuildSwaggerSchemaName()];
-            var oldProperties = schema.Properties;
-            schema.Properties = new Dictionary<string, OpenApiSchema>();
-            schema.Properties.Add(
-                new KeyValuePair<string, OpenApiSchema>(
-                    "type",
-                    new OpenApiSchema
-                    {
-                        Type = "string",
-                        ReadOnly = true,
-                        Default = new OpenApiString(ErrorExtensions.BuildType(type))
-                    }));
-            foreach (var openApiSchema in oldProperties
-                         .Where(property => property.Key is not ("message" or "details")))
+            var schemaName = type.BuildSwaggerSchemaName();
+            var schema = context.SchemaRepository.Schemas[schemaName];
+
+            var newSchema = new OpenApiSchema
             {
-                schema.Properties.Add(openApiSchema);
+                Type = schema.Type,
+                Description = schema.Description,
+                Title = schema.Title,
+                Properties = new Dictionary<string, IOpenApiSchema>()
+            };
+
+            newSchema.Properties.Add("type",
+                new OpenApiSchema
+                {
+                    Type = JsonSchemaType.String,
+                    ReadOnly = true
+                });
+
+            foreach (var property in newSchema.Properties
+                         .Where(p => p.Key is not ("message" or "details")))
+            {
+                newSchema.Properties.Add(property.Key, property.Value);
             }
+
+            context.SchemaRepository.Schemas[schemaName] = newSchema;
         }
     }
 }
