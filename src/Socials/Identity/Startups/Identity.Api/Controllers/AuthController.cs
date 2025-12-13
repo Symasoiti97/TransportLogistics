@@ -77,7 +77,7 @@ public sealed class AuthController : ControllerBase
         [FromServices] IUseCaseHandler<RequestUserLoginViaPhoneCommand> commandHandler,
         CancellationToken cancellationToken)
         => commandHandler.HandleAsync(
-            new RequestUserLoginViaPhoneCommand(new PhoneNumber(transfer.PhoneNumber)),
+            new RequestUserLoginViaPhoneCommand(PhoneNumber.Parse(transfer.PhoneNumber)),
             cancellationToken);
 
     [HttpPost("login/phone")]
@@ -89,13 +89,13 @@ public sealed class AuthController : ControllerBase
     {
         await registerCommandHandler
             .HandleAsync(
-                new RegisterUserViaPhoneCommand(new PhoneNumber(transfer.PhoneNumber), transfer.Code),
+                new RegisterUserViaPhoneCommand(PhoneNumber.Parse(transfer.PhoneNumber), transfer.Code),
                 cancellationToken)
             .ConfigureAwait(false);
 
         var userTokens = await loginCommandHandler
             .HandleAsync(
-                new LoginUserViaPhoneCommand(new PhoneNumber(transfer.PhoneNumber)),
+                new LoginUserViaPhoneCommand(PhoneNumber.Parse(transfer.PhoneNumber)),
                 cancellationToken)
             .ConfigureAwait(false);
 

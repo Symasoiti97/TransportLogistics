@@ -1,13 +1,16 @@
-﻿using TL.SharedKernel.Business.Aggregates;
+﻿using System.Collections.Immutable;
+using Generator.Equals;
+using TL.SharedKernel.Business.Aggregates;
 
 namespace TL.TransportLogistics.Tariffs.Business.Aggregates.AggregateTariff;
 
 /// <summary>
 /// Маршрут
 /// </summary>
-public sealed class Route : ValueObject
+[Equatable]
+public sealed partial record Route
 {
-    private const byte MinPointCount = 2;
+    private const byte _minPointCount = 2;
 
     /// <summary>
     /// Тип маршрута
@@ -17,7 +20,8 @@ public sealed class Route : ValueObject
     /// <summary>
     /// Точки маршрута
     /// </summary>
-    public IReadOnlySet<Point> Points { get; }
+    [SetEquality]
+    public IImmutableSet<Point> Points { get; }
 
     /// <summary>
     /// Уникальный hash маршрута
@@ -34,10 +38,7 @@ public sealed class Route : ValueObject
         Type = DefineRouteType();
     }
 
-    /// <inheritdoc />
-    protected override IEnumerable<object> GetEqualityComponents() => Points.Cast<object>().Append(Type);
-
-    private static IReadOnlySet<Point> EnsureThatPointIsValid(IReadOnlyCollection<Point> points)
+    private static IImmutableSet<Point> EnsureThatPointIsValid(IReadOnlyCollection<Point> points)
     {
         ArgumentNullException.ThrowIfNull(points);
 
@@ -54,12 +55,12 @@ public sealed class Route : ValueObject
             order++;
         }
 
-        if (order < MinPointCount)
+        if (order < _minPointCount)
         {
             throw new Conflict().WithDetails("Point count must be greater than or equals 2.");
         }
 
-        return sortedPoint;
+        return sortedPoint.ToImmutableHashSet();
     }
 
     // TODO: Реалзиовать установку типа маршрута и добавить валидацию

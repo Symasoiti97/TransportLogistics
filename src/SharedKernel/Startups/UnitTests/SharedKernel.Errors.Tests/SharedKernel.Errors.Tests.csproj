@@ -3,7 +3,6 @@
   <PropertyGroup>
     <RootNamespace>TL.SharedKernel.Errors.Tests</RootNamespace>
     <AssemblyName>TL.SharedKernel.Errors.Tests</AssemblyName>
-    <ImplicitUsings>enable</ImplicitUsings>
     <IsPackable>false</IsPackable>
   </PropertyGroup>
 

@@ -5,4 +5,4 @@ namespace TL.Socials.Identity.Infrastructure.DataAccess.Postgres.Converters;
 
 internal sealed class PhoneNumberConverter() : ValueConverter<PhoneNumber?, string?>(
     phoneNumber => phoneNumber != null ? phoneNumber.Value : null,
-    value => value != null ? new PhoneNumber(value) : null);
+    value => value != null ? PhoneNumber.Parse(value) : null);

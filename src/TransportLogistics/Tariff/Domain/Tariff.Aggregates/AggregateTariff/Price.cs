@@ -1,46 +1,18 @@
-﻿using TL.SharedKernel.Business.Aggregates;
+﻿using System.ComponentModel.Exceptions;
 using TL.SharedKernel.Business.Aggregates.Enums;
 
 namespace TL.TransportLogistics.Tariffs.Business.Aggregates.AggregateTariff;
 
-/// <summary>
-/// Цена
-/// </summary>
-public sealed class Price : ValueObject
+public sealed record Price
 {
-    /// <summary>
-    /// Значение
-    /// </summary>
     public decimal Value { get; private set; }
-
-    /// <summary>
-    /// Код валюты
-    /// </summary>
     public CurrencyCode CurrencyCode { get; private set; }
 
-    /// <summary>
-    /// Cоздать <see cref="Price" />
-    /// </summary>
-    /// <param name="value">Цена</param>
-    /// <param name="currencyCode">Код валюты</param>
     public Price(decimal value, CurrencyCode currencyCode)
     {
-        SetValue(value);
-        SetCurrencyCode(currencyCode);
-    }
+        InvalidEnumArgumentException.ThrowIfUndefined(currencyCode);
 
-    /// <inheritdoc />
-    protected override IEnumerable<object> GetEqualityComponents() => [Value, CurrencyCode];
-
-    private void SetValue(decimal value) => Value = value;
-
-    private void SetCurrencyCode(CurrencyCode currencyCode)
-    {
-        if (!Enum.IsDefined(currencyCode))
-        {
-            throw new ArgumentException("Currency code must be defined.", nameof(currencyCode));
-        }
-
+        Value = value;
         CurrencyCode = currencyCode;
     }
 }
