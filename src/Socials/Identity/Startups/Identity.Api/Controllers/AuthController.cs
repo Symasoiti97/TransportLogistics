@@ -12,7 +12,7 @@ namespace TL.Socials.Identity.Startups.Api.Controllers;
 [Route("[controller]")]
 public sealed class AuthController : ControllerBase
 {
-    private const string AccessToken = "access_token";
+    private const string _accessToken = "access_token";
 
     [HttpPost("register/email/request")]
     public async Task<RequestUserRegisterViaEmailAnswerDto> RequestUserRegisterViaEmailAsync(
@@ -21,7 +21,7 @@ public sealed class AuthController : ControllerBase
         CancellationToken cancellationToken)
     {
         var isNewUser = await commandHandler.HandleAsync(
-            new RequestUserRegisterViaEmailCommand(new Email(transfer.Email)),
+            new RequestUserRegisterViaEmailCommand(Email.Parse(transfer.Email)),
             cancellationToken);
 
         return new RequestUserRegisterViaEmailAnswerDto(isNewUser);
@@ -34,7 +34,7 @@ public sealed class AuthController : ControllerBase
         CancellationToken cancellationToken)
         => commandHandler.HandleAsync(
             new RegisterUserViaEmailCommand(
-                new Email(transfer.Email),
+                Email.Parse(transfer.Email),
                 transfer.Password,
                 transfer.Token),
             cancellationToken);
@@ -47,11 +47,11 @@ public sealed class AuthController : ControllerBase
     {
         var userTokens = await commandHandler.HandleAsync(
             new LoginUserViaEmailCommand(
-                new Email(transfer.Email),
+                Email.Parse(transfer.Email),
                 transfer.Password),
             cancellationToken);
 
-        HttpContext.Response.Cookies.Append(AccessToken, userTokens.AccessToken);
+        HttpContext.Response.Cookies.Append(_accessToken, userTokens.AccessToken);
 
         return new LoginResultDto(userTokens.UserId, userTokens.RefreshToken);
     }
@@ -66,7 +66,7 @@ public sealed class AuthController : ControllerBase
             new RefreshAuthTokenCommand(transfer.RefreshToken),
             cancellationToken);
 
-        HttpContext.Response.Cookies.Append(AccessToken, userTokens.AccessToken);
+        HttpContext.Response.Cookies.Append(_accessToken, userTokens.AccessToken);
 
         return new LoginResultDto(userTokens.UserId, userTokens.RefreshToken);
     }
@@ -99,7 +99,7 @@ public sealed class AuthController : ControllerBase
                 cancellationToken)
             .ConfigureAwait(false);
 
-        HttpContext.Response.Cookies.Append(AccessToken, userTokens.AccessToken);
+        HttpContext.Response.Cookies.Append(_accessToken, userTokens.AccessToken);
 
         return new LoginResultDto(userTokens.UserId, userTokens.RefreshToken);
     }
