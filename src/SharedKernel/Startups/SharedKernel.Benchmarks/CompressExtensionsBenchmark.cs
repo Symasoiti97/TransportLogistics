@@ -4,7 +4,7 @@ using TL.SharedKernel.Infrastructure.Compress.Extensions;
 namespace TL.SharedKernel.Infrastructure.Benchmarks;
 
 [MemoryDiagnoser]
-public sealed class CompressExtensionsBenchmark
+public class CompressExtensionsBenchmark
 {
     private string _stringToCompress = null!;
     private string _stringToDecompress = null!;

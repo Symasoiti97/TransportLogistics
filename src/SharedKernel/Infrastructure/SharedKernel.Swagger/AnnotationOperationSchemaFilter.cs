@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Text.Json;
-using Microsoft.OpenApi.Models;
+using Microsoft.OpenApi;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace TL.SharedKernel.Infrastructure.Swagger;
@@ -13,7 +13,7 @@ namespace TL.SharedKernel.Infrastructure.Swagger;
 /// </summary>
 public sealed class AnnotationOperationSchemaFilter : ISchemaFilter
 {
-    public void Apply(OpenApiSchema schema, SchemaFilterContext context)
+    public void Apply(IOpenApiSchema schema, SchemaFilterContext context)
     {
         ArgumentNullException.ThrowIfNull(schema);
         ArgumentNullException.ThrowIfNull(context);
@@ -32,14 +32,13 @@ public sealed class AnnotationOperationSchemaFilter : ISchemaFilter
                 var openApiSchema = schema.Properties[JsonNamingPolicy.CamelCase.ConvertName(property.Name)];
                 var additionalDescription = $"Value {Activator.CreateInstance(property.PropertyType)} is invalid";
 
-                switch (openApiSchema.Pattern)
+                if (openApiSchema.Description == null)
                 {
-                    case null:
-                        openApiSchema.Pattern = additionalDescription;
-                        break;
-                    default:
-                        openApiSchema.Pattern += $". {additionalDescription}";
-                        break;
+                    openApiSchema.Description = additionalDescription;
+                }
+                else
+                {
+                    openApiSchema.Description += $". {additionalDescription}";
                 }
             }
         }

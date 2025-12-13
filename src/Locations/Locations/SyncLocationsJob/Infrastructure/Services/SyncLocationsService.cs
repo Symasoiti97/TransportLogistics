@@ -440,7 +440,8 @@ internal class SyncLocationsService
                                 SyncId = x.Id,
                                 SourceType = LocationSourceType.OsmNode,
                                 MultiLanguageName = x.Tags.FilterNamesByCultures().BuildFullTxt()
-                            })));
+                            })
+                            .ToAsyncEnumerable()));
     }
 
     private async Task<(Location location, IEnumerable<KeyValuePair<string, string>> names)[]> GetRailwaysAsync(

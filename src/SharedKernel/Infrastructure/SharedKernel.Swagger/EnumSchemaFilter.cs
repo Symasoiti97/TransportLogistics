@@ -1,7 +1,7 @@
 ﻿using System.Text;
 using System.Xml.Linq;
 using System.Xml.XPath;
-using Microsoft.OpenApi.Models;
+using Microsoft.OpenApi;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace TL.SharedKernel.Infrastructure.Swagger;
@@ -12,11 +12,12 @@ public sealed class EnumSchemaFilter : ISchemaFilter
 
     public EnumSchemaFilter(string documentationDirectoryPath)
     {
-        _documentationDirectoryPath = documentationDirectoryPath
-                                      ?? throw new ArgumentNullException(nameof(documentationDirectoryPath));
+        ArgumentException.ThrowIfNullOrWhiteSpace(documentationDirectoryPath);
+
+        _documentationDirectoryPath = documentationDirectoryPath;
     }
 
-    public void Apply(OpenApiSchema schema, SchemaFilterContext context)
+    public void Apply(IOpenApiSchema schema, SchemaFilterContext context)
     {
         if (schema.Enum is not { Count: > 0 } || context.Type is not { IsEnum: true })
         {
