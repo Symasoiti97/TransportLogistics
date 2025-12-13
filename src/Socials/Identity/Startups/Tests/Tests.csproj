@@ -1,8 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <RootNamespace>TL.SharedKernel.Errors.Tests</RootNamespace>
-    <AssemblyName>TL.SharedKernel.Errors.Tests</AssemblyName>
+    <RootNamespace>TL.Socials.Identity.Startups.Tests</RootNamespace>
+    <AssemblyName>TL.Socials.Identity.Startups.Tests</AssemblyName>
     <IsPackable>false</IsPackable>
   </PropertyGroup>
 
@@ -21,14 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Business\SharedKernel.Aggregates\SharedKernel.Aggregates.csproj"/>
-    <ProjectReference Include="..\..\..\Infrastructure\SharedKernel.JsonSerializer.Extensions\SharedKernel.JsonSerializer.Extensions.csproj"/>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Compile Update="JsonSerializingTestsData.cs">
-      <DependentUpon>JsonSerializingTests.cs</DependentUpon>
-    </Compile>
+    <ProjectReference Include="..\..\Businees\Identity.Aggregates\Identity.Aggregates.csproj"/>
   </ItemGroup>
 
 </Project>

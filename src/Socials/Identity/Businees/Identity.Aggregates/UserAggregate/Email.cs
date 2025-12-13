@@ -3,7 +3,7 @@ using TL.SharedKernel.Business.Aggregates;
 
 namespace TL.Socials.Identity.Business.Aggregates.UserAggregate;
 
-public sealed partial class Email : ValueObject
+public sealed partial record Email
 {
     public string Value { get; }
 
@@ -20,8 +20,6 @@ public sealed partial class Email : ValueObject
 
         Value = normalized;
     }
-
-    protected override IEnumerable<object> GetEqualityComponents() => [Value];
 
     [GeneratedRegex(@"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$")]
     private static partial Regex EmailRegex();

@@ -1,12 +1,11 @@
 using System.ComponentModel.Exceptions;
-using TL.SharedKernel.Business.Aggregates;
 
 namespace TL.TransportLogistics.Tariffs.Business.Aggregates.AggregateTariff;
 
 /// <summary>
 /// Точка маргрута
 /// </summary>
-public sealed class Point : ValueObject
+public sealed record Point
 {
     /// <summary>
     /// Локация
@@ -36,9 +35,12 @@ public sealed class Point : ValueObject
     /// <param name="order">Порядковый номер</param>
     public Point(Guid locationId, PointType pointType, ushort order)
     {
-        SetLocationId(locationId);
-        SetPointType(pointType);
-        SetOrder(order);
+        InvalidEnumArgumentException.ThrowIfUndefined(pointType);
+        ArgumentOutOfRangeException.ThrowIfNegativeOrZero(order);
+
+        LocationId = locationId;
+        Type = pointType;
+        Order = order;
     }
 
     /// <summary>
@@ -64,18 +66,4 @@ public sealed class Point : ValueObject
     /// <param name="order">Порядковый номер</param>
     /// <returns>Точка</returns>
     public static Point Fot(Guid locationId, ushort order) => new(locationId, PointType.Fot, order);
-
-    /// <inheritdoc />
-    protected override IEnumerable<object> GetEqualityComponents() => [LocationId, Order, Type];
-
-    private void SetOrder(ushort order) => Order = order;
-
-    private void SetPointType(PointType pointType)
-    {
-        InvalidEnumArgumentException.ThrowIfUndefined(pointType);
-
-        Type = pointType;
-    }
-
-    private void SetLocationId(Guid locationId) => LocationId = locationId;
 }
