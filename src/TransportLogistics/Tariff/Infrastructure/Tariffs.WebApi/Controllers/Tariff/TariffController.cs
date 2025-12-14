@@ -26,8 +26,6 @@ public sealed class TariffController : ControllerBase
     /// Получить тариф
     /// </summary>
     /// <param name="tariffId" example="d8aae288-7ae9-4536-bc69-00e74cc85865">Идентификатор тарифа</param>
-    /// <param name="queryHandler">Обработчик запроса</param>
-    /// <param name="cancellationToken">Токен отмены</param>
     /// <response code="404">Тариф не найден</response>
     [HttpGet("{tariffId:guid}")]
     [ProducesResponseType(typeof(TariffView), StatusCodes.Status200OK)]
@@ -45,11 +43,6 @@ public sealed class TariffController : ControllerBase
     /// <summary>
     /// Создать тариф
     /// </summary>
-    /// <param name="request">Параметры запроса</param>
-    /// <param name="commandHandler">Обработчик команды</param>
-    /// <param name="queryHandler">Обработчик запроса</param>
-    /// <param name="userContext">Пользовательский контекст</param>
-    /// <param name="cancellationToken">Токен отмены</param>
     [HttpPost]
     [ProducesResponseType(typeof(TariffView), StatusCodes.Status201Created)]
     public async Task<IActionResult> CreateTariff(
@@ -73,10 +66,6 @@ public sealed class TariffController : ControllerBase
     /// Сохранить тариф с параметрами маршрута
     /// </summary>
     /// <param name="tariffId" example="7f2c0960-4b9d-45d1-b00d-88d5a6f7b7a4">Идентификатор тарифа</param>
-    /// <param name="request">Параметры запроса</param>
-    /// <param name="commandHandler">Обработчик команды</param>
-    /// <param name="queryHandler">Обработчик запроса</param>
-    /// <param name="cancellationToken">Токен отмены</param>
     [HttpPut("{tariffId:guid}/route")]
     [ProducesResponseType(typeof(TariffView), StatusCodes.Status200OK)]
     public async Task<IActionResult> SaveTariffRoute(
@@ -103,10 +92,6 @@ public sealed class TariffController : ControllerBase
     /// Сохранить тариф с параметрами груза
     /// </summary>
     /// <param name="tariffId" example="7f2c0960-4b9d-45d1-b00d-88d5a6f7b7a4">Идентификатор тарифа</param>
-    /// <param name="request">Параметры запроса</param>
-    /// <param name="commandHandler">Обработчик команды</param>
-    /// <param name="queryHandler">Обработчик запроса</param>
-    /// <param name="cancellationToken">Токен отмены</param>
     [HttpPut("{tariffId:guid}/cargo")]
     [ProducesResponseType(typeof(TariffView), StatusCodes.Status200OK)]
     public async Task<IActionResult> SaveTariffCargo(
@@ -131,10 +116,6 @@ public sealed class TariffController : ControllerBase
     /// Сохранить тариф с параметрами стоимости
     /// </summary>
     /// <param name="tariffId" example="7f2c0960-4b9d-45d1-b00d-88d5a6f7b7a4">Идентификатор тарифа</param>
-    /// <param name="request">Параметры запроса</param>
-    /// <param name="commandHandler">Обработчик команды</param>
-    /// <param name="queryHandler">Обработчик запроса</param>
-    /// <param name="cancellationToken">Токен отмены</param>
     [HttpPut("{tariffId:guid}/price")]
     [ProducesResponseType(typeof(TariffView), StatusCodes.Status200OK)]
     public async Task<IActionResult> SaveTariffPrice(
@@ -160,8 +141,6 @@ public sealed class TariffController : ControllerBase
     /// Переводит тариф из черновика в действующий, создавая копию и удаляя черновик.
     /// </remarks>
     /// <param name="tariffId" example="7f2c0960-4b9d-45d1-b00d-88d5a6f7b7a4">Идентификатор тарифа</param>
-    /// <param name="commandHandler">Обработчик команды</param>
-    /// <param name="cancellationToken">Токен отмены</param>
     [HttpPost("{tariffId:guid}/publish/")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     public async Task<IActionResult> PublishTariff(

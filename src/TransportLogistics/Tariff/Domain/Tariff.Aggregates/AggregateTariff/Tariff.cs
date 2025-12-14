@@ -5,29 +5,14 @@ using ArgumentException = System.ComponentModel.Exceptions.ArgumentException;
 
 namespace TL.TransportLogistics.Tariffs.Business.Aggregates.AggregateTariff;
 
-/// <summary>
-/// Тариф
-/// </summary>
 public sealed class Tariff : AggregateRoot<Guid>
 {
-    /// <summary>
-    /// Маршрут
-    /// </summary>
     public Route? Route { get; private set; }
 
-    /// <summary>
-    /// Оборудование груза
-    /// </summary>
     public CargoEquipment? CargoEquipment { get; private set; }
 
-    /// <summary>
-    /// Цена
-    /// </summary>
     public Price? Price { get; private set; }
 
-    /// <summary>
-    /// Идентификатор профиля, менеджер текущего тарифа
-    /// </summary>
     public Guid ManagerProfileId { get; private set; }
 
     /// <summary>
@@ -37,15 +22,6 @@ public sealed class Tariff : AggregateRoot<Guid>
     /// </summary>
     public bool IsDraft { get; private set; }
 
-    /// <summary>
-    /// Инициализировать тариф
-    /// </summary>
-    /// <param name="id">Идентификатор тарифы</param>
-    /// <param name="managerProfileId">Идентификатор профиля. Менеджер тарифа</param>
-    /// <param name="route">Маршрут</param>
-    /// <param name="cargoEquipment">Оборудование груза</param>
-    /// <param name="price">Цена</param>
-    /// <param name="isDraft">True - тариф-черновик<br />False - действущий тариф</param>
     public Tariff(
         Guid id,
         Guid managerProfileId,
@@ -74,16 +50,6 @@ public sealed class Tariff : AggregateRoot<Guid>
         SetDraft(isDraft);
     }
 
-    /// <summary>
-    /// Создать тариф
-    /// </summary>
-    /// <param name="id">Идентификатор тарифы</param>
-    /// <param name="managerProfileId">Идентификатор профиля. Менеджер тарифа</param>
-    /// <param name="route">Маршрут</param>
-    /// <param name="cargoEquipment">Оборудование груза</param>
-    /// <param name="price">Цена</param>
-    /// <param name="isDraft">True - тариф-черновик<br />False - действущий тариф</param>
-    /// <returns>Новый тариф</returns>
     public static Tariff Create(
         Guid id,
         Guid managerProfileId,
@@ -99,10 +65,6 @@ public sealed class Tariff : AggregateRoot<Guid>
         return tariff;
     }
 
-    /// <summary>
-    /// Установить цену
-    /// </summary>
-    /// <param name="price">Цена</param>
     public void SetPrice(Price? price)
     {
         ArgumentNullException.ThrowIfNull(price);
@@ -111,10 +73,6 @@ public sealed class Tariff : AggregateRoot<Guid>
         SetAsDraft();
     }
 
-    /// <summary>
-    /// Устноавить маршрут
-    /// </summary>
-    /// <param name="route">Маршрут</param>
     public void SetRoute(Route route)
     {
         ArgumentNullException.ThrowIfNull(route);
@@ -123,9 +81,6 @@ public sealed class Tariff : AggregateRoot<Guid>
         SetAsDraft();
     }
 
-    /// <summary>
-    /// Устанавливает оборудование груза
-    /// </summary>
     public void SetCargoEquipment(CargoEquipment cargoEquipment)
     {
         ArgumentNullException.ThrowIfNull(cargoEquipment);

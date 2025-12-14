@@ -1,8 +1,5 @@
 ﻿namespace TL.SharedKernel.Business.Aggregates;
 
-/// <summary>
-/// Корень агрегата
-/// </summary>
 public abstract class AggregateRoot<TKey>(TKey id) : Entity<TKey>(id)
     where TKey : struct, IComparable
 {

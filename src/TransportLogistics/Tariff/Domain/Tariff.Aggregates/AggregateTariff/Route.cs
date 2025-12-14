@@ -4,34 +4,18 @@ using TL.SharedKernel.Business.Aggregates;
 
 namespace TL.TransportLogistics.Tariffs.Business.Aggregates.AggregateTariff;
 
-/// <summary>
-/// Маршрут
-/// </summary>
 [Equatable]
 public sealed partial record Route
 {
     private const byte _minPointCount = 2;
 
-    /// <summary>
-    /// Тип маршрута
-    /// </summary>
     public RouteType Type { get; }
 
-    /// <summary>
-    /// Точки маршрута
-    /// </summary>
     [SetEquality]
     public IImmutableSet<Point> Points { get; }
 
-    /// <summary>
-    /// Уникальный hash маршрута
-    /// </summary>
     public string Hash => $"{string.Join("|", Points.Select(x => x.Hash))}|{Type}";
 
-    /// <summary>
-    /// Создать <see cref="Route" />
-    /// </summary>
-    /// <param name="points">Точки маршрута</param>
     public Route(IReadOnlyCollection<Point> points)
     {
         Points = EnsureThatPointIsValid(points);

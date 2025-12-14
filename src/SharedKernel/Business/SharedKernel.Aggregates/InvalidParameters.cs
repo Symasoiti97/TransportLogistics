@@ -12,13 +12,8 @@ public sealed class InvalidParameters : Error
     /// </summary>
     public IEnumerable<Parameter> Parameters { get; }
 
-    /// <inheritdoc />
     public override string Message => "Invalid params.";
 
-    /// <summary>
-    /// Создать <see cref="InvalidValue" />
-    /// </summary>
-    /// <param name="parameters"></param>
     public InvalidParameters(IEnumerable<Parameter> parameters)
     {
         Parameters = parameters;
@@ -58,14 +53,6 @@ public sealed class InvalidParameters : Error
         /// </summary>
         public object? Error { get; }
 
-        /// <summary>
-        /// Creates <see cref="Parameter" />
-        /// </summary>
-        /// <param name="value">Value</param>
-        /// <param name="name">Name</param>
-        /// <param name="path">Path</param>
-        /// <param name="message">Error message</param>
-        /// <param name="error">Error</param>
         public Parameter(object? value, string? name, string path, string message, object? error)
         {
             ArgumentException.ThrowIfNullOrWhiteSpace(message);

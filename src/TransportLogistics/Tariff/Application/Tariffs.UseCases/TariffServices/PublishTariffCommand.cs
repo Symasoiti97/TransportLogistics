@@ -6,5 +6,4 @@ namespace TL.TransportLogistics.Tariffs.Application.UseCases.TariffServices;
 /// Команда публикации тарифа
 /// Переводит тариф из черновика в действующий (Создает копию)
 /// </summary>
-/// <param name="TariffId">Идентификатор тарифа</param>
 public sealed record PublishTariffCommand(Guid TariffId) : IUseCase;
