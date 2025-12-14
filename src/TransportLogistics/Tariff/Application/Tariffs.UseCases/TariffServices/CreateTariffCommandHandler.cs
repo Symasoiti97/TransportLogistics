@@ -3,9 +3,6 @@ using TL.TransportLogistics.Tariffs.Business.Aggregates.AggregateTariff;
 
 namespace TL.TransportLogistics.Tariffs.Application.UseCases.TariffServices;
 
-/// <summary>
-/// Обработчик для создания тарифа
-/// </summary>
 internal sealed class CreateTariffCommandHandler(ITariffRepository tariffRepository)
     : IUseCaseHandler<CreateTariffCommand>
 {

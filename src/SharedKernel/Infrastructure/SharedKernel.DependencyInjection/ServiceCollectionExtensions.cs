@@ -7,15 +7,6 @@ namespace TL.SharedKernel.Infrastructure.DependencyInjection;
 
 public static class ServiceCollectionExtensions
 {
-    /// <summary>
-    /// Регистрация сервисов для работы с neo4j
-    /// <list type="bullet">
-    ///     <item>Регестрирует <see cref="ICypherGraphClientFactory" />, как <see cref="ServiceLifetime.Singleton" />.</item>
-    /// </list>
-    /// </summary>
-    /// <param name="services">Коллекция сервисов</param>
-    /// <param name="neo4JSettings"></param>
-    /// <returns>Коллекция сервисов</returns>
     public static IServiceCollection AddNeo4JServices(this IServiceCollection services, INeo4JSettings neo4JSettings)
     {
         services.AddSingleton(neo4JSettings);

@@ -3,9 +3,6 @@ using TL.TransportLogistics.Tariffs.Application.UseCases.LocationServices;
 
 namespace TL.TransportLogistics.Tariffs.Application.UseCases.TariffServices;
 
-/// <summary>
-/// Обработчик для сохранения тарифа с параметрами маршрута
-/// </summary>
 internal sealed class SaveTariffRouteCommandHandler(
     ITariffRepository tariffRepository,
     ILocationRepository locationRepository)

@@ -14,29 +14,6 @@ namespace TL.TransportLogistics.Tariffs.Infrastructure.DependencyInjection;
 
 public static class ServiceExtensions
 {
-    /// <summary>
-    /// Регистрация сервисов тарифа
-    /// <list type="bullet">
-    ///     <item>
-    ///     Регестрирует <see cref="IUserContext" />, как <see cref="ServiceLifetime.Scoped" /> только mock для
-    ///     ASPNETCORE_ENVIRONMENT=Development
-    ///     </item>
-    ///     <item>
-    ///     Регестрирует <see cref="IUseCase{TCommand}" />, как <see cref="ServiceLifetime.Transient" />.<br />
-    ///     Доступные команды:
-    ///     <list type="bullet">
-    ///         <item><see cref="CreateTariffCommand" /></item>
-    ///         <item><see cref="SaveTariffRouteCommand" /></item>
-    ///         <item><see cref="SaveTariffCargoEquipmentCommand" /></item>
-    ///         <item><see cref="SaveTariffPriceCommand" /></item>
-    ///         <item><see cref="PublishTariffCommand" /></item>
-    ///     </list>
-    ///     </item>
-    /// </list>
-    /// </summary>
-    /// <param name="services">Коллекция сервисов</param>
-    /// <param name="neo4JSettings">Neo4j connection settings</param>
-    /// <returns>Коллекция сервисов</returns>
     public static IServiceCollection AddTariffServices(
         this IServiceCollection services,
         INeo4JSettings neo4JSettings)
