@@ -22,7 +22,7 @@ public sealed class Worker : BackgroundService
             var syncer = scope.ServiceProvider.GetRequiredService<SyncLocationsService>();
 
             using var logWatcher = _logger.BeginLogWatch("Sync locations");
-            await syncer.Sync();
+            await syncer.SyncAsync();
         }
         catch (Exception exception)
         {
