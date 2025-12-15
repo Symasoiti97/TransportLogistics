@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using TL.Locations.Locations.SyncLocationsTool.Infrastructure.DataAccess.Neo4j.Models;
 
 namespace TL.Locations.Locations.SyncLocationsTool.Infrastructure.DataAccess.Postgres;
 
@@ -14,12 +13,6 @@ internal sealed class OsmDbContext : DbContext
         optionsBuilder.EnableSensitiveDataLogging();
     }
 
-    protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder) =>
-        configurationBuilder.DefaultTypeMapping<Node>();
-
     protected override void OnModelCreating(ModelBuilder modelBuilder)
-    {
-        modelBuilder.Entity<Node>();
-        modelBuilder.Entity<TempLocation>();
-    }
+        => modelBuilder.ApplyConfigurationsFromAssembly(typeof(OsmDbContext).Assembly);
 }

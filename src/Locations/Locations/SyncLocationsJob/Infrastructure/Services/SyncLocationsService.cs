@@ -1,7 +1,8 @@
-﻿using System.Text.Json;
+using System.Text.Json;
 using Microsoft.EntityFrameworkCore;
 using TL.Locations.Locations.SyncLocationsTool.Infrastructure.DataAccess.Neo4j.Models;
 using TL.Locations.Locations.SyncLocationsTool.Infrastructure.DataAccess.Postgres;
+using TL.Locations.Locations.SyncLocationsTool.Infrastructure.DataAccess.Postgres.Models;
 using TL.SharedKernel.Infrastructure.Neo4j;
 using UnidecodeSharpFork;
 using Location = TL.Locations.Locations.SyncLocationsTool.Infrastructure.DataAccess.Neo4j.Models.Location;
@@ -12,10 +13,10 @@ namespace TL.Locations.Locations.SyncLocationsTool.Infrastructure.Services;
 /// Импортер локаций из postgres(OpenStreetMap) в Neo4j
 /// </summary>
 /// <remarks>
-/// Импорт локаций происходит вниз по иерархии (Мир -> Страны -> Регионы -> Города -> Станции ж/д)
+/// Импорт локаций происходит вниз по иерархии (Мир -> Страны -> Регионы -> Города -> Станции ж/д/Порты -> Терминалы/Склады)
 /// У каждой локации(Кроме Мир) должен быть родитель. Если у локации нет родителя, то ее нужно удалить
 /// </remarks>
-internal class SyncLocationsService
+internal sealed class SyncLocationsService
 {
     //excludeCountries - страны дубликаты(11980, 1252792, 9604462)
     private static readonly long[] ExcludeCountries = [11980, 1252792, 9604462];
@@ -35,7 +36,7 @@ internal class SyncLocationsService
         _graphClientFactory = graphClientFactory ?? throw new ArgumentNullException(nameof(graphClientFactory));
     }
 
-    public async Task Sync()
+    public async Task SyncAsync()
     {
         await _osmDbContext.Database.ExecuteSqlRawAsync("SET enable_seqscan = OFF;");
 
@@ -44,69 +45,45 @@ internal class SyncLocationsService
         {
             if (!IgnoreRegionCountries.Contains(country.SyncId))
             {
-                var regions = await GetRegionsAsync(country).ToListAsync();
+                var regions = await GetRegionsInCountryAsync(country.SyncId);
+                var regionsWithoutExcluded = regions.Where(region => !ExcludeRegions.Contains(region.SyncId)).ToList();
+                await SaveLocationsAsync(regionsWithoutExcluded, country);
 
-                var regionsWithoutExcludeRegions = regions.Where(x => !ExcludeRegions.Contains(x.SyncId));
-                await SaveLocationsAsync(regionsWithoutExcludeRegions, country);
-
-                foreach (var region in regionsWithoutExcludeRegions)
+                foreach (var region in regionsWithoutExcluded)
                 {
-                    await ImportCitiesAndRailways(region);
-                }
+                    await ImportCitiesAndSublocations(region);
 
-                var cities = await GetCitiesAsync(country.SyncId, regions.Select(x => x.SyncId)).ToArrayAsync();
-                await SaveLocationsAsync(cities, country);
-
-                foreach (var city in cities)
-                {
-                    var railways = await GetRailwaysAsync(city).ToArrayAsync();
-                    await SaveLocationsAsync(railways, city);
+                    var portsInRegion = await GetPortsInRegionAsync(region.SyncId);
+                    await SaveLocationsAsync(portsInRegion, region);
+                    await ImportTerminalsForPorts(portsInRegion);
                 }
             }
             else
             {
-                await ImportCitiesAndRailways(country);
+                await ImportCitiesAndSublocations(country);
             }
+
+            var portsInCountry = await GetPortsInCountryAsync(country.SyncId);
+            await SaveLocationsAsync(portsInCountry, country);
+            await ImportTerminalsForPorts(portsInCountry);
         }
 
-        async Task ImportCitiesAndRailways(Location parentLocation)
+        async Task ImportCitiesAndSublocations(Location parentLocation)
         {
             try
             {
-                var cities = await GetCities(parentLocation.SyncId).ToArrayAsync();
+                var cities = await GetCitiesInParentAsync(parentLocation);
                 await SaveLocationsAsync(cities, parentLocation);
 
-                try
+                foreach (var city in cities)
                 {
-                    var railwaysWithCity = GetRailwaysAsync(cities.Select(x => x.SyncId));
-                    await foreach (var (city, railways) in railwaysWithCity)
-                    {
-                        try
-                        {
-                            await SaveLocationsAsync(await railways.ToArrayAsync(), city);
-                        }
-                        catch (Exception exception)
-                        {
-                            Console.WriteLine(exception);
-                            Console.WriteLine(JsonSerializer.Serialize(city));
-                        }
-                    }
-                }
-                catch
-                {
-                    foreach (var city in cities)
-                    {
-                        var railways = (await GetRailwaysAsync([city.SyncId]).FirstOrDefaultAsync()).Item2;
-                        try
-                        {
-                            await SaveLocationsAsync(await railways.ToArrayAsync(), city);
-                        }
-                        catch (Exception exception)
-                        {
-                            Console.WriteLine(exception);
-                            Console.WriteLine(JsonSerializer.Serialize(city));
-                        }
-                    }
+                    var railways = await GetRailwaysInCityAsync(city.SyncId);
+                    await SaveLocationsAsync(railways, city);
+
+                    await ImportTerminalsForRailways(railways);
+
+                    var warehouses = await GetWarehousesInCityAsync(city.SyncId);
+                    await SaveLocationsAsync(warehouses, city);
                 }
             }
             catch (Exception exception)
@@ -115,376 +92,306 @@ internal class SyncLocationsService
                 Console.WriteLine(JsonSerializer.Serialize(parentLocation));
             }
         }
+
+        async Task ImportTerminalsForPorts(IEnumerable<Location> ports)
+        {
+            foreach (var port in ports)
+            {
+                var terminals = await GetTerminalsNearLocationAsync(port.SyncId, LocationType.Port);
+                await SaveLocationsAsync(terminals, port);
+            }
+        }
+
+        async Task ImportTerminalsForRailways(IEnumerable<Location> railways)
+        {
+            foreach (var railway in railways)
+            {
+                var terminals = await GetTerminalsNearLocationAsync(railway.SyncId, LocationType.Railway);
+                await SaveLocationsAsync(terminals, railway);
+            }
+        }
     }
+
+    private static Location ConvertCountryToLocation(Country country)
+        => new()
+        {
+            Id = Guid.NewGuid(),
+            En =
+                country.NameEn
+                ?? (country.Name?.IsBasicLatinFirstSymbol() == true ? country.Name : country.Name?.Unidecode()),
+            Ru =
+                country.NameRu
+                ?? (country.Name?.IsCyrillicFirstSymbol() == true ? country.Name : country.Name?.Unidecode()),
+            Origin = country.Name,
+            Population = country.Population ?? 0,
+            Latitude = country.Centroid?.Y,
+            Longitude = country.Centroid?.X,
+            Type = LocationType.Country,
+            SyncId = country.OsmId,
+            SourceType = LocationSourceType.OsmRelation,
+            Code = country.Iso3166_1,
+            MultiLanguageName = BuildMultiLanguageName(country.Tags)
+        };
+
+    private static Location ConvertRegionToLocation(Region region)
+        => new()
+        {
+            Id = Guid.NewGuid(),
+            En = region.NameEn
+                 ?? (region.Name?.IsBasicLatinFirstSymbol() == true ? region.Name : region.Name?.Unidecode()),
+            Ru = region.NameRu
+                 ?? (region.Name?.IsCyrillicFirstSymbol() == true ? region.Name : region.Name?.Unidecode()),
+            Origin = region.Name,
+            Population = region.Population ?? 0,
+            Latitude = region.Centroid?.Y,
+            Longitude = region.Centroid?.X,
+            Type = LocationType.Region,
+            SyncId = region.OsmId,
+            SourceType = LocationSourceType.OsmRelation,
+            PostalCode = region.PostalCode,
+            MultiLanguageName = BuildMultiLanguageName(region.Tags)
+        };
+
+    private static Location ConvertCityToLocation(City city)
+        => new()
+        {
+            Id = Guid.NewGuid(),
+            En = city.NameEn ?? (city.Name?.IsBasicLatinFirstSymbol() == true ? city.Name : city.Name?.Unidecode()),
+            Ru = city.NameRu ?? (city.Name?.IsCyrillicFirstSymbol() == true ? city.Name : city.Name?.Unidecode()),
+            Origin = city.Name,
+            Population = city.Population ?? 0,
+            Latitude = city.Centroid?.Y ?? city.Geom?.Coordinate.Y,
+            Longitude = city.Centroid?.X ?? city.Geom?.Coordinate.X,
+            Type = LocationType.City,
+            SyncId = city.OsmId,
+            SourceType = city.OsmType == "node" ? LocationSourceType.OsmNode : LocationSourceType.OsmRelation,
+            PostalCode = city.PostalCode,
+            MultiLanguageName = BuildMultiLanguageName(city.Tags)
+        };
+
+    private static Location ConvertRailwayToLocation(Railway railway)
+        => new()
+        {
+            Id = Guid.NewGuid(),
+            En =
+                railway.NameEn
+                ?? (railway.Name?.IsBasicLatinFirstSymbol() == true ? railway.Name : railway.Name?.Unidecode()),
+            Ru = railway.NameRu
+                 ?? (railway.Name?.IsCyrillicFirstSymbol() == true ? railway.Name : railway.Name?.Unidecode()),
+            Origin = railway.Name,
+            Latitude = railway.Geom?.Y,
+            Longitude = railway.Geom?.X,
+            Type = LocationType.Railway,
+            SyncId = railway.OsmId,
+            SourceType = LocationSourceType.OsmNode,
+            MultiLanguageName = BuildMultiLanguageName(railway.Tags)
+        };
+
+    private static Location ConvertPortToLocation(Port port)
+        => new()
+        {
+            Id = Guid.NewGuid(),
+            En = port.NameEn ?? (port.Name?.IsBasicLatinFirstSymbol() == true ? port.Name : port.Name?.Unidecode()),
+            Ru = port.NameRu ?? (port.Name?.IsCyrillicFirstSymbol() == true ? port.Name : port.Name?.Unidecode()),
+            Origin = port.Name,
+            Latitude = port.Centroid?.Y ?? port.Geom?.Coordinate.Y,
+            Longitude = port.Centroid?.X ?? port.Geom?.Coordinate.X,
+            Type = LocationType.Port,
+            SyncId = port.OsmId,
+            SourceType = port.OsmType == "node" ? LocationSourceType.OsmNode : LocationSourceType.OsmRelation,
+            MultiLanguageName = BuildMultiLanguageName(port.Tags)
+        };
+
+    private static Location ConvertTerminalToLocation(Terminal terminal)
+        => new()
+        {
+            Id = Guid.NewGuid(),
+            En =
+                terminal.NameEn
+                ?? (terminal.Name?.IsBasicLatinFirstSymbol() == true ? terminal.Name : terminal.Name?.Unidecode()),
+            Ru =
+                terminal.NameRu
+                ?? (terminal.Name?.IsCyrillicFirstSymbol() == true ? terminal.Name : terminal.Name?.Unidecode()),
+            Origin = terminal.Name,
+            Latitude = terminal.Centroid?.Y ?? terminal.Geom?.Coordinate.Y,
+            Longitude = terminal.Centroid?.X ?? terminal.Geom?.Coordinate.X,
+            Type = LocationType.Terminal,
+            SyncId = terminal.OsmId,
+            SourceType = terminal.OsmType == "node" ? LocationSourceType.OsmNode : LocationSourceType.OsmRelation,
+            MultiLanguageName = BuildMultiLanguageName(terminal.Tags)
+        };
+
+    private static Location ConvertWarehouseToLocation(Warehouse warehouse)
+        => new()
+        {
+            Id = Guid.NewGuid(),
+            En =
+                warehouse.NameEn
+                ?? (warehouse.Name?.IsBasicLatinFirstSymbol() == true ? warehouse.Name : warehouse.Name?.Unidecode()),
+            Ru =
+                warehouse.NameRu
+                ?? (warehouse.Name?.IsCyrillicFirstSymbol() == true ? warehouse.Name : warehouse.Name?.Unidecode()),
+            Origin = warehouse.Name,
+            Latitude = warehouse.Centroid?.Y ?? warehouse.Geom?.Coordinate.Y,
+            Longitude = warehouse.Centroid?.X ?? warehouse.Geom?.Coordinate.X,
+            Type = LocationType.Warehouse,
+            SyncId = warehouse.OsmId,
+            SourceType = warehouse.OsmType == "node" ? LocationSourceType.OsmNode : LocationSourceType.OsmRelation,
+            MultiLanguageName = BuildMultiLanguageName(warehouse.Tags)
+        };
+
+    private static string? BuildMultiLanguageName(Dictionary<string, string>? tags)
+        => tags?.FilterNamesByCultures().BuildFullTxt();
 
     private async Task<IReadOnlyCollection<Location>> GetAndSaveCountriesAsync(Location worldLocation)
     {
-        var countries = await GetCountries().Where(x => !ExcludeCountries.Contains(x.SyncId)).ToListAsync();
+        var countries = await _osmDbContext.Set<Country>()
+            .Where(country => !ExcludeCountries.Contains(country.OsmId) || IncludeCountries.Contains(country.OsmId))
+            .Select(country => ConvertCountryToLocation(country))
+            .ToListAsync();
+
         await SaveLocationsAsync(countries, worldLocation);
         return countries;
     }
 
-    private IAsyncEnumerable<Location> GetCountries()
+    private async Task<List<Location>> GetRegionsInCountryAsync(long countrySyncId)
     {
-        var result = _osmDbContext.Set<Node>()
-            .FromSqlInterpolated(
-                $"""
-                 SELECT r.id "Id", COALESCE(n.tags, r.tags) "Tags", n.geom "Geom"
-                 FROM relations r
-                          LEFT JOIN relation_members rm on r.id = rm.relation_id AND member_role = 'label'
-                          LEFT JOIN nodes n on rm.member_id = n.id
-                 WHERE (r.tags -> 'admin_level' = '2' AND r.tags -> 'boundary' = 'administrative' AND r.tags-> 'ISO3166-1' is not null) OR r.id = 7750160;
-                 """);
+        var regions = await _osmDbContext.Set<Region>()
+            .FromSqlInterpolated($@"
+                SELECT r.* FROM regions r
+                WHERE ST_Contains(
+                    (SELECT geom FROM countries WHERE osm_id = {countrySyncId}),
+                    COALESCE(r.centroid, ST_Centroid(r.geom))
+                )
+                AND r.admin_level >= 3 AND r.admin_level <= 8
+                ORDER BY r.admin_level, r.name")
+            .ToListAsync();
 
-        return result.AsAsyncEnumerable()
-            .Select(x => new Location
-            {
-                Id = Guid.NewGuid(),
-                Type = LocationType.Country,
-                Origin = x.Tags!.GetValueOrDefault("name"),
-                En = x.Tags!.TryGetValue("name:en", out var nameEn) ? nameEn :
-                    x.Tags.TryGetValue("name", out nameEn) && nameEn.IsBasicLatinFirstSymbol() ? nameEn :
-                    nameEn.Unidecode(),
-                Ru = x.Tags.TryGetValue("name:ru", out var nameRu) ? nameRu :
-                    x.Tags.TryGetValue("name", out nameRu) && nameRu.IsCyrillicFirstSymbol() ? nameRu :
-                    nameRu.Unidecode(),
-                Population =
-                    x.Tags.TryGetValue("population", out var population)
-                    && long.TryParse(population, out var populationNumber)
-                        ? populationNumber
-                        : 0,
-                MultiLanguageName = x.Tags.FilterNamesByCultures().BuildFullTxt(),
-                SyncId = x.Id,
-                SourceType = LocationSourceType.OsmRelation,
-                Code = x.Tags.TryGetValue("ISO3166-1", out var code) ? code : null,
-                Latitude = x.Geom?.Y,
-                Longitude = x.Geom?.X
-            });
+        return regions.Select(ConvertRegionToLocation).ToList();
     }
 
-    private IAsyncEnumerable<Location> GetRegionsAsync(Location parentLocation)
+    private async Task<List<Location>> GetCitiesInParentAsync(Location parentLocation)
     {
-        var result = _osmDbContext.Set<TempLocation>()
-            .FromSqlInterpolated(
-                $"""
-                 SELECT region.id "Id", region.tags "Tags", st_y(st_centroid(st_polygonize(w.linestring))) "Latitude", st_x(st_centroid(st_polygonize(w.linestring))) "Longitude"
-                 FROM (SELECT region.*
-                       FROM relations region
+        var cities = parentLocation.Type == LocationType.Country
+            ? await _osmDbContext.Set<City>()
+                .FromSqlInterpolated($@"
+                    SELECT c.* FROM cities c
+                    WHERE ST_Contains(
+                        (SELECT geom FROM countries WHERE osm_id = {parentLocation.SyncId}),
+                        COALESCE(c.centroid, c.geom)
+                    )
+                    ORDER BY c.population DESC NULLS LAST, c.name")
+                .ToListAsync()
+            : await _osmDbContext.Set<City>()
+                .FromSqlInterpolated($@"
+                    SELECT c.* FROM cities c
+                    WHERE ST_Contains(
+                        (SELECT geom FROM regions WHERE osm_id = {parentLocation.SyncId}),
+                        COALESCE(c.centroid, c.geom)
+                    )
+                    ORDER BY c.population DESC NULLS LAST, c.name")
+                .ToListAsync();
 
-                 INNER JOIN relation_members rm on region.id = rm.member_id
-                 INNER JOIN relations r on rm.relation_id = r.id
-
-                 INNER JOIN relation_members rm2 on r.id = rm2.member_id
-                 INNER JOIN relations r2 on rm2.relation_id = r2.id
-
-                 INNER JOIN relation_members rm3 on r2.id = rm3.member_id
-                 INNER JOIN relations r3 on rm3.relation_id = r3.id AND r3.id = {parentLocation.SyncId}
-                 INNER JOIN region_admin_levels c on r3.tags -> 'ISO3166-1' = c."Code" AND region.tags -> 'admin_level' = ANY(c."Levels")
-                     WHERE region.tags -> 'name' is not null
-                       AND c."Levels" != '{Array.Empty<string>()}'
-                 UNION ALL
-                 SELECT region.*
-                 FROM relations region
-                 INNER JOIN relation_members rm on region.id = rm.member_id
-                 INNER JOIN relations r on rm.relation_id = r.id
-
-                 INNER JOIN relation_members rm2 on r.id = rm2.member_id
-                 INNER JOIN relations r2 on rm2.relation_id = r2.id AND r2.id = {parentLocation.SyncId}
-                 INNER JOIN region_admin_levels c on r2.tags -> 'ISO3166-1' = c."Code" AND region.tags -> 'admin_level' = ANY(c."Levels")
-                                                WHERE region.tags -> 'name' is not null
-                                                    AND c."Levels" != '{Array.Empty<string>()}'
-                 UNION ALL
-                 SELECT region.*
-                 FROM relations region
-                 INNER JOIN relation_members rm on region.id = rm.member_id
-                 INNER JOIN relations r on rm.relation_id = r.id AND r.id = {parentLocation.SyncId}
-                 INNER JOIN region_admin_levels c on r.tags -> 'ISO3166-1' = c."Code" AND region.tags -> 'admin_level' = ANY(c."Levels")
-                                                WHERE region.tags -> 'name' is not null AND c."Levels" != '{Array.Empty<string>()}'
-                                                ) region
-                 INNER JOIN relation_members rm on region.id = rm.relation_id AND rm.member_role = 'outer'
-                 INNER JOIN ways w on w.id = rm.member_id
-                 GROUP BY region.id, region.tags ORDER BY region.tags -> 'admin_level';
-                 """);
-
-        return result.AsAsyncEnumerable()
-            .Select(x => new Location
-            {
-                Id = Guid.NewGuid(),
-                Type = LocationType.Region,
-                Origin = x.Tags!.GetValueOrDefault("name"),
-                En = x.Tags!.TryGetValue("name:en", out var nameEn) ? nameEn :
-                    x.Tags.TryGetValue("name", out nameEn) && nameEn.IsBasicLatinFirstSymbol() ? nameEn :
-                    nameEn.Unidecode(),
-                Ru = x.Tags.TryGetValue("name:ru", out var nameRu) ? nameRu :
-                    x.Tags.TryGetValue("name", out nameRu) && nameRu.IsCyrillicFirstSymbol() ? nameRu :
-                    nameRu.Unidecode(),
-                Latitude = x.Latitude,
-                Longitude = x.Longitude,
-                Population = x.Population,
-                PostalCode = x.Tags.TryGetValue("addr:postcode", out var postcode)
-                    ? postcode
-                    : x.Tags.GetValueOrDefault("postal_code"),
-                MultiLanguageName = x.Tags.FilterNamesByCultures().BuildFullTxt(),
-                SyncId = x.Id,
-                SourceType = LocationSourceType.OsmRelation
-            });
+        return cities.Select(ConvertCityToLocation).ToList();
     }
 
-    private IAsyncEnumerable<Location> GetCities(long relationId)
+    private async Task<List<Location>> GetRailwaysInCityAsync(long citySyncId)
     {
-        var query = _osmDbContext.Set<Node>()
-            .FromSqlInterpolated(
-                $"""
-                 SELECT city.* FROM nodes city
-                 WHERE city.tags -> 'name' is not null AND (city.tags -> 'place' = 'city' OR city.tags -> 'place' = 'town' OR city.tags -> 'place' = 'village' OR city.tags -> 'place' = 'hamlet')
-                   AND st_contains((SELECT CASE WHEN COUNT(*) = 1 THEN first(p.polygon) ELSE st_difference(last(p.polygon), first(p.polygon)) END polygon
-                                    FROM (SELECT st_polygonize(ST_ForceClosed(st_linemerge(p.polygon))) polygon
-                                          FROM (SELECT st_union(w.linestring) polygon, rm.member_role as role
-                                                FROM relations r
-                                                         INNER JOIN relation_members rm on r.id = rm.relation_id AND (rm.member_role = 'outer' OR rm.member_role = 'inner')
-                                                         INNER JOIN ways w on w.id = rm.member_id
-                                                WHERE r.id = {relationId}
-                                                GROUP BY rm.member_role) p
-                                          GROUP BY role) p), city.geom)
-                 """);
+        var railways = await _osmDbContext.Set<Railway>()
+            .FromSqlInterpolated($@"
+                SELECT r.* FROM railways r
+                WHERE ST_DWithin(
+                    r.geom,
+                    COALESCE(
+                        (SELECT centroid FROM cities WHERE osm_id = {citySyncId} AND centroid IS NOT NULL),
+                        (SELECT geom FROM cities WHERE osm_id = {citySyncId})
+                    ),
+                    0.1  -- ~10km radius
+                )
+                AND (r.station IS NULL OR r.station != 'subway')
+                ORDER BY r.name")
+            .ToListAsync();
 
-        return query.AsAsyncEnumerable()
-            .Select(x => new Location
-            {
-                Id = Guid.NewGuid(),
-                Origin = x.Tags?.GetValueOrDefault("name"),
-                En = x.Tags!.TryGetValue("name:en", out var nameEn) ? nameEn :
-                    x.Tags.TryGetValue("name", out nameEn) && nameEn.IsBasicLatinFirstSymbol() ? nameEn :
-                    nameEn.Unidecode(),
-                Ru = x.Tags.TryGetValue("name:ru", out var nameRu) ? nameRu :
-                    x.Tags.TryGetValue("name", out nameRu) && nameRu.IsCyrillicFirstSymbol() ? nameRu :
-                    nameRu.Unidecode(),
-                Population =
-                    x.Tags.TryGetValue("population", out var population)
-                    && long.TryParse(population, out var populationNumber)
-                        ? populationNumber
-                        : 0,
-                Latitude = x.Geom?.Y,
-                Longitude = x.Geom?.X,
-                Type = LocationType.City,
-                SyncId = x.Id,
-                SourceType = LocationSourceType.OsmNode,
-                PostalCode = x.Tags.TryGetValue("addr:postcode", out var postcode)
-                    ? postcode
-                    : x.Tags.GetValueOrDefault("postal_code"),
-                MultiLanguageName = x.Tags.FilterNamesByCultures().BuildFullTxt()
-            });
+        return railways.Select(ConvertRailwayToLocation).ToList();
     }
 
-    private IAsyncEnumerable<Location> GetCitiesAsync(long countrySyncId, IEnumerable<long> regionsSyncIds)
+    private async Task<List<Location>> GetPortsInCountryAsync(long countrySyncId)
     {
-        var query = _osmDbContext.Set<Node>()
-            .FromSqlInterpolated(
-                $"""
-                 SELECT city.*
-                 FROM nodes city
-                 WHERE city.tags -> 'name' is not null AND
-                                        (city.tags -> 'place' = 'city' OR city.tags -> 'place' = 'town' OR city.tags -> 'place' = 'village' OR city.tags -> 'place' = 'hamlet') AND
-                                        st_contains((SELECT st_difference(p1.polygon, p2.polygon) polygon
-                                      FROM (SELECT st_polygonize(w.linestring) as polygon
-                                            FROM relations r
-                                                     INNER JOIN relation_members rm on r.id = rm.relation_id AND (rm.member_role = 'outer' OR rm.member_role = 'inner')
-                                                     INNER JOIN ways w on w.id = rm.member_id
-                                            WHERE r.id = {countrySyncId}) p1
-                                               INNER JOIN (SELECT st_polygonize(p.polygon) as polygon
-                                                           FROM (SELECT st_union(w.linestring) as polygon
-                                                                 FROM relations r
-                                                                          INNER JOIN relation_members rm on r.id = rm.relation_id AND (rm.member_role = 'outer' OR rm.member_role = 'inner')
-                                                                          INNER JOIN ways w on w.id = rm.member_id
-                                                                 WHERE r.id IN ({string.Join(", ", regionsSyncIds)})
-                                                                 GROUP BY r.id, rm.member_role) p) p2 ON true), city.geom)
-                 """);
+        var ports = await _osmDbContext.Set<Port>()
+            .FromSqlInterpolated($@"
+                SELECT p.* FROM ports p
+                WHERE ST_Contains(
+                    (SELECT geom FROM countries WHERE osm_id = {countrySyncId}),
+                    COALESCE(p.centroid, p.geom)
+                )
+                ORDER BY p.name")
+            .ToListAsync();
 
-        return query.AsAsyncEnumerable()
-            .Select(x => new Location
-            {
-                Id = Guid.NewGuid(),
-                Origin = x.Tags?.GetValueOrDefault("name"),
-                En = x.Tags!.TryGetValue("name:en", out var nameEn) ? nameEn :
-                    x.Tags.TryGetValue("name", out nameEn) && nameEn.IsBasicLatinFirstSymbol() ? nameEn :
-                    nameEn.Unidecode(),
-                Ru = x.Tags.TryGetValue("name:ru", out var nameRu) ? nameRu :
-                    x.Tags.TryGetValue("name", out nameRu) && nameRu.IsCyrillicFirstSymbol() ? nameRu :
-                    nameRu.Unidecode(),
-                Population =
-                    x.Tags.TryGetValue("population", out var population)
-                    && long.TryParse(population, out var populationNumber)
-                        ? populationNumber
-                        : 0,
-                Latitude = x.Geom?.Y,
-                Longitude = x.Geom?.X,
-                Type = LocationType.City,
-                SyncId = x.Id,
-                SourceType = LocationSourceType.OsmNode,
-                PostalCode = x.Tags.TryGetValue("addr:postcode", out var postcode)
-                    ? postcode
-                    : x.Tags.GetValueOrDefault("postal_code"),
-                MultiLanguageName = x.Tags.FilterNamesByCultures().BuildFullTxt()
-            });
+        return ports.Select(ConvertPortToLocation).ToList();
     }
 
-    private IAsyncEnumerable<Location> GetRailwaysAsync(Location parentLocation)
+    private async Task<List<Location>> GetPortsInRegionAsync(long regionSyncId)
     {
-        var result = _osmDbContext.Set<TempLocation>()
-            .FromSqlInterpolated(
-                $"""
-                 SELECT railway.id, railway.tags, st_y(railway.geom), st_x(railway.geom)
-                 FROM nodes railway
-                 WHERE ((railway.tags -> 'railway' = 'station' AND (railway.tags -> 'station' is null OR railway.tags -> 'station' <> 'subway' OR railway.tags -> 'train' = 'yes')) OR (railway.tags -> 'railway' = 'halt')) AND railway.tags -> 'name' is not null
-                   AND st_contains((SELECT polygon
-                                    FROM (SELECT st_polygonize(r2.linestring) polygon, n.geom geom, (city.tags -> 'admin_level')::integer admin_level
-                                          FROM relations city
-                                                   INNER JOIN nodes n on lower(trim(n.tags -> 'name')) = lower(trim(city.tags -> 'name'))
-                                                   INNER JOIN relation_members rm on city.id = rm.relation_id AND rm.member_role = 'outer'
-                                                   INNER JOIN ways r2 on r2.id = rm.member_id
-                                          WHERE n.id = {parentLocation.SyncId}
-                                          GROUP BY n.id, admin_level ORDER BY admin_level DESC LIMIT 1) parent
-                                    WHERE st_contains(polygon, geom)), railway.geom);
-                 """);
+        var ports = await _osmDbContext.Set<Port>()
+            .FromSqlInterpolated($@"
+                SELECT p.* FROM ports p
+                WHERE ST_Contains(
+                    (SELECT geom FROM regions WHERE osm_id = {regionSyncId}),
+                    COALESCE(p.centroid, p.geom)
+                )
+                ORDER BY p.name")
+            .ToListAsync();
 
-        return result.AsAsyncEnumerable()
-            .Where(x => !x.Tags!.TryGetValue("transport", out var transport) || transport == "train")
-            .Select(x =>
-                new Location
-                {
-                    Id = Guid.NewGuid(),
-                    Origin = x.Tags?.GetValueOrDefault("name"),
-                    En = x.Tags!.TryGetValue("name:en", out var nameEn)
-                        ? nameEn
-                        : x.Tags.TryGetValue("name", out nameEn) && nameEn.IsBasicLatinFirstSymbol()
-                            ? nameEn
-                            : nameEn.Unidecode(),
-                    Ru = x.Tags.TryGetValue("name:ru", out var nameRu)
-                        ? nameRu
-                        : x.Tags.TryGetValue("name", out nameRu) && nameRu.IsCyrillicFirstSymbol()
-                            ? nameRu
-                            : nameRu.Unidecode(),
-                    Population = x.Population,
-                    Latitude = x.Latitude,
-                    Longitude = x.Longitude,
-                    Type = LocationType.Railway,
-                    SyncId = x.Id,
-                    SourceType = LocationSourceType.OsmNode,
-                    MultiLanguageName = x.Tags.FilterNamesByCultures().BuildFullTxt()
-                });
+        return ports.Select(ConvertPortToLocation).ToList();
     }
 
-    private IAsyncEnumerable<(Location, IAsyncEnumerable<Location>)> GetRailwaysAsync(IEnumerable<long> nodeIds)
+    private async Task<List<Location>> GetTerminalsNearLocationAsync(long locationSyncId, LocationType parentType)
     {
-        var result = _osmDbContext.Set<TempLocation>()
-            .FromSqlInterpolated(
-                $"""
-                 SELECT railway.id, railway.tags, st_y(railway.geom), st_x(railway.geom), parent.id, parent.tags
-                 FROM nodes railway
-                          INNER JOIN (SELECT first(parent.polygon) polygon, first(parent.id) id, first(parent.tags) tags FROM (SELECT st_polygonize(ST_ForceClosed(st_linemerge(n.polygon))) polygon, n.id, n.tags, n.geom
-                                      FROM (SELECT st_union(r2.linestring) polygon, n.id id, n.tags tags, n.geom geom, (city.tags -> 'admin_level')::int as admin_level
-                                            FROM relations city
-                                                     INNER JOIN nodes n on n.tags -> 'name' = city.tags -> 'name'
-                                                     INNER JOIN relation_members rm on city.id = rm.relation_id AND rm.member_role = 'outer'
-                                                     INNER JOIN ways r2 on r2.id = rm.member_id
-                                            WHERE n.id in ({string.Join(", ", nodeIds)}) AND city.tags -> 'ISO3166-1' is null
-                                            GROUP BY city.id, n.id ORDER BY admin_level DESC) n
-                                      GROUP BY n.id, n.tags, n.id, n.geom, polygon) parent WHERE st_contains(parent.polygon, parent.geom)) parent
-                                     on (parent.polygon is not null AND
-                                        (railway.tags -> 'railway' = 'station' AND (railway.tags -> 'station' is null OR railway.tags -> 'station' <> 'subway') OR (railway.tags -> 'railway' = 'halt')) AND
-                                        railway.tags -> 'name' is not null AND st_contains(parent.polygon, railway.geom));
-                 """
-            );
+        var terminals = parentType == LocationType.Port
+            ? await _osmDbContext.Set<Terminal>()
+                .FromSqlInterpolated($@"
+                    SELECT t.* FROM terminals t
+                    WHERE ST_DWithin(
+                        COALESCE(t.centroid, t.geom),
+                        COALESCE(
+                            (SELECT centroid FROM ports WHERE osm_id = {locationSyncId} AND centroid IS NOT NULL),
+                            (SELECT geom FROM ports WHERE osm_id = {locationSyncId})
+                        ),
+                        0.01  -- ~1km radius
+                    )
+                    ORDER BY t.name")
+                .ToListAsync()
+            : await _osmDbContext.Set<Terminal>()
+                .FromSqlInterpolated($@"
+                    SELECT t.* FROM terminals t
+                    WHERE ST_DWithin(
+                        COALESCE(t.centroid, t.geom),
+                        (SELECT geom FROM railways WHERE osm_id = {locationSyncId}),
+                        0.01  -- ~1km radius
+                    )
+                    ORDER BY t.name")
+                .ToListAsync();
 
-        return result.AsAsyncEnumerable()
-            .GroupBy(
-                x => new
-                {
-                    x.ParentNodeId,
-                    x.ParentName
-                },
-                (parent, nodes) =>
-                    new ValueTuple<Location, IAsyncEnumerable<Location>>(
-                        new Location
-                        {
-                            Id = Guid.NewGuid(),
-                            Type = LocationType.City,
-                            SyncId = parent.ParentNodeId,
-                            SourceType = LocationSourceType.OsmNode,
-                            En = parent.ParentName,
-                            Ru = parent.ParentName,
-                            Origin = parent.ParentName
-                        },
-                        nodes.Where(x => !x.Tags!.TryGetValue("transport", out var transport)
-                                         || transport == "train")
-                            .Select(x => new Location
-                            {
-                                Id = Guid.NewGuid(),
-                                Origin = x.Tags?.GetValueOrDefault("name"),
-                                En = x.Tags!.TryGetValue("name:en", out var nameEn)
-                                    ? nameEn
-                                    : x.Tags.TryGetValue("name", out nameEn)
-                                      && nameEn.IsBasicLatinFirstSymbol()
-                                        ? nameEn
-                                        : nameEn.Unidecode(),
-                                Ru = x.Tags.TryGetValue("name:ru", out var nameRu)
-                                    ? nameRu
-                                    : x.Tags.TryGetValue("name", out nameRu)
-                                      && nameRu.IsCyrillicFirstSymbol()
-                                        ? nameRu
-                                        : nameRu.Unidecode(),
-                                Population = x.Population,
-                                Latitude = x.Latitude,
-                                Longitude = x.Longitude,
-                                Type = LocationType.Railway,
-                                SyncId = x.Id,
-                                SourceType = LocationSourceType.OsmNode,
-                                MultiLanguageName = x.Tags.FilterNamesByCultures().BuildFullTxt()
-                            })
-                            .ToAsyncEnumerable()));
+        return terminals.Select(ConvertTerminalToLocation).ToList();
     }
 
-    private async Task<(Location location, IEnumerable<KeyValuePair<string, string>> names)[]> GetRailwaysAsync(
-        long nodeId,
-        IEnumerable<KeyValuePair<string, string>> names)
+    private async Task<List<Location>> GetWarehousesInCityAsync(long citySyncId)
     {
-        var query = await _osmDbContext.Set<Node>()
-            .FromSqlInterpolated(
-                $"""
-                 SELECT railway.*
-                 FROM nodes railway
-                          INNER JOIN (SELECT st_polygonize(array_agg(r2.linestring)) as polygon
-                                      FROM relations city
-                                               INNER JOIN nodes n on n.tags -> 'name' = city.tags -> 'name' AND
-                                                                     n.tags -> 'place' = city.tags -> 'place' AND
-                                                                     ((n.tags -> 'addr:country' is null OR city.tags -> 'addr:country' is null) OR
-                                                                      (n.tags -> 'addr:country' is not null AND city.tags -> 'addr:country' is not null AND n.tags -> 'addr:country' = city.tags -> 'addr:country')) AND
-                                                                     ((n.tags -> 'addr:region' is null OR city.tags -> 'addr:region' is null) OR
-                                                                      (n.tags -> 'addr:region' is not null AND city.tags -> 'addr:region' is not null AND n.tags -> 'addr:region' = city.tags -> 'addr:region'))
-                                               INNER JOIN relation_members rm on city.id = rm.relation_id AND rm.member_role = 'outer'
-                                               INNER JOIN ways r2 on r2.id = rm.member_id
-                                      WHERE n.id = {nodeId}) parent
-                                     on railway.tags -> 'railway' = 'station' AND st_contains(parent.polygon, railway.geom)
-                 """)
-            .ToArrayAsync();
+        var warehouses = await _osmDbContext.Set<Warehouse>()
+            .FromSqlInterpolated($@"
+                SELECT w.* FROM warehouses w
+                WHERE ST_DWithin(
+                    COALESCE(w.centroid, w.geom),
+                    COALESCE(
+                        (SELECT centroid FROM cities WHERE osm_id = {citySyncId} AND centroid IS NOT NULL),
+                        (SELECT geom FROM cities WHERE osm_id = {citySyncId})
+                    ),
+                    0.05  -- ~5km radius
+                )
+                ORDER BY w.name")
+            .ToListAsync();
 
-        return query.Select(x => new ValueTuple<Location, IEnumerable<KeyValuePair<string, string>>>(
-                new Location
-                {
-                    Id = Guid.NewGuid(),
-                    En = x.Tags!.TryGetValue("name:en", out var nameEn) ? nameEn :
-                        x.Tags.TryGetValue("name", out nameEn) ? nameEn : null,
-                    Ru = x.Tags.TryGetValue("name:ru", out var nameRu) ? nameRu :
-                        x.Tags.TryGetValue("name", out nameRu) ? nameRu : null,
-                    Latitude = x.Geom?.X,
-                    Longitude = x.Geom?.Y,
-                    Type = LocationType.Railway,
-                    SyncId = x.Id,
-                    SourceType = LocationSourceType.OsmNode,
-                    MultiLanguageName = x.Tags.FilterNamesByCultures().JoinNames(names).BuildFullTxt()
-                },
-                x.Tags.FilterNamesByCultures().JoinNames(names)))
-            .ToArray();
+        return warehouses.Select(ConvertWarehouseToLocation).ToList();
     }
 
     private async Task SaveLocationsAsync(IEnumerable<Location> locations, Location hLocation)
@@ -518,19 +425,19 @@ internal class SyncLocationsService
             var query = (await _graphClientFactory.GetCypherFluentQueryAsync(CancellationToken.None))
                 .Unwind(locationBatch, "newL")
                 .Match(
-                    "(h:Location {SyncId: {parentSyncId}, Type: {parentType}, SourceType: {parentSourceType}})")
+                    "(h:Location {SyncId: $parentSyncId, Type: $parentType, SourceType: $parentSourceType})")
                 .Merge("(l:Location {SyncId: newL.SyncId, Type: newL.Type, SourceType: newL.SourceType})")
                 .With("l, h, l.Id as id, newL")
                 .OptionalMatch("(l)-[r:LOCATED_IN]->(:Location)")
                 .Delete("r")
                 .Merge("(l)-[:LOCATED_IN]->(h)")
                 .Set(
-                    "l = newL, l.Id = CASE WHEN id is null THEN newL.Id ELSE id END, l.WeightType = size((l)-[:LOCATED_IN*]->())")
+                    "l = newL, l.Id = CASE WHEN id is null THEN newL.Id ELSE id END, l.WeightType = COUNT {(l)-[:LOCATED_IN*]->()}")
                 .WithParams(
                     new
                     {
                         parentSyncId = hLocation.SyncId,
-                        IAsyncEnumerableparentType = hLocation.Type,
+                        parentType = hLocation.Type,
                         parentSourceType = hLocation.SourceType
                     });
 
@@ -551,7 +458,7 @@ internal class SyncLocationsService
         };
         var query = (await _graphClientFactory.GetCypherFluentQueryAsync(CancellationToken.None))
             .Unwind(new[] { worldLocation }, "newL")
-            .Merge("(l:NewLocation {SyncId: newL.SyncId, Type: newL.Type, SourceType: newL.SourceType})")
+            .Merge("(l:Location {SyncId: newL.SyncId, Type: newL.Type, SourceType: newL.SourceType})")
             .With("l, l.Id as id, newL")
             .Set("l = newL, l.Id = CASE WHEN id is null THEN newL.Id ELSE id END");
 
