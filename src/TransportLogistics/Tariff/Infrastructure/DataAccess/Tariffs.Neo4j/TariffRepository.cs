@@ -29,11 +29,7 @@ internal sealed class TariffRepository(ICypherGraphClientFactory graphClientFact
                 })
             .ResultsAsync.ConfigureAwait(false);
 
-        var tariffResult = tariffResults.Single();
-        if (tariffResult is null)
-        {
-            throw new TariffNotFound(tariffId);
-        }
+        var tariffResult = tariffResults.SingleOrDefault() ?? throw new TariffNotFound(tariffId);
 
         return MapToTariff(tariffResult);
     }
@@ -152,8 +148,8 @@ internal sealed class TariffRepository(ICypherGraphClientFactory graphClientFact
                 .Merge($"(r)-[p{point.Order}:HAS_POINT]-(l{point.Order})")
                 .OnCreate()
                 .Set(
-                    @$"p{point.Order}.Hash = $point{point.Order}.Hash, 
-                                p{point.Order}.Type = $point{point.Order}.Type, 
+                    @$"p{point.Order}.Hash = $point{point.Order}.Hash,
+                                p{point.Order}.Type = $point{point.Order}.Type,
                                 p{point.Order}.Order = $point{point.Order}.Order")
                 .WithParam(
                     $"point{point.Order}",
