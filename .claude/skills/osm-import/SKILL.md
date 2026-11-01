@@ -42,7 +42,7 @@ dotnet run --environment Development   # when appsettings.Development.json exist
 
 - Long run: start in the background and read its log. Never start a second copy while one runs.
 - Stop only on the user's request. Check with `pgrep -fl SyncLocationsJob`.
-- Logs: `TL.Locations.Locations.SyncLocationsTool.Worker`. Trace: `python3 ${CLAUDE_PLUGIN_ROOT}/skills/tl-log-query-runner/scripts/seq_query.py --service sync-locations-job --since 2h`.
+- Logs: `TL.Locations.Locations.SyncLocationsTool.Worker`. Trace: `python3 .claude/skills/tl-log-query-runner/scripts/seq_query.py --service sync-locations-job --since 2h`.
 
 ## 4. Verify counts
 

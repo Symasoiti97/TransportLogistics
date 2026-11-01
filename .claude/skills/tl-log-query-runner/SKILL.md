@@ -10,7 +10,7 @@ Read-only. Runs a logical query on local Seq and prints lines oldest first. This
 ## Run
 
 ```bash
-python3 ${CLAUDE_PLUGIN_ROOT}/skills/tl-log-query-runner/scripts/seq_query.py [filters] [options]
+python3 .claude/skills/tl-log-query-runner/scripts/seq_query.py [filters] [options]
 ```
 
 - Seq must run on `http://localhost:5341` (`docker compose up -d seq`). Override: `TL_SEQ_URL`. API key, if any: `TL_SEQ_API_KEY`. Local Seq runs without a key.

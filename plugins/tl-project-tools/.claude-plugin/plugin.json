@@ -1,6 +1,0 @@
-{
-  "name": "tl-project-tools",
-  "version": "0.1.0",
-  "description": "TransportLogistics: BC boundary guard, build check after C# edits, architecture reviewer, TL dev and log skills",
-  "author": { "name": "TL team" }
-}

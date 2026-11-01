@@ -5,7 +5,7 @@ description: Read-only queries against TL's local Neo4j (Tariff and locations gr
 
 # tl-db-inspect
 
-Read-only. Run `${CLAUDE_PLUGIN_ROOT}/skills/tl-db-inspect/scripts/db_query.py` (it calls `docker exec` into local containers).
+Read-only. Run `.claude/skills/tl-db-inspect/scripts/db_query.py` (it calls `docker exec` into local containers).
 
 ## Targets
 
@@ -18,9 +18,9 @@ Read-only. Run `${CLAUDE_PLUGIN_ROOT}/skills/tl-db-inspect/scripts/db_query.py` 
 ## Examples
 
 ```bash
-python3 ${CLAUDE_PLUGIN_ROOT}/skills/tl-db-inspect/scripts/db_query.py neo4j "MATCH (l:Location) RETURN l.Type, count(*)"
-python3 ${CLAUDE_PLUGIN_ROOT}/skills/tl-db-inspect/scripts/db_query.py osm "select count(*) from cities"
-python3 ${CLAUDE_PLUGIN_ROOT}/skills/tl-db-inspect/scripts/db_query.py identity --db tl-identity "select table_name from information_schema.tables where table_schema='public'"
+python3 .claude/skills/tl-db-inspect/scripts/db_query.py neo4j "MATCH (l:Location) RETURN l.Type, count(*)"
+python3 .claude/skills/tl-db-inspect/scripts/db_query.py osm "select count(*) from cities"
+python3 .claude/skills/tl-db-inspect/scripts/db_query.py identity --db tl-identity "select table_name from information_schema.tables where table_schema='public'"
 ```
 
 Containers must run: `docker compose --profile infra up -d postgis-osm neo4j`.
