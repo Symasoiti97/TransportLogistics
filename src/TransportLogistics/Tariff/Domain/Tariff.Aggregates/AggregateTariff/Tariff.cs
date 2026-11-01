@@ -16,9 +16,9 @@ public sealed class Tariff : AggregateRoot<Guid>
     public Guid ManagerProfileId { get; private set; }
 
     /// <summary>
-    /// Указывает тариф является черновиком или действующим
-    /// True - тариф является черновиком
-    /// False - тариф является действующим
+    /// Indicates whether the tariff is a draft or active
+    /// True - the tariff is a draft
+    /// False - the tariff is active
     /// </summary>
     public bool IsDraft { get; private set; }
 
@@ -89,7 +89,7 @@ public sealed class Tariff : AggregateRoot<Guid>
     }
 
     /// <summary>
-    /// Устанавливает тариф как действующий
+    /// Sets the tariff as active
     /// </summary>
     public void SetAsReal()
     {

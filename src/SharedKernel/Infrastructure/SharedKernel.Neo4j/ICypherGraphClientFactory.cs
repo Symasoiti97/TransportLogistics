@@ -3,14 +3,14 @@
 namespace TL.SharedKernel.Infrastructure.Neo4j;
 
 /// <summary>
-/// Фабрика получения клиента для работы с neo4j
+/// Factory that provides a Neo4j client
 /// </summary>
 public interface ICypherGraphClientFactory
 {
     /// <summary>
-    /// Получить клиента для работы c neo4j
+    /// Get a Neo4j client
     /// </summary>
-    /// <param name="cancellationToken">Токен отмены</param>
-    /// <returns>Клиент для работы с neo4j</returns>
+    /// <param name="cancellationToken">Cancellation token</param>
+    /// <returns>Neo4j client</returns>
     Task<ICypherFluentQuery> GetCypherFluentQueryAsync(CancellationToken cancellationToken);
 }

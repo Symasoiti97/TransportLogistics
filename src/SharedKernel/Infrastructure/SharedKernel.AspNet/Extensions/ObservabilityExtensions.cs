@@ -13,14 +13,14 @@ namespace TL.SharedKernel.Infrastructure.AspNet.Extensions;
 public static class ObservabilityExtensions
 {
     /// <summary>
-    /// Подключает OpenTelemetry: логи из <c>ILogger</c> и трейсы (HttpClient и все <c>ActivitySource</c> вида <c>TL.*</c>).
-    /// Работает и в generic host (воркеры), и в Web API. Для входящих HTTP-запросов
-    /// дополнительно вызовите <see cref="AddTlAspNetCoreInstrumentation"/>.
+    /// Enables OpenTelemetry: logs from <c>ILogger</c> and traces (HttpClient and all <c>ActivitySource</c> named <c>TL.*</c>).
+    /// Works in both the generic host (workers) and Web API. For incoming HTTP requests
+    /// also call <see cref="AddTlAspNetCoreInstrumentation"/>.
     /// </summary>
-    /// <param name="services">Коллекция сервисов.</param>
-    /// <param name="options">Настройки OTLP-экспорта.</param>
-    /// <param name="environmentName">Окружение; попадает в поле <c>Environment</c>.</param>
-    /// <param name="serviceName">Имя сервиса — значение поля <c>Service</c> в логах.</param>
+    /// <param name="services">Service collection.</param>
+    /// <param name="options">OTLP export settings.</param>
+    /// <param name="environmentName">Environment; written to the <c>Environment</c> field.</param>
+    /// <param name="serviceName">Service name; written to the <c>Service</c> field in logs.</param>
     public static OpenTelemetryBuilder AddTlObservability(
         this IServiceCollection services,
         ObservabilityOptions options,
@@ -53,8 +53,8 @@ public static class ObservabilityExtensions
     }
 
     /// <summary>
-    /// Инструментирует входящие HTTP-запросы: создаёт <c>Activity</c> (источник <c>TraceId</c>)
-    /// и принимает W3C <c>traceparent</c> от вызывающего сервиса.
+    /// Instruments incoming HTTP requests: creates an <c>Activity</c> (the <c>TraceId</c> source)
+    /// and accepts the W3C <c>traceparent</c> from the calling service.
     /// </summary>
     public static OpenTelemetryBuilder AddTlAspNetCoreInstrumentation(this OpenTelemetryBuilder builder)
     {

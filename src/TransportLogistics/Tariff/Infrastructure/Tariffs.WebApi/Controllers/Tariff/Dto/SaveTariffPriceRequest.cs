@@ -4,19 +4,19 @@ using TL.SharedKernel.Business.Aggregates.Enums;
 namespace TL.TransportLogistics.Tariffs.Startups.WebApi.Controllers.Tariff.Dto;
 
 /// <summary>
-/// Запрос на сохранение тарифа с параметрами цены
+/// Request to save a tariff with price parameters
 /// </summary>
 public sealed class SaveTariffPriceRequest
 {
     /// <summary>
-    /// Цена
+    /// Price
     /// </summary>
     /// <example>251.2</example>
     [Required]
     public decimal Price { get; set; }
 
     /// <summary>
-    /// Код валюты
+    /// Currency code
     /// </summary>
     /// <example>USD</example>
     [NotDefault]

@@ -5,8 +5,8 @@ using TL.Socials.Identity.Business.Aggregates.UserAggregate;
 namespace TL.Socials.Identity.Infrastructure.DataAccess.Redis.Converters;
 
 /// <summary>
-/// Сериализует <see cref="PhoneNumber"/> строкой. У типа приватный конструктор, поэтому
-/// System.Text.Json не может его создать по умолчанию.
+/// Serializes <see cref="PhoneNumber"/> as a string. The type has a private constructor, so
+/// System.Text.Json cannot create it by default.
 /// </summary>
 public sealed class PhoneNumberJsonConverter : JsonConverter<PhoneNumber>
 {

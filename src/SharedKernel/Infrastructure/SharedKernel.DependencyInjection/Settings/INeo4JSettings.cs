@@ -1,22 +1,22 @@
 namespace TL.SharedKernel.Infrastructure.DependencyInjection.Settings;
 
 /// <summary>
-/// Конфигурация для подключения neo4j
+/// Neo4j connection settings
 /// </summary>
 public interface INeo4JSettings
 {
     /// <summary>
-    /// Адрес
+    /// Address
     /// </summary>
     Uri Uri { get; }
 
     /// <summary>
-    /// Имя пользователя
+    /// User name
     /// </summary>
     string UserName { get; }
 
     /// <summary>
-    /// Пароль
+    /// Password
     /// </summary>
     string Password { get; }
 }

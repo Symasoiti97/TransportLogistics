@@ -5,7 +5,7 @@ using TL.SharedKernel.Business.Aggregates;
 namespace TL.SharedKernel.Infrastructure.Swagger;
 
 /// <summary>
-/// Генерирует схемы для типа <see cref="Error" />
+/// Generates schemas for the <see cref="Error" /> type
 /// </summary>
 public sealed class RegisterErrorSchemesDocumentFilter : IDocumentFilter
 {

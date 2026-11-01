@@ -9,11 +9,11 @@ using Route = TL.TransportLogistics.Tariffs.Business.Aggregates.AggregateTariff.
 namespace TL.TransportLogistics.Tariffs.Startups.WebApi.Controllers.Tariff;
 
 /// <summary>
-/// АПИ для управления тарифами
+/// API for managing tariffs
 /// </summary>
-/// <response code="200">Успех</response>
-/// <response code="401">Пользователь не авторизован</response>
-/// <response code="400">Ошибка валидации</response>
+/// <response code="200">Success</response>
+/// <response code="401">User is not authenticated</response>
+/// <response code="400">Validation error</response>
 [ApiController]
 [Route("api/tariff")]
 [Produces("application/json")]
@@ -23,10 +23,10 @@ namespace TL.TransportLogistics.Tariffs.Startups.WebApi.Controllers.Tariff;
 public sealed class TariffController : ControllerBase
 {
     /// <summary>
-    /// Получить тариф
+    /// Get a tariff
     /// </summary>
-    /// <param name="tariffId" example="d8aae288-7ae9-4536-bc69-00e74cc85865">Идентификатор тарифа</param>
-    /// <response code="404">Тариф не найден</response>
+    /// <param name="tariffId" example="d8aae288-7ae9-4536-bc69-00e74cc85865">Tariff identifier</param>
+    /// <response code="404">Tariff not found</response>
     [HttpGet("{tariffId:guid}")]
     [ProducesResponseType(typeof(TariffView), StatusCodes.Status200OK)]
     public async Task<IActionResult> GetTariff(
@@ -41,7 +41,7 @@ public sealed class TariffController : ControllerBase
     }
 
     /// <summary>
-    /// Создать тариф
+    /// Create a tariff
     /// </summary>
     [HttpPost]
     [ProducesResponseType(typeof(TariffView), StatusCodes.Status201Created)]
@@ -63,9 +63,9 @@ public sealed class TariffController : ControllerBase
     }
 
     /// <summary>
-    /// Сохранить тариф с параметрами маршрута
+    /// Save a tariff with route parameters
     /// </summary>
-    /// <param name="tariffId" example="7f2c0960-4b9d-45d1-b00d-88d5a6f7b7a4">Идентификатор тарифа</param>
+    /// <param name="tariffId" example="7f2c0960-4b9d-45d1-b00d-88d5a6f7b7a4">Tariff identifier</param>
     [HttpPut("{tariffId:guid}/route")]
     [ProducesResponseType(typeof(TariffView), StatusCodes.Status200OK)]
     public async Task<IActionResult> SaveTariffRoute(
@@ -89,9 +89,9 @@ public sealed class TariffController : ControllerBase
     }
 
     /// <summary>
-    /// Сохранить тариф с параметрами груза
+    /// Save a tariff with cargo parameters
     /// </summary>
-    /// <param name="tariffId" example="7f2c0960-4b9d-45d1-b00d-88d5a6f7b7a4">Идентификатор тарифа</param>
+    /// <param name="tariffId" example="7f2c0960-4b9d-45d1-b00d-88d5a6f7b7a4">Tariff identifier</param>
     [HttpPut("{tariffId:guid}/cargo")]
     [ProducesResponseType(typeof(TariffView), StatusCodes.Status200OK)]
     public async Task<IActionResult> SaveTariffCargo(
@@ -113,9 +113,9 @@ public sealed class TariffController : ControllerBase
     }
 
     /// <summary>
-    /// Сохранить тариф с параметрами стоимости
+    /// Save a tariff with price parameters
     /// </summary>
-    /// <param name="tariffId" example="7f2c0960-4b9d-45d1-b00d-88d5a6f7b7a4">Идентификатор тарифа</param>
+    /// <param name="tariffId" example="7f2c0960-4b9d-45d1-b00d-88d5a6f7b7a4">Tariff identifier</param>
     [HttpPut("{tariffId:guid}/price")]
     [ProducesResponseType(typeof(TariffView), StatusCodes.Status200OK)]
     public async Task<IActionResult> SaveTariffPrice(
@@ -135,12 +135,12 @@ public sealed class TariffController : ControllerBase
     }
 
     /// <summary>
-    /// Опубликовать тариф
+    /// Publish a tariff
     /// </summary>
     /// <remarks>
-    /// Переводит тариф из черновика в действующий, создавая копию и удаляя черновик.
+    /// Moves a tariff from draft to active by creating a copy and deleting the draft.
     /// </remarks>
-    /// <param name="tariffId" example="7f2c0960-4b9d-45d1-b00d-88d5a6f7b7a4">Идентификатор тарифа</param>
+    /// <param name="tariffId" example="7f2c0960-4b9d-45d1-b00d-88d5a6f7b7a4">Tariff identifier</param>
     [HttpPost("{tariffId:guid}/publish/")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     public async Task<IActionResult> PublishTariff(

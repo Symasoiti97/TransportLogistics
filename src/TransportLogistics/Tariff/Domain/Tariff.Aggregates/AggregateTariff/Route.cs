@@ -47,6 +47,6 @@ public sealed partial record Route
         return sortedPoint.ToImmutableHashSet();
     }
 
-    // TODO: Реалзиовать установку типа маршрута и добавить валидацию
+    // TODO: implement setting the route type and add validation
     private static RouteType DefineRouteType() => RouteType.Unknown;
 }

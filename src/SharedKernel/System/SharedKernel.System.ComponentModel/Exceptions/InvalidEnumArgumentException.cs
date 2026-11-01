@@ -5,11 +5,11 @@ namespace System.ComponentModel.Exceptions;
 public static class InvalidEnumArgumentException
 {
     /// <summary>
-    /// Выбрасывает исключение если значение enum не определенное
+    /// Throws if the enum value is not defined
     /// </summary>
-    /// <param name="value">Значение</param>
-    /// <param name="paramName">Наименование значения</param>
-    /// <typeparam name="T">Тип значения</typeparam>
+    /// <param name="value">Value</param>
+    /// <param name="paramName">Value name</param>
+    /// <typeparam name="T">Value type</typeparam>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static void ThrowIfUndefined<T>(
         T value,

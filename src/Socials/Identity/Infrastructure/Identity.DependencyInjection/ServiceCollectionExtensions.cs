@@ -19,11 +19,11 @@ namespace TL.Socials.Identity.Infrastructure.DependencyInjection;
 public static class ServiceCollectionExtensions
 {
     /// <summary>
-    /// Регистрация сервисов тарифа
+    /// Registers the identity services
     /// <list type="bullet">
     ///     <item>
-    ///     Регестрирует <see cref="IUseCaseHandler{TUseCase}" />, как <see cref="ServiceLifetime.Transient" />.<br />
-    ///     Доступные команды:
+    ///     Registers <see cref="IUseCaseHandler{TUseCase}" /> as <see cref="ServiceLifetime.Transient" />.<br />
+    ///     Available commands:
     ///     <list type="bullet">
     ///         <item><see cref="RequestUserRegisterViaEmailCommand" /></item>
     ///         <item><see cref="RegisterUserViaEmailCommand" /></item>
@@ -31,16 +31,16 @@ public static class ServiceCollectionExtensions
     ///     </list>
     ///     </item>
     ///     <item>
-    ///     Регестрирует <see cref="IUserRepository" />, как <see cref="ServiceLifetime.Transient" />
+    ///     Registers <see cref="IUserRepository" /> as <see cref="ServiceLifetime.Transient" />
     ///     </item>
     /// </list>
     /// </summary>
-    /// <param name="services">Коллекция сервисов</param>
+    /// <param name="services">Service collection</param>
     /// <param name="jwtTokenOptions">JWT token options</param>
-    /// <param name="pgConnectionString">Строка подключения к postgres</param>
-    /// <param name="redisConnectionString">Строка подключения к redis</param>
-    /// <param name="useStubs">Испольовать ли стабы (Для тестирования)</param>
-    /// <returns>Коллекция сервисов</returns>
+    /// <param name="pgConnectionString">Postgres connection string</param>
+    /// <param name="redisConnectionString">Redis connection string</param>
+    /// <param name="useStubs">Whether to use stubs (for testing)</param>
+    /// <returns>Service collection</returns>
     public static IServiceCollection AddIdentityServices(
         this IServiceCollection services,
         JwtTokenOptions jwtTokenOptions,

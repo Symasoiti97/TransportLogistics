@@ -1,22 +1,22 @@
 namespace TL.TransportLogistics.Tariffs.Business.Aggregates.AggregateTariff;
 
 /// <summary>
-/// Размер контейнера
+/// Container size
 /// </summary>
 public enum ContainerSize
 {
     /// <summary>
-    /// 20 тонн
+    /// 20 tonnes
     /// </summary>
     S20 = 1,
 
     /// <summary>
-    /// 40 тонн
+    /// 40 tonnes
     /// </summary>
     S40 = 2,
 
     /// <summary>
-    /// 45 тонн
+    /// 45 tonnes
     /// </summary>
     S45 = 3
 }
