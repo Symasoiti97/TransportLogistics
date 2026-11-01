@@ -56,7 +56,7 @@ public sealed class EventProcessor(
                     "Processing event {EventId} of {EventType} type. Retries: {Retries}",
                     @event.Id,
                     @event.GetType().Name,
-                    handlerTypeName);
+                    retries);
 
                 var eventHandlerType = typeof(IUseCaseHandler<>).MakeGenericType(@event.GetType());
                 var handlers = (IEnumerable<IUseCaseHandler>)serviceProvider.GetServices(eventHandlerType);
