@@ -42,17 +42,16 @@ public sealed class RegisterErrorSchemesDocumentFilter : IDocumentFilter
                 Properties = new Dictionary<string, IOpenApiSchema>()
             };
 
-            newSchema.Properties.Add("type",
-                new OpenApiSchema
-                {
-                    Type = JsonSchemaType.String,
-                    ReadOnly = true
-                });
-
-            foreach (var property in newSchema.Properties
-                         .Where(p => p.Key is not ("message" or "details")))
+            newSchema.Properties["type"] = new OpenApiSchema
             {
-                newSchema.Properties.Add(property.Key, property.Value);
+                Type = JsonSchemaType.String,
+                ReadOnly = true
+            };
+
+            foreach (var property in (schema.Properties ?? new Dictionary<string, IOpenApiSchema>())
+                     .Where(item => item.Key is not ("message" or "details" or "type")))
+            {
+                newSchema.Properties[property.Key] = property.Value;
             }
 
             context.SchemaRepository.Schemas[schemaName] = newSchema;
