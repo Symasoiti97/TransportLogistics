@@ -18,27 +18,29 @@ internal sealed class GetTariffQueryHandler(ICypherGraphClientFactory graphClien
             .Match("(t:Tariff {Id: $tariffId})")
             .WithParam("tariffId", command.TariffId)
             .OptionalMatch("(t)-[:HAS_ROUTE]->(r:Route)-[hp:HAS_POINT]->(p:Location)")
+            // Aggregate first: Neo4j 5 rejects aggregation mixed with grouping keys in one map projection.
+            .With(@"t, r, collect(CASE WHEN p IS NOT NULL THEN {
+                    Hash: hp.Hash,
+                    Type: hp.Type,
+                    Order: hp.Order,
+                    LocationId: p.Id
+                } END) AS points")
             .With(
                 @"{
-                    Id: t.Id, 
-                    CargoType: t.CargoType, 
-                    ContainerOwn: t.ContainerOwn, 
-                    ContainerSize: t.ContainerSize, 
-                    IsDraft: t.IsDraft, 
-                    ManagerProfileId: t.ManagerProfileId, 
-                    Price: CASE WHEN t.Price IS NOT NULL THEN { 
-                        Value: t.Price, 
+                    Id: t.Id,
+                    CargoType: t.CargoType,
+                    ContainerOwn: t.ContainerOwn,
+                    ContainerSize: t.ContainerSize,
+                    IsDraft: t.IsDraft,
+                    ManagerProfileId: t.ManagerProfileId,
+                    Price: CASE WHEN t.Price IS NOT NULL THEN {
+                        Value: t.Price,
                         CurrencyCode: t.CurrencyCode
-                    } END, 
+                    } END,
                     Route: CASE WHEN r IS NOT NULL THEN {
-                        Type: r.Type, 
-                        Hash: r.Hash, 
-                        Points: collect({ 
-                                    Hash: hp.Hash, 
-                                    Type: hp.Type, 
-                                    Order: hp.Order, 
-                                    LocationId: p.Id
-                                })
+                        Type: r.Type,
+                        Hash: r.Hash,
+                        Points: points
                     } END
                 } as tariff")
             .Return<TariffView>("tariff")
