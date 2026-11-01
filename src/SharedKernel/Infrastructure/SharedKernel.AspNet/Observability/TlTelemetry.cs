@@ -1,13 +1,13 @@
 namespace TL.SharedKernel.Infrastructure.AspNet.Observability;
 
 /// <summary>
-/// Соглашения о телеметрии TL. Единый источник имён для кода и документации схемы логов.
+/// TL telemetry conventions. Single source of names for code and log schema documentation.
 /// </summary>
 public static class TlTelemetry
 {
     /// <summary>
-    /// Все <see cref="System.Diagnostics.ActivitySource"/> проекта называются <c>TL.&lt;Контекст&gt;</c>;
-    /// шаблон ниже подключает их к трейсингу автоматически.
+    /// All <see cref="System.Diagnostics.ActivitySource"/> instances in the project are named <c>TL.&lt;Context&gt;</c>;
+    /// the pattern below wires them into tracing automatically.
     /// </summary>
     public const string ActivitySourcePattern = "TL.*";
 }

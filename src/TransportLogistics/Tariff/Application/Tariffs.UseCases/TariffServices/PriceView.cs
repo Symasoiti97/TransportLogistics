@@ -4,19 +4,19 @@ using TL.SharedKernel.Business.Aggregates.Enums;
 namespace TL.TransportLogistics.Tariffs.Application.UseCases.TariffServices;
 
 /// <summary>
-/// Цена
+/// Price
 /// </summary>
 public sealed class PriceView
 {
     /// <summary>
-    /// Значение
+    /// Value
     /// </summary>
     /// <example>325.51</example>
     [Required]
     public decimal Value { get; set; }
 
     /// <summary>
-    /// Кода валюты
+    /// Currency code
     /// </summary>
     /// <example>USD</example>
     [NotDefault]

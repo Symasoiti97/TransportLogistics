@@ -25,26 +25,26 @@ public sealed class InvalidParameters : Error
     public sealed class Parameter
     {
         /// <summary>
-        /// Ошибачное значение
+        /// Invalid value
         /// </summary>
         /// <example>email.ru</example>
         public object? Value { get; }
 
         /// <summary>
-        /// Наименование параметра
+        /// Parameter name
         /// </summary>
         /// <example>email</example>
         public string? Name { get; }
 
         /// <summary>
-        /// Путь к параметру
+        /// Parameter path
         /// </summary>
         /// <example>userProfile.email</example>
         [Required]
         public string Path { get; }
 
         /// <summary>
-        /// Сообщение об ошибке
+        /// Error message
         /// </summary>
         public string Message { get; }
 

@@ -1,17 +1,17 @@
 ﻿namespace TL.TransportLogistics.Tariffs.Business.Aggregates.AggregateTariff;
 
 /// <summary>
-/// Принадлежность контейнера
+/// Container ownership
 /// </summary>
 public enum ContainerOwn
 {
     /// <summary>
-    /// Контейнер перевозчика
+    /// Carrier's container
     /// </summary>
     Coc = 1,
 
     /// <summary>
-    /// Контейнер грузоотправителя
+    /// Shipper's container
     /// </summary>
     Soc = 2
 }

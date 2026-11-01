@@ -1,32 +1,32 @@
 ﻿namespace TL.TransportLogistics.Tariffs.Business.Aggregates.AggregateTariff;
 
 /// <summary>
-/// Тип маршрута
+/// Route type
 /// </summary>
 public enum RouteType
 {
     /// <summary>
-    /// Неизвестный
+    /// Unknown
     /// </summary>
     Unknown = 1,
 
     /// <summary>
-    /// Авто
+    /// Road
     /// </summary>
     Auto = 2,
 
     /// <summary>
-    /// Железнодорожный
+    /// Rail
     /// </summary>
     Railway = 3,
 
     /// <summary>
-    /// Морской
+    /// Sea
     /// </summary>
     Sea = 4,
 
     /// <summary>
-    /// Мультимодальный
+    /// Multimodal
     /// </summary>
     MultiModal = 5
 }

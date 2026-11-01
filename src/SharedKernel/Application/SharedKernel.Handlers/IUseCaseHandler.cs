@@ -3,19 +3,19 @@
 namespace TL.SharedKernel.Application.Commands;
 
 /// <summary>
-/// Обработчик сценария, используется как для команд так и для запросов
+/// Use-case handler, used for both commands and queries
 /// </summary>
-/// <typeparam name="TUseCase">Запрос</typeparam>
-/// <typeparam name="TResult">Результат запроса</typeparam>
+/// <typeparam name="TUseCase">Query</typeparam>
+/// <typeparam name="TResult">Query result</typeparam>
 public interface IUseCaseHandler<in TUseCase, TResult> where TUseCase : IUseCase<TResult>
 {
     Task<TResult> HandleAsync(TUseCase command, CancellationToken cancellationToken);
 }
 
 /// <summary>
-/// Обработчик сценария, используется как для команд так и для событий
+/// Use-case handler, used for both commands and events
 /// </summary>
-/// <typeparam name="TUseCase">Тип команды</typeparam>
+/// <typeparam name="TUseCase">Command type</typeparam>
 public interface IUseCaseHandler<in TUseCase> : IUseCaseHandler where TUseCase : IUseCase
 {
     Task HandleAsync(TUseCase command, CancellationToken cancellationToken);
@@ -25,7 +25,7 @@ public interface IUseCaseHandler<in TUseCase> : IUseCaseHandler where TUseCase :
 }
 
 /// <summary>
-/// Обработчик сценария, используется как для команд так и для событий
+/// Use-case handler, used for both commands and events
 /// </summary>
 public interface IUseCaseHandler
 {

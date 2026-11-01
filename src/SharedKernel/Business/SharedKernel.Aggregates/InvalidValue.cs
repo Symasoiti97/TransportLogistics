@@ -3,21 +3,21 @@
 namespace TL.SharedKernel.Business.Aggregates;
 
 /// <summary>
-/// Ошибка некорректного параметра
+/// Invalid parameter error
 /// </summary>
 public sealed class InvalidValue : Error
 {
     public override string Message => "Invalid value.";
 
     /// <summary>
-    /// Наименование значения
+    /// Value name
     /// </summary>
     /// <example>Route</example>
     [Required]
     public string Name { get; }
 
     /// <summary>
-    /// Ошибачное значение
+    /// Invalid value
     /// </summary>
     /// <example>null</example>
     public object? Value { get; }

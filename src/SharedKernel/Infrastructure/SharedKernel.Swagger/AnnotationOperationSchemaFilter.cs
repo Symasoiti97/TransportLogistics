@@ -6,7 +6,7 @@ using Swashbuckle.AspNetCore.SwaggerGen;
 namespace TL.SharedKernel.Infrastructure.Swagger;
 
 /// <summary>
-/// Описывает в swagger следующие аннтоции:
+/// Describes the following annotations in Swagger:
 /// <list type="bullet">
 ///     <item><see cref="NotDefaultAttribute" /></item>
 /// </list>

@@ -3,13 +3,13 @@ namespace TL.SharedKernel.Infrastructure.AspNet.Options;
 public sealed class ObservabilityOptions
 {
     /// <summary>
-    /// Базовый адрес OTLP/HTTP без суффикса сигнала, например <c>http://localhost:5341/ingest/otlp</c>.
-    /// К нему добавляются <c>/v1/logs</c> и <c>/v1/traces</c>.
+    /// Base OTLP/HTTP address without the signal suffix, e.g. <c>http://localhost:5341/ingest/otlp</c>.
+    /// <c>/v1/logs</c> and <c>/v1/traces</c> are appended to it.
     /// </summary>
     public string OtlpEndpoint { get; }
 
     /// <summary>
-    /// Заголовки экспорта в формате <c>key=value,key2=value2</c> (например, ключ API бэкенда).
+    /// Export headers in the <c>key=value,key2=value2</c> format (e.g. a backend API key).
     /// </summary>
     public string? Headers { get; }
 

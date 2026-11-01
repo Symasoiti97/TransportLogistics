@@ -1,47 +1,47 @@
 namespace TL.TransportLogistics.Tariffs.Business.Aggregates.AggregateTariff;
 
 /// <summary>
-/// Тип локации
+/// Location type
 /// </summary>
 public enum LocationType
 {
     /// <summary>
-    /// Мир
+    /// World
     /// </summary>
     World = 1,
 
     /// <summary>
-    /// Страна
+    /// Country
     /// </summary>
     Country = 2,
 
     /// <summary>
-    /// Регион
+    /// Region
     /// </summary>
     Region = 3,
 
     /// <summary>
-    /// Город
+    /// City
     /// </summary>
     City = 4,
 
     /// <summary>
-    /// Порт
+    /// Port
     /// </summary>
     Port = 5,
 
     /// <summary>
-    /// Железнодоржная станция
+    /// Railway station
     /// </summary>
     Railway = 6,
 
     /// <summary>
-    /// Терминал, может пренадлежать, как порту, так и ж/д станции
+    /// Terminal; can belong to either a port or a railway station
     /// </summary>
     Terminal = 7,
 
     /// <summary>
-    /// Склад
+    /// Warehouse
     /// </summary>
     Warehouse = 8
 }
