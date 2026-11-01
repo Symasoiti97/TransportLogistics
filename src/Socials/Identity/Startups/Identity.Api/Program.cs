@@ -16,7 +16,11 @@ using ProblemDetailsOptions = Hellang.Middleware.ProblemDetails.ProblemDetailsOp
 using SwaggerGenOptionsExtensions = TL.SharedKernel.Infrastructure.AspNet.Extensions.SwaggerGenOptionsExtensions;
 
 var errorTypes
-    = new[] {typeof(AssemblyReference).Assembly}
+    = new[]
+        {
+            typeof(AssemblyReference).Assembly,
+            typeof(TL.Socials.Identity.Business.Aggregates.AssemblyReference).Assembly
+        }
         .SelectMany(assembly => assembly.GetTypes().Where(type => type.IsSubclassOf(typeof(Error))))
         .ToArray();
 
