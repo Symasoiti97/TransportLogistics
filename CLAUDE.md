@@ -1,7 +1,5 @@
 # CLAUDE.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
-
 ## Overview
 
 TransportLogistics (TL) — .NET 10 / C# монорепозиторий. Все исходники лежат в `src/`, решение — `src/TL.sln`. Документация домена — в Notion (ссылка в корневом `README.md`). Комментарии и XML-документация в коде в основном на русском.
@@ -30,7 +28,7 @@ dotnet run --project Locations/Locations/SyncLocationsJob
 
 ## Architecture
 
-Чистая архитектура. Решение делится на `SharedKernel` и папки поддоменов (`TransportLogistics`, `Socials`, `Locations`) → bounded context (`Tariff`, `Identity`, `Locations`). Три независимых сервиса + общее ядро. Каждый BC разбит на слои по папкам (отдельный csproj на слой).
+Чистая архитектура: `SharedKernel` + три BC (`Tariff`, `Identity`, `Locations`), каждый разбит на слои (отдельный csproj на слой).
 
 ### Правила зависимостей
 
@@ -54,7 +52,7 @@ dotnet run --project Locations/Locations/SyncLocationsJob
 
 - **Tariff** (`TransportLogistics/Tariff`) — тарифы; хранилище **Neo4j**. WebApi `Tariffs.WebApi`. Зависит от данных локаций (`LocationServices` в UseCases).
 - **Identity** (`Socials/Identity`) — пользователи, токены (JWT), сессии; **Postgres** (EF Core, миграции в `Identity.Postgres/Migrations`) + **Redis**. В `Identity.Api` работает `EventProcessWorker` (BackgroundService), который обрабатывает доменные события через Redis; `EventTypeInfoResolver` отвечает за полиморфную сериализацию событий.
-- **Locations / SyncLocationsJob** — worker-сервис: копирует данные OSM из Postgres (PostGIS, NetTopologySuite) в Neo4j. Конфиг подключений: `OsmPostgres`, `Neo4JSettings`. Подготовка данных OSM — shell-скрипты в `OsmImport/Scripts` (`filter-osm.sh` → `import-to-postgres.sh` → `sync-locations.sh`, нужны `osmium-tool` и `osm2pgsql`); подробности в `OsmImport/README.md`. Корневые `import-osm.sh` и `*.osm.pbf` в этой папке — локальные неотслеживаемые артефакты.
+- **Locations / SyncLocationsJob** — worker: копирует данные OSM из Postgres (PostGIS) в Neo4j. Подготовка OSM и скрипты — см. `.claude/rules/osm-locations.md`.
 
 ### SharedKernel (`src/SharedKernel`)
 
@@ -63,7 +61,7 @@ dotnet run --project Locations/Locations/SyncLocationsJob
 - `SharedKernel.Aggregates` — `AggregateRoot<TKey>` (события накапливаются через `Raise`, читаются из `Events`), `Entity`, `Event`, `IUseCase`/`IUseCase<TResult>`, иерархия `Error` (`NotFound`, `Conflict`, `InvalidValue`, `InvalidParameters`) и `ErrorException`.
 - `SharedKernel.Handlers` — `IUseCaseHandler<TUseCase[, TResult]>`: единый интерфейс хендлера и для команд, и для запросов (CQRS без отдельных Command/Query-интерфейсов).
 - `SharedKernel.AspNet` / `SharedKernel.Swagger` — общая настройка Web API: `ApiOptions`, `GetRequiredSectionValue<T>` / `GetRequiredConnectionString`, ProblemDetails, Swagger.
-- `SharedKernel.Neo4j`, `SharedKernel.DataAccess.Postgres`, `SharedKernel.DependencyInjection`, `JsonSerializer.Extensions`, `Compress.Extensions` — инфраструктурные хелперы.
+- `SharedKernel.Neo4j`, `SharedKernel.DataAccess.Postgres`, `SharedKernel.DependencyInjection`, `JsonSerializer.Extensions`, `SharedKernel.Compress.Extensions` — инфраструктурные хелперы.
 
 ### Модель ошибок
 
