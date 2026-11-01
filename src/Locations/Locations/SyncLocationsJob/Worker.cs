@@ -5,6 +5,8 @@ namespace TL.Locations.Locations.SyncLocationsTool;
 
 public sealed class Worker : BackgroundService
 {
+    internal static readonly ActivitySource ActivitySource = new("TL.Locations.SyncLocationsJob");
+
     private readonly ILogger<Worker> _logger;
     private readonly IServiceProvider _serviceProvider;
 
@@ -16,6 +18,8 @@ public sealed class Worker : BackgroundService
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
+        using var activity = ActivitySource.StartActivity("Sync locations");
+
         try
         {
             using var scope = _serviceProvider.CreateScope();
@@ -26,6 +30,7 @@ public sealed class Worker : BackgroundService
         }
         catch (Exception exception)
         {
+            activity?.SetStatus(ActivityStatusCode.Error, exception.Message);
             _logger.LogError(exception, "Execution error");
         }
     }

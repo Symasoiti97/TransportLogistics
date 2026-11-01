@@ -1,0 +1,18 @@
+using System.Text.Json;
+using System.Text.Json.Serialization;
+using TL.Socials.Identity.Business.Aggregates.UserAggregate;
+
+namespace TL.Socials.Identity.Infrastructure.DataAccess.Redis.Converters;
+
+/// <summary>
+/// Сериализует <see cref="PhoneNumber"/> строкой. У типа приватный конструктор, поэтому
+/// System.Text.Json не может его создать по умолчанию.
+/// </summary>
+public sealed class PhoneNumberJsonConverter : JsonConverter<PhoneNumber>
+{
+    public override PhoneNumber? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+        => reader.TokenType == JsonTokenType.Null ? null : PhoneNumber.Parse(reader.GetString()!);
+
+    public override void Write(Utf8JsonWriter writer, PhoneNumber value, JsonSerializerOptions options)
+        => writer.WriteStringValue(value.Value);
+}

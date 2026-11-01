@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using System.Text.Json;
 using StackExchange.Redis;
 using TL.SharedKernel.Business.Aggregates;
@@ -27,7 +28,12 @@ internal static class RedisExtensions
         EventProcessorOptions eventOptions,
         JsonSerializerOptions serializerOptions)
     {
-        var entries = new List<NameValueEntry> { new("event", JsonSerializer.Serialize(@event, serializerOptions)) };
+        var entries = new List<NameValueEntry> {new("event", JsonSerializer.Serialize(@event, serializerOptions))};
+
+        if (Activity.Current?.Id is { } traceParent)
+        {
+            entries.Add(new NameValueEntry("traceparent", traceParent));
+        }
 
         if (retries is not null)
         {
@@ -47,6 +53,13 @@ internal static class RedisExtensions
         string eventJson = eventMessage.Values.Single(v => v.Name == "event").Value!;
         return JsonSerializer.Deserialize<Event>(eventJson, serializerOptions)
                ?? throw new InvalidOperationException("Invalid event");
+    }
+
+    public static string? TryGetTraceParent(this StreamEntry eventMessage)
+    {
+        var entry = eventMessage.Values.SingleOrDefault(value => value.Name == "traceparent");
+
+        return entry.Value.HasValue ? (string?)entry.Value : null;
     }
 
     public static int GetRetries(this StreamEntry eventMessage)

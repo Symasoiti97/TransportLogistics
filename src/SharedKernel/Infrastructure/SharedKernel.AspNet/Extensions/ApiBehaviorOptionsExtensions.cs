@@ -23,7 +23,7 @@ public static class ApiBehaviorOptionsExtensions
                     Title = error.Message,
                     Status = StatusCodes.Status400BadRequest,
                     Instance = actionContext.HttpContext.Request.Path,
-                    Extensions = { { ProblemDetailsExtensions.ErrorKey, error } }
+                    Extensions = {{ProblemDetailsExtensions.ErrorKey, error}}
                 });
         };
 

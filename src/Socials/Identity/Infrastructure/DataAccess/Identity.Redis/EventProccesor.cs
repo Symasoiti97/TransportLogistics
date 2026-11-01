@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using System.Text.Json;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -17,6 +18,7 @@ public sealed class EventProcessor(
     JsonSerializerOptions serializerOptions)
 {
     private const int MaxRetries = 5;
+    private static readonly ActivitySource ActivitySource = new("TL.Identity.Events");
 
     public async Task ProcessAsync(CancellationToken cancellationToken)
     {
@@ -40,6 +42,12 @@ public sealed class EventProcessor(
 
             foreach (var message in messages)
             {
+                ActivityContext.TryParse(message.TryGetTraceParent(), null, out var parentContext);
+                using var activity = ActivitySource.StartActivity(
+                    "Process event",
+                    ActivityKind.Consumer,
+                    parentContext);
+
                 var @event = message.GetEvent(serializerOptions);
                 var retries = message.GetRetries();
                 var handlerTypeName = message.TryGetHandlerType();

@@ -32,7 +32,7 @@ internal sealed class UserRegisterViaEmailTokenRepository(
             return null;
         }
 
-        return JsonSerializer.Deserialize<UserRegisterViaEmailToken>((byte[])jsonValue!)
+        return JsonSerializer.Deserialize<UserRegisterViaEmailToken>((byte[])jsonValue!, serializerOptions)
                ?? throw new InvalidOperationException("Deserialize error.");
     }
 

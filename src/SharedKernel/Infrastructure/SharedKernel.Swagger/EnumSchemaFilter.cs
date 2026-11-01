@@ -19,7 +19,7 @@ public sealed class EnumSchemaFilter : ISchemaFilter
 
     public void Apply(IOpenApiSchema schema, SchemaFilterContext context)
     {
-        if (schema.Enum is not { Count: > 0 } || context.Type is not { IsEnum: true })
+        if (schema.Enum is not {Count: > 0} || context.Type is not {IsEnum: true})
         {
             return;
         }

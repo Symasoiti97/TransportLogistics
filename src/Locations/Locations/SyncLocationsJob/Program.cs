@@ -5,11 +5,17 @@ using TL.Locations.Locations.SyncLocationsTool.Infrastructure.DataAccess.Postgre
 using TL.Locations.Locations.SyncLocationsTool.Infrastructure.Services;
 using TL.Locations.Locations.SyncLocationsTool.Settings;
 using TL.SharedKernel.Infrastructure.AspNet.Extensions;
+using TL.SharedKernel.Infrastructure.AspNet.Options;
 using TL.SharedKernel.Infrastructure.DependencyInjection;
 
 var host = Host.CreateDefaultBuilder(args)
     .ConfigureServices((context, services) =>
     {
+        services.AddTlObservability(
+            context.Configuration.GetRequiredSectionValue<ObservabilityOptions>("Observability"),
+            context.HostingEnvironment.EnvironmentName,
+            "sync-locations-job");
+
         services.AddNeo4JServices(
             context.Configuration.GetRequiredSectionValue<Neo4JSettings>("Neo4JSettings"));
 

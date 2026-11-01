@@ -7,6 +7,7 @@ using TL.SharedKernel.Infrastructure.AspNet.Extensions;
 using TL.SharedKernel.Infrastructure.AspNet.Options;
 using TL.SharedKernel.Infrastructure.JsonSerializer.Extensions;
 using TL.Socials.Identity.Infrastructure.DataAccess.Redis;
+using TL.Socials.Identity.Infrastructure.DataAccess.Redis.Converters;
 using TL.Socials.Identity.Infrastructure.DataAccess.Redis.Options;
 using TL.Socials.Identity.Infrastructure.DependencyInjection;
 using TL.Socials.Identity.Infrastructure.Services.Options;
@@ -15,7 +16,7 @@ using ProblemDetailsOptions = Hellang.Middleware.ProblemDetails.ProblemDetailsOp
 using SwaggerGenOptionsExtensions = TL.SharedKernel.Infrastructure.AspNet.Extensions.SwaggerGenOptionsExtensions;
 
 var errorTypes
-    = new[] { typeof(AssemblyReference).Assembly }
+    = new[] {typeof(AssemblyReference).Assembly}
         .SelectMany(assembly => assembly.GetTypes().Where(type => type.IsSubclassOf(typeof(Error))))
         .ToArray();
 
@@ -25,12 +26,19 @@ var configuration = builder.Configuration;
 var apiOptions = configuration.GetRequiredSectionValue<ApiOptions>("ApiOptions");
 builder.Services.AddSingleton(apiOptions);
 
+builder.Services
+    .AddTlObservability(
+        configuration.GetRequiredSectionValue<ObservabilityOptions>("Observability"),
+        builder.Environment.EnvironmentName,
+        apiOptions.Name)
+    .AddTlAspNetCoreInstrumentation();
+
 builder.Services.AddControllers()
     .AddJsonOptions(options =>
     {
         options.JsonSerializerOptions.TypeInfoResolver = new DefaultJsonTypeInfoResolver
         {
-            Modifiers = { info => ErrorJsonTypeInfoModifier.Modify(info, errorTypes) }
+            Modifiers = {info => ErrorJsonTypeInfoModifier.Modify(info, errorTypes)}
         };
         options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
         options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
@@ -63,7 +71,12 @@ builder.Services.AddSingleton(_ =>
     return new JsonSerializerOptions
     {
         WriteIndented = true,
-        TypeInfoResolver = resolver
+        TypeInfoResolver = resolver,
+        Converters =
+        {
+            new EmailJsonConverter(),
+            new PhoneNumberJsonConverter()
+        }
     };
 });
 
