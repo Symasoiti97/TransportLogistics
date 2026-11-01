@@ -5,11 +5,11 @@ namespace System.ComponentModel.Exceptions;
 public static class ArgumentException
 {
     /// <summary>
-    /// Выбрасывает исключение если значения является значением по умолчанию
+    /// Throws if the value equals its default value
     /// </summary>
-    /// <param name="value">Значение</param>
-    /// <param name="paramName">Наименование значения</param>
-    /// <typeparam name="T">Тип значения</typeparam>
+    /// <param name="value">Value</param>
+    /// <param name="paramName">Value name</param>
+    /// <typeparam name="T">Value type</typeparam>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static void ThrowIfDefault<T>(
         T value,

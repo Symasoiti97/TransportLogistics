@@ -5,19 +5,19 @@ using TL.SharedKernel.Business.Aggregates;
 
 namespace TL.SharedKernel.Infrastructure.AspNet.ValidationAttributes;
 
-// TODO необходима доработка, валидация должна возвращать список ошибок корректно
+// TODO: needs rework, validation must return the list of errors correctly
 /// <summary>
-/// Атрибут валидации для проверки что объект может быть указанным типом
-/// Для маппинга в указанный тип, используется <see cref="IMapper" />
+/// Validation attribute that checks whether an object can be mapped to the given type
+/// Uses <see cref="IMapper" /> for the mapping to the given type
 /// </summary>
 public class MustBeAttribute : ValidationAttribute
 {
     private readonly Type _mustBeType;
 
     /// <summary>
-    /// Создать <see cref="MustBeAttribute" />
+    /// Creates a <see cref="MustBeAttribute" />
     /// </summary>
-    /// <param name="mustBeType">Тип, в который должен маппится аргумент/свойство</param>
+    /// <param name="mustBeType">Type the argument/property must be mapped to</param>
     public MustBeAttribute(Type mustBeType)
     {
         ArgumentNullException.ThrowIfNull(mustBeType);

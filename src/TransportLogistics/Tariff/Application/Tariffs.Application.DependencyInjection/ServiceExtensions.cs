@@ -7,11 +7,11 @@ namespace Tariffs.Application.DependencyInjection;
 public static class ServiceExtensions
 {
     /// <summary>
-    /// Регистрация сервисов тарифа
+    /// Registers the tariff services
     /// <list type="bullet">
     ///     <item>
-    ///     Регестрирует <see cref="ICommandHandler{TCommand}"/>, как <see cref="ServiceLifetime.Transient"/>.<br/>
-    ///     Доступные команды:
+    ///     Registers <see cref="ICommandHandler{TCommand}"/> as <see cref="ServiceLifetime.Transient"/>.<br/>
+    ///     Available commands:
     ///         <list type="bullet">
     ///             <item><see cref="CreateTariffCommand"/></item>
     ///             <item><see cref="SaveTariffRouteCommand"/></item>
@@ -22,8 +22,8 @@ public static class ServiceExtensions
     ///     </item>
     /// </list>
     /// </summary>
-    /// <param name="services">Коллекция сервисов</param>
-    /// <returns>Коллекция сервисов</returns>
+    /// <param name="services">Service collection</param>
+    /// <returns>Service collection</returns>
     public static IServiceCollection AddTariffApplicationServices(this IServiceCollection services)
     {
         services.AddTransient<ICommandHandler<CreateTariffCommand>, CreateTariffCommandHandler>();

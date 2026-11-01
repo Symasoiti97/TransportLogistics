@@ -1,14 +1,14 @@
 ﻿namespace TL.SharedKernel.Application.Repositories;
 
 /// <summary>
-/// Пользовательский контекст.
-/// Использовать для получения данных авторизованного пользователя
+/// User context.
+/// Use to get data of the authenticated user
 /// </summary>
 public interface IUserContext
 {
     /// <summary>
-    /// Получить идентификатор профиля пользователя
+    /// Get the user profile identifier
     /// </summary>
-    /// <returns>Идентификатор профиля пользователя</returns>
+    /// <returns>User profile identifier</returns>
     Guid GetProfileId();
 }

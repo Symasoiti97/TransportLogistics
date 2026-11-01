@@ -1,42 +1,42 @@
 namespace TL.TransportLogistics.Tariffs.Business.Aggregates.AggregateTariff;
 
 /// <summary>
-/// Тип груза
+/// Cargo type
 /// </summary>
 public enum CargoType
 {
     /// <summary>
-    /// Опасный
+    /// Hazardous
     /// </summary>
     Dangerous = 1,
 
     /// <summary>
-    /// Хрупкий
+    /// Fragile
     /// </summary>
     Fragile = 2,
 
     /// <summary>
-    /// Тяжелый
+    /// Heavy
     /// </summary>
     Heavy = 3,
 
     /// <summary>
-    /// Негабаритный
+    /// Oversized
     /// </summary>
     Oversize = 4,
 
     /// <summary>
-    /// Температурный режим
+    /// Temperature-controlled
     /// </summary>
     TemperatureCondition = 5,
 
     /// <summary>
-    /// Объемный
+    /// Bulky
     /// </summary>
     Bulk = 6,
 
     /// <summary>
-    /// Стандартный груз
+    /// Standard cargo
     /// </summary>
     Standard = 7
 }

@@ -4,24 +4,24 @@ using TL.TransportLogistics.Tariffs.Business.Aggregates.AggregateTariff;
 namespace TL.TransportLogistics.Tariffs.Startups.WebApi.Controllers.Tariff.Dto;
 
 /// <summary>
-/// Запрос на сохранение тарифа с параметрами груза
+/// Request to save a tariff with cargo parameters
 /// </summary>
 public sealed class SaveTariffCargoRequest
 {
     /// <summary>
-    /// Принадлежность контейнера
+    /// Container ownership
     /// </summary>
     [Required]
     public ContainerOwn ContainerOwn { get; set; }
 
     /// <summary>
-    /// Тип груза
+    /// Cargo type
     /// </summary>
     [Required]
     public CargoType CargoType { get; set; }
 
     /// <summary>
-    /// Размер контейнера
+    /// Container size
     /// </summary>
     [Required]
     public ContainerSize ContainerSize { get; set; }

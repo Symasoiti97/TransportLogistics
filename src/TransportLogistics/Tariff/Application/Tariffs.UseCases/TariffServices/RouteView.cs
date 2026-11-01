@@ -4,25 +4,25 @@ using TL.TransportLogistics.Tariffs.Business.Aggregates.AggregateTariff;
 namespace TL.TransportLogistics.Tariffs.Application.UseCases.TariffServices;
 
 /// <summary>
-/// Маршрут
+/// Route
 /// </summary>
 public sealed class RouteView
 {
     /// <summary>
-    /// Тип маршрута
+    /// Route type
     /// </summary>
     /// <example>Auto</example>
     [Required]
     public RouteType Type { get; set; }
 
     /// <summary>
-    /// Уникальный hash маршрута
+    /// Unique route hash
     /// </summary>
     [Required]
     public string Hash { get; set; } = null!;
 
     /// <summary>
-    /// Точки маршрута
+    /// Route points
     /// </summary>
     [Required]
     public IEnumerable<PointView> Points { get; set; } = null!;

@@ -9,17 +9,17 @@ public sealed class TariffCannotBeReal : Conflict
     public override string Message => "Tariff cannot be real";
 
     /// <summary>
-    /// Указывает определен ли маршрут
+    /// Indicates whether the route is defined
     /// </summary>
     public bool IsUndefinedRoute { get; }
 
     /// <summary>
-    /// Указывает определено ли оборудование груза
+    /// Indicates whether the cargo equipment is defined
     /// </summary>
     public bool IsUndefinedCargoEquipment { get; }
 
     /// <summary>
-    /// Указывает определена ли цена
+    /// Indicates whether the price is defined
     /// </summary>
     public bool IsUndefinedPrice { get; }
 

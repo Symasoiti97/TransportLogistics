@@ -1,22 +1,22 @@
 namespace TL.TransportLogistics.Tariffs.Business.Aggregates.AggregateTariff;
 
 /// <summary>
-/// Тип точки
+/// Point type
 /// </summary>
 public enum PointType
 {
     /// <summary>
-    /// Морской транспорт
+    /// Sea transport
     /// </summary>
     Fob = 1,
 
     /// <summary>
-    /// Автомобильный транспорт
+    /// Road transport
     /// </summary>
     Fot = 2,
 
     /// <summary>
-    /// Железодорожный транспорт
+    /// Rail transport
     /// </summary>
     For = 3
 }

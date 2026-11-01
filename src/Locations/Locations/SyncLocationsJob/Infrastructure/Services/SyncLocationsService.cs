@@ -10,15 +10,15 @@ using Location = TL.Locations.Locations.SyncLocationsTool.Infrastructure.DataAcc
 namespace TL.Locations.Locations.SyncLocationsTool.Infrastructure.Services;
 
 /// <summary>
-/// Импортер локаций из postgres(OpenStreetMap) в Neo4j
+/// Imports locations from Postgres (OpenStreetMap) into Neo4j
 /// </summary>
 /// <remarks>
-/// Импорт локаций происходит вниз по иерархии (Мир -> Страны -> Регионы -> Города -> Станции ж/д/Порты -> Терминалы/Склады)
-/// У каждой локации(Кроме Мир) должен быть родитель. Если у локации нет родителя, то ее нужно удалить
+/// Locations are imported top-down: World -> Countries -> Regions -> Cities -> Railway stations/Ports -> Terminals/Warehouses
+/// Every location (except World) must have a parent. A location without a parent must be removed
 /// </remarks>
 internal sealed class SyncLocationsService
 {
-    //excludeCountries - страны дубликаты(11980, 1252792, 9604462)
+    //excludeCountries - duplicate countries (11980, 1252792, 9604462)
     private static readonly long[] ExcludeCountries = [11980, 1252792, 9604462];
     private static readonly long[] IncludeCountries = [59065];
     private static readonly long[] IncludeRegions = [59189];
