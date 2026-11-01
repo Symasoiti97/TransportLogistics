@@ -36,6 +36,8 @@ services:
   postgis-osm:
     profiles: [infra]
     image: postgis/postgis:17-3.5
+    # The official image is published for amd64 only; on Apple Silicon it runs under emulation.
+    platform: linux/amd64
     restart: unless-stopped
     environment:
       POSTGRES_USER: postgres
