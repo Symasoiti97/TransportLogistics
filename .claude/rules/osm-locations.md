@@ -3,8 +3,8 @@ paths:
   - "src/Locations/**"
 ---
 
-# Locations: подготовка OSM
+# Locations: OSM preparation
 
-- Скрипты в `src/Locations/Locations/SyncLocationsJob/OsmImport/Scripts`: `filter-osm.sh` → `import-to-postgres.sh` → `sync-locations.sh`. Нужны `osmium-tool` и `osm2pgsql`. Подробности: `OsmImport/README.md` в той же папке.
-- Конфиг подключений: `OsmPostgres` (база `osm_locations`, порт 5436, контейнер `postgis-osm`, профиль `infra`), `Neo4JSettings`.
-- Корневые `import-osm.sh` и `*.osm.pbf` в `SyncLocationsJob/` — локальные неотслеживаемые артефакты, не коммитить.
+- Scripts live in `src/Locations/Locations/SyncLocationsJob/OsmImport/Scripts`: `filter-osm.sh` → `import-to-postgres.sh` → `sync-locations.sh`. They need `osmium-tool` and `osm2pgsql`. Details: `OsmImport/README.md` in the same folder.
+- Connection config: `OsmPostgres` (database `osm_locations`, port 5436, container `postgis-osm`, `infra` compose profile), `Neo4JSettings`.
+- Root-level `import-osm.sh` and `*.osm.pbf` in `SyncLocationsJob/` are local untracked artifacts. Do not commit them.

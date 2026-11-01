@@ -4,10 +4,10 @@ paths:
   - "src/Socials/Identity/Startups/Identity.Api/**"
 ---
 
-# Identity: миграции и подключение к БД
+# Identity: migrations and DB access
 
-- `BloggingContextFactory` (`IdentityDbContext.cs`) захардкодил `Host=localhost;Port=5432`. Строка `ConnectionStrings__IdentityPostgres` на design-time команды `dotnet ef` не влияет — только на рантайм через DI.
-- Локальный Postgres на `localhost:5432` — Docker-контейнер `postgres`, в нём базы других проектов (`ocr-db`, `shop`, `netsuite-refdata` и др.). Не выполнять `dotnet ef database update` без подтверждения пользователя и без проверки порта и сервера: команда пишет в захардкоженную строку, то есть в общий контейнер.
-- Миграции накатывать так: `dotnet ef migrations script --idempotent -o <путь>.sql` (скрипт генерируется без подключения к БД), затем применить SQL вручную через `docker exec -i postgres psql -U postgres -d <база> < <путь>.sql`, предварительно проверив, что это нужная база.
-- Новые миграции создавать через EF-тул: `dotnet ef migrations add <Имя>` из `Identity.Postgres` (нужен `--startup-project` на `Identity.Api`, если он не проходит без него). Команда не подключается к БД.
-- Существующие миграции в `Migrations/` не удалять и не менять: применённые уже в базах.
+- `BloggingContextFactory` (`IdentityDbContext.cs`) hardcodes `Host=localhost;Port=5432`. The `ConnectionStrings__IdentityPostgres` setting does not affect design-time `dotnet ef` commands, only runtime DI.
+- The local Postgres on `localhost:5432` is the Docker container `postgres`. It hosts other projects' databases (`ocr-db`, `shop`, `netsuite-refdata`, etc.). Do not run `dotnet ef database update` without user confirmation and without checking the port and server first: the command writes to the hardcoded connection string, i.e. the shared container.
+- Apply migrations with `dotnet ef migrations script --idempotent -o <path>.sql` (generates the script without connecting to the DB), then apply the SQL manually: `docker exec -i postgres psql -U postgres -d <db> < <path>.sql`. Verify the target database first.
+- Create new migrations with the EF tool: `dotnet ef migrations add <Name>` from `Identity.Postgres` (pass `--startup-project Identity.Api` if it fails without it). This command does not connect to the DB.
+- Do not delete or modify existing migrations in `Migrations/`: they are already applied to databases.
