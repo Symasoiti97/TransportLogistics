@@ -7,6 +7,7 @@ using TL.SharedKernel.Infrastructure.AspNet.Extensions;
 using TL.SharedKernel.Infrastructure.AspNet.Options;
 using TL.SharedKernel.Infrastructure.JsonSerializer.Extensions;
 using TL.Socials.Identity.Infrastructure.DataAccess.Redis;
+using TL.Socials.Identity.Infrastructure.DataAccess.Redis.Converters;
 using TL.Socials.Identity.Infrastructure.DataAccess.Redis.Options;
 using TL.Socials.Identity.Infrastructure.DependencyInjection;
 using TL.Socials.Identity.Infrastructure.Services.Options;
@@ -70,7 +71,12 @@ builder.Services.AddSingleton(_ =>
     return new JsonSerializerOptions
     {
         WriteIndented = true,
-        TypeInfoResolver = resolver
+        TypeInfoResolver = resolver,
+        Converters =
+        {
+            new EmailJsonConverter(),
+            new PhoneNumberJsonConverter()
+        }
     };
 });
 

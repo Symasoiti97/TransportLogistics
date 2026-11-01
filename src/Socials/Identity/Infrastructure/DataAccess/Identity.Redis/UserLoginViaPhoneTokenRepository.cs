@@ -34,7 +34,7 @@ internal sealed class UserLoginViaPhoneTokenRepository(
             return null;
         }
 
-        return JsonSerializer.Deserialize<UserLoginViaPhoneToken>((byte[])jsonValue!)
+        return JsonSerializer.Deserialize<UserLoginViaPhoneToken>((byte[])jsonValue!, serializerOptions)
                ?? throw new InvalidOperationException("Deserialize error.");
     }
 
