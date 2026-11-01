@@ -19,6 +19,11 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="10.0.0"/>
+    <!-- Npgsql 10.0.0 тянет Relational 10.0.0, а EF Core 10.0.1 компилируется против 10.0.1. -->
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="10.0.1"/>
+    <!-- Транзитивно тянутся через Microsoft.EntityFrameworkCore.Design -> Microsoft.Build.Tasks.Core (9.0.0 с GHSA). -->
+    <PackageReference Include="System.Security.Cryptography.Pkcs" Version="10.0.14" ExcludeAssets="all"/>
+    <PackageReference Include="System.Security.Cryptography.Xml" Version="10.0.14" ExcludeAssets="all"/>
   </ItemGroup>
 
   <ItemGroup>

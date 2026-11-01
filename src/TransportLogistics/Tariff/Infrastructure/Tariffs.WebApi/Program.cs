@@ -30,13 +30,20 @@ var apiOptions = builder.Configuration.GetRequiredSectionValue<ApiOptions>("ApiO
 builder.Services.AddSingleton(apiOptions);
 
 builder.Services
+    .AddTlObservability(
+        builder.Configuration.GetRequiredSectionValue<ObservabilityOptions>("Observability"),
+        builder.Environment.EnvironmentName,
+        apiOptions.Name)
+    .AddTlAspNetCoreInstrumentation();
+
+builder.Services
     .AddHttpLogging(_ => { })
     .AddControllers()
     .AddJsonOptions(options =>
     {
         options.JsonSerializerOptions.TypeInfoResolver = new DefaultJsonTypeInfoResolver
         {
-            Modifiers = { info => ErrorJsonTypeInfoModifier.Modify(info, errorTypes) }
+            Modifiers = {info => ErrorJsonTypeInfoModifier.Modify(info, errorTypes)}
         };
         options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
         options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;

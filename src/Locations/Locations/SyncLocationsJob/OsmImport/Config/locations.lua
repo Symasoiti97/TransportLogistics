@@ -147,14 +147,20 @@ end
 function osm2pgsql.process_relation(object)
     if object.tags.boundary == 'administrative' then
         local admin_level = tonumber(object.tags.admin_level)
-        if not admin_level then return end
-        
+        if not admin_level then
+            return
+        end
+
         local names = get_ml_names(object.tags)
-        if not names.name then return end
-        
+        if not names.name then
+            return
+        end
+
         local geom = object:as_multipolygon()
-        if not geom then return end
-        
+        if not geom then
+            return
+        end
+
         -- Countries (admin_level = 2)
         if admin_level == 2 and object.tags['ISO3166-1'] then
             tables.countries:insert({
@@ -170,7 +176,7 @@ function osm2pgsql.process_relation(object)
                 geom = geom,
                 centroid = geom:centroid()
             })
-        -- Regions (admin_level 3-8)
+            -- Regions (admin_level 3-8)
         elseif admin_level >= 3 and admin_level <= 8 then
             tables.regions:insert({
                 name = names.name,
@@ -190,13 +196,13 @@ end
 -- Process ways
 function osm2pgsql.process_way(object)
     local names = get_ml_names(object.tags)
-    
+
     -- Cities (from ways - less common but possible)
     if object.tags.place and (
-        object.tags.place == 'city' or 
-        object.tags.place == 'town' or 
-        object.tags.place == 'village' or 
-        object.tags.place == 'hamlet'
+        object.tags.place == 'city' or
+            object.tags.place == 'town' or
+            object.tags.place == 'village' or
+            object.tags.place == 'hamlet'
     ) and names.name then
         local geom = object:as_polygon() or object:as_linestring()
         if geom then
@@ -214,10 +220,10 @@ function osm2pgsql.process_way(object)
             })
         end
     end
-    
+
     -- Ports (ways)
-    if (object.tags.harbour == 'yes' or 
-        object.tags['seamark:type'] == 'harbour' or 
+    if (object.tags.harbour == 'yes' or
+        object.tags['seamark:type'] == 'harbour' or
         object.tags.landuse == 'port' or
         object.tags.landuse == 'harbour') and names.name then
         local geom = object:as_polygon() or object:as_linestring()
@@ -235,9 +241,9 @@ function osm2pgsql.process_way(object)
             })
         end
     end
-    
+
     -- Terminals (ways)
-    if (object.tags.building == 'terminal' or 
+    if (object.tags.building == 'terminal' or
         object.tags.amenity == 'ferry_terminal') and names.name then
         local geom = object:as_polygon() or object:as_linestring()
         if geom then
@@ -254,9 +260,9 @@ function osm2pgsql.process_way(object)
             })
         end
     end
-    
+
     -- Warehouses (ways)
-    if (object.tags.building == 'warehouse' or 
+    if (object.tags.building == 'warehouse' or
         object.tags.industrial == 'warehouse') and names.name then
         local geom = object:as_polygon() or object:as_linestring()
         if geom then
@@ -279,13 +285,13 @@ end
 function osm2pgsql.process_node(object)
     local names = get_ml_names(object.tags)
     local geom = object:as_point()
-    
+
     -- Cities
     if object.tags.place and (
-        object.tags.place == 'city' or 
-        object.tags.place == 'town' or 
-        object.tags.place == 'village' or 
-        object.tags.place == 'hamlet'
+        object.tags.place == 'city' or
+            object.tags.place == 'town' or
+            object.tags.place == 'village' or
+            object.tags.place == 'hamlet'
     ) and names.name then
         tables.cities:insert({
             osm_type = 'node',
@@ -300,15 +306,15 @@ function osm2pgsql.process_node(object)
             centroid = geom
         })
     end
-    
+
     -- Railway stations
     if (object.tags.railway == 'station' or object.tags.railway == 'halt') and
-       object.tags.station ~= 'subway' and names.name then
+        object.tags.station ~= 'subway' and names.name then
         -- Skip if it's explicitly marked as not a train station
         if object.tags.train == 'no' or object.tags.transport == 'subway' then
             return
         end
-        
+
         tables.railways:insert({
             osm_type = 'node',
             name = names.name,
@@ -320,9 +326,9 @@ function osm2pgsql.process_node(object)
             geom = geom
         })
     end
-    
+
     -- Ports (nodes)
-    if (object.tags.harbour == 'yes' or 
+    if (object.tags.harbour == 'yes' or
         object.tags['seamark:type'] == 'harbour' or
         object.tags.landuse == 'port') and names.name then
         tables.ports:insert({
@@ -337,9 +343,9 @@ function osm2pgsql.process_node(object)
             centroid = geom
         })
     end
-    
+
     -- Terminals (nodes)
-    if (object.tags.building == 'terminal' or 
+    if (object.tags.building == 'terminal' or
         object.tags.amenity == 'ferry_terminal') and names.name then
         tables.terminals:insert({
             osm_type = 'node',
@@ -353,9 +359,9 @@ function osm2pgsql.process_node(object)
             centroid = geom
         })
     end
-    
+
     -- Warehouses (nodes)
-    if (object.tags.building == 'warehouse' or 
+    if (object.tags.building == 'warehouse' or
         object.tags.industrial == 'warehouse') and names.name then
         tables.warehouses:insert({
             osm_type = 'node',

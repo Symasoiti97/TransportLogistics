@@ -185,13 +185,13 @@ internal sealed class TariffRepository(ICypherGraphClientFactory graphClientFact
         }
 
         Price? price = null;
-        if (result.Tariff is { Price: not null, CurrencyCode: not null })
+        if (result.Tariff is {Price: not null, CurrencyCode: not null})
         {
             price = new Price(result.Tariff.Price.Value, result.Tariff.CurrencyCode.Value);
         }
 
         CargoEquipment? cargoEquipment = null;
-        if (result.Tariff is { CargoType: not null, ContainerOwn: not null, ContainerSize: not null })
+        if (result.Tariff is {CargoType: not null, ContainerOwn: not null, ContainerSize: not null})
         {
             cargoEquipment = new CargoEquipment(
                 result.Tariff.CargoType.Value,
