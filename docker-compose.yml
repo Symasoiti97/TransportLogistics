@@ -1,0 +1,72 @@
+# Локальный стенд TL.
+#   docker compose up -d                    — только Seq (приёмник логов и трейсов)
+#   docker compose --profile infra up -d    — Seq + Postgres, PostGIS (OSM), Redis, Neo4j
+# Если Postgres/Redis/Neo4j уже запущены на машине, профиль infra не нужен.
+# Порты можно переопределить переменными окружения (см. значения по умолчанию ниже).
+
+name: tl
+
+services:
+  seq:
+    image: datalust/seq:2025
+    restart: unless-stopped
+    environment:
+      ACCEPT_EULA: "Y"
+      # Локальный стенд без аутентификации: UI и HTTP API открыты на localhost.
+      SEQ_FIRSTRUN_NOAUTHENTICATION: "true"
+    ports:
+      # UI, HTTP API и приём OTLP (/ingest/otlp/v1/logs, /ingest/otlp/v1/traces)
+      - "127.0.0.1:${TL_SEQ_PORT:-5341}:80"
+    volumes:
+      - seq-data:/data
+
+  postgres:
+    profiles: [infra]
+    image: postgres:17
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: tl-identity
+    ports:
+      - "127.0.0.1:${TL_POSTGRES_PORT:-5432}:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+
+  postgis-osm:
+    profiles: [infra]
+    image: postgis/postgis:17-3.5
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: osm_locations
+    ports:
+      - "127.0.0.1:${TL_OSM_POSTGRES_PORT:-5436}:5432"
+    volumes:
+      - postgis-osm-data:/var/lib/postgresql/data
+
+  redis:
+    profiles: [infra]
+    image: redis:7
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:${TL_REDIS_PORT:-6379}:6379"
+
+  neo4j:
+    profiles: [infra]
+    image: neo4j:5
+    restart: unless-stopped
+    environment:
+      NEO4J_AUTH: neo4j/password123
+    ports:
+      - "127.0.0.1:${TL_NEO4J_HTTP_PORT:-7474}:7474"
+      - "127.0.0.1:${TL_NEO4J_BOLT_PORT:-7687}:7687"
+    volumes:
+      - neo4j-data:/data
+
+volumes:
+  seq-data:
+  postgres-data:
+  postgis-osm-data:
+  neo4j-data:

@@ -15,7 +15,7 @@ using ProblemDetailsOptions = Hellang.Middleware.ProblemDetails.ProblemDetailsOp
 using SwaggerGenOptionsExtensions = TL.SharedKernel.Infrastructure.AspNet.Extensions.SwaggerGenOptionsExtensions;
 
 var errorTypes
-    = new[] { typeof(AssemblyReference).Assembly }
+    = new[] {typeof(AssemblyReference).Assembly}
         .SelectMany(assembly => assembly.GetTypes().Where(type => type.IsSubclassOf(typeof(Error))))
         .ToArray();
 
@@ -25,12 +25,19 @@ var configuration = builder.Configuration;
 var apiOptions = configuration.GetRequiredSectionValue<ApiOptions>("ApiOptions");
 builder.Services.AddSingleton(apiOptions);
 
+builder.Services
+    .AddTlObservability(
+        configuration.GetRequiredSectionValue<ObservabilityOptions>("Observability"),
+        builder.Environment.EnvironmentName,
+        apiOptions.Name)
+    .AddTlAspNetCoreInstrumentation();
+
 builder.Services.AddControllers()
     .AddJsonOptions(options =>
     {
         options.JsonSerializerOptions.TypeInfoResolver = new DefaultJsonTypeInfoResolver
         {
-            Modifiers = { info => ErrorJsonTypeInfoModifier.Modify(info, errorTypes) }
+            Modifiers = {info => ErrorJsonTypeInfoModifier.Modify(info, errorTypes)}
         };
         options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
         options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
