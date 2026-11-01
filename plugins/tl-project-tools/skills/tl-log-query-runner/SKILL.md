@@ -53,5 +53,5 @@ seq_query.py --http-method POST --http-status 500 --since 2h
 - Verified filters only: the fields above. Nested OTel attributes (`http.response.status_code`, `url.path`) did not filter reliably; use `--where` only after testing on a known event.
 - System properties take `@` (`@Level`, `@SpanKind`). User properties do not (`EventType`, `Path`, `Method`, `StatusCode`).
 - Seq returns newest first; the script sorts ascending.
-- `Environment` is not reliable: `deployment.environment` reads `Production` on local runs.
+- `Environment` (`deployment.environment.name`) is the ASP.NET environment of the process. `Development` = started with `--environment Development` or `ASPNETCORE_ENVIRONMENT=Development`. `Production` = started with no environment variable (ASP.NET default), so old local runs show it. Filter on it only to separate those runs.
 - Read-only: starts no infrastructure, changes no data.
