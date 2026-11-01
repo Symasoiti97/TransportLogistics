@@ -1,0 +1,10 @@
+{
+  "extraKnownMarketplaces": {
+    "tl-tools": {
+      "source": { "source": "github", "repo": "Symasoiti97/TransportLogistics" }
+    }
+  },
+  "enabledPlugins": {
+    "tl-project-tools@tl-tools": true
+  }
+}

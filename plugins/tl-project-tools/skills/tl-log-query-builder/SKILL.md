@@ -23,7 +23,7 @@ Local time → convert to UTC before `--from`/`--to`. State the window you used.
 ## Procedure
 
 1. Pick flags. If the task needs a service and none is given, ask once; otherwise search all services.
-2. `python3 .claude/skills/tl-log-query-runner/scripts/seq_query.py <flags>`
+2. `python3 ${CLAUDE_PLUGIN_ROOT}/skills/tl-log-query-runner/scripts/seq_query.py <flags>`
 3. Empty result: widen one thing at a time (window, then level, then message). Report which change found lines.
 4. Hit `--count`: say so; offer a narrower window or larger count. Do not pull thousands of lines into context.
 5. Show the command and the relevant lines; offer a TraceId for `tl-trace-analyze`.

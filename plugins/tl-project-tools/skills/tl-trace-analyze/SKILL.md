@@ -12,10 +12,10 @@ Read the trace through `tl-log-query-runner`; do not query Seq directly.
 1. Get the TraceId. Without one, find it first with `tl-log-query-runner` (`--message`, `--exception`, or `--service … --level error`).
 2. Summary:
    ```bash
-   python3 .claude/skills/tl-trace-analyze/scripts/trace_summary.py <TraceId>
+   python3 ${CLAUDE_PLUGIN_ROOT}/skills/tl-trace-analyze/scripts/trace_summary.py <TraceId>
    ```
    Prints services, levels, span tree (kind, service, elapsed, log count), spans with a parent outside the trace, first ERROR/FATAL with its exception.
-3. Details of a span: `python3 .claude/skills/tl-log-query-runner/scripts/seq_query.py --span-id <SpanId> --width 0`
+3. Details of a span: `python3 ${CLAUDE_PLUGIN_ROOT}/skills/tl-log-query-runner/scripts/seq_query.py --span-id <SpanId> --width 0`
 4. Answer from the lines you read. Quote the line or exception behind each claim; name the service where the failure is raised.
 
 ## Reading a trace
