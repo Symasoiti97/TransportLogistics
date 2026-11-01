@@ -457,7 +457,7 @@ internal sealed class SyncLocationsService
             Type = LocationType.World
         };
         var query = (await _graphClientFactory.GetCypherFluentQueryAsync(CancellationToken.None))
-            .Unwind(new[] { worldLocation }, "newL")
+            .Unwind(new[] {worldLocation}, "newL")
             .Merge("(l:Location {SyncId: newL.SyncId, Type: newL.Type, SourceType: newL.SourceType})")
             .With("l, l.Id as id, newL")
             .Set("l = newL, l.Id = CASE WHEN id is null THEN newL.Id ELSE id END");
